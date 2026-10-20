@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SeDev — Dispatch & Route Optimizer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 30px;
+      font-size: 13px;
+      max-width: 1200px;
+      margin: 0 auto;
+      user-select: none;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f0f6fc;
+      font-family: ui-monospace, monospace;
+    }
+    .btn {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-secondary {
+      background: #21262d;
+      color: #c9d1d9;
+      margin-left: 8px;
+    }
+    .btn-secondary:hover { background: #30363d; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+    }
+    /* Lienzo de Mapa Vectorial */
+    .map-canvas-container {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      height: 520px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* Panel Lateral de Despacho */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .metric-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #8b949e;
+      margin-bottom: 4px;
+    }
+    .metric-val {
+      font-size: 22px;
+      font-weight: 700;
+      font-family: ui-monospace, monospace;
+      color: #f0f6fc;
+    }
+    .savings-pill {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      background: rgba(46, 160, 67, 0.2);
+      border: 1px solid rgba(46, 160, 67, 0.4);
+      color: #3fb950;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .stops-list {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 280px;
+    }
+    .stop-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #21262d;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+    }
+    .stop-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #30363d;
+      color: #f0f6fc;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>LOGISTICS_DISPATCH_CORE // ROUTE AI OPTIMIZER</h1>
+      <div style="color: #8b949e; font-size: 12px; margin-top: 2px;">Optimización dinámica de última milla con evasión de tráfico y ventanas de entrega</div>
+    </div>
+    <div>
+      <button class="btn" id="optBtn" onclick="optimizeRoute()">⚡ Optimizar Ruta en Vivo</button>
+      <button class="btn btn-secondary" onclick="resetSim()">Reiniciar Puntos</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    
+    <!-- Mapa Vectorial Interactivo -->
+    <div class="map-canvas-container">
+      <canvas id="mapCanvas"></canvas>
+    </div>
+
+    <!-- Panel de Métricas e Itinerario -->
+    <div class="sidebar">
+      
+      <div class="metric-card">
+        <div class="metric-label">Kilometraje Estimado de la Flota</div>
+        <div class="metric-val" id="valDist">68.4 km</div>
+        <div class="metric-label" style="margin-top: 12px;">Tiempo Total en Tráfico</div>
+        <div class="metric-val" id="valTime">5h 42m</div>
+        <div class="savings-pill" id="valSavings" style="display: none;">
+          ✓ Ahorro: -2.3 Horas | -24.8 km | -$38 Combustible
+        </div>
+      </div>
+
+      <div class="stops-list">
+        <div class="metric-label" style="margin-bottom: 10px;">Secuencia de Paradas (Itinerario del Chofer)</div>
+        <div id="stopsContainer">
+          <!-- Paradas dinámicas -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const canvas = document.getElementById("mapCanvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+      draw();
+    }
+    window.addEventListener("resize", resize);
+
+    // Hub central (Almacén)
+    const hub = { x: 0.15, y: 0.5, name: "HUB_CENTRAL (Almacén)" };
+
+    // 12 puntos de entrega dispersos
+    let points = [
+      { x: 0.35, y: 0.25, name: "Restaurante La Colina", order: 1 },
+      { x: 0.85, y: 0.30, name: "Supermercado Express Norte", order: 2 },
+      { x: 0.45, y: 0.70, name: "Farmacia San Rafael", order: 3 },
+      { x: 0.70, y: 0.80, name: "Almacén Industrial Lote 9", order: 4 },
+      { x: 0.25, y: 0.80, name: "Centro Comercial Galerías", order: 5 },
+      { x: 0.55, y: 0.20, name: "Clínica Dental Poniente", order: 6 },
+      { x: 0.80, y: 0.65, name: "Ferretería El Tornillo", order: 7 },
+      { x: 0.60, y: 0.50, name: "Oficinas Corporativas Torre 1", order: 8 },
+      { x: 0.30, y: 0.45, name: "Taller Mecánico Central", order: 9 },
+      { x: 0.75, y: 0.15, name: "Panadería & Café Gourmet", order: 10 }
+    ];
+
+    let optimized = false;
+    let animProgress = 0;
+
+    function draw() {
+      const w = canvas.width;
+      const h = canvas.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Cuadrícula sutil de mapa urbano
+      ctx.strokeStyle = "#21262d";
+      ctx.lineWidth = 1;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // Conexiones de rutas
+      const pathPoints = [hub, ...points];
+      ctx.lineWidth = 2;
+
+      if (!optimized) {
+        // Ruta desordenada inicial (Roja punteada)
+        ctx.strokeStyle = "rgba(248, 81, 73, 0.4)";
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        pathPoints.forEach((p, idx) => {
+          const px = p.x * w; const py = p.y * h;
+          if (idx === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+        ctx.setLineDash([]);
+      } else {
+        // Ruta optimizada inteligente (Verde neón brillante)
+        ctx.strokeStyle = "#3fb950";
+        ctx.lineWidth = 3;
+        ctx.shadowColor = "#3fb950";
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        pathPoints.forEach((p, idx) => {
+          const px = p.x * w; const py = p.y * h;
+          if (idx === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        });
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      // Dibujar puntos
+      pathPoints.forEach((p, idx) => {
+        const px = p.x * w; const py = p.y * h;
+
+        if (idx === 0) {
+          // Hub Almacén
+          ctx.fillStyle = "#58a6ff";
+          ctx.beginPath();
+          ctx.arc(px, py, 9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = "#fff";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          ctx.fillStyle = "#f0f6fc";
+          ctx.font = "bold 11px ui-monospace, monospace";
+          ctx.fillText("DEPOT (INICIO)", px + 14, py + 4);
+        } else {
+          // Puntos de entrega
+          ctx.fillStyle = optimized ? "#3fb950" : "#f85149";
+          ctx.beginPath();
+          ctx.arc(px, py, 6, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = "#8b949e";
+          ctx.font = "10px ui-monospace, monospace";
+          ctx.fillText(`${idx}. ${p.name.slice(0, 15)}`, px + 10, py + 3);
+        }
+      });
+    }
+
+    function renderStopsList() {
+      const container = document.getElementById("stopsContainer");
+      container.innerHTML = "";
+
+      points.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "stop-item";
+        div.innerHTML = `
+          <div style="display: flex; align-items: center;">
+            <span class="stop-num" style="${optimized ? 'background: #238636; color: #fff;' : ''}">${i + 1}</span>
+            <span style="color: #c9d1d9;">${p.name}</span>
+          </div>
+          <span style="color: #8b949e;">${optimized ? 'Ventana: OK' : 'Tráfico: Alto'}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function optimizeRoute() {
+      const btn = document.getElementById("optBtn");
+      btn.textContent = "Calculando TSP + Algoritmo Dijkstra...";
+
+      setTimeout(() => {
+        // Ordenar puntos por proximidad geométrica respecto al hub (simulando TSP)
+        points.sort((a, b) => {
+          const distA = Math.hypot(a.x - hub.x, a.y - hub.y);
+          const distB = Math.hypot(b.x - hub.x, b.y - hub.y);
+          return distA - distB;
+        });
+
+        optimized = true;
+        draw();
+        renderStopsList();
+
+        document.getElementById("valDist").textContent = "43.6 km";
+        document.getElementById("valTime").textContent = "3h 12m";
+        document.getElementById("valSavings").style.display = "inline-block";
+        btn.textContent = "✓ Ruta Óptima Asignada";
+      }, 700);
+    }
+
+    function resetSim() {
+      optimized = false;
+      document.getElementById("valDist").textContent = "68.4 km";
+      document.getElementById("valTime").textContent = "5h 42m";
+      document.getElementById("valSavings").style.display = "none";
+      document.getElementById("optBtn").textContent = "⚡ Optimizar Ruta en Vivo";
+      // Barajar puntos
+      points.sort(() => Math.random() - 0.5);
+      draw();
+      renderStopsList();
+    }
+
+    // Inicializar
+    setTimeout(resize, 100);
+    renderStopsList();
+  </script>
+</body>
+</html>

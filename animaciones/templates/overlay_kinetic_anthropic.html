@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Kinetic Overlay - Anthropic Salario</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Space+Grotesk:wght@700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* PURE 100% TRANSPARENT CANVAS - ZERO BACKGROUND */
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent !important;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Centered kinetic container - NO BOXES, NO BORDERS, NO CARDS */
+    .kinetic-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 16px;
+      width: 1000px;
+      /* Heavy drop shadow directly on text so it is 100% legible over ANY video */
+      filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.95)) drop-shadow(0 2px 4px rgba(0, 0, 0, 1));
+      transform-origin: center center;
+    }
+
+    /* Line 1: ¿Anthropic + Animated Claude Spark */
+    .line-1 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      font-size: 78px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #ffffff;
+      will-change: transform, opacity;
+    }
+
+    .brand-anthropic {
+      color: #ff6b4a;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-spark {
+      width: 64px;
+      height: 64px;
+      fill: #ff6b4a;
+      transform-origin: center center;
+      filter: drop-shadow(0 0 16px rgba(255, 107, 74, 0.8));
+    }
+
+    /* Line 2: VA A PAGAR */
+    .line-2 {
+      font-size: 82px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #ffffff;
+      will-change: transform, opacity;
+    }
+
+    /* Line 3: TU PRÓXIMO SALARIO? + Money Icon */
+    .line-3 {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      font-size: 88px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #ffffff;
+      will-change: transform, opacity;
+      position: relative;
+    }
+
+    .word-salario {
+      color: #00ff88;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      filter: drop-shadow(0 0 25px rgba(0, 255, 136, 0.5));
+    }
+
+    /* Animated underline swipe on SALARIO */
+    .word-salario::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: #00ff88;
+      border-radius: 4px;
+      transform-origin: left center;
+      transform: scaleX(var(--underline-scale, 0));
+      box-shadow: 0 0 16px #00ff88;
+    }
+
+    .icon-money {
+      width: 72px;
+      height: 72px;
+      transform-origin: center center;
+      filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8));
+    }
+  </style>
+</head>
+<body>
+
+  <div class="kinetic-wrapper" id="wrapper">
+    <!-- Line 1 -->
+    <div class="line-1" id="l1">
+      <span>¿</span>
+      <span class="brand-anthropic">
+        ANTHROPIC
+        <!-- Claude / Anthropic Spark SVG -->
+        <svg class="icon-spark" id="iconSpark" viewBox="0 0 24 24">
+          <path d="M12 1L14.8 9.2L23 12L14.8 14.8L12 23L9.2 14.8L1 12L9.2 9.2L12 1Z"/>
+        </svg>
+      </span>
+    </div>
+
+    <!-- Line 2 -->
+    <div class="line-2" id="l2">
+      VA A PAGAR
+    </div>
+
+    <!-- Line 3 -->
+    <div class="line-3" id="l3">
+      <span>TU PRÓXIMO</span>
+      <span class="word-salario">
+        SALARIO?
+        <!-- Money Bill / Payroll Icon SVG -->
+        <svg class="icon-money" id="iconMoney" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="2.5"></rect>
+          <line x1="2" y1="10" x2="22" y2="10"></line>
+          <circle cx="12" cy="14.5" r="2.2" fill="#00ff88"></circle>
+          <path d="M6 14.5h.01M18 14.5h.01" stroke-width="3"></path>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <script>
+    const wrapper = document.getElementById('wrapper');
+    const l1 = document.getElementById('l1');
+    const l2 = document.getElementById('l2');
+    const l3 = document.getElementById('l3');
+    const iconSpark = document.getElementById('iconSpark');
+    const iconMoney = document.getElementById('iconMoney');
+
+    // Spring / bounce easing
+    function easeOutBack(x) {
+      const c1 = 2.2;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+    }
+
+    function easeOutQuad(x) {
+      return 1 - (1 - x) * (1 - x);
+    }
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    // Deterministic rendering loop (3.2 seconds cycle)
+    window.renderFrame = function(time) {
+      const DURATION = 3.2;
+      const t = time % DURATION;
+
+      // --- WORD 1: ¿ANTHROPIC (hits at 0.10s) ---
+      if (t < 0.10) {
+        l1.style.opacity = '0';
+        l1.style.transform = 'scale(0.3) translateY(30px)';
+        iconSpark.style.transform = 'scale(0) rotate(-90deg)';
+      } else {
+        const p1 = clamp((t - 0.10) / 0.35, 0, 1);
+        const eased1 = easeOutBack(p1);
+        const scale1 = 0.4 + 0.6 * eased1;
+        l1.style.opacity = clamp(p1 * 3, 0, 1);
+        l1.style.transform = `scale(${scale1.toFixed(3)}) translateY(0)`;
+
+        // Spark spin & pop
+        const sparkScale = clamp(eased1, 0, 1.2);
+        const sparkRot = -90 * (1 - p1);
+        iconSpark.style.transform = `scale(${sparkScale.toFixed(3)}) rotate(${sparkRot.toFixed(1)}deg)`;
+      }
+
+      // --- WORD 2: VA A PAGAR (hits at 0.45s) ---
+      if (t < 0.45) {
+        l2.style.opacity = '0';
+        l2.style.transform = 'scale(0.3) translateY(20px)';
+      } else {
+        const p2 = clamp((t - 0.45) / 0.30, 0, 1);
+        const eased2 = easeOutBack(p2);
+        const scale2 = 0.5 + 0.5 * eased2;
+        l2.style.opacity = clamp(p2 * 3, 0, 1);
+        l2.style.transform = `scale(${scale2.toFixed(3)}) translateY(0)`;
+      }
+
+      // --- WORD 3: TU PRÓXIMO SALARIO? (hits at 0.85s) ---
+      if (t < 0.85) {
+        l3.style.opacity = '0';
+        l3.style.transform = 'scale(0.3) translateY(20px)';
+        document.documentElement.style.setProperty('--underline-scale', '0');
+        iconMoney.style.transform = 'scale(0) rotate(-30deg)';
+      } else {
+        const p3 = clamp((t - 0.85) / 0.35, 0, 1);
+        const eased3 = easeOutBack(p3);
+        const scale3 = 0.5 + 0.5 * eased3;
+        l3.style.opacity = clamp(p3 * 3, 0, 1);
+        l3.style.transform = `scale(${scale3.toFixed(3)}) translateY(0)`;
+
+        // Underline swipe
+        const uProg = clamp((t - 1.10) / 0.30, 0, 1);
+        document.documentElement.style.setProperty('--underline-scale', easeOutQuad(uProg));
+
+        // Money icon wobble bounce
+        const mProg = clamp((t - 0.95) / 0.35, 0, 1);
+        const mEased = easeOutBack(mProg);
+        const mWobble = Math.sin((t - 0.95) * 12) * 8 * (1 - clamp((t - 1.3) / 1.0, 0, 1));
+        iconMoney.style.transform = `scale(${clamp(mEased, 0, 1.1).toFixed(3)}) rotate(${mWobble.toFixed(1)}deg)`;
+      }
+
+      // --- EXIT ANIMATION (2.8s to 3.2s: Zoom out + fade) ---
+      if (t > 2.8) {
+        const exitProg = (t - 2.8) / 0.4;
+        const exitScale = 1 + 0.15 * exitProg;
+        const exitOpacity = clamp(1 - exitProg * 1.4, 0, 1);
+        wrapper.style.transform = `scale(${exitScale.toFixed(3)})`;
+        wrapper.style.opacity = exitOpacity.toFixed(3);
+      } else {
+        wrapper.style.transform = 'scale(1)';
+        wrapper.style.opacity = '1';
+      }
+    };
+
+    // Browser loop for live preview
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      window.renderFrame((now - start) / 1000);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

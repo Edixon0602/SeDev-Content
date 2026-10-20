@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clean Letter Animation - No Neon</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* PURE 100% TRANSPARENT 1080x1920 CANVAS */
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent !important;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Stage Container */
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 1040px;
+      text-align: center;
+      /* Soft neutral shadow ONLY for contrast against video - ZERO NEON */
+      filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.85));
+    }
+
+    /* Line rows with overflow:hidden so letters emerge cleanly from baseline */
+    .line-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 78px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.15;
+      overflow: hidden;
+      padding: 6px 12px;
+    }
+
+    /* Individual animated character */
+    .char {
+      display: inline-block;
+      will-change: transform, opacity;
+      transform-origin: center bottom;
+      color: #ffffff;
+    }
+
+    .char.space {
+      width: 18px;
+    }
+
+    /* Clean Matte Colors - ZERO NEON, ZERO GLOW HALOS */
+    .brand-word .char {
+      color: #ea580c; /* Flat matte Anthropic terracotta */
+    }
+
+    .salario-word .char {
+      color: #10b981; /* Flat matte emerald */
+    }
+
+    /* Inline Vector Icons - Flat, crisp, 1.75px hairline */
+    .inline-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      will-change: transform, opacity;
+    }
+
+    .icon-spark {
+      width: 52px;
+      height: 52px;
+      fill: #ea580c;
+    }
+
+    .icon-cash {
+      width: 54px;
+      height: 54px;
+      stroke: #10b981;
+      stroke-width: 2.2;
+      fill: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stage">
+    <!-- Line 1: ¿Anthropic ✦ va a pagar -->
+    <div class="line-row" id="line1Row"></div>
+
+    <!-- Line 2: tu próximo salario? 💵 -->
+    <div class="line-row" id="line2Row"></div>
+  </div>
+
+  <script>
+    const line1Row = document.getElementById('line1Row');
+    const line2Row = document.getElementById('line2Row');
+
+    // Build Line 1: "¿" + "Anthropic" + [icon] + " va a pagar"
+    const line1Data = [
+      { text: '¿', class: '' },
+      { text: 'Anthropic', class: 'brand-word' },
+      { type: 'icon-spark' },
+      { text: ' va a pagar', class: '' }
+    ];
+
+    // Build Line 2: "tu próximo " + "salario?" + [icon]
+    const line2Data = [
+      { text: 'tu próximo ', class: '' },
+      { text: 'salario?', class: 'salario-word' },
+      { type: 'icon-cash' }
+    ];
+
+    const allLine1Elements = [];
+    const allLine2Elements = [];
+
+    function populateLine(row, data, targetArray) {
+      data.forEach(item => {
+        if (item.type === 'icon-spark') {
+          const span = document.createElement('span');
+          span.className = 'inline-icon';
+          span.innerHTML = `
+            <svg class="icon-spark" viewBox="0 0 24 24">
+              <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+            </svg>
+          `;
+          row.appendChild(span);
+          targetArray.push(span);
+        } else if (item.type === 'icon-cash') {
+          const span = document.createElement('span');
+          span.className = 'inline-icon';
+          span.innerHTML = `
+            <svg class="icon-cash" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2.5"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+              <circle cx="12" cy="14.5" r="2.2" fill="#10b981"></circle>
+              <path d="M6 14.5h.01M18 14.5h.01"></path>
+            </svg>
+          `;
+          row.appendChild(span);
+          targetArray.push(span);
+        } else {
+          const wrapper = document.createElement('span');
+          if (item.class) wrapper.className = item.class;
+          for (let char of item.text) {
+            const cSpan = document.createElement('span');
+            cSpan.className = 'char' + (char === ' ' ? ' space' : '');
+            cSpan.textContent = char;
+            wrapper.appendChild(cSpan);
+            targetArray.push(cSpan);
+          }
+          row.appendChild(wrapper);
+        }
+      });
+    }
+
+    populateLine(line1Row, line1Data, allLine1Elements);
+    populateLine(line2Row, line2Data, allLine2Elements);
+
+    // Easing: Smooth cubic-bezier(0.16, 1, 0.3, 1) easeOutExpo
+    function easeOutExpo(x) {
+      return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    }
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    // EXACT 3.0 SECONDS TOTAL DURATION
+    // Line 1: Characters stagger smoothly from 0.0s to 1.1s
+    // Line 2: Characters stagger smoothly from 1.1s to 2.2s
+    // 2.2s to 3.0s: Clean solid hold, zero neon, beautiful typography
+    window.renderFrame = function(timeInSeconds) {
+      const t = clamp(timeInSeconds, 0, 3.0);
+
+      // --- ANIMATE LINE 1 CHARACTERS (Stagger: 0.0s - 1.0s) ---
+      const L1_START = 0.05;
+      const L1_STAGGER = 0.035; // 35ms between characters
+      const CHAR_DURATION = 0.35; // 350ms per character slide-up
+
+      allLine1Elements.forEach((el, index) => {
+        const charStart = L1_START + index * L1_STAGGER;
+        if (t < charStart) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(100%)';
+        } else {
+          const progress = clamp((t - charStart) / CHAR_DURATION, 0, 1);
+          const ease = easeOutExpo(progress);
+          const translateY = (1 - ease) * 100;
+          el.style.opacity = ease.toFixed(3);
+          el.style.transform = `translateY(${translateY.toFixed(1)}%)`;
+        }
+      });
+
+      // --- ANIMATE LINE 2 CHARACTERS (Stagger: 1.1s - 2.1s) ---
+      const L2_START = 1.10;
+      const L2_STAGGER = 0.038;
+      allLine2Elements.forEach((el, index) => {
+        const charStart = L2_START + index * L2_STAGGER;
+        if (t < charStart) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(100%)';
+        } else {
+          const progress = clamp((t - charStart) / CHAR_DURATION, 0, 1);
+          const ease = easeOutExpo(progress);
+          const translateY = (1 - ease) * 100;
+          el.style.opacity = ease.toFixed(3);
+          el.style.transform = `translateY(${translateY.toFixed(1)}%)`;
+        }
+      });
+    };
+
+    // Live preview loop
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      const elapsed = (now - start) / 1000;
+      window.renderFrame(elapsed % 3.0);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

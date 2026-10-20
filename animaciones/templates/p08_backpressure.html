@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Minimalist Backpressure</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 1080px;
+      height: 1920px;
+      background-color: #050505;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #canvas {
+      width: 1080px;
+      height: 1920px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1080" height="1920"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const W = 1080;
+    const H = 1920;
+
+    // Architecture layout coordinates
+    const CX = W / 2;
+    const PRODUCER_Y = 420;
+    const BUFFER_Y = 960;
+    const CONSUMER_Y = 1500;
+
+    // Buffer capacity: 6 blocks
+    const MAX_CAPACITY = 6;
+
+    window.renderFrame = function(time) {
+      const t = time % 8.0;
+      ctx.clearRect(0, 0, W, H);
+
+      // Deep matte background
+      ctx.fillStyle = '#050505';
+      ctx.fillRect(0, 0, W, H);
+
+      if (t < 4.0) {
+        renderPhase1(t); // No backpressure (Overflow)
+      } else {
+        renderPhase2(t - 4.0); // With backpressure (Balanced)
+      }
+    };
+
+    // --- PHASE 1: NO BACKPRESSURE (0.0s to 4.0s) ---
+    function renderPhase1(t) {
+      // Progression of fill: 0 to 6 blocks, overflowing at t > 2.5s
+      const fillCount = Math.min(Math.floor(t * 2.4), MAX_CAPACITY);
+      const isOverflow = t >= 2.5;
+
+      // Track line (thin 1px line)
+      drawTrackLine(CX, PRODUCER_Y, BUFFER_Y - 140, isOverflow ? '#3f3f46' : '#52525b');
+      drawTrackLine(CX, BUFFER_Y + 140, CONSUMER_Y, '#27272a');
+
+      // Moving packets down from Producer
+      if (!isOverflow) {
+        const pSpeed = 2.0;
+        for (let i = 0; i < 4; i++) {
+          const prog = (i * 0.25 + t * pSpeed) % 1;
+          const py = PRODUCER_Y + 70 + prog * (BUFFER_Y - 140 - (PRODUCER_Y + 70));
+          drawBlock(CX, py, '#ffffff');
+        }
+      }
+
+      // Producer Node (Top)
+      drawNode(CX, PRODUCER_Y, 'PRODUCER', '10,000 req/s', '#ffffff');
+
+      // Buffer Container (Middle)
+      drawBuffer(CX, BUFFER_Y, fillCount, MAX_CAPACITY, isOverflow ? '#ef4444' : '#ffffff');
+
+      // Consumer Node (Bottom)
+      drawNode(CX, CONSUMER_Y, 'CONSUMER', '500 req/s', '#71717a');
+
+      // Slow packet to consumer
+      if (!isOverflow) {
+        const cProg = (t * 0.4) % 1;
+        const cy = BUFFER_Y + 140 + cProg * (CONSUMER_Y - 70 - (BUFFER_Y + 140));
+        drawBlock(CX, cy, '#71717a');
+      }
+
+      // Minimalist Status Tag at bottom
+      ctx.fillStyle = isOverflow ? '#ef4444' : '#71717a';
+      ctx.font = '500 24px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      if (isOverflow) {
+        ctx.fillText('BUFFER OVERFLOW • MEMORY LEAK', CX, BUFFER_Y + 220);
+        // Rejected falling packet
+        const dropY = BUFFER_Y - 140 + ((t - 2.5) * 400);
+        if (dropY < BUFFER_Y + 100) {
+          drawBlock(CX + 80, dropY, '#ef4444');
+          ctx.fillStyle = '#ef4444';
+          ctx.font = '500 18px "JetBrains Mono", monospace';
+          ctx.fillText('DROPPED', CX + 160, dropY + 6);
+        }
+      } else {
+        ctx.fillText('UNCONTROLLED INFLOW', CX, BUFFER_Y + 220);
+      }
+    }
+
+    // --- PHASE 2: WITH BACKPRESSURE (4.0s to 8.0s) ---
+    function renderPhase2(t) {
+      // Buffer stays balanced at 2 blocks
+      const isPaused = t < 1.8; // Initial drain phase
+      const currentBlocks = isPaused ? Math.max(2, 5 - Math.floor(t * 2)) : 2;
+
+      // Track line (clean white/green)
+      drawTrackLine(CX, PRODUCER_Y, BUFFER_Y - 140, '#3f3f46');
+      drawTrackLine(CX, BUFFER_Y + 140, CONSUMER_Y, '#3f3f46');
+
+      // Packets moving at balanced pace
+      if (!isPaused) {
+        const pProg = (t * 0.6) % 1;
+        const py = PRODUCER_Y + 70 + pProg * (BUFFER_Y - 140 - (PRODUCER_Y + 70));
+        drawBlock(CX, py, '#ffffff');
+      }
+
+      // Packets exiting to consumer
+      const cProg = (t * 0.6) % 1;
+      const cy = BUFFER_Y + 140 + cProg * (CONSUMER_Y - 70 - (BUFFER_Y + 140));
+      drawBlock(CX, cy, '#ffffff');
+
+      // Producer Node
+      drawNode(CX, PRODUCER_Y, 'PRODUCER', isPaused ? 'PAUSED' : '500 req/s', isPaused ? '#f59e0b' : '#ffffff');
+
+      // Buffer Container
+      drawBuffer(CX, BUFFER_Y, currentBlocks, MAX_CAPACITY, '#ffffff');
+
+      // Consumer Node
+      drawNode(CX, CONSUMER_Y, 'CONSUMER', '500 req/s', '#ffffff');
+
+      // Feedback Wire: Clean dashed line from Consumer to Producer
+      drawFeedbackLine(CX, CONSUMER_Y, PRODUCER_Y, isPaused);
+
+      // Minimalist Status Tag at bottom
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '500 24px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(isPaused ? 'SIGNAL: PAUSE' : 'STEADY STATE • ZERO LOSS', CX, BUFFER_Y + 220);
+    }
+
+    // --- Minimalist Drawing Primitives (Zero Slop) ---
+
+    function drawNode(x, y, label, sublabel, strokeColor) {
+      const w = 380;
+      const h = 120;
+      const nx = x - w / 2;
+      const ny = y - h / 2;
+
+      // Crisp 1px rectangular box
+      ctx.fillStyle = '#0a0a0a';
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(nx, ny, w, h);
+      ctx.strokeRect(nx, ny, w, h);
+
+      // Label
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 26px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(label, x, y - 8);
+
+      // Sublabel
+      ctx.fillStyle = strokeColor === '#ffffff' ? '#71717a' : strokeColor;
+      ctx.font = '500 18px "JetBrains Mono", monospace';
+      ctx.fillText(sublabel, x, y + 26);
+    }
+
+    function drawBuffer(x, y, count, max, color) {
+      const w = 440;
+      const h = 220;
+      const bx = x - w / 2;
+      const by = y - h / 2;
+
+      // Container
+      ctx.fillStyle = '#0a0a0a';
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(bx, by, w, h);
+      ctx.strokeRect(bx, by, w, h);
+
+      // Header inside
+      ctx.fillStyle = '#71717a';
+      ctx.font = '500 18px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('QUEUE BUFFER', x, by - 16);
+
+      // Draw Discrete Queue Slots
+      const slotW = 54;
+      const slotH = 80;
+      const spacing = 14;
+      const totalW = max * slotW + (max - 1) * spacing;
+      const startX = x - totalW / 2;
+      const slotY = y - slotH / 2;
+
+      for (let i = 0; i < max; i++) {
+        const sx = startX + i * (slotW + spacing);
+        
+        // Slot border (empty)
+        ctx.strokeStyle = '#27272a';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(sx, slotY, slotW, slotH);
+
+        // Filled block
+        if (i < count) {
+          ctx.fillStyle = color;
+          ctx.fillRect(sx + 3, slotY + 3, slotW - 6, slotH - 6);
+        }
+      }
+
+      // Slot counter text
+      ctx.fillStyle = color;
+      ctx.font = '600 20px "JetBrains Mono", monospace';
+      ctx.fillText(`${count} / ${max}`, x, by + h - 24);
+    }
+
+    function drawBlock(x, y, color) {
+      const w = 48;
+      const h = 48;
+      ctx.fillStyle = color;
+      ctx.fillRect(x - w / 2, y - h / 2, w, h);
+    }
+
+    function drawTrackLine(x, y1, y2, color) {
+      ctx.beginPath();
+      ctx.moveTo(x, y1 + 60);
+      ctx.lineTo(x, y2);
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    function drawFeedbackLine(cx, yConsumer, yProducer, isPaused) {
+      const wireX = cx - 260;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(cx - 190, yConsumer);
+      ctx.lineTo(wireX, yConsumer);
+      ctx.lineTo(wireX, yProducer);
+      ctx.lineTo(cx - 190, yProducer);
+      ctx.strokeStyle = isPaused ? '#f59e0b' : '#3f3f46';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([8, 6]);
+      ctx.stroke();
+
+      if (isPaused) {
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '600 18px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right';
+        ctx.fillText('PAUSE', wireX - 16, (yConsumer + yProducer) / 2);
+      }
+      ctx.restore();
+    }
+
+    // Interactive Loop
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      const elapsed = (now - start) / 1000;
+      window.renderFrame(elapsed);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

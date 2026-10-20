@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Document AI Optical Inspection — SeDev</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 30px;
+      font-size: 13px;
+      max-width: 1200px;
+      margin: 0 auto;
+      user-select: none;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f0f6fc;
+      font-family: ui-monospace, monospace;
+    }
+    .btn {
+      background: #238636;
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn:hover { background: #2ea043; }
+    .btn-secondary {
+      background: #21262d;
+      color: #c9d1d9;
+      margin-left: 8px;
+    }
+    .btn-secondary:hover { background: #30363d; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 30px;
+    }
+    /* Visor de documento */
+    .viewport {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+      min-height: 580px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+    }
+    /* La hoja física de la factura */
+    .invoice-sheet {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      color: #111111;
+      border-radius: 4px;
+      padding: 30px;
+      font-family: ui-monospace, monospace;
+      font-size: 11px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    .inv-header {
+      border-bottom: 2px solid #111;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .inv-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+    }
+    .inv-table th {
+      border-bottom: 1px solid #111;
+      padding: 4px 0;
+      text-align: left;
+    }
+    .inv-table td {
+      padding: 6px 0;
+      border-bottom: 1px dashed #ddd;
+    }
+    /* Láser de escaneo animado */
+    .scan-laser {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #38bdf8;
+      box-shadow: 0 0 15px #38bdf8, 0 0 30px #0284c7;
+      top: 0;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .scanning .scan-laser {
+      opacity: 1;
+      animation: scanLaser 2s ease-in-out infinite alternate;
+    }
+    @keyframes scanLaser {
+      0% { top: 20px; }
+      100% { top: 520px; }
+    }
+    /* Bounding boxes que se iluminan sobre el documento */
+    .bbox {
+      position: absolute;
+      border: 2px solid #0284c7;
+      background: rgba(56, 189, 248, 0.15);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .bbox-tag {
+      position: absolute;
+      top: -18px;
+      left: -2px;
+      background: #0284c7;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 2px;
+      letter-spacing: 0.05em;
+    }
+    .bbox.active { opacity: 1; }
+    .bbox.warn { border-color: #f59e0b; background: rgba(245, 158, 11, 0.2); }
+    .bbox.warn .bbox-tag { background: #f59e0b; }
+
+    /* Panel de extracción JSON / DB */
+    .panel-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .card-dark {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #8b949e;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    pre {
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #7ee787;
+      background: #0d1117;
+      padding: 16px;
+      border-radius: 6px;
+      border: 1px solid #21262d;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: ui-monospace, monospace;
+    }
+    .status-ok { background: rgba(46, 160, 67, 0.2); color: #3fb950; border: 1px solid rgba(46, 160, 67, 0.4); }
+    .status-warn { background: rgba(210, 153, 34, 0.2); color: #d29922; border: 1px solid rgba(210, 153, 34, 0.4); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>DOCUMENT_VISION_AI // OPTICAL INGESTION</h1>
+      <div style="color: #8b949e; font-size: 12px; margin-top: 2px;">Extracción estructurada con Bounding Boxes y verificación fiscal en tiempo real</div>
+    </div>
+    <div>
+      <button class="btn" id="scanBtn" onclick="startScan()">⚡ Iniciar Escaneo Óptico</button>
+      <button class="btn btn-secondary" onclick="resetAll()">Reiniciar</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    
+    <!-- Visor de la Factura -->
+    <div class="viewport" id="vPort">
+      <div class="scan-laser"></div>
+
+      <div class="invoice-sheet" id="invoiceDoc">
+        <!-- Bounding boxes superpuestos -->
+        <div class="bbox" id="bVendor" style="top: 26px; left: 24px; width: 180px; height: 35px;">
+          <span class="bbox-tag">VENDOR_NAME</span>
+        </div>
+        <div class="bbox" id="bDate" style="top: 26px; right: 24px; width: 120px; height: 35px;">
+          <span class="bbox-tag">INVOICE_DATE</span>
+        </div>
+        <div class="bbox" id="bItems" style="top: 150px; left: 24px; width: 390px; height: 110px;">
+          <span class="bbox-tag">LINE_ITEMS [3]</span>
+        </div>
+        <div class="bbox warn" id="bVat" style="top: 300px; right: 24px; width: 170px; height: 30px;">
+          <span class="bbox-tag">TAX_DISCREPANCY</span>
+        </div>
+        <div class="bbox" id="bTotal" style="top: 335px; right: 24px; width: 170px; height: 32px;">
+          <span class="bbox-tag">TOTAL_DUE</span>
+        </div>
+
+        <!-- Contenido físico de la factura -->
+        <div class="inv-header">
+          <div>
+            <div style="font-size: 14px; font-weight: 700;">LOGISTICA DEL NORTE S.A.</div>
+            <div style="color: #666; font-size: 10px;">RFC: LNO-980412-K99</div>
+            <div style="color: #666; font-size: 10px;">CDMX, México</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-weight: 700;">FACTURA #A-8942</div>
+            <div style="color: #666;">18-OCT-2026</div>
+          </div>
+        </div>
+
+        <div>
+          <span style="color: #666; font-size: 10px;">CLIENTE:</span>
+          <div style="font-weight: 700;">INDUSTRIAS GLOBALES S.A. DE C.V.</div>
+        </div>
+
+        <table class="inv-table">
+          <thead>
+            <tr>
+              <th>DESCRIPCIÓN</th>
+              <th style="text-align: right;">CANT</th>
+              <th style="text-align: right;">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Flete Terrestre Guadalajara - CDMX</td>
+              <td style="text-align: right;">1</td>
+              <td style="text-align: right;">$1,850.00</td>
+            </tr>
+            <tr>
+              <td>Seguro de Carga y Maniobra</td>
+              <td style="text-align: right;">1</td>
+              <td style="text-align: right;">$340.00</td>
+            </tr>
+            <tr>
+              <td>Almacenaje Temporal (3 Días)</td>
+              <td style="text-align: right;">3</td>
+              <td style="text-align: right;">$180.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="text-align: right; margin-top: 18px; line-height: 1.8;">
+          <div>Subtotal: $2,370.00</div>
+          <div style="color: #b45309; font-weight: 700;">IVA (16% calc): $379.20 <span style="font-size: 9px;">[Doc dice: $320.00]</span></div>
+          <div style="font-size: 14px; font-weight: 800; border-top: 1px solid #111; padding-top: 4px;">
+            TOTAL: $2,749.20
+          </div>
+        </div>
+
+        <div style="margin-top: 40px; border-top: 1px dashed #bbb; padding-top: 10px; font-size: 9px; color: #888;">
+          UUID Digital: 4e91b5c2-88ef-410a-b856-11b0e008fa77<br>
+          Metodo de pago: Transferencia electrónica SPEI
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel de Extracción y Validación -->
+    <div class="panel-right">
+      <div class="card-dark">
+        <div class="section-title">
+          <span>Payload JSON Normalizado (PostgreSQL Ready)</span>
+          <span id="stepIndicator" style="color: #58a6ff;">ESPERANDO ARCHIVO</span>
+        </div>
+        <pre id="jsonOutput">// Presiona "Iniciar Escaneo Óptico" para ver el reconocimiento en vivo...</pre>
+      </div>
+
+      <div class="card-dark" style="flex: 1;">
+        <div class="section-title">
+          <span>Diagnóstico del Motor de Reglas</span>
+          <span id="badgeContainer"><span class="status-badge" style="background: #21262d; color: #8b949e;">STANDBY</span></span>
+        </div>
+
+        <div id="diagList" style="font-size: 12px; line-height: 1.8; color: #8b949e;">
+          <p>• Bounding boxes: Inactivos</p>
+          <p>• Detección de tablas: Pendiente</p>
+          <p>• Cuadre aritmético (Subtotal + Impuestos = Total): Sin evaluar</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let scanning = false;
+
+    function startScan() {
+      if (scanning) return;
+      scanning = true;
+
+      const vport = document.getElementById("vPort");
+      const jsonOut = document.getElementById("jsonOutput");
+      const indicator = document.getElementById("stepIndicator");
+      const badge = document.getElementById("badgeContainer");
+      const diag = document.getElementById("diagList");
+      const btn = document.getElementById("scanBtn");
+
+      btn.textContent = "Analizando píxeles...";
+      vport.classList.add("scanning");
+      indicator.textContent = "ESCANEANDO CAPAS ÓPTICAS";
+
+      // Paso 1: Vendor & Date (500ms)
+      setTimeout(() => {
+        document.getElementById("bVendor").classList.add("active");
+        document.getElementById("bDate").classList.add("active");
+        jsonOut.textContent = `{\n  "vendor": "LOGISTICA DEL NORTE S.A.",\n  "tax_id": "LNO-980412-K99",\n  "invoice_number": "A-8942",\n  "date": "2026-10-18"`;
+      }, 600);
+
+      // Paso 2: Items (1200ms)
+      setTimeout(() => {
+        document.getElementById("bItems").classList.add("active");
+        jsonOut.textContent += `,\n  "items": [\n    {"desc": "Flete Terrestre Guadalajara - CDMX", "qty": 1, "total": 1850.00},\n    {"desc": "Seguro de Carga y Maniobra", "qty": 1, "total": 340.00},\n    {"desc": "Almacenaje Temporal (3 Días)", "qty": 3, "total": 180.00}\n  ]`;
+      }, 1300);
+
+      // Paso 3: Totales & Discrepancia detectada (2100ms)
+      setTimeout(() => {
+        document.getElementById("bVat").classList.add("active");
+        document.getElementById("bTotal").classList.add("active");
+        vport.classList.remove("scanning");
+
+        jsonOut.textContent += `,\n  "subtotal": 2370.00,\n  "vat_declared": 320.00,\n  "vat_computed": 379.20,\n  "total_due": 2749.20,\n  "audit_flag": "TAX_MISMATCH_SUSPECTED"\n}`;
+
+        indicator.textContent = "ANOMALÍA DETECTADA";
+        indicator.style.color = "#f59e0b";
+
+        badge.innerHTML = `<span class="status-badge status-warn">⚠️ RETENIDO: DISCREPANCIA FISCAL</span>`;
+        diag.innerHTML = `
+          <p style="color: #7ee787;">✓ Extracción OCR completada con 99.4% de confianza.</p>
+          <p style="color: #7ee787;">✓ 3 ítems mapeados a catálogo interno de gastos.</p>
+          <p style="color: #f59e0b; font-weight: 600;">⚠️ ERROR EN IVA: El documento declara $320.00 pero el cálculo al 16% arroja $379.20. Se envió alerta al equipo contable antes de insertar.</p>
+        `;
+
+        btn.textContent = "✓ Inspección Finalizada";
+        scanning = false;
+      }, 2200);
+    }
+
+    function resetAll() {
+      scanning = false;
+      document.getElementById("vPort").classList.remove("scanning");
+      document.querySelectorAll(".bbox").forEach(b => b.classList.remove("active"));
+      document.getElementById("jsonOutput").textContent = '// Presiona "Iniciar Escaneo Óptico" para ver el reconocimiento en vivo...';
+      document.getElementById("stepIndicator").textContent = "ESPERANDO ARCHIVO";
+      document.getElementById("stepIndicator").style.color = "#58a6ff";
+      document.getElementById("badgeContainer").innerHTML = '<span class="status-badge" style="background: #21262d; color: #8b949e;">STANDBY</span>';
+      document.getElementById("diagList").innerHTML = `
+        <p>• Bounding boxes: Inactivos</p>
+        <p>• Detección de tablas: Pendiente</p>
+        <p>• Cuadre aritmético (Subtotal + Impuestos = Total): Sin evaluar</p>
+      `;
+      document.getElementById("scanBtn").textContent = "⚡ Iniciar Escaneo Óptico";
+    }
+  </script>
+</body>
+</html>

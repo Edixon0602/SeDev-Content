@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Generated video renders & temporary frames
+animaciones/output_clips/*.mov
+animaciones/output_clips/*.mp4
+animaciones/output_clips/*.webm
+animaciones/output_clips/_temp*
+animaciones/debug_frames/
+*.mov
+*.mp4
+*.webm
+
+# OS & Temp
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

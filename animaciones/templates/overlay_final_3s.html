@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Overlay SeDev 3.0s</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* PURE 100% TRANSPARENT 1080x1920 CANVAS */
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent !important;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Centered typographic block - perfectly aligned */
+    .kinetic-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      width: 1040px;
+      text-align: center;
+      /* Heavy drop shadow directly on text so it is 100% legible over ANY video */
+      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.95)) drop-shadow(0 2px 4px rgba(0, 0, 0, 1));
+    }
+
+    /* Line styles - uniform font-size and alignment */
+    .line {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      font-size: 82px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      line-height: 1;
+      will-change: transform, opacity;
+      transform-origin: center center;
+    }
+
+    /* Line 1: ¿ANTHROPIC ✦ */
+    .line-1 {
+      color: #ff6b4a;
+    }
+
+    .icon-star {
+      width: 68px;
+      height: 68px;
+      fill: #ff6b4a;
+      filter: drop-shadow(0 0 16px rgba(255, 107, 74, 0.7));
+      transform-origin: center center;
+    }
+
+    /* Line 2: VA A PAGAR */
+    .line-2 {
+      color: #ffffff;
+    }
+
+    /* Line 3: TU PRÓXIMO SALARIO? 💵 */
+    .line-3 {
+      color: #ffffff;
+    }
+
+    .highlight-salario {
+      color: #00ff88;
+      filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.6));
+    }
+
+    .icon-cash {
+      width: 72px;
+      height: 72px;
+      stroke: #00ff88;
+      stroke-width: 2.4;
+      fill: none;
+      filter: drop-shadow(0 0 16px rgba(0, 255, 136, 0.7));
+      transform-origin: center center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="kinetic-container">
+    <!-- Line 1: 0.0s to 1.0s -->
+    <div class="line line-1" id="line1">
+      <span>¿ANTHROPIC</span>
+      <!-- Anthropic Sparkle / Star SVG -->
+      <svg class="icon-star" id="iconStar" viewBox="0 0 24 24">
+        <path d="M12 0L14.9 9.1L24 12L14.9 14.9L12 24L9.1 14.9L0 12L9.1 9.1L12 0Z"/>
+      </svg>
+    </div>
+
+    <!-- Line 2: 1.0s to 2.0s -->
+    <div class="line line-2" id="line2">
+      <span>VA A PAGAR</span>
+    </div>
+
+    <!-- Line 3: 2.0s to 3.0s -->
+    <div class="line line-3" id="line3">
+      <span>TU PRÓXIMO</span>
+      <span class="highlight-salario">SALARIO?</span>
+      <!-- Cash / Money Bill SVG -->
+      <svg class="icon-cash" id="iconCash" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+        <line x1="2" y1="10" x2="22" y2="10"></line>
+        <circle cx="12" cy="14.5" r="2.2" fill="#00ff88"></circle>
+        <path d="M6 14.5h.01M18 14.5h.01"></path>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    const line1 = document.getElementById('line1');
+    const line2 = document.getElementById('line2');
+    const line3 = document.getElementById('line3');
+    const iconStar = document.getElementById('iconStar');
+    const iconCash = document.getElementById('iconCash');
+
+    // Clean easeOutExpo (fast, buttery smooth, zero ugly wobbles)
+    function easeOutExpo(x) {
+      return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    }
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    // EXACT 3.0 SECONDS REPARTIDA UNA SOLA VEZ
+    // 0.0s - 1.0s: Line 1 enters and holds
+    // 1.0s - 2.0s: Line 2 enters and holds
+    // 2.0s - 3.0s: Line 3 enters and holds until end of 3.0s
+    window.renderFrame = function(timeInSeconds) {
+      const t = clamp(timeInSeconds, 0, 3.0);
+
+      // --- SECTION 1: ¿ANTHROPIC (0.0s to 1.0s) ---
+      if (t < 0.05) {
+        line1.style.opacity = '0';
+        line1.style.transform = 'translateY(35px) scale(0.96)';
+        iconStar.style.transform = 'scale(0) rotate(-60deg)';
+      } else {
+        const p1 = clamp((t - 0.05) / 0.35, 0, 1);
+        const e1 = easeOutExpo(p1);
+        const y1 = (1 - e1) * 35;
+        const s1 = 0.96 + 0.04 * e1;
+        line1.style.opacity = e1.toFixed(3);
+        line1.style.transform = `translateY(${y1.toFixed(1)}px) scale(${s1.toFixed(3)})`;
+
+        // Star icon rotates from -60 to 0
+        const starRot = (1 - e1) * -60;
+        iconStar.style.transform = `scale(${e1.toFixed(3)}) rotate(${starRot.toFixed(1)}deg)`;
+      }
+
+      // --- SECTION 2: VA A PAGAR (1.0s to 2.0s) ---
+      if (t < 1.0) {
+        line2.style.opacity = '0';
+        line2.style.transform = 'translateY(35px) scale(0.96)';
+      } else {
+        const p2 = clamp((t - 1.0) / 0.35, 0, 1);
+        const e2 = easeOutExpo(p2);
+        const y2 = (1 - e2) * 35;
+        const s2 = 0.96 + 0.04 * e2;
+        line2.style.opacity = e2.toFixed(3);
+        line2.style.transform = `translateY(${y2.toFixed(1)}px) scale(${s2.toFixed(3)})`;
+      }
+
+      // --- SECTION 3: TU PRÓXIMO SALARIO? (2.0s to 3.0s) ---
+      if (t < 2.0) {
+        line3.style.opacity = '0';
+        line3.style.transform = 'translateY(35px) scale(0.96)';
+        iconCash.style.transform = 'scale(0)';
+      } else {
+        const p3 = clamp((t - 2.0) / 0.35, 0, 1);
+        const e3 = easeOutExpo(p3);
+        const y3 = (1 - e3) * 35;
+        const s3 = 0.96 + 0.04 * e3;
+        line3.style.opacity = e3.toFixed(3);
+        line3.style.transform = `translateY(${y3.toFixed(1)}px) scale(${s3.toFixed(3)})`;
+
+        // Cash icon scales up smoothly
+        iconCash.style.transform = `scale(${e3.toFixed(3)})`;
+      }
+    };
+
+    // Live preview in browser (single 3s playback or loop)
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      const elapsed = (now - start) / 1000;
+      window.renderFrame(elapsed % 3.0);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

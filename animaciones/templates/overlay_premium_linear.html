@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Overlay SeDev Pure Text</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* PURE 100% TRANSPARENT 1080x1920 CANVAS */
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent !important;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Pure Typography Stage - ZERO CARDS, ZERO PILLS, ZERO TAGS */
+    .typography-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      width: 1020px;
+      text-align: center;
+      /* Clean subtle depth drop-shadow */
+      filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.95)) drop-shadow(0 2px 4px rgba(0, 0, 0, 1));
+    }
+
+    /* Clean Sentence-Case Typography */
+    .line-wrapper {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      font-size: 80px;
+      font-weight: 800;
+      letter-spacing: -2.5px;
+      line-height: 1.1;
+      color: #ffffff;
+      will-change: transform, opacity, filter;
+    }
+
+    .brand-anthropic {
+      color: #fca58e;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .spark-icon {
+      width: 58px;
+      height: 58px;
+      fill: none;
+      stroke: #fca58e;
+      stroke-width: 2.0;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 14px rgba(252, 165, 142, 0.6));
+    }
+
+    .highlight-salario {
+      color: #6ee7b7;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .coin-icon {
+      width: 56px;
+      height: 56px;
+      fill: none;
+      stroke: #6ee7b7;
+      stroke-width: 2.0;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 14px rgba(110, 231, 183, 0.6));
+    }
+  </style>
+</head>
+<body>
+
+  <div class="typography-stage">
+    <!-- Line 1: ¿Anthropic va a pagar -->
+    <div class="line-wrapper" id="line1">
+      <span>¿</span>
+      <span class="brand-anthropic">
+        Anthropic
+        <!-- Fine vector Claude star -->
+        <svg class="spark-icon" viewBox="0 0 24 24">
+          <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+        </svg>
+      </span>
+      <span>va a pagar</span>
+    </div>
+
+    <!-- Line 2: tu próximo salario? -->
+    <div class="line-wrapper" id="line2">
+      <span>tu próximo</span>
+      <span class="highlight-salario">
+        salario?
+        <!-- Fine vector currency badge -->
+        <svg class="coin-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/>
+          <path d="M12 6v12M15 9.5c0-1.5-1.5-2-3-2s-3 .5-3 2 1.5 2 3 2 3 .5 3 2-1.5 2-3 2-3-.5-3-2"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <script>
+    const line1 = document.getElementById('line1');
+    const line2 = document.getElementById('line2');
+
+    // Smooth Quartic ease-out curve
+    function easeOutQuart(x) {
+      return 1 - Math.pow(1 - x, 4);
+    }
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    // EXACT 3.0 SECONDS TOTAL DURATION
+    // 0.0s - 1.4s: Line 1 (¿Anthropic va a pagar) reveals smoothly
+    // 1.3s - 2.5s: Line 2 (tu próximo salario?) reveals smoothly
+    // 2.5s - 3.0s: Full sentence sits clean and legible
+    window.renderFrame = function(timeInSeconds) {
+      const t = clamp(timeInSeconds, 0, 3.0);
+
+      // Line 1: ¿Anthropic va a pagar (starts immediately at 0.05s)
+      if (t < 0.05) {
+        line1.style.opacity = '0';
+        line1.style.filter = 'blur(14px)';
+        line1.style.transform = 'translateY(28px)';
+      } else {
+        const p1 = clamp((t - 0.05) / 0.7, 0, 1);
+        const e1 = easeOutQuart(p1);
+        line1.style.opacity = e1.toFixed(3);
+        line1.style.filter = `blur(${(14 * (1 - e1)).toFixed(1)}px)`;
+        line1.style.transform = `translateY(${(28 * (1 - e1)).toFixed(1)}px)`;
+      }
+
+      // Line 2: tu próximo salario? (starts at 1.3s)
+      if (t < 1.3) {
+        line2.style.opacity = '0';
+        line2.style.filter = 'blur(14px)';
+        line2.style.transform = 'translateY(28px)';
+      } else {
+        const p2 = clamp((t - 1.3) / 0.7, 0, 1);
+        const e2 = easeOutQuart(p2);
+        line2.style.opacity = e2.toFixed(3);
+        line2.style.filter = `blur(${(14 * (1 - e2)).toFixed(1)}px)`;
+        line2.style.transform = `translateY(${(28 * (1 - e2)).toFixed(1)}px)`;
+      }
+    };
+
+    // Live preview
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      const elapsed = (now - start) / 1000;
+      window.renderFrame(elapsed % 3.0);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

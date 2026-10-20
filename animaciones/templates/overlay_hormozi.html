@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Hormozi Kinetic Overlay</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* PURE 100% TRANSPARENT CANVAS */
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent !important;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* Optical center container - anchored at y: 50% */
+    .focal-center {
+      position: relative;
+      width: 1000px;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Each beat sits in the exact same center spot */
+    .beat-card {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      text-align: center;
+      will-change: transform, opacity;
+      transform-origin: center center;
+      /* Heavy multi-layer shadow so words pop over ANY video background */
+      filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 1)) drop-shadow(0 4px 8px rgba(0, 0, 0, 1));
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Typography */
+    .word-main {
+      font-size: 110px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* --- BEAT 1: ¿ANTHROPIC? --- */
+    #beat1 .word-main {
+      color: #ff5e3a;
+      filter: drop-shadow(0 0 25px rgba(255, 94, 58, 0.7));
+    }
+
+    .icon-anthropic {
+      width: 96px;
+      height: 96px;
+      fill: #ff5e3a;
+      filter: drop-shadow(0 0 25px rgba(255, 94, 58, 0.8));
+    }
+
+    /* --- BEAT 2: VA A PAGAR --- */
+    #beat2 .word-main {
+      color: #ffffff;
+    }
+
+    #beat2 .highlight-pagar {
+      color: #ffd000;
+      filter: drop-shadow(0 0 25px rgba(255, 208, 0, 0.7));
+    }
+
+    .icon-card {
+      width: 96px;
+      height: 96px;
+      stroke: #ffd000;
+      stroke-width: 2.6;
+      fill: none;
+      filter: drop-shadow(0 0 20px rgba(255, 208, 0, 0.7));
+    }
+
+    /* --- BEAT 3: TU SALARIO --- */
+    #beat3 .word-main {
+      color: #00ff88;
+      filter: drop-shadow(0 0 35px rgba(0, 255, 136, 0.8));
+    }
+
+    .icon-money {
+      width: 104px;
+      height: 104px;
+      fill: none;
+      stroke: #00ff88;
+      stroke-width: 2.6;
+      filter: drop-shadow(0 0 30px rgba(0, 255, 136, 0.85));
+    }
+  </style>
+</head>
+<body>
+
+  <div class="focal-center">
+    <!-- BEAT 1 (0.0s to 1.0s) -->
+    <div class="beat-card" id="beat1">
+      <svg class="icon-anthropic" viewBox="0 0 24 24">
+        <path d="M12 0L14.9 9.1L24 12L14.9 14.9L12 24L9.1 14.9L0 12L9.1 9.1L12 0Z"/>
+      </svg>
+      <div class="word-main">¿ANTHROPIC?</div>
+    </div>
+
+    <!-- BEAT 2 (1.0s to 2.0s) -->
+    <div class="beat-card" id="beat2">
+      <svg class="icon-card" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+        <line x1="2" y1="10" x2="22" y2="10"></line>
+        <line x1="6" y1="15" x2="10" y2="15"></line>
+        <line x1="14" y1="15" x2="18" y2="15"></line>
+      </svg>
+      <div class="word-main">VA A <span class="highlight-pagar">PAGAR</span></div>
+    </div>
+
+    <!-- BEAT 3 (2.0s to 3.0s) -->
+    <div class="beat-card" id="beat3">
+      <svg class="icon-money" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+        <line x1="2" y1="10" x2="22" y2="10"></line>
+        <circle cx="12" cy="14.5" r="2.2" fill="#00ff88"></circle>
+        <path d="M6 14.5h.01M18 14.5h.01"></path>
+      </svg>
+      <div class="word-main">TU SALARIO</div>
+    </div>
+  </div>
+
+  <script>
+    const b1 = document.getElementById('beat1');
+    const b2 = document.getElementById('beat2');
+    const b3 = document.getElementById('beat3');
+
+    // Explosive Hormozi pop physics:
+    // 0.0 to 0.12s: scale 0.6 -> 1.18 -> 1.0 (hard elastic slam)
+    // 0.12 to 0.95s: slow subtle breathing scale 1.0 -> 1.04
+    // 0.95 to 1.00s: instant snap out
+    function animateBeat(element, localTime, duration) {
+      if (localTime < 0 || localTime >= duration) {
+        element.style.opacity = '0';
+        element.style.transform = 'scale(0.5)';
+        return;
+      }
+
+      const p = localTime / duration; // 0 to 1
+      element.style.opacity = '1';
+
+      if (localTime < 0.12) {
+        // Explosive entrance (first 3-4 frames)
+        const pop = localTime / 0.12;
+        const scale = 0.6 + 0.58 * Math.sin(pop * Math.PI * 0.7);
+        element.style.transform = `scale(${scale.toFixed(3)})`;
+      } else if (localTime < duration - 0.06) {
+        // Sustained micro-drift
+        const drift = 1.0 + 0.04 * ((localTime - 0.12) / (duration - 0.18));
+        element.style.transform = `scale(${drift.toFixed(3)})`;
+      } else {
+        // Fast snap out
+        const out = (localTime - (duration - 0.06)) / 0.06;
+        const scale = 1.04 - 0.15 * out;
+        element.style.transform = `scale(${scale.toFixed(3)})`;
+        element.style.opacity = (1 - out).toFixed(2);
+      }
+    }
+
+    // EXACT 3.0 SECONDS TOTAL
+    // Beat 1: 0.0s to 1.0s (¿ANTHROPIC?)
+    // Beat 2: 1.0s to 2.0s (VA A PAGAR)
+    // Beat 3: 2.0s to 3.0s (TU SALARIO)
+    window.renderFrame = function(timeInSeconds) {
+      const t = Math.max(0, Math.min(timeInSeconds, 3.0));
+
+      animateBeat(b1, t - 0.0, 1.0);
+      animateBeat(b2, t - 1.0, 1.0);
+      animateBeat(b3, t - 2.0, 1.0);
+    };
+
+    // Live preview loop for browser
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      const elapsed = (now - start) / 1000;
+      window.renderFrame(elapsed % 3.0);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

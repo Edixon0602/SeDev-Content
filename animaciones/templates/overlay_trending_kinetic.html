@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Kinetic Text Overlay - 3.0s</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Inter:wght@900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* PURE 100% TRANSPARENT CANVAS */
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent !important;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', 'Inter', sans-serif;
+    }
+
+    /* Kinetic typography stack centered vertically */
+    .kinetic-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 1000px;
+      text-align: center;
+      /* Razor-sharp drop shadow directly on text for legibility over any background */
+      filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.95)) drop-shadow(0 3px 6px rgba(0, 0, 0, 1));
+      will-change: transform, opacity;
+    }
+
+    /* Each line has an overflow:hidden mask for the modern razor-blade slide-up */
+    .line-mask {
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 16px;
+    }
+
+    .line-content {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      will-change: transform, opacity;
+      transform-origin: center bottom;
+    }
+
+    /* Line 1: ¿ANTHROPIC + Sparkle */
+    .text-anthropic {
+      font-size: 88px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #ff5e3a;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-anthropic {
+      width: 76px;
+      height: 76px;
+      fill: #ff5e3a;
+      filter: drop-shadow(0 0 20px rgba(255, 94, 58, 0.7));
+      transform-origin: center center;
+    }
+
+    /* Line 2: VA A PAGAR */
+    .text-pagar {
+      font-size: 86px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    /* Line 3: TU PRÓXIMO + SALARIO? */
+    .line-3-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .text-proximo {
+      font-size: 84px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    /* Viral High-Contrast Accent Pill for SALARIO */
+    .pill-salario {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #00ff88;
+      color: #050505;
+      font-size: 86px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+      padding: 4px 24px;
+      border-radius: 20px;
+      box-shadow: 0 0 35px rgba(0, 255, 136, 0.65);
+      transform-origin: center center;
+    }
+
+    .icon-money {
+      width: 66px;
+      height: 66px;
+      stroke: #050505;
+      stroke-width: 2.8;
+      fill: none;
+      transform-origin: center center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="kinetic-stage" id="stage">
+    <!-- Line 1 Mask -->
+    <div class="line-mask">
+      <div class="line-content" id="c1">
+        <span class="text-anthropic">
+          ¿ANTHROPIC
+          <!-- Stylized Anthropic 4-point Star -->
+          <svg class="icon-anthropic" id="spark" viewBox="0 0 24 24">
+            <path d="M12 0L14.9 9.1L24 12L14.9 14.9L12 24L9.1 14.9L0 12L9.1 9.1L12 0Z"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+
+    <!-- Line 2 Mask -->
+    <div class="line-mask">
+      <div class="line-content" id="c2">
+        <span class="text-pagar">VA A PAGAR</span>
+      </div>
+    </div>
+
+    <!-- Line 3 Mask -->
+    <div class="line-mask">
+      <div class="line-content" id="c3">
+        <div class="line-3-wrapper">
+          <span class="text-proximo">TU PRÓXIMO</span>
+          <span class="pill-salario" id="pillSalario">
+            SALARIO?
+            <!-- High impact dollar / cash icon -->
+            <svg class="icon-money" id="moneyIcon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="3"></rect>
+              <line x1="2" y1="10" x2="22" y2="10"></line>
+              <circle cx="12" cy="14.5" r="2.2" fill="#050505"></circle>
+              <path d="M6 14.5h.01M18 14.5h.01"></path>
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const c1 = document.getElementById('c1');
+    const c2 = document.getElementById('c2');
+    const c3 = document.getElementById('c3');
+    const spark = document.getElementById('spark');
+    const pillSalario = document.getElementById('pillSalario');
+    const moneyIcon = document.getElementById('moneyIcon');
+
+    // Snappy easing with subtle elastic overshoot (cubic-bezier 0.16, 1, 0.3, 1 feel)
+    function snappyOvershoot(progress) {
+      if (progress <= 0) return 0;
+      if (progress >= 1) return 1;
+      // Fast rise with slight bounce
+      const p = progress;
+      return 1 - Math.pow(1 - p, 4) + Math.sin(p * Math.PI) * 0.12 * (1 - p);
+    }
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    // EXACT 3.0 SECONDS CYCLE
+    window.renderFrame = function(time) {
+      const DURATION = 3.0;
+      const t = time % DURATION;
+
+      // ============================================
+      // 1. LINE 1: ¿ANTHROPIC (Hits at 0.10s -> 0.35s)
+      // ============================================
+      if (t < 0.10) {
+        c1.style.transform = 'translateY(120%) skewY(4deg)';
+        c1.style.opacity = '0';
+        spark.style.transform = 'scale(0) rotate(-90deg)';
+      } else {
+        const p1 = clamp((t - 0.10) / 0.25, 0, 1);
+        const eased1 = snappyOvershoot(p1);
+        const translateY1 = (1 - eased1) * 110;
+        const skew1 = (1 - p1) * 4;
+        c1.style.transform = `translateY(${translateY1.toFixed(1)}%) skewY(${skew1.toFixed(1)}deg)`;
+        c1.style.opacity = '1';
+
+        // Spark spins and pops with overshoot
+        const sparkScale = clamp(eased1 * 1.15, 0, (p1 >= 0.8 ? 1.0 : 1.15));
+        const sparkRot = (1 - p1) * -90;
+        spark.style.transform = `scale(${sparkScale.toFixed(2)}) rotate(${sparkRot.toFixed(1)}deg)`;
+      }
+
+      // ============================================
+      // 2. LINE 2: VA A PAGAR (Hits at 0.50s -> 0.75s)
+      // ============================================
+      if (t < 0.50) {
+        c2.style.transform = 'translateY(120%) skewY(3deg)';
+        c2.style.opacity = '0';
+      } else {
+        const p2 = clamp((t - 0.50) / 0.25, 0, 1);
+        const eased2 = snappyOvershoot(p2);
+        const translateY2 = (1 - eased2) * 110;
+        const skew2 = (1 - p2) * 3;
+        c2.style.transform = `translateY(${translateY2.toFixed(1)}%) skewY(${skew2.toFixed(1)}deg)`;
+        c2.style.opacity = '1';
+      }
+
+      // ============================================
+      // 3. LINE 3: TU PRÓXIMO + SALARIO (Hits at 0.95s -> 1.25s)
+      // ============================================
+      if (t < 0.95) {
+        c3.style.transform = 'translateY(130%) skewY(4deg)';
+        c3.style.opacity = '0';
+        pillSalario.style.transform = 'scale(0.7)';
+        moneyIcon.style.transform = 'scale(0) rotate(-30deg)';
+      } else {
+        const p3 = clamp((t - 0.95) / 0.28, 0, 1);
+        const eased3 = snappyOvershoot(p3);
+        const translateY3 = (1 - eased3) * 110;
+        const skew3 = (1 - p3) * 4;
+        c3.style.transform = `translateY(${translateY3.toFixed(1)}%) skewY(${skew3.toFixed(1)}deg)`;
+        c3.style.opacity = '1';
+
+        // Pill pop & subtle punch
+        const pillScale = 0.8 + 0.2 * eased3;
+        pillSalario.style.transform = `scale(${pillScale.toFixed(3)})`;
+
+        // Money icon energetic wiggle
+        const mProg = clamp((t - 1.10) / 0.30, 0, 1);
+        const mWiggle = Math.sin((t - 1.10) * 16) * 10 * (1 - clamp((t - 1.4) / 0.8, 0, 1));
+        const mScale = clamp(snappyOvershoot(mProg), 0, 1);
+        moneyIcon.style.transform = `scale(${mScale.toFixed(2)}) rotate(${mWiggle.toFixed(1)}deg)`;
+      }
+
+      // ============================================
+      // 4. RETENTION MICRO-ENERGY (1.3s to 2.55s)
+      // ============================================
+      if (t >= 1.25 && t < 2.55) {
+        // Very subtle breathing pulse
+        const breath = Math.sin((t - 1.25) * 3) * 0.015;
+        stage.style.transform = `scale(${(1 + breath).toFixed(4)})`;
+      }
+
+      // ============================================
+      // 5. CLEAN CINEMATIC EXIT (2.55s to 3.0s)
+      // ============================================
+      if (t >= 2.55) {
+        const exitProg = (t - 2.55) / 0.40;
+        const exitEase = Math.pow(exitProg, 3); // fast acceleration out
+        const exitTranslate = -exitEase * 80;
+        const exitOpacity = clamp(1 - exitProg * 1.5, 0, 1);
+
+        stage.style.transform = `translateY(${exitTranslate.toFixed(1)}px) scale(${(1 - exitEase * 0.08).toFixed(3)})`;
+        stage.style.opacity = exitOpacity.toFixed(3);
+      } else if (t < 2.55) {
+        stage.style.opacity = '1';
+      }
+    };
+
+    // Live preview loop for opening directly in Chrome
+    let start = null;
+    function loop(now) {
+      if (!start) start = now;
+      window.renderFrame((now - start) / 1000);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

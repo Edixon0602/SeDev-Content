@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SeDev — Legacy API Adapter</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #111;
+      background: #fff;
+      padding: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 1px solid #111;
+      padding-bottom: 16px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .meta {
+      color: #666;
+      font-size: 12px;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 48px;
+    }
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #777;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 6px;
+    }
+    /* Estilo crudo de tabla de datos legacy */
+    .legacy-view {
+      border: 1px solid #ccc;
+      padding: 16px;
+      background: #fdfdfd;
+    }
+    .legacy-meta {
+      font-size: 11px;
+      color: #777;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #eee;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      font-size: 11px;
+      color: #555;
+      border-bottom: 1px solid #ccc;
+      padding: 6px 4px;
+      font-weight: 500;
+    }
+    td {
+      padding: 8px 4px;
+      border-bottom: 1px solid #eee;
+      font-size: 12px;
+    }
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+    }
+    /* Estilo del adaptador REST */
+    .terminal-box {
+      border-left: 2px solid #111;
+      padding-left: 24px;
+    }
+    .command-line {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: #222;
+      background: #f7f7f7;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #111;
+      background: #fafafa;
+      padding: 16px;
+      border: 1px solid #eee;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .btn {
+      font-family: inherit;
+      font-size: 12px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #111;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+    .btn:hover { background: #333; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>SeDev — Legacy Protocol Adapter</h1>
+      <div class="meta">Extracción de inventario y transformación de protocolo propietario a REST API</div>
+    </div>
+    <div>
+      <button class="btn" onclick="runAdapter()">Ejecutar petición HTTP</button>
+    </div>
+  </header>
+
+  <div class="split">
+    <div>
+      <div class="section-title">Origen: Sistema ERP 2004 (Sin API pública)</div>
+      <div class="legacy-view">
+        <div class="legacy-meta">Protocolo: Windows Desktop Form • Base de datos local: Sybase SQL Anywhere</div>
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Artículo</th>
+              <th style="text-align: right;">Existencias</th>
+              <th style="text-align: right;">Precio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="mono">SKU-001</td>
+              <td>Servidor Dell PowerEdge R740</td>
+              <td class="mono" style="text-align: right;">14</td>
+              <td class="mono" style="text-align: right;">$2,450.00</td>
+            </tr>
+            <tr>
+              <td class="mono">SKU-002</td>
+              <td>Switch Cisco Catalyst 2960</td>
+              <td class="mono" style="text-align: right;">28</td>
+              <td class="mono" style="text-align: right;">$890.00</td>
+            </tr>
+            <tr>
+              <td class="mono">SKU-003</td>
+              <td>Router MikroTik CCR1036 10G</td>
+              <td class="mono" style="text-align: right;">3</td>
+              <td class="mono" style="text-align: right;">$420.00</td>
+            </tr>
+            <tr>
+              <td class="mono">SKU-004</td>
+              <td>Panel de Parcheo Cat6 48p</td>
+              <td class="mono" style="text-align: right;">55</td>
+              <td class="mono" style="text-align: right;">$65.00</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="terminal-box">
+      <div class="section-title">Destino: Endpoint REST expuesto por middleware</div>
+      
+      <div class="command-line">
+        $ curl -X GET https://api.sedev.internal/v1/inventory \<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer sec_tok_99x"
+      </div>
+
+      <pre id="output">// Haz clic en "Ejecutar petición HTTP" para consultar el adapter...</pre>
+    </div>
+  </div>
+
+  <script>
+    const res = {
+      "status": "ok",
+      "timestamp": "2026-10-19T16:54:00Z",
+      "latency_ms": 118,
+      "source": "ERP_LEGACY_ADAPTER",
+      "items_count": 4,
+      "data": [
+        { "sku": "SKU-001", "name": "Servidor Dell PowerEdge R740", "stock": 14, "price_usd": 2450.00 },
+        { "sku": "SKU-002", "name": "Switch Cisco Catalyst 2960", "stock": 28, "price_usd": 890.00 },
+        { "sku": "SKU-003", "name": "Router MikroTik CCR1036 10G", "stock": 3, "price_usd": 420.00, "flag": "LOW_STOCK" },
+        { "sku": "SKU-004", "name": "Panel de Parcheo Cat6 48p", "stock": 55, "price_usd": 65.00 }
+      ]
+    };
+
+    function runAdapter() {
+      const out = document.getElementById("output");
+      out.textContent = "Resolviendo sesión y parseando streams de memoria...";
+      setTimeout(() => {
+        out.textContent = JSON.stringify(res, null, 2);
+      }, 550);
+    }
+  </script>
+</body>
+</html>

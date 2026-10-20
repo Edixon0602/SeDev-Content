@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SeDev — Inbound Engine</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #111;
+      background: #fff;
+      padding: 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 1px solid #111;
+      padding-bottom: 16px;
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    h1 {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .meta {
+      color: #666;
+      font-size: 12px;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      border-bottom: 1px solid #e5e5e5;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .metric-val {
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #777;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #777;
+      border-bottom: 1px solid #111;
+      padding: 8px 0;
+      font-weight: 500;
+    }
+    td {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      vertical-align: top;
+    }
+    tr.selected td {
+      font-weight: 500;
+      color: #000;
+    }
+    tr { cursor: pointer; }
+    tr:hover td { color: #000; background: #fafafa; }
+    .source-tag {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      color: #555;
+    }
+    .budget {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .detail {
+      border-left: 1px solid #111;
+      padding-left: 32px;
+    }
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #777;
+      margin-bottom: 6px;
+    }
+    .block {
+      margin-bottom: 24px;
+    }
+    .proposal-text {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #222;
+      background: #fafafa;
+      padding: 16px;
+      border-left: 2px solid #111;
+      white-space: pre-wrap;
+    }
+    .btn {
+      font-family: inherit;
+      font-size: 12px;
+      background: #111;
+      color: #fff;
+      border: 1px solid #111;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      background: #fff;
+      color: #111;
+      border: 1px solid #ccc;
+      margin-right: 8px;
+    }
+    .btn:hover { background: #333; }
+    .btn-secondary:hover { background: #f5f5f5; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>SeDev — Inbound Demand Stream</h1>
+      <div class="meta">Monitor de requerimientos de software en foros y comunidades públicas</div>
+    </div>
+    <div>
+      <button class="btn btn-secondary" id="streamBtn" onclick="toggleStream()">Pausar</button>
+      <button class="btn" onclick="addLeadManual()">+ Simular entrada</button>
+    </div>
+  </header>
+
+  <div class="metrics">
+    <div>
+      <div class="metric-label">Oportunidades filtradas</div>
+      <div class="metric-val" id="mCount">0</div>
+    </div>
+    <div>
+      <div class="metric-label">Volumen en pipeline</div>
+      <div class="metric-val" id="mVolume">$0</div>
+    </div>
+    <div>
+      <div class="metric-label">Alineación con stack</div>
+      <div class="metric-val">94.2%</div>
+    </div>
+  </div>
+
+  <div class="split">
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Origen</th>
+            <th style="width: 55%;">Necesidad técnica</th>
+            <th style="width: 20%; text-align: right;">Presupuesto</th>
+          </tr>
+        </thead>
+        <tbody id="leadRows">
+        </tbody>
+      </table>
+    </div>
+
+    <div class="detail">
+      <div class="block">
+        <div class="section-title">Requerimiento original</div>
+        <p id="dSnippet" style="color: #444;">Selecciona una entrada de la tabla.</p>
+        <div class="meta" id="dAuthor" style="margin-top: 4px;"></div>
+      </div>
+
+      <div class="block">
+        <div class="section-title">Diagnóstico arquitectónico</div>
+        <p id="dDiagnosis" style="color: #111;">—</p>
+      </div>
+
+      <div class="block">
+        <div class="section-title">Propuesta generada para DM</div>
+        <div class="proposal-text" id="dProposal">—</div>
+      </div>
+
+      <div>
+        <button class="btn" onclick="copyText()">Copiar propuesta</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      {
+        source: "reddit/r/SaaS",
+        user: "marcus_scale",
+        snippet: "Need a custom backend integration. Make and Zapier keep dropping webhooks on high volume and our Stripe payouts are getting delayed. Looking for a freelance engineer ASAP.",
+        diagnosis: "Saturación de timeouts y falta de cola persistente en plataforma no-code. Requiere receptor de webhooks con ingestión desacoplada.",
+        proposal: "Hola Marcus. El problema con Make/Zapier en alto volumen es que procesan síncronamente y no toleran micro-caídas del endpoint de destino.\n\nLa solución limpia es un worker simple en FastAPI + Redis Queue: almacena el webhook en 4ms y delega el procesamiento con reintentos automáticos. Queda montado y blindado en 48 horas.",
+        budget: "$2,000",
+        val: 2000
+      },
+      {
+        source: "twitter/x",
+        user: "@ecom_dan",
+        snippet: "Is there any developer who can build a custom scraper to track supplier inventory every 15 mins without getting Cloudflare blocked? Current tool died.",
+        diagnosis: "Detección de fingerprint TLS y rate limiting de IP por parte del WAF del proveedor.",
+        proposal: "Buenas Dan. Para evitar bloqueos recurrentes necesitas emular el handshake TLS del navegador y usar un pool rotativo de proxies residenciales.\n\nHe montado pipelines de extracción para catálogos con más de 20k SKUs con cero bloqueos. Te muestro la arquitectura en 10 minutos si te sirve.",
+        budget: "$1,800",
+        val: 1800
+      },
+      {
+        source: "news.ycombinator",
+        user: "ops_lead_44",
+        snippet: "We waste 20+ hours weekly manually matching PDF purchase orders with our internal ERP. Need an automated pipeline with AI verification before approval.",
+        diagnosis: "Fricción operativa por transcripción manual y ausencia de capa de extracción OCR/Vision estructurada.",
+        proposal: "Hola. Podemos estructurar un pipeline directo con Document Vision: normaliza el PDF, valida montos e IVA contra tu base de datos y entrega una pantalla de aprobación donde el equipo solo revisa excepciones en un clic.\n\nSe paga solo con las primeras 40 horas de equipo ahorradas.",
+        budget: "$2,500",
+        val: 2500
+      },
+      {
+        source: "indiehackers",
+        user: "sarah_growth",
+        snippet: "Looking for an engineer to migrate our complex 40-column Google Sheet database into a secure PostgreSQL backend with custom user roles.",
+        diagnosis: "Límite operativo de hoja de cálculo usada como persistencia central en producción. Cero integridad referencial.",
+        proposal: "Hola Sarah. Mantener la operativa de la empresa sobre un Sheet de 40 columnas termina en corrupción de datos tarde o temprano.\n\nPodemos migrar los datos a PostgreSQL, definir tipos estrictos y levantar una interfaz web con control de acceso por roles en menos de una semana.",
+        budget: "$1,500",
+        val: 1500
+      }
+    ];
+
+    let count = 0;
+    let volume = 0;
+    let idx = 0;
+    let running = true;
+
+    function addLead(item) {
+      count++;
+      volume += item.val;
+
+      document.getElementById("mCount").textContent = count;
+      document.getElementById("mVolume").textContent = "$" + volume.toLocaleString("en-US");
+
+      const tbody = document.getElementById("leadRows");
+      const tr = document.createElement("tr");
+
+      tr.innerHTML = `
+        <td class="source-tag">${item.source}</td>
+        <td style="color: #333; padding-right: 16px;">${item.snippet.slice(0, 95)}...</td>
+        <td class="budget" style="text-align: right;">${item.budget}</td>
+      `;
+
+      tr.onclick = () => selectRow(tr, item);
+      tbody.prepend(tr);
+
+      if (tbody.children.length > 7) {
+        tbody.removeChild(tbody.lastChild);
+      }
+
+      selectRow(tr, item);
+    }
+
+    function selectRow(tr, item) {
+      document.querySelectorAll("#leadRows tr").forEach(r => r.classList.remove("selected"));
+      tr.classList.add("selected");
+
+      document.getElementById("dSnippet").textContent = item.snippet;
+      document.getElementById("dAuthor").textContent = `Usuario: ${item.user} • ${item.source}`;
+      document.getElementById("dDiagnosis").textContent = item.diagnosis;
+      document.getElementById("dProposal").textContent = item.proposal;
+    }
+
+    function copyText() {
+      const text = document.getElementById("dProposal").textContent;
+      navigator.clipboard.writeText(text);
+      alert("Copiado al portapapeles.");
+    }
+
+    function addLeadManual() {
+      const item = items[idx % items.length];
+      idx++;
+      addLead(item);
+    }
+
+    function toggleStream() {
+      running = !running;
+      document.getElementById("streamBtn").textContent = running ? "Pausar" : "Reanudar";
+    }
+
+    addLeadManual();
+    setInterval(() => {
+      if (running) addLeadManual();
+    }, 4500);
+  </script>
+</body>
+</html>

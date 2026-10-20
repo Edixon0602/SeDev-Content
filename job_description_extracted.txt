@@ -1,0 +1,108 @@
+--- PAGE 1 ---
+Candidate Job Description | AI Systems & Automation Specialist 
+AI Systems & Automation Specialist 
+Remote | Full-Time | South America 
+About the Role 
+We’re looking for a hands-on AI Systems & Automation Specialist to help a growing U.S.-based law firm 
+improve how work gets done through AI, automation, and better-connected systems. This is an implementation-
+focused role for someone who can understand existing workflows, spot opportunities for improvement, and turn 
+ideas into reliable, practical solutions. 
+You’ll work closely with firm leadership and team members across administration, legal support, and operations. 
+You’ll first learn how the firm currently works, then help design, connect, test, and improve AI -enabled 
+workflows. The goal is to help the team work more efficiently and make better decisions usin g accurate 
+information and measurable results. 
+What You’ll Do 
+AI Implementation & Workflow Automation 
+ Identify repetitive, manual, or time-consuming workflows that could be improved with AI or automation. 
+ Build, configure, test, and refine AI-enabled workflows across the firm’s day-to-day operations. 
+ Help connect existing AI capabilities and business systems so information and tasks move more smoothly 
+between tools. 
+ Evaluate automation opportunities from intake and scheduling through internal administration , reporting, and 
+legal-support workflows. 
+ Keep people involved in reviewing AI-generated work and ensure that automations are practical, reliable, 
+and appropriate for the workflow. 
+Systems Integration & Process Improvement 
+ Learn the firm’s current tools, processes, and operating procedures before recommending changes. 
+ Help integrate or coordinate tools such as Clio, Claude Enterprise, Westlaw AI, Lexis AI, RingCentral, and 
+Microsoft SharePoint, subject to access and implementation plans. 
+ Work with team members to document workflows, clarify handoffs, and identify gaps, duplication, and 
+bottlenecks. 
+ Support the development of repeatable systems and documented procedures that can scale as the firm 
+grows. 
+ Troubleshoot issues, test changes, and make iterative improvements rather than building systems and 
+leaving them unsupported. 
+Data, Metrics & Reporting 
+ Help organize operational data from approved systems and identify ways to improve data quality and 
+consistency. 
+ Build or improve spreadsheets, dashboards, KPI scorecards, charts, and management reports. 
+ Help measure lead sources, response times, consultation bookings and attendance, scheduling issues, 
+workflow turnaround times, and other agreed performance indicators. 
+ Reconcile data across systems, flag missing or inconsistent information, and clearly document assumptions 
+and limitations. 
+ Translate findings into concise, understandable insights and practical recommendations for leadership.  
+
+--- PAGE 2 ---
+Candidate Job Description | AI Systems & Automation Specialist 
+Intake, Scheduling & Operational Workflows 
+ Help improve the flow of prospective-client inquiries from referral, marketing, and answering-service 
+channels into the firm’s intake process. 
+ Identify opportunities to make calendar management, appointment confirmations, rescheduling, reminders, 
+and record accuracy more consistent. 
+ Support better visibility into lead handoffs, intake status, consultation-fee follow-up, and unresolved 
+operational issues through approved systems and workflows. 
+ Coordinate with the relevant team members and external partners when mapping or improving these 
+processes. 
+Team Collaboration & Continuous Improvement 
+ Participate in daily team meetings and learn the firm’s workflows, priorities, and operating expectations.  
+ Work closely with the executive assistant/administrative lead, legal support team, and other c olleagues to 
+understand needs and implement solutions. 
+ Communicate progress, blockers, risks, and results clearly; take ownership of assigned projects and follow 
+through. 
+ Protect confidential client, prospective-client, employee, and business information, and follow approved 
+access and data-handling procedures. 
+What We’re Looking For 
+ Hands-on experience implementing AI tools, automations, or connected business workflows —not just using 
+AI for basic prompts. 
+ Strong problem-solving skills and the ability to understand a process, identify the underlying issue, and build 
+a workable solution. 
+ Experience connecting systems, configuring automations, or improving how information moves between 
+platforms. 
+ Comfort working with business data, spreadsheets, dashboards, or operational reporting; strong Excel skills 
+are an advantage. 
+ Ability to learn new tools quickly, troubleshoot independently, test solutions carefully, and document what 
+has been built. 
+ Clear written and spoken communication, with the ability to explain technical ideas to nontechnical 
+colleagues. 
+ A proactive, reliable, detail-oriented approach and comfort working in a fast-moving environment where 
+priorities may evolve. 
+ Good judgment around confidentiality, data access, accuracy, and human review of AI -generated outputs. 
+Helpful Experience 
+ Experience with Claude or Claude Enterprise and business-oriented AI implementations. 
+ Experience with Clio or other legal practice management platforms. 
+ Familiarity with legal research AI tools such as Westlaw AI or Lexis AI. 
+ Experience with RingCentral, Microsoft SharePoint, CRM platforms, calendar systems, or intake and 
+scheduling workflows. 
+ Background in operations, systems administration, analytics, process improvement, or automation 
+consulting. 
+Work Schedule & Compensation 
+ Location: Remote, based in South America. 
+
+--- PAGE 3 ---
+Candidate Job Description | AI Systems & Automation Specialist 
+ Engagement: Full-time, approximately 40 hours per week. 
+ Availability: The role requires availability during U.S. business hours to collaborate with the firm’s team. 
+Exact working hours can be flexible by agreement, provided there is sufficient overlap for meetings and 
+implementation work. 
+What Success Looks Like 
+ You understand the firm’s existing workflows and can identify high-value opportunities for AI and 
+automation. 
+ Useful automations and integrations are implemented, tested, documented, and improved over time. 
+ The team spends less time on avoidable manual work and has clearer, more reliable processes.  
+ Operational information is accurate, accessible to authorized team members, and useful for tracking 
+performance. 
+ You communicate well, work independently, collaborate across the team, and show measurable progress 
+on agreed priorities. 
+Important: This is an operational technology role, not a legal-advice position. AI-generated outputs and workflow 
+changes must be reviewed by the appropriate team members, and legal, accounting, or other restricted 
+decisions remain with authorized personnel. 
+
