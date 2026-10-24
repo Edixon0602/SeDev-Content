@@ -7,6 +7,8 @@
       "id": "scene_01_hook",
       "type": "kinetic_hook",
       "duration": 4.0,
+      "voiceover": "¿Por qué Redis vuela mientras tu base de datos colapsa? Cien mil peticiones por segundo.",
+      "visual_cue": "Entra texto cinético en muelle y rayo dorado",
       "props": {
         "badge": "ANÁLISIS DE SISTEMAS",
         "icon": "lightning",
@@ -21,6 +23,8 @@
       "id": "scene_02_bottleneck",
       "type": "metrics_comparison",
       "duration": 5.0,
+      "voiceover": "El cuello de botella siempre es el disco. Una llamada al sistema NVMe tarda cincuenta mil nanosegundos.",
+      "visual_cue": "Barra roja de disco se dispara hasta 50.000 ns",
       "props": {
         "badge": "EL PROBLEMA DE FONDO",
         "title": "EL CUELLO DE BOTELLA DEL DISCO",
@@ -45,6 +49,8 @@
       "id": "scene_03_ram_intro",
       "type": "kinetic_hook",
       "duration": 5.5,
+      "voiceover": "El primer secreto: Redis elimina el disco por completo y opera cien por ciento en memoria RAM.",
+      "visual_cue": "Aparece icono de memoria y texto verde 100% RAM",
       "props": {
         "badge": "SECRETO #1",
         "icon": "memory",
@@ -59,6 +65,8 @@
       "id": "scene_04_memory_hex",
       "type": "memory_layout",
       "duration": 7.0,
+      "voiceover": "Aquí lo ves en memoria real: punteros directos sin serializar y acceso físico en solo ochenta nanosegundos.",
+      "visual_cue": "Tabla hexadecimal se ilumina mostrando punteros a RAM",
       "props": {
         "badge": "DEBUGGER DE MEMORIA",
         "title": "ACCESO DIRECTO A BYTES EN RAM",
@@ -74,6 +82,8 @@
       "id": "scene_05_myth_buster",
       "type": "kinetic_hook",
       "duration": 4.5,
+      "voiceover": "¿Multi-threading con hilos concurrentes? Falso. Redis corre en un solo hilo sin un solo lock.",
+      "visual_cue": "Titular de mito se quiebra y entra 'ES UN SOLO HILO'",
       "props": {
         "badge": "EL GRAN MITO",
         "icon": "lightning",
@@ -88,6 +98,8 @@
       "id": "scene_06_arch_flow",
       "type": "architecture_flow",
       "duration": 7.5,
+      "voiceover": "Usa multiplexación con epoll: diez mil clientes envían datos y el event loop atiende los eventos listos sin frenar jamás.",
+      "visual_cue": "Diagrama de flujo activo: paquetes viajan por carriles a la cola",
       "props": {
         "header": "MULTIPLEXACIÓN I/O CON EPOLL",
         "nodes": [
@@ -102,6 +114,8 @@
       "id": "scene_07_code_c",
       "type": "code_terminal",
       "duration": 7.0,
+      "voiceover": "En su código en C, epoll_wait captura los eventos y processCommand ejecuta la consulta en memoria al instante.",
+      "visual_cue": "Editor de código resalta la línea processCommand en amarillo",
       "props": {
         "badge": "CÓDIGO FUENTE DE REDIS",
         "filename": "ae_epoll.c",
@@ -123,6 +137,8 @@
       "id": "scene_08_benchmark",
       "type": "code_terminal",
       "duration": 7.0,
+      "voiceover": "El benchmark oficial lo demuestra: ciento dieciocho mil operaciones por segundo con latencia sub-milisegundo.",
+      "visual_cue": "Terminal ejecuta redis-benchmark con salida de rendimiento en vivo",
       "props": {
         "badge": "BENCHMARK EN VIVO",
         "filename": "benchmark.sh",
@@ -142,6 +158,8 @@
       "id": "scene_09_versus",
       "type": "metrics_comparison",
       "duration": 7.5,
+      "voiceover": "Frente a los cuatro mil registros de una base SQL en disco, Redis rinde casi veinticinco veces más rápido.",
+      "visual_cue": "Comparativa de barras en verde y bloque '24.6x MÁS RÁPIDO'",
       "props": {
         "badge": "COMPARATIVA FINAL",
         "title": "THROUGHPUT REAL MEDIDO",
@@ -166,6 +184,8 @@
       "id": "scene_10_cierre",
       "type": "kinetic_hook",
       "duration": 5.0,
+      "voiceover": "Lección de arquitectura: la RAM es el nuevo disco. Sígueme en SeDev para más ingeniería de sistemas.",
+      "visual_cue": "Cierre con texto verde 'LA RAM ES EL NUEVO DISCO' y firma",
       "props": {
         "badge": "LECCIÓN DE INGENIERÍA",
         "icon": "speed",

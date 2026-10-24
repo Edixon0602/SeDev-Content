@@ -156,12 +156,84 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
     execSync(`ffmpeg -y -f concat -safe 0 -i "${concatListFile}" -c copy "${finalOutput}"`, { stdio: 'ignore' });
   }
 
+  // Generate synchronized voiceover teleprompter script
+  generateVoiceoverScript(manifest, finalOutput);
+
   console.log(`\n======================================================`);
   console.log(`✔ VÍDEO COMPLETO GENERADO CON ÉXITO:`);
   console.log(`  ${finalOutput}`);
   console.log(`======================================================\n`);
 
   return finalOutput;
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60);
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function generateVoiceoverScript(manifest, finalOutput) {
+  const desktop = 'C:\\Users\\Edixon\\Desktop';
+  const baseName = path.basename(finalOutput, path.extname(finalOutput));
+  const scriptDesktopPath = path.join(desktop, `GUION_${baseName}.md`);
+  const scriptLocalPath = path.resolve(`animaciones/manifests/guion_${baseName.toLowerCase()}.md`);
+
+  let accumulated = 0;
+  const rows = [];
+  const fullTextBlocks = [];
+  let totalWords = 0;
+
+  (manifest.scenes || []).forEach((scene, i) => {
+    const start = accumulated;
+    const dur = scene.duration || 5.0;
+    const end = start + dur;
+    accumulated = end;
+
+    const vo = scene.voiceover || '(Sin locución asignada)';
+    const cue = scene.visual_cue || scene.props?.title || scene.id;
+    const words = vo.split(/\s+/).filter(Boolean).length;
+    totalWords += words;
+    const wps = (words / dur).toFixed(1);
+
+    rows.push(`| \`${formatTime(start)} - ${formatTime(end)}\` | ${dur.toFixed(1)}s | ${cue} | *"${vo}"* | ${words} (${wps} pal/s) |`);
+    if (scene.voiceover) {
+      fullTextBlocks.push(scene.voiceover);
+    }
+  });
+
+  const totalDuration = accumulated;
+  const avgWps = (totalWords / (totalDuration || 1)).toFixed(2);
+
+  const md = `# 🎙️ Guion de Locución Sincronizado
+**Título:** ${manifest.title}  
+**Duración Total:** ${totalDuration.toFixed(1)}s (${manifest.scenes.length} cortes)  
+**Total de Palabras:** ${totalWords} palabras (promedio: ${avgWps} palabras/segundo - ritmo óptimo)  
+**Vídeo Asociado:** \`${path.basename(finalOutput)}\`  
+
+---
+
+## ⏱️ Tabla de Sincronización Fotograma a Fotograma
+
+| Marca de Tiempo | Duración | Acción en Pantalla (Visual Cue) | Locución Exacta (Voice-Over) | Palabras / Ritmo |
+| :--- | :---: | :--- | :--- | :---: |
+${rows.join('\n')}
+
+---
+
+## 📜 Texto Completo para Teleprompter / TTS (Copiar y Pegar)
+
+${fullTextBlocks.join('\n\n')}
+
+---
+*Generado automáticamente por SeDev Full-Video Engine*
+`;
+
+  fs.writeFileSync(scriptDesktopPath, md, 'utf8');
+  fs.writeFileSync(scriptLocalPath, md, 'utf8');
+  console.log(`🎙️ Guion de locución sincronizado generado:`);
+  console.log(`  → ${scriptDesktopPath}`);
+  console.log(`  → ${scriptLocalPath}`);
 }
 
 // CLI Argument parsing
