@@ -5,7 +5,7 @@ window.registerComponent('architecture_flow', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-arch-flow">
-        ${props.header ? `<div class="arch-header" id="archHeader">${props.header}</div>` : ''}
+        ${props.header ? `<div class="scene-category" id="archHeader">${props.header}</div>` : ''}
         <canvas id="archCanvas" width="960" height="1300"></canvas>
       </div>
     `;

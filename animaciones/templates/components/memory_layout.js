@@ -12,8 +12,8 @@ window.registerComponent('memory_layout', {
 
     container.innerHTML = `
       <div class="comp-memory-layout">
-        ${props.badge ? `<div class="ml-badge" id="mlBadge">${props.badge}</div>` : ''}
-        <div class="ml-title" id="mlTitle">${props.title || 'INSPECCIÓN DE MEMORIA RAM // DIRECCIONAMIENTO DIRECTO'}</div>
+        ${props.badge ? `<div class="scene-category" id="mlBadge">${props.badge}</div>` : ''}
+        <div class="ml-title" id="mlTitle">${props.title || 'INSPECCIÓN DE MEMORIA RAM'}</div>
 
         <!-- Hex Dump Table -->
         <div class="ml-table" id="mlTable">

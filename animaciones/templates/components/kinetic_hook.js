@@ -5,7 +5,7 @@ window.registerComponent('kinetic_hook', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-kinetic-hook">
-        ${props.badge ? `<div class="kh-badge" id="khBadge">${props.badge}</div>` : ''}
+        ${props.badge ? `<div class="scene-category" id="khBadge">${props.badge}</div>` : ''}
         <div class="kh-icon-wrap" id="khIcon">
           ${this.getIconSVG(props.icon || 'lightning')}
         </div>

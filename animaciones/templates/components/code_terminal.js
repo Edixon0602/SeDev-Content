@@ -5,7 +5,7 @@ window.registerComponent('code_terminal', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-code-terminal">
-        ${props.badge ? `<div class="ct-badge" id="ctBadge">${props.badge}</div>` : ''}
+        ${props.badge ? `<div class="scene-category" id="ctBadge">${props.badge}</div>` : ''}
         
         <!-- IDE Window -->
         <div class="ct-window" id="ctWindow">
@@ -32,8 +32,7 @@ window.registerComponent('code_terminal', {
         ${props.terminal ? `
           <div class="ct-terminal" id="ctTerminal">
             <div class="term-bar">
-              <span class="term-title">TERMINAL // SHELL</span>
-              <span class="term-status">RUNNING</span>
+              <span class="term-title">TERMINAL</span>
             </div>
             <div class="term-body">
               <div class="term-cmd">

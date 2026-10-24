@@ -8,8 +8,8 @@ window.registerComponent('metrics_comparison', {
 
     container.innerHTML = `
       <div class="comp-metrics-comp">
-        ${props.badge ? `<div class="mc-badge" id="mcBadge">${props.badge}</div>` : ''}
-        <div class="mc-title" id="mcTitle">${props.title || 'THROUGHPUT COMPARATIVE // REQ/SEC'}</div>
+        ${props.badge ? `<div class="scene-category" id="mcBadge">${props.badge}</div>` : ''}
+        <div class="mc-title" id="mcTitle">${props.title || 'THROUGHPUT REAL (REQ/SEC)'}</div>
 
         <div class="mc-cards">
           <!-- Card A -->
@@ -37,9 +37,8 @@ window.registerComponent('metrics_comparison', {
           </div>
         </div>
 
-        <!-- Delta Speedup Badge -->
+        <!-- Delta Speedup Badge (Solid Editorial Block) -->
         <div class="mc-delta" id="mcDelta">
-          <span class="mc-delta-icon">⚡</span>
           <span class="mc-delta-text">${props.speedup || '24.6x MÁS RÁPIDO'}</span>
         </div>
       </div>

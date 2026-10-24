@@ -6,24 +6,62 @@
     {
       "id": "scene_01_hook",
       "type": "kinetic_hook",
-      "duration": 5.0,
+      "duration": 4.0,
       "props": {
-        "badge": "ARQUITECTURA DE SOFTWARE",
+        "badge": "ANÁLISIS DE SISTEMAS",
         "icon": "lightning",
         "lines": [
           { "text": "¿POR QUÉ REDIS", "color": "#ffffff" },
-          { "text": "ES TAN RÁPIDO?", "color": "#fbbf24" }
+          { "text": "VUELA?", "color": "#fbbf24" }
         ],
-        "subtitle": "ANÁLISIS DE RENDIMIENTO // 100K REQ/S"
+        "subtitle": "100.000 PETICIONES POR SEGUNDO"
       }
     },
     {
-      "id": "scene_02_memory",
-      "type": "memory_layout",
-      "duration": 12.0,
+      "id": "scene_02_bottleneck",
+      "type": "metrics_comparison",
+      "duration": 5.0,
       "props": {
-        "badge": "CLAVE #1: MEMORIA RAM",
-        "title": "ACCESO DIRECTO A POINTERS EN RAM",
+        "badge": "EL PROBLEMA DE FONDO",
+        "title": "EL CUELLO DE BOTELLA DEL DISCO",
+        "itemA": {
+          "name": "LATENCIA DISCO NVMe",
+          "value": 50000,
+          "max": 50000,
+          "color": "#ef4444",
+          "subtext": "50.000 ns POR LLAMADA AL SISTEMA"
+        },
+        "itemB": {
+          "name": "LATENCIA OBJETIVO",
+          "value": 1000,
+          "max": 50000,
+          "color": "#71717a",
+          "subtext": "MÁXIMO TOLERADO EN ALTA CONCURRENCIA"
+        },
+        "speedup": "EL DISCO ES 50X DEMASIADO LENTO"
+      }
+    },
+    {
+      "id": "scene_03_ram_intro",
+      "type": "kinetic_hook",
+      "duration": 5.5,
+      "props": {
+        "badge": "SECRETO #1",
+        "icon": "memory",
+        "lines": [
+          { "text": "CERO DISCO.", "color": "#ffffff" },
+          { "text": "100% MEMORIA RAM.", "color": "#10b981" }
+        ],
+        "subtitle": "TIEMPO DE ACCESO: 80 NANOSEGUNDOS"
+      }
+    },
+    {
+      "id": "scene_04_memory_hex",
+      "type": "memory_layout",
+      "duration": 7.0,
+      "props": {
+        "badge": "DEBUGGER DE MEMORIA",
+        "title": "ACCESO DIRECTO A BYTES EN RAM",
         "rows": [
           { "addr": "0x7FFE0010", "hex": ["72", "65", "64", "69", "73", "5F", "6B", "76"], "label": "KEY: \"redis_kv\"" },
           { "addr": "0x7FFE0018", "hex": ["00", "00", "00", "08", "7F", "FE", "00", "40"], "label": "POINTER -> DICT" },
@@ -33,13 +71,27 @@
       }
     },
     {
-      "id": "scene_03_arch",
-      "type": "architecture_flow",
-      "duration": 15.0,
+      "id": "scene_05_myth_buster",
+      "type": "kinetic_hook",
+      "duration": 4.5,
       "props": {
-        "header": "CLAVE #2: EVENT LOOP NO BLOQUEANTE (EPOLL)",
+        "badge": "EL GRAN MITO",
+        "icon": "lightning",
+        "lines": [
+          { "text": "¿MULTI-THREADING?", "color": "#ffffff" },
+          { "text": "ES UN SOLO HILO.", "color": "#fbbf24" }
+        ],
+        "subtitle": "CERO LOCKS. CERO CONCURRENCIA BLOQUEANTE."
+      }
+    },
+    {
+      "id": "scene_06_arch_flow",
+      "type": "architecture_flow",
+      "duration": 7.5,
+      "props": {
+        "header": "MULTIPLEXACIÓN I/O CON EPOLL",
         "nodes": [
-          { "id": "clients", "label": "CLIENT CONCURRENT CONNS", "sublabel": "10,000 CONEXIONES ABIERTAS", "color": "#38bdf8", "y": 160 },
+          { "id": "clients", "label": "CLIENT CONCURRENT CONNS", "sublabel": "10.000 CONEXIONES ABIERTAS", "color": "#38bdf8", "y": 160 },
           { "id": "eventloop", "label": "SINGLE-THREADED EVENT LOOP", "sublabel": "I/O MULTIPLEXING (ae_epoll.c)", "color": "#fbbf24", "y": 520 },
           { "id": "storage", "label": "IN-MEMORY HASH TABLE", "sublabel": "O(1) AVERAGE LOOKUP TIME", "color": "#10b981", "y": 880 }
         ],
@@ -47,11 +99,11 @@
       }
     },
     {
-      "id": "scene_04_code",
+      "id": "scene_07_code_c",
       "type": "code_terminal",
-      "duration": 15.0,
+      "duration": 7.0,
       "props": {
-        "badge": "CLAVE #3: I/O MULTIPLEXING EN C",
+        "badge": "CÓDIGO FUENTE DE REDIS",
         "filename": "ae_epoll.c",
         "lang": "C",
         "codeLines": [
@@ -62,18 +114,37 @@
           { "text": "}", "highlight": false }
         ],
         "terminal": {
-          "command": "redis-benchmark -q -n 100000 -c 50 -P 16",
-          "output": "SET: 118,483.41 requests per second (avg latency: 0.12ms)\nGET: 121,951.22 requests per second (avg latency: 0.09ms)\n100.00% <= 1 milliseconds"
+          "command": "gcc -O3 -c ae_epoll.c",
+          "output": "ae_epoll.o generated (zero overhead kernel bindings)"
         }
       }
     },
     {
-      "id": "scene_05_metrics",
-      "type": "metrics_comparison",
-      "duration": 13.0,
+      "id": "scene_08_benchmark",
+      "type": "code_terminal",
+      "duration": 7.0,
       "props": {
-        "badge": "CONCLUSIÓN TÉCNICA",
-        "title": "THROUGHPUT COMPARADO // REQ/SEC",
+        "badge": "BENCHMARK EN VIVO",
+        "filename": "benchmark.sh",
+        "lang": "BASH",
+        "codeLines": [
+          { "text": "redis-server --port 6379 --daemonize yes", "highlight": false },
+          { "text": "redis-benchmark -q -n 100000 -c 50 -P 16", "highlight": true },
+          { "text": "echo \"BENCHMARK DE ALTA CONCURRENCIA FINALIZADO\"", "highlight": false }
+        ],
+        "terminal": {
+          "command": "redis-benchmark -q -n 100000 -c 50 -P 16",
+          "output": "SET: 118,483 req/sec (avg latency: 0.12ms)\nGET: 121,951 req/sec (avg latency: 0.09ms)\n100.00% <= 1 ms latency"
+        }
+      }
+    },
+    {
+      "id": "scene_09_versus",
+      "type": "metrics_comparison",
+      "duration": 7.5,
+      "props": {
+        "badge": "COMPARATIVA FINAL",
+        "title": "THROUGHPUT REAL MEDIDO",
         "itemA": {
           "name": "BASE DE DATOS SQL (DISCO)",
           "value": 4800,
@@ -89,6 +160,20 @@
           "subtext": "IN-MEMORY ZERO-LOCK"
         },
         "speedup": "24.6x MÁS RÁPIDO"
+      }
+    },
+    {
+      "id": "scene_10_cierre",
+      "type": "kinetic_hook",
+      "duration": 5.0,
+      "props": {
+        "badge": "LECCIÓN DE INGENIERÍA",
+        "icon": "speed",
+        "lines": [
+          { "text": "LA RAM ES", "color": "#ffffff" },
+          { "text": "EL NUEVO DISCO.", "color": "#10b981" }
+        ],
+        "subtitle": "SEDEV: ARQUITECTURA DE SOFTWARE"
       }
     }
   ]

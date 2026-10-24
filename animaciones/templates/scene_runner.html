@@ -30,21 +30,17 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      transform-origin: center center;
+      will-change: transform;
     }
 
-    /* Common Badges */
-    .kh-badge, .ct-badge, .mc-badge, .ml-badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 18px;
-      border-radius: 8px;
-      background: #18181b;
-      border: 1px solid #3f3f46;
-      color: #a1a1aa;
+    /* Minimalist Monospace Header (Zero AI-Slop, NO PILLS, NO BORDERS) */
+    .scene-category {
       font-family: 'JetBrains Mono', monospace;
       font-size: 15px;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 3px;
+      color: #71717a;
       margin-bottom: 24px;
       text-transform: uppercase;
     }
@@ -306,11 +302,11 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      padding: 16px 32px;
-      border-radius: 40px;
+      padding: 16px 36px;
+      border-radius: 8px;
       background: #10b981;
       border: 3px solid #09090b;
-      box-shadow: 0 8px 0px #09090b;
+      box-shadow: 0 6px 0px #09090b;
       color: #052e16;
     }
     .mc-delta-icon { font-size: 26px; }
@@ -493,8 +489,14 @@
 
     window.renderFrame = function(timeInSeconds) {
       if (!currentScene || !currentComponent) return;
-      const t = utils.clamp(timeInSeconds, 0, currentScene.duration || 5.0);
-      currentComponent.render(stageEl, t, currentScene.duration || 5.0, currentScene.props || {}, utils);
+      const duration = currentScene.duration || 5.0;
+      const t = utils.clamp(timeInSeconds, 0, duration);
+
+      // Subtle dynamic camera push-in so the screen is never dead/frozen
+      const camPush = 1.0 + (t / duration) * 0.035;
+      stageEl.style.transform = `scale(${camPush.toFixed(4)})`;
+
+      currentComponent.render(stageEl, t, duration, currentScene.props || {}, utils);
     };
 
     // URL Query Parameter bootstrap (for direct testing in browser)
