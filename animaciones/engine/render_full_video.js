@@ -15,6 +15,10 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
   const scenes = manifest.scenes || [];
   const totalDuration = scenes.reduce((acc, s) => acc + (s.duration || 5.0), 0);
 
+  // Mirror JSON to JS so player.html loads without CORS when opened via file://
+  const jsManifestPath = manifestPath.replace(/\.json$/i, '.js');
+  fs.writeFileSync(jsManifestPath, `window.__DEFAULT_MANIFEST__ = ${JSON.stringify(manifest, null, 2)};\n`, 'utf8');
+
   const templateFile = path.resolve('animaciones/templates/scene_runner.html');
   const cacheDir = path.resolve('animaciones/output_clips/cache');
   const tempDir = path.resolve('animaciones/output_clips/_temp_full_video');
