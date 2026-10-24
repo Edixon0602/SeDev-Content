@@ -5,6 +5,8 @@ node_modules/
 animaciones/output_clips/*.mov
 animaciones/output_clips/*.mp4
 animaciones/output_clips/*.webm
+animaciones/output_clips/cache/*.mp4
+animaciones/output_clips/cache/concat_list.txt
 animaciones/output_clips/_temp*
 animaciones/debug_frames/
 *.mov

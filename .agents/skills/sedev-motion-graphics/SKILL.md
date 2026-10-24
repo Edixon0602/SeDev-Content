@@ -227,3 +227,39 @@ En lugar de transiciones lineales planas, cada palabra e icono calcula su posici
    - Las palabras entran una sola vez de forma progresiva.
    - No existen halos grises ni bordes cortados.
    - El Escritorio del usuario queda limpio, conservando únicamente el `.mov` final solicitado.
+
+---
+
+## 8. Motor de Vídeos Técnicos de 60 Segundos (Full-Video Engine)
+
+Para generar vídeos explicativos completos de ~60 segundos a pantalla completa (`1080×1920`, fondo mate `#050505`) listos para montar locución (*voice-over*):
+
+### 8.1. Arquitectura Modular con Caché en Disco
+Para evitar renderizar 1.800 fotogramas cada vez que se modifica una sola palabra, el motor implementa un `CacheManager`:
+- Cada escena se renderiza de forma aislada a un clip MP4 intermedio (`animaciones/output_clips/cache/<scene_id>_<md5_hash>.mp4`).
+- El hash se calcula a partir de los datos de la escena y el código del componente. Si no cambia, el render tarda **0 segundos** (`[CACHE HIT]`).
+- FFmpeg une todas las escenas en el archivo final en menos de 1 segundo.
+
+### 8.2. Los 5 Arquetipos Visuales Estándar
+1. `kinetic_hook` (`animaciones/templates/components/kinetic_hook.js`): Titulares gigantes de impacto con física de muelle, icono vectorial y acentos semánticos de color.
+2. `architecture_flow` (`animaciones/templates/components/architecture_flow.js`): Nodos discretos (`CLIENTS`, `EVENT LOOP`, `STORAGE`), colas de eventos y paquetes moviéndose por carriles vectoriales finos.
+3. `code_terminal` (`animaciones/templates/components/code_terminal.js`): Ventana de código con coloreado de sintaxis seguro, diff/línea resaltada y terminal inferior con salida de ejecución en tiempo real.
+4. `metrics_comparison` (`animaciones/templates/components/metrics_comparison.js`): Contadores numéricos animados con easing cúbico, barras de nivel comparadas y badge de aceleración (ej. *24.6x MÁS RÁPIDO*).
+5. `memory_layout` (`animaciones/templates/components/memory_layout.js`): Tabla de volcado hexadecimal con direcciones de memoria, punteros y comparador de latencia física de hardware (*RAM 80ns vs NVMe 50.000ns*).
+
+### 8.3. Comandos de Uso
+- **Previsualización interactiva en navegador (Scrubber en tiempo real):**
+  Abrir en Chrome [player.html](file:///c:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/player.html).
+- **Renderizado completo con unión automática:**
+  ```bash
+  node animaciones/engine/render_full_video.js animaciones/manifests/ejemplo_redis_60s.json
+  ```
+- **Renderizado de una sola escena (para pruebas rápidas):**
+  ```bash
+  node animaciones/engine/render_full_video.js animaciones/manifests/ejemplo_redis_60s.json --scene 0
+  ```
+- **Forzar re-render sin caché:**
+  ```bash
+  node animaciones/engine/render_full_video.js animaciones/manifests/ejemplo_redis_60s.json --no-cache
+  ```
+- **Muxing de Audio:** Si el archivo JSON incluye la propiedad `"audio": "ruta/a/locucion.mp3"`, FFmpeg acopla el audio directamente al MP4 final.

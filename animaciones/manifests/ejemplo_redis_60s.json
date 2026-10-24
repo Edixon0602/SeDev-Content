@@ -1,0 +1,95 @@
+{
+  "title": "Por qué Redis procesa 100K peticiones por segundo",
+  "fps": 30,
+  "output": "C:\\Users\\Edixon\\Desktop\\VIDEO_REDIS_60S_FINAL.mp4",
+  "scenes": [
+    {
+      "id": "scene_01_hook",
+      "type": "kinetic_hook",
+      "duration": 5.0,
+      "props": {
+        "badge": "ARQUITECTURA DE SOFTWARE",
+        "icon": "lightning",
+        "lines": [
+          { "text": "¿POR QUÉ REDIS", "color": "#ffffff" },
+          { "text": "ES TAN RÁPIDO?", "color": "#fbbf24" }
+        ],
+        "subtitle": "ANÁLISIS DE RENDIMIENTO // 100K REQ/S"
+      }
+    },
+    {
+      "id": "scene_02_memory",
+      "type": "memory_layout",
+      "duration": 12.0,
+      "props": {
+        "badge": "CLAVE #1: MEMORIA RAM",
+        "title": "ACCESO DIRECTO A POINTERS EN RAM",
+        "rows": [
+          { "addr": "0x7FFE0010", "hex": ["72", "65", "64", "69", "73", "5F", "6B", "76"], "label": "KEY: \"redis_kv\"" },
+          { "addr": "0x7FFE0018", "hex": ["00", "00", "00", "08", "7F", "FE", "00", "40"], "label": "POINTER -> DICT" },
+          { "addr": "0x7FFE0020", "hex": ["FF", "00", "C0", "A8", "01", "0A", "1F", "90"], "label": "CLIENT TCP FD" },
+          { "addr": "0x7FFE0028", "hex": ["01", "00", "00", "00", "00", "00", "00", "00"], "label": "EXPIRE AT (TTL)" }
+        ]
+      }
+    },
+    {
+      "id": "scene_03_arch",
+      "type": "architecture_flow",
+      "duration": 15.0,
+      "props": {
+        "header": "CLAVE #2: EVENT LOOP NO BLOQUEANTE (EPOLL)",
+        "nodes": [
+          { "id": "clients", "label": "CLIENT CONCURRENT CONNS", "sublabel": "10,000 CONEXIONES ABIERTAS", "color": "#38bdf8", "y": 160 },
+          { "id": "eventloop", "label": "SINGLE-THREADED EVENT LOOP", "sublabel": "I/O MULTIPLEXING (ae_epoll.c)", "color": "#fbbf24", "y": 520 },
+          { "id": "storage", "label": "IN-MEMORY HASH TABLE", "sublabel": "O(1) AVERAGE LOOKUP TIME", "color": "#10b981", "y": 880 }
+        ],
+        "queueSlots": 6
+      }
+    },
+    {
+      "id": "scene_04_code",
+      "type": "code_terminal",
+      "duration": 15.0,
+      "props": {
+        "badge": "CLAVE #3: I/O MULTIPLEXING EN C",
+        "filename": "ae_epoll.c",
+        "lang": "C",
+        "codeLines": [
+          { "text": "int numevents = epoll_wait(state->epfd, state->events, ...);", "highlight": false },
+          { "text": "for (int j = 0; j < numevents; j++) {", "highlight": false },
+          { "text": "    // Procesa eventos de sockets sin locks ni threads", "highlight": false },
+          { "text": "    processCommand(c); // Ejecución inmediata en memoria", "highlight": true },
+          { "text": "}", "highlight": false }
+        ],
+        "terminal": {
+          "command": "redis-benchmark -q -n 100000 -c 50 -P 16",
+          "output": "SET: 118,483.41 requests per second (avg latency: 0.12ms)\nGET: 121,951.22 requests per second (avg latency: 0.09ms)\n100.00% <= 1 milliseconds"
+        }
+      }
+    },
+    {
+      "id": "scene_05_metrics",
+      "type": "metrics_comparison",
+      "duration": 13.0,
+      "props": {
+        "badge": "CONCLUSIÓN TÉCNICA",
+        "title": "THROUGHPUT COMPARADO // REQ/SEC",
+        "itemA": {
+          "name": "BASE DE DATOS SQL (DISCO)",
+          "value": 4800,
+          "max": 120000,
+          "color": "#71717a",
+          "subtext": "I/O SYSTEM CALL BOUND"
+        },
+        "itemB": {
+          "name": "REDIS (RAM DIRECTA)",
+          "value": 118500,
+          "max": 120000,
+          "color": "#10b981",
+          "subtext": "IN-MEMORY ZERO-LOCK"
+        },
+        "speedup": "24.6x MÁS RÁPIDO"
+      }
+    }
+  ]
+}

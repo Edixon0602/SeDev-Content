@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SeDev 60s Video Player & Scrubber</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #09090b;
+      color: #ffffff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Left Control Sidebar */
+    .sidebar {
+      width: 380px;
+      background: #101014;
+      border-right: 1.5px solid #27272a;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    .manifest-info {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .manifest-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+    .manifest-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #a1a1aa;
+    }
+
+    .scene-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .scene-item {
+      background: #18181b;
+      border: 1.5px solid #27272a;
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+    .scene-item:hover {
+      border-color: #3f3f46;
+      background: #202024;
+    }
+    .scene-item.active {
+      border-color: #fbbf24;
+      background: #1e1b12;
+    }
+    .scene-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #e4e4e7;
+    }
+    .scene-dur {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #a1a1aa;
+      background: #09090b;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Main Preview Viewport */
+    .viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #050505;
+      position: relative;
+    }
+
+    .stage-wrapper {
+      height: 86vh;
+      aspect-ratio: 9 / 16;
+      background: #000000;
+      border: 2px solid #27272a;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+      position: relative;
+    }
+
+    iframe {
+      width: 1080px;
+      height: 1920px;
+      border: none;
+      transform-origin: top left;
+    }
+
+    /* Bottom Floating Playback Bar */
+    .playback-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 650px;
+      background: rgba(18, 18, 22, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid #27272a;
+      border-radius: 16px;
+      padding: 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+
+    .bar-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .play-btn {
+      background: #ffffff;
+      color: #09090b;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.1s ease;
+    }
+    .play-btn:active { transform: scale(0.96); }
+
+    .time-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fbbf24;
+    }
+
+    .scrubber {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: #27272a;
+      outline: none;
+      cursor: pointer;
+    }
+    .scrubber::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fbbf24;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      SEDEV 60S ENGINE
+    </div>
+
+    <div class="manifest-info">
+      <div class="manifest-title" id="mTitle">Cargando manifiesto...</div>
+      <div class="manifest-meta" id="mMeta">0 escenas // 0.0s total</div>
+    </div>
+
+    <div style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: #71717a; text-transform: uppercase;">ESCENAS DEL VÍDEO</div>
+    <div class="scene-list" id="sceneList"></div>
+  </div>
+
+  <!-- Viewport -->
+  <div class="viewport">
+    <div class="stage-wrapper" id="stageWrapper">
+      <iframe id="runnerFrame" src="templates/scene_runner.html"></iframe>
+    </div>
+
+    <!-- Playback Bar -->
+    <div class="playback-bar">
+      <div class="bar-controls">
+        <button class="play-btn" id="playBtn">▶ REPRODUCIR</button>
+        <span class="time-display" id="timeDisplay">00.0s / 60.0s</span>
+      </div>
+      <input type="range" class="scrubber" id="scrubber" min="0" max="60" step="0.033" value="0">
+    </div>
+  </div>
+
+  <script>
+    let manifest = null;
+    let totalDuration = 60.0;
+    let currentTime = 0;
+    let isPlaying = false;
+    let lastTimestamp = null;
+    let activeSceneIndex = -1;
+
+    const frame = document.getElementById('runnerFrame');
+    const stageWrapper = document.getElementById('stageWrapper');
+    const playBtn = document.getElementById('playBtn');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const scrubber = document.getElementById('scrubber');
+    const mTitle = document.getElementById('mTitle');
+    const mMeta = document.getElementById('mMeta');
+    const sceneList = document.getElementById('sceneList');
+
+    // Auto-scale iframe to fit viewport perfectly
+    function resizeFrame() {
+      const wrapperHeight = stageWrapper.clientHeight;
+      const scale = wrapperHeight / 1920;
+      frame.style.transform = `scale(${scale})`;
+      stageWrapper.style.width = `${1080 * scale}px`;
+    }
+    window.addEventListener('resize', resizeFrame);
+
+    // Load Manifest
+    async function init() {
+      try {
+        const res = await fetch('manifests/ejemplo_redis_60s.json');
+        manifest = await res.json();
+      } catch (e) {
+        console.error('Error loading manifest:', e);
+        return;
+      }
+
+      totalDuration = manifest.scenes.reduce((acc, s) => acc + (s.duration || 5.0), 0);
+      mTitle.innerText = manifest.title;
+      mMeta.innerText = `${manifest.scenes.length} escenas // ${totalDuration.toFixed(1)}s total @ ${manifest.fps || 30}fps`;
+      scrubber.max = totalDuration;
+
+      // Populate Scenes
+      sceneList.innerHTML = '';
+      manifest.scenes.forEach((s, idx) => {
+        const item = document.createElement('div');
+        item.className = 'scene-item';
+        item.id = `sItem_${idx}`;
+        item.innerHTML = `
+          <div>
+            <div class="scene-name">${idx + 1}. ${s.type}</div>
+            <div style="font-size:11px; color:#71717a;">${s.id}</div>
+          </div>
+          <span class="scene-dur">${s.duration.toFixed(1)}s</span>
+        `;
+        item.onclick = () => jumpToScene(idx);
+        sceneList.appendChild(item);
+      });
+
+      resizeFrame();
+      frame.onload = () => seek(0);
+    }
+
+    function getSceneAtTime(time) {
+      let accumulated = 0;
+      for (let i = 0; i < manifest.scenes.length; i++) {
+        const s = manifest.scenes[i];
+        if (time >= accumulated && time < accumulated + s.duration) {
+          return { index: i, scene: s, sceneTime: time - accumulated };
+        }
+        accumulated += s.duration;
+      }
+      const lastIdx = manifest.scenes.length - 1;
+      return { index: lastIdx, scene: manifest.scenes[lastIdx], sceneTime: manifest.scenes[lastIdx].duration };
+    }
+
+    function jumpToScene(targetIdx) {
+      let accumulated = 0;
+      for (let i = 0; i < targetIdx; i++) {
+        accumulated += manifest.scenes[i].duration;
+      }
+      seek(accumulated + 0.05);
+    }
+
+    function seek(time) {
+      currentTime = Math.max(0, Math.min(time, totalDuration));
+      scrubber.value = currentTime;
+      timeDisplay.innerText = `${currentTime.toFixed(1).padStart(4, '0')}s / ${totalDuration.toFixed(1)}s`;
+
+      const info = getSceneAtTime(currentTime);
+      if (info.index !== activeSceneIndex) {
+        activeSceneIndex = info.index;
+        // Update sidebar highlights
+        document.querySelectorAll('.scene-item').forEach(el => el.classList.remove('active'));
+        const activeEl = document.getElementById(`sItem_${activeSceneIndex}`);
+        if (activeEl) activeEl.classList.add('active');
+
+        // Load new scene in runner
+        if (frame.contentWindow && frame.contentWindow.loadScene) {
+          frame.contentWindow.loadScene(info.scene);
+        }
+      }
+
+      // Render exact frame timestamp
+      if (frame.contentWindow && frame.contentWindow.renderFrame) {
+        frame.contentWindow.renderFrame(info.sceneTime);
+      }
+    }
+
+    // Playback loop
+    function loop(timestamp) {
+      if (!isPlaying) return;
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const dt = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      currentTime += dt;
+      if (currentTime >= totalDuration) {
+        currentTime = 0;
+        seek(0);
+      } else {
+        seek(currentTime);
+      }
+      requestAnimationFrame(loop);
+    }
+
+    playBtn.onclick = () => {
+      isPlaying = !isPlaying;
+      if (isPlaying) {
+        playBtn.innerText = '⏸ PAUSAR';
+        lastTimestamp = null;
+        requestAnimationFrame(loop);
+      } else {
+        playBtn.innerText = '▶ REPRODUCIR';
+      }
+    };
+
+    scrubber.oninput = (e) => {
+      if (isPlaying) {
+        isPlaying = false;
+        playBtn.innerText = '▶ REPRODUCIR';
+      }
+      seek(parseFloat(e.target.value));
+    };
+
+    init();
+  </script>
+</body>
+</html>
