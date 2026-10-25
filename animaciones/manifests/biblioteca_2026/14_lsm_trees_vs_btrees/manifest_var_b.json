@@ -1,0 +1,81 @@
+{
+  "title": "[14] ¿Por qué tu base colapsa en escrituras masivas? Postgres vs RocksDB (Var B)",
+  "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+  "slug": "14_lsm_trees_vs_btrees",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_lsm_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "Estás bombardeando PostgreSQL con cien mil eventos de analítica por segundo y tu disco entró en saturación total por culpa de los B-Trees.",
+      "visual_cue": "Gancho cinético sobre colapso en disco",
+      "props": {
+        "badge": "INCIDENTES DE PRODUCCIÓN",
+        "lines": [
+          {
+            "text": "¿TU BASE COLAPSA CON",
+            "color": "#ffffff"
+          },
+          {
+            "text": "ESCRITURAS MASIVAS?",
+            "color": "#ef4444"
+          }
+        ],
+        "subtitle": "CUANDO EL MOTOR DE PERSISTENCIA ES EL EQUIVOCADO",
+        "icon": "database"
+      }
+    },
+    {
+      "id": "iops_split",
+      "type": "terminal_split",
+      "duration": 6,
+      "voiceover": "No intentes usar una base de datos optimizada para lecturas para ingerir telemetría masiva. Seleccionar el motor de almacenamiento correcto salva tu infraestructura.",
+      "visual_cue": "Doble terminal: IOPS saturados en Postgres vs Ingesta fluida en RocksDB/ClickHouse",
+      "props": {
+        "header": "TELEMETRÍA DE DISCO",
+        "title": "SATURACIÓN DE IOPS EN NVME",
+        "termA": {
+          "title": "POSTGRESQL INSERT MASIVO",
+          "color": "#ef4444",
+          "cmd": "iostat -xz 1",
+          "status": "Disco al 99.8% de utilización // I/O Wait",
+          "time": "Saturado",
+          "lines": [
+            "B-Tree lock contention en páginas de índices",
+            "WAL flush bottleneck bloqueando hilos de workers",
+            "Peticiones HTTP cayendo con error 504 Gateway Timeout"
+          ]
+        },
+        "termB": {
+          "title": "LSM / COLUMNAR ENGINE",
+          "color": "#10b981",
+          "cmd": "ingest_worker --batch=10000",
+          "status": "Escrituras secuenciales sin bloqueos de lectura",
+          "time": "Fluido",
+          "lines": [
+            "MemTable absorbe ráfagas de 150,000 req/s",
+            "Utilización de disco por debajo del 25%",
+            "Latencia de inserción estable en sub-milisegundos"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cta_lsm_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Audito la arquitectura de datos de tu producto para seleccionar el motor adecuado y evitar caídas en picos de tráfico. Enlace en mi bio.",
+      "visual_cue": "Cierre con auditoría de datos",
+      "props": {
+        "header": "AUDITORÍA DE PERSISTENCIA & LATENCIA",
+        "title": "DISEÑO DE CAPA DE DATOS PARA ALTA CARGA",
+        "cta": {
+          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "text": "Evita caídas por saturación de base de datos. Agenda tu auditoría técnica en mi perfil."
+        }
+      }
+    }
+  ]
+}

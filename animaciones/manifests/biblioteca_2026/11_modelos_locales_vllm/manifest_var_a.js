@@ -1,0 +1,91 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[11] Cómo funciona la cuantización a 4 bits: GGUF sin perder inteligencia (Var A)",
+  "category": "AI INFRASTRUCTURE & OPEN WEIGHTS",
+  "slug": "11_modelos_locales_vllm",
+  "variation": "A",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_quant",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor a cien palabras por segundo? Con cuantización a 4 bits.",
+      "visual_cue": "Gancho cinético sobre cuantización de modelos",
+      "props": {
+        "badge": "MODELOS ABIERTOS 2026",
+        "lines": [
+          {
+            "text": "CUANTIZACIÓN A 4 BITS",
+            "color": "#ffffff"
+          },
+          {
+            "text": "SIN PERDER CALIDAD",
+            "color": "#a855f7"
+          }
+        ],
+        "subtitle": "OPTIMIZACIÓN DE PESOS // GGUF & AWQ",
+        "icon": "cpu"
+      }
+    },
+    {
+      "id": "memory_quant",
+      "type": "memory_layout",
+      "duration": 6,
+      "voiceover": "Pasar los pesos de 16 bits flotantes a enteros de 4 bits reduce la memoria por cuatro y permite que todo el modelo quepa en la memoria VRAM de tu GPU.",
+      "visual_cue": "Layout de memoria comparando FP16 (2 bytes por peso) vs INT4 (0.5 bytes por peso)",
+      "props": {
+        "header": "REDUCCIÓN DE HUELLA EN VRAM",
+        "title": "FP16 VS CUANTIZACIÓN INT4",
+        "items": [
+          {
+            "name": "PESOS ORIGINALES (FP16)",
+            "addr": "16 BITS POR PESO",
+            "value": "Requiere 32GB VRAM // Servidor caro",
+            "color": "#ef4444"
+          },
+          {
+            "name": "PESOS CUANTIZADOS (INT4)",
+            "addr": "4 BITS POR PESO",
+            "value": "Solo 8GB VRAM // Corre en hardware accesible",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "vllm_speed",
+      "type": "code_terminal",
+      "duration": 6,
+      "voiceover": "Con motores como vLLM y PagedAttention, el servidor procesa peticiones en lotes continuos multiplicando la velocidad de inferencia.",
+      "visual_cue": "Terminal levantando vLLM con modelo cuantizado",
+      "props": {
+        "header": "INFERENCIA DE ALTO RENDIMIENTO",
+        "title": "VLLM CON PAGEDATTENTION",
+        "filename": "deploy/vllm.sh",
+        "codeLines": [
+          "vllm serve Qwen2.5-Coder-32B-Instruct-AWQ \\",
+          "  --gpu-memory-utilization 0.95 \\",
+          "  --max-model-len 32768 \\",
+          "  --port 8000",
+          "# Rendimiento: 120 tokens/s con 40 usuarios concurrentes"
+        ],
+        "cursorLine": 5
+      }
+    },
+    {
+      "id": "cta_quant",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Ayudo a empresas a desplegar clústeres de inferencia privada con modelos abiertos para no depender de APIs externas. Contáctame en mi perfil.",
+      "visual_cue": "Cierre con consultoría de IA privada",
+      "props": {
+        "header": "CONSULTORÍA DE IA PRIVADA",
+        "title": "SOBERANÍA TOTAL DE TUS MODELOS",
+        "cta": {
+          "badge": "INGENIERÍA DE IA // SEDEV",
+          "text": "¿Quieres correr modelos locales sin pagar APIs caras? Link en mi bio para agendar una sesión."
+        }
+      }
+    }
+  ]
+};

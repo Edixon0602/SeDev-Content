@@ -1,0 +1,158 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[01] Cómo estructurar un Monolito Modular sin código espagueti (Var A)",
+  "category": "ARQUITECTURA DE SOFTWARE",
+  "slug": "01_monolito_modular",
+  "variation": "A",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio.",
+      "visual_cue": "Gancho cinético de apertura con engranaje de arquitectura",
+      "props": {
+        "badge": "ARQUITECTURA 2026",
+        "lines": [
+          {
+            "text": "EL GRAN REGRESO DEL",
+            "color": "#ffffff"
+          },
+          {
+            "text": "MONOLITO MODULAR",
+            "color": "#38bdf8"
+          }
+        ],
+        "subtitle": "LÍMITES DE DOMINIO // UN SOLO BINARIO",
+        "icon": "cpu"
+      }
+    },
+    {
+      "id": "problem",
+      "type": "tradeoff_matrix",
+      "duration": 5.5,
+      "voiceover": "Partir tu app en veinte microservicios solo multiplicó la latencia de red y los fallos distribuidos.",
+      "visual_cue": "Tabla comparativa mostrando la sobrecarga de microservicios vs monolito modular",
+      "props": {
+        "header": "DIAGNÓSTICO ARQUITECTÓNICO",
+        "title": "EL COSTE OCULTO DE DISTRIBUIR",
+        "subtitle": "LATENCIA DE RED VS LLAMADAS EN RAM",
+        "colA": "MONOLITO MODULAR",
+        "colB": "MICROSERVICIOS",
+        "rows": [
+          {
+            "dim": "Llamadas internas",
+            "a": "< 0.01ms (RAM)",
+            "b": "15-40ms (HTTP)",
+            "aGood": true
+          },
+          {
+            "dim": "Transacciones",
+            "a": "ACID Nativas",
+            "b": "Saga Pattern (Frágil)",
+            "aGood": true
+          },
+          {
+            "dim": "Despliegues",
+            "a": "1 Pipeline simple",
+            "b": "15 Pipelines K8s",
+            "aGood": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "modules_arch",
+      "type": "architecture_flow",
+      "duration": 6,
+      "voiceover": "Un monolito modular vive en un solo binario, pero sus módulos están aislados como si fueran cajas negras.",
+      "visual_cue": "Diagrama de flujo mostrando módulos aislados: Auth, Billing y Inventory comunicándose por interfaces",
+      "props": {
+        "header": "ESTRUCTURA DE DOMINIO",
+        "title": "LÍMITES ESTRICTOS EN MEMORIA",
+        "nodes": [
+          {
+            "id": "api",
+            "label": "API GATEWAY INTERNO",
+            "sublabel": "Fastify / Axum Router",
+            "color": "#38bdf8",
+            "y": 160
+          },
+          {
+            "id": "modules",
+            "label": "DOMINIOS AISLADOS (DDD)",
+            "sublabel": "Orders // Billing // Users (Zero cross-imports)",
+            "color": "#10b981",
+            "y": 520
+          },
+          {
+            "id": "storage",
+            "label": "POSTGRES TRANSACCIONAL",
+            "sublabel": "Esquemas lógicos separados (Single DB)",
+            "color": "#fbbf24",
+            "y": 880
+          }
+        ]
+      }
+    },
+    {
+      "id": "code_boundary",
+      "type": "code_terminal",
+      "duration": 6,
+      "voiceover": "En código, prohibimos las importaciones directas entre módulos. Cada dominio expone una interfaz pública estricta.",
+      "visual_cue": "Terminal mostrando TypeScript / Rust haciendo cumplir límites de módulos con ESLint / ArchUnit",
+      "props": {
+        "header": "ENFORCEMENT EN CI/CD",
+        "title": "REGLAS DE IMPORTACIÓN STRICT",
+        "filename": "packages/orders/domain.ts",
+        "codeLines": [
+          "// ❌ ERROR: Importación profunda prohibida",
+          "import { PaymentModel } from \"@sedev/billing/internal\";",
+          "",
+          "// ✔ CORRECTO: Comunicación por interfaz pública",
+          "import { BillingFacade } from \"@sedev/billing\";",
+          "const invoice = await BillingFacade.charge(order.id);"
+        ],
+        "cursorLine": 5
+      }
+    },
+    {
+      "id": "acid_power",
+      "type": "metrics_comparison",
+      "duration": 5.5,
+      "voiceover": "Lo mejor: conservas transacciones ACID completas. Si el pago falla, la orden se cancela sin dramas distribuidos.",
+      "visual_cue": "Métricas de fiabilidad de transacciones: 100% consistencia vs eventual consistency",
+      "props": {
+        "header": "INTEGRIDAD DE DATOS",
+        "metricA": {
+          "label": "MICROSERVICIOS (SAGA)",
+          "value": "84.2%",
+          "sub": "Fallos de consistencia eventual",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "MONOLITO MODULAR",
+          "value": "100%",
+          "sub": "Garantía ACID en una sola base",
+          "color": "#10b981"
+        }
+      }
+    },
+    {
+      "id": "cta",
+      "type": "tradeoff_matrix",
+      "duration": 4.5,
+      "voiceover": "Si tu equipo está atrapado en un laberinto de microservicios y quieres migrar a un monolito modular limpio, link en mi bio para auditar tu arquitectura.",
+      "visual_cue": "Cierre con tarjeta de contacto y consultoría de arquitectura",
+      "props": {
+        "header": "CONSULTORÍA DE ARQUITECTURA",
+        "title": "SIMPLIFICA TU CODEBASE",
+        "subtitle": "REDUCE COSTES // MULTIPLICA VELOCIDAD",
+        "cta": {
+          "badge": "AUDITORÍA DE ARQUITECTURA // SEDEV",
+          "text": "¿Dudas con tu arquitectura? Enlace en mi perfil para agendar una sesión técnica."
+        }
+      }
+    }
+  ]
+};

@@ -1,0 +1,81 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[03] Snowflake es un desperdicio: Analítica in-process con Parquet (Var B)",
+  "category": "DATA ENGINEERING & ANALYTICS",
+  "slug": "03_duckdb_analytics",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_duckdb_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.",
+      "visual_cue": "Gancho cinético sobre costes en analítica",
+      "props": {
+        "badge": "DESTRUYENDO COSTES CLOUD",
+        "lines": [
+          {
+            "text": "DEJA DE PAGAR",
+            "color": "#ef4444"
+          },
+          {
+            "text": "SNOWFLAKE",
+            "color": "#ffffff"
+          }
+        ],
+        "subtitle": "EL DESPILFARRO DE LOS DATA WAREHOUSES",
+        "icon": "duckdb"
+      }
+    },
+    {
+      "id": "cost_split",
+      "type": "terminal_split",
+      "duration": 6,
+      "voiceover": "El noventa por ciento de las empresas no tienen big data: tienen medium data que cabe perfectamente en la memoria de un solo servidor.",
+      "visual_cue": "Doble terminal comparando factura mensual y tiempos de query",
+      "props": {
+        "header": "COMPARATIVA DE FACTURACIÓN",
+        "title": "CLOUD DATA WAREHOUSE VS IN-PROCESS",
+        "termA": {
+          "title": "SNOWFLAKE / BIGQUERY CLUSTER",
+          "color": "#ef4444",
+          "cmd": "Warehouse XS Always-On + Storage fees",
+          "status": "Créditos computacionales consumiéndose",
+          "time": "$4,500/mes",
+          "lines": [
+            "Egress data transfer costs: $650",
+            "Tiempo de arranque de warehouse: 8 segundos",
+            "Lock-in de proveedor propietario"
+          ]
+        },
+        "termB": {
+          "title": "DUCKDB EMBEDDED + PARQUET EN S3",
+          "color": "#10b981",
+          "cmd": "duckdb server.duckdb --readonly",
+          "status": "Motor C++ embebido en contenedor",
+          "time": "$80/mes",
+          "lines": [
+            "Almacenamiento en S3 estándar: $45",
+            "Instancia Hetzner 64GB RAM: $35",
+            "Formato abierto Parquet / Apache Iceberg"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cta_duckdb_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Audito la arquitectura de datos de tu empresa para recortar sobrecostes de infraestructura. Escríbeme o agenda tu sesión en el link de mi perfil.",
+      "visual_cue": "Cierre con auditoría de infraestructura de datos",
+      "props": {
+        "header": "AUDITORÍA DE INFRAESTRUCTURA",
+        "title": "OPTIMIZACIÓN DE PIPELINES DE DATOS",
+        "cta": {
+          "badge": "AUDITORÍA DE COSTES // SEDEV",
+          "text": "Recorta hasta un 80% en tu infraestructura de analítica. Enlace directo en mi perfil."
+        }
+      }
+    }
+  ]
+};

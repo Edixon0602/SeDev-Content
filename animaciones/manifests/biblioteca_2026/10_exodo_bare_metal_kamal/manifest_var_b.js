@@ -1,0 +1,81 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[10] De $15.000 a $200 al mes: El éxodo de la nube a servidores Hetzner (Var B)",
+  "category": "INFRAESTRUCTURA & CLOUD COSTS",
+  "slug": "10_exodo_bare_metal_kamal",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_kamal_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "37signals y cientos de empresas abandonaron la nube pública y pasaron de pagar cientos de miles de dólares a una fracción en servidores dedicados.",
+      "visual_cue": "Gancho cinético sobre el ahorro astronómico del bare metal",
+      "props": {
+        "badge": "ÉXODO DE LA NUBE",
+        "lines": [
+          {
+            "text": "DE $15.000 A $200",
+            "color": "#10b981"
+          },
+          {
+            "text": "AL MES EN BARE-METAL",
+            "color": "#ffffff"
+          }
+        ],
+        "subtitle": "EL REGRESO A LOS SERVIDORES FÍSICOS",
+        "icon": "server_rack"
+      }
+    },
+    {
+      "id": "split_aws_hetzner",
+      "type": "terminal_split",
+      "duration": 6,
+      "voiceover": "En AWS pagas por CPU estrangulada y transferencias de datos ridículas. En un servidor dedicado tienes 128 gigas de RAM y discos NVMe directos.",
+      "visual_cue": "Doble terminal comparando especificaciones de hardware y factura mensual",
+      "props": {
+        "header": "COMPARATIVA DE HARDWARE & COSTES",
+        "title": "VIRTUALIZACIÓN AWS VS SERVIDOR FÍSICO HETZNER",
+        "termA": {
+          "title": "AWS CLOUD (EKS + RDS + NAT)",
+          "color": "#ef4444",
+          "cmd": "aws billing get-monthly-forecast",
+          "status": "Facturación por cada gigabyte de egress",
+          "time": "$14,800/mes",
+          "lines": [
+            "CPU compartida con vecinos ruidosos",
+            "Coste por transferencia de datos: $0.09 por GB",
+            "Complejidad: 40 servicios conectados en AWS Console"
+          ]
+        },
+        "termB": {
+          "title": "HETZNER DEDICATED SERVER",
+          "color": "#10b981",
+          "cmd": "lscpu && free -h",
+          "status": "AMD EPYC 32 Cores // 128GB DDR5 RAM // 2x 2TB NVMe",
+          "time": "$190/mes",
+          "lines": [
+            "100% de la CPU física dedicada a tu app",
+            "Tráfico ilimitado a 1 Gbps incluido",
+            "Despliegues sencillos con Docker y Kamal"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cta_kamal_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Diseño planes de migración a bare-metal para recortar costes y multiplicar la velocidad de tu backend. Hablemos en el enlace de mi perfil.",
+      "visual_cue": "Cierre con auditoría de infraestructura",
+      "props": {
+        "header": "PLAN DE MIGRACIÓN BARE-METAL",
+        "title": "AHORRA MILES DE DÓLARES EN INFRAESTRUCTURA",
+        "cta": {
+          "badge": "AUDITORÍA DE COSTES // SEDEV",
+          "text": "¿Listo para salir de la trampa de costes de la nube? Link en mi perfil para agendar tu plan."
+        }
+      }
+    }
+  ]
+};

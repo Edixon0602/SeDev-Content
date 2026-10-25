@@ -19,12 +19,16 @@ window.registerComponent('code_terminal', {
             <div class="ct-lang">${props.lang || 'C'}</div>
           </div>
           <div class="ct-editor" id="ctEditor">
-            ${(props.codeLines || []).map((line, i) => `
-              <div class="ct-line ${line.highlight ? 'highlight' : ''}" id="ctLine_${i}">
-                <span class="ct-linenum">${String(i + 1).padStart(2, '0')}</span>
-                <span class="ct-linetext">${this.colorize(line.text)}</span>
-              </div>
-            `).join('')}
+            ${(props.codeLines || []).map((line, i) => {
+              const rawText = typeof line === 'string' ? line : (line?.text || '');
+              const isHighlight = typeof line === 'object' && line?.highlight;
+              return `
+                <div class="ct-line ${isHighlight ? 'highlight' : ''}" id="ctLine_${i}">
+                  <span class="ct-linenum">${String(i + 1).padStart(2, '0')}</span>
+                  <span class="ct-linetext">${this.colorize(rawText)}</span>
+                </div>
+              `;
+            }).join('')}
           </div>
         </div>
 
@@ -48,6 +52,7 @@ window.registerComponent('code_terminal', {
   },
 
   colorize(text) {
+    if (!text || typeof text !== 'string') return '';
     let t = text;
     // 1. Preserve comments
     const comments = [];

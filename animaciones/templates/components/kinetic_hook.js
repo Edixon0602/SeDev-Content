@@ -22,6 +22,9 @@ window.registerComponent('kinetic_hook', {
   },
 
   getIconSVG(type) {
+    if (typeof window.getSeDevIcon === 'function') {
+      return window.getSeDevIcon(type, 100);
+    }
     if (type === 'lightning') {
       return `
         <svg viewBox="0 0 100 100" width="100" height="100">

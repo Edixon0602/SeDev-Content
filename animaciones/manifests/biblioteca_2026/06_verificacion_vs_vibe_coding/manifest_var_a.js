@@ -1,0 +1,99 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[06] Mutation & Property-Based Testing: Verificando código de IA (Var A)",
+  "category": "CALIDAD DE SOFTWARE & TESTING",
+  "slug": "06_verificacion_vs_vibe_coding",
+  "variation": "A",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_testing",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "Generar código con IA es instantáneo; verificar que no destruya producción a las tres de la madrugada es el verdadero reto.",
+      "visual_cue": "Gancho cinético sobre el cuello de botella del testing",
+      "props": {
+        "badge": "INGENIERÍA DE SOFTWARE 2026",
+        "lines": [
+          {
+            "text": "EL CUELLO DE BOTELLA",
+            "color": "#ffffff"
+          },
+          {
+            "text": "DE LA VERIFICACIÓN",
+            "color": "#ef4444"
+          }
+        ],
+        "subtitle": "PROPERTY-BASED & MUTATION TESTING",
+        "icon": "check_circle"
+      }
+    },
+    {
+      "id": "mutation_terminal",
+      "type": "code_terminal",
+      "duration": 6,
+      "voiceover": "El mutation testing inyecta fallos intencionales en tu código. Si tus tests no fallan ante un mutante, tus tests son una falsa sensación de seguridad.",
+      "visual_cue": "Terminal ejecutando mutaciones sobre la suite de tests",
+      "props": {
+        "header": "MUTATION TESTING EN CI",
+        "title": "STRYKER / MUTATION ENGINE",
+        "filename": "tests/mutation.log",
+        "codeLines": [
+          "stryker run --concurrency=8",
+          "Injecting mutation: replaced \">=\" with \">\" at auth.ts:42",
+          "Running test suite against mutant #104...",
+          "❌ MUTANT SURVIVED: Tests did not detect logic change!",
+          "Score de mutación: 68% // Requiere endurecer assertions"
+        ],
+        "cursorLine": 4
+      }
+    },
+    {
+      "id": "property_testing",
+      "type": "tradeoff_matrix",
+      "duration": 6,
+      "voiceover": "En vez de probar tres casos aislados, los tests basados en propiedades generan diez mil combinaciones de datos aleatorios para romper tu lógica.",
+      "visual_cue": "Matriz comparando Unit Tests manuales vs Property-Based Testing",
+      "props": {
+        "header": "MÉTODOS DE COMPROBACIÓN",
+        "title": "UNIT TESTS VS PROPERTY TESTING",
+        "colA": "PROPERTY-BASED TESTING",
+        "colB": "TESTS MANUALES BÁSICOS",
+        "rows": [
+          {
+            "dim": "Entradas probadas",
+            "a": "10.000 generadas por run",
+            "b": "3 o 4 ejemplos fijos",
+            "aGood": true
+          },
+          {
+            "dim": "Edge cases ocultos",
+            "a": "Detecta desbordamientos",
+            "b": "Ignora casos límite",
+            "aGood": true
+          },
+          {
+            "dim": "Resistencia a mutantes",
+            "a": "Alta cobertura real",
+            "b": "Falso 100% de coverage",
+            "aGood": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "cta_testing",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión.",
+      "visual_cue": "Cierre con auditoría de calidad de software",
+      "props": {
+        "header": "AUDITORÍA DE CALIDAD & TESTING",
+        "title": "BLINDA TU SOFTWARE EN PRODUCCIÓN",
+        "cta": {
+          "badge": "AUDITORÍA DE CALIDAD // SEDEV",
+          "text": "¿Dudas de la fiabilidad de tu código autogenerado? Link en bio para auditar tus suites de prueba."
+        }
+      }
+    }
+  ]
+};

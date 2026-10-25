@@ -1,0 +1,68 @@
+{
+  "title": "[19] Cómo servir respuestas en 5 milisegundos sin servir datos desactualizados (Var B)",
+  "category": "REDES & ARQUITECTURA DE CACHÉ",
+  "slug": "19_cache_stale_while_revalidate",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_swr_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "No necesitas pagar un clúster gigante de Redis para que tu web vuele. Los encabezados HTTP correctos en el Edge hacen todo el trabajo por ti.",
+      "visual_cue": "Gancho cinético sobre respuestas ultrarrápidas con HTTP",
+      "props": {
+        "badge": "EDGE CACHING EN 2026",
+        "lines": [
+          {
+            "text": "RESPUESTAS EN 5MS",
+            "color": "#10b981"
+          },
+          {
+            "text": "SIN REDIS GIGANTE",
+            "color": "#ffffff"
+          }
+        ],
+        "subtitle": "EL PODER DEL ENCABEZADO STALE-WHILE-REVALIDATE",
+        "icon": "lightning"
+      }
+    },
+    {
+      "id": "metrics_swr",
+      "type": "metrics_comparison",
+      "duration": 6,
+      "voiceover": "Tus usuarios perciben una velocidad instantánea en cualquier parte del mundo mientras tu servidor de origen apenas recibe peticiones.",
+      "visual_cue": "Métricas de descarga y reducción de peticiones al origen",
+      "props": {
+        "header": "DESCARGA DE SERVIDOR DE ORIGEN",
+        "metricA": {
+          "label": "PETICIONES A BASE DE DATOS",
+          "value": "-98.4%",
+          "sub": "Solo una actualización en background por minuto",
+          "color": "#10b981"
+        },
+        "metricB": {
+          "label": "LATENCIA PERCIBIDA (TTFB)",
+          "value": "6ms p95",
+          "sub": "Servido directo desde el Edge más cercano",
+          "color": "#38bdf8"
+        }
+      }
+    },
+    {
+      "id": "cta_swr_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio.",
+      "visual_cue": "Cierre con consultoría de escalabilidad",
+      "props": {
+        "header": "CONSULTORÍA DE ESCALABILIDAD & EDGE",
+        "title": "MÁXIMA VELOCIDAD // MÍNIMO COSTE DE SERVIDOR",
+        "cta": {
+          "badge": "CONSULTORÍA SENIOR // SEDEV",
+          "text": "Haz que tu backend soporte millones de visitas sin pestañear. Hablemos en mi perfil."
+        }
+      }
+    }
+  ]
+}

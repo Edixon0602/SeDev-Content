@@ -1,0 +1,79 @@
+{
+  "title": "[15] ¿Morirá Docker en el Edge? Arranques en 1 milisegundo con WASM (Var B)",
+  "category": "RUNTIMES DE SERVIDOR & WASM",
+  "slug": "15_webassembly_servidor",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_wasm_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. En 2026 estamos viendo esa profecía cumplirse.",
+      "visual_cue": "Gancho cinético sobre el futuro post-Docker",
+      "props": {
+        "badge": "EL FUTURO DE LA NUBE",
+        "lines": [
+          {
+            "text": "¿MORIRÁ DOCKER",
+            "color": "#ffffff"
+          },
+          {
+            "text": "EN EL EDGE?",
+            "color": "#38bdf8"
+          }
+        ],
+        "subtitle": "EL ASCENSO DEL COMPONENT MODEL DE WASM",
+        "icon": "server_rack"
+      }
+    },
+    {
+      "id": "tradeoff_docker_wasm",
+      "type": "tradeoff_matrix",
+      "duration": 6,
+      "voiceover": "WebAssembly no reemplaza a Docker para sistemas legacy completos, pero para funciones serverless y plugins de alta densidad es infinitamente superior.",
+      "visual_cue": "Matriz comparativa Docker vs WebAssembly",
+      "props": {
+        "header": "COMPARATIVA DE CONTENCIÓN",
+        "title": "DOCKER CONTAINERS VS WEBASSEMBLY",
+        "colA": "WEBASSEMBLY (WASI)",
+        "colB": "DOCKER (OCI)",
+        "rows": [
+          {
+            "dim": "Tiempo de arranque en frío",
+            "a": "✔ < 1 milisegundo",
+            "b": "✖ 300-800 milisegundos",
+            "aGood": true
+          },
+          {
+            "dim": "Tamaño del binario",
+            "a": "✔ 2 a 10 Megabytes",
+            "b": "✖ 150 a 500 Megabytes",
+            "aGood": true
+          },
+          {
+            "dim": "Soporte de apps monolíticas",
+            "a": "✖ Requiere compilar a WASI",
+            "b": "✔ Cualquier Linux binario",
+            "aGood": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "cta_wasm_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía.",
+      "visual_cue": "Cierre con consultoría de infraestructura",
+      "props": {
+        "header": "CONSULTORÍA DE INFRAESTRUCTURA",
+        "title": "ARQUITECTURA DE SERVERLESS DE PRÓXIMA GENERACIÓN",
+        "cta": {
+          "badge": "CONSULTORÍA TÉCNICA // SEDEV",
+          "text": "¿Interesado en WASM o arquitecturas Edge? Link en mi perfil para agendar tu sesión."
+        }
+      }
+    }
+  ]
+}

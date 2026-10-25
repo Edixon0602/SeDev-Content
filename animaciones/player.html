@@ -693,12 +693,18 @@
     };
   </script>
 
-  <!-- Component Scripts -->
+  <!-- Component Scripts & Icons -->
+  <script src="templates/components/icons_sedev.js"></script>
   <script src="templates/components/kinetic_hook.js"></script>
   <script src="templates/components/architecture_flow.js"></script>
   <script src="templates/components/code_terminal.js"></script>
   <script src="templates/components/metrics_comparison.js"></script>
   <script src="templates/components/memory_layout.js"></script>
+  <script src="templates/components/tree_hierarchy.js"></script>
+  <script src="templates/components/network_pipeline.js"></script>
+  <script src="templates/components/latency_scale.js"></script>
+  <script src="templates/components/tradeoff_matrix.js"></script>
+  <script src="templates/components/terminal_split.js"></script>
 
   <!-- Default Manifest Script (Zero CORS on file://) -->
   <script src="manifests/ejemplo_redis_60s.js"></script>
@@ -714,6 +720,9 @@
       },
       clamp(v, min, max) {
         return Math.max(min, Math.min(max, v));
+      },
+      lerp(a, b, t) {
+        return a + (b - a) * t;
       }
     };
 

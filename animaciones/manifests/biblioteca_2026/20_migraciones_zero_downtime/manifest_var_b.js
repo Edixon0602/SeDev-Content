@@ -1,0 +1,81 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[20] Nunca hagas ALTER TABLE a ciegas: Cómo evitar bloqueos de tabla (Var B)",
+  "category": "BASES DE DATOS & PRODUCCIÓN CRÍTICA",
+  "slug": "20_migraciones_zero_downtime",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_migration_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "Hiciste un ALTER TABLE agregando un valor por defecto en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos.",
+      "visual_cue": "Gancho cinético sobre el terror del bloqueo de tabla",
+      "props": {
+        "badge": "ERRORES FATALES EN DB",
+        "lines": [
+          {
+            "text": "NUNCA HAGAS ALTER TABLE",
+            "color": "#ef4444"
+          },
+          {
+            "text": "A CIEGAS EN PRODUCCIÓN",
+            "color": "#ffffff"
+          }
+        ],
+        "subtitle": "BLOQUEOS EXCLUSIVOS // HORRORES DE BASE DE DATOS",
+        "icon": "database"
+      }
+    },
+    {
+      "id": "lock_split",
+      "type": "terminal_split",
+      "duration": 6,
+      "voiceover": "Postgres adquiere un bloqueo ACCESS EXCLUSIVE que frena cada petición detrás de él. Usa lock_timeout para que tu base de datos nunca se congele.",
+      "visual_cue": "Doble terminal: Bloqueo infinito de tabla vs Migración segura con lock_timeout",
+      "props": {
+        "header": "MECANISMO DE BLOQUEO DE POSTGRES",
+        "title": "ACCESS EXCLUSIVE LOCK VS LOCK TIMEOUT",
+        "termA": {
+          "title": "MIGRACIÓN SIN TIMEOUT",
+          "color": "#ef4444",
+          "cmd": "ALTER TABLE orders ADD COLUMN status_code INT;",
+          "status": "Esperando lock indefinidamente",
+          "time": "Incidencia P1",
+          "lines": [
+            "Todas las queries entrantes se encolan detrás del ALTER",
+            "Pool de conexiones saturado al 100%",
+            "La aplicación completa deja de responder a usuarios"
+          ]
+        },
+        "termB": {
+          "title": "MIGRACIÓN CON DEFENSA",
+          "color": "#10b981",
+          "cmd": "SET lock_timeout = \"2s\"; ALTER TABLE orders ...",
+          "status": "Si no adquiere el lock en 2s, aborta limpiamente",
+          "time": "Zero caída",
+          "lines": [
+            "Reintenta con backoff en momentos de menor concurrencia",
+            "Los usuarios nunca notan degradación del servicio",
+            "Garantía total de disponibilidad"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cta_migration_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Audito planes de migración de datos y acompaño a startups en cambios estructurales de base de datos sin riesgo. Contáctame en el link de la bio.",
+      "visual_cue": "Cierre con consultoría de migración de bases de datos",
+      "props": {
+        "header": "CONSULTORÍA DE MIGRACIONES SEGURAS",
+        "title": "PROTEGE TU DISPONIBILIDAD EN PRODUCCIÓN",
+        "cta": {
+          "badge": "AUDITORÍA DE MIGRACIONES // SEDEV",
+          "text": "Evita caídas en tus cambios de esquema. Hablemos en el enlace de mi perfil."
+        }
+      }
+    }
+  ]
+};

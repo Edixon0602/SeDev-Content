@@ -1,0 +1,105 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[12] Por qué Server-Sent Events es superior a WebSockets en HTTP/2 (Var A)",
+  "category": "REDES & PROTOCOLOS WEB",
+  "slug": "12_sse_vs_websockets",
+  "variation": "A",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_sse",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "¿Por qué toda la industria de IA usa Server-Sent Events en lugar de WebSockets para hacer streaming de texto? La respuesta está en HTTP/2.",
+      "visual_cue": "Gancho cinético sobre streaming SSE",
+      "props": {
+        "badge": "REDES & STREAMING 2026",
+        "lines": [
+          {
+            "text": "SERVER-SENT EVENTS",
+            "color": "#ffffff"
+          },
+          {
+            "text": "VS WEBSOCKETS",
+            "color": "#06b6d4"
+          }
+        ],
+        "subtitle": "LA SIMPLICIDAD QUE CONQUISTÓ LA IA",
+        "icon": "network_packet"
+      }
+    },
+    {
+      "id": "sse_pipe",
+      "type": "network_pipeline",
+      "duration": 6.5,
+      "voiceover": "WebSockets requiere un handshake especial y salirse de HTTP. SSE es una petición HTTP estándar que aprovecha compresión, proxies y multiplexación.",
+      "visual_cue": "Pipeline visual mostrando la conexión HTTP/2 multiplexando múltiples streams",
+      "props": {
+        "header": "TRANSPORTE DE PROTOCOLO",
+        "title": "MULTIPLEXACIÓN HTTP/2 NATIVA",
+        "subtitle": "UN SOLO SOCKET TCP PARA CIENTOS DE STREAMS",
+        "stages": [
+          {
+            "id": "client",
+            "label": "BROWSER / EVENTSOURCE",
+            "sub": "Reconexión automática nativa sin JS",
+            "y": 220,
+            "color": "#38bdf8",
+            "metric": "Nativo"
+          },
+          {
+            "id": "edge",
+            "label": "CLOUDFLARE / NGINX PROXY",
+            "sub": "Manejo de caché y compresión estándar",
+            "y": 520,
+            "color": "#10b981",
+            "metric": "Zero custom rules"
+          },
+          {
+            "id": "server",
+            "label": "BACKEND NODE / RUST",
+            "sub": "Content-Type: text/event-stream",
+            "y": 820,
+            "color": "#06b6d4",
+            "metric": "Simple loop"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sse_code",
+      "type": "code_terminal",
+      "duration": 6,
+      "voiceover": "En el navegador no necesitas librerías pesadas. EventSource maneja reconexión automática si el usuario pierde la señal wifi.",
+      "visual_cue": "Terminal mostrando código limpio de EventSource en cliente y servidor",
+      "props": {
+        "header": "IMPLEMENTACIÓN LIMPIA",
+        "title": "CLIENTE NATIVO EVENTSOURCE",
+        "filename": "client/stream.ts",
+        "codeLines": [
+          "const es = new EventSource(\"/api/generate\");",
+          "es.onmessage = (event) => {",
+          "  terminal.append(event.data);",
+          "};",
+          "// Si el internet cae, el navegador reconecta solo enviando Last-Event-ID",
+          "es.onerror = () => console.log(\"Reconectando automáticamente...\");"
+        ],
+        "cursorLine": 4
+      }
+    },
+    {
+      "id": "cta_sse",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Diseño arquitecturas backend en tiempo real y streaming de alta concurrencia. Si buscas un desarrollador senior para tu producto, link en mi bio.",
+      "visual_cue": "Cierre con contratación senior backend",
+      "props": {
+        "header": "CONTRATACIÓN SENIOR BACKEND",
+        "title": "SISTEMAS DISTRIBUIDOS & TIEMPO REAL",
+        "cta": {
+          "badge": "SENIOR BACKEND ENGINEER // SEDEV",
+          "text": "¿Necesitas arquitectura de streaming robusta? Hablemos en el enlace de mi perfil."
+        }
+      }
+    }
+  ]
+};

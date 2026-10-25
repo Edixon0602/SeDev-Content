@@ -1,0 +1,39 @@
+# Guion de Grabación: El costo de un fork() en Linux: Cómo 1000 conexiones matan a Postgres
+> **Tema #17:** 17_connection_pooling_pgbouncer  
+> **Variación A (TÉCNICO / ARQUITECTURA)**  
+> **Categoría:** BASES DE DATOS & ESCALABILIDAD  
+> **Tono:** Sistemas operativos, arquitectura interna de PostgreSQL, forks y memoria  
+> **Duración total:** 22.0s | **Palabras:** 98 palabras (~267 palabras/minuto)
+
+---
+
+## 1. Desglose Escena por Escena (Teleprónter & Visual Cues)
+
+| # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
+|---|---|---|---|---|---|
+| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre saturación de procesos en Postgres | "¿Por qué conectar mil usuarios directos a PostgreSQL satura tu servidor aunque no estén haciendo ninguna consulta? Por el costo de los procesos de Linux." | 25 |
+| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `memory_layout` | Layout de memoria mostrando backend processes compitiendo por CPU y RAM | "Postgres es multi-proceso, no multi-hilo. Cada conexión crea un proceso independiente en Linux que consume hasta diez megabytes de RAM sin hacer nada." | 23 |
+| **3** | `[00:10.5 - 00:17.0]` (6.5s) | `architecture_flow` | Diagrama de flujo: 10,000 conexiones de clientes pasando por PgBouncer a 20 conexiones reales de Postgres | "PgBouncer actúa como un embudo inteligente. Mantiene solo veinte conexiones reales con la base y atiende a miles de clientes en modo transaccional." | 23 |
+| **4** | `[00:17.0 - 00:22.0]` (5.0s) | `tradeoff_matrix` | Cierre con llamado a auditoría de bases de datos | "Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil." | 27 |
+
+---
+
+## 2. Texto Continuo para Teleprónter (Lectura Fluida)
+
+```text
+¿Por qué conectar mil usuarios directos a PostgreSQL satura tu servidor aunque no estén haciendo ninguna consulta? Por el costo de los procesos de Linux.
+
+Postgres es multi-proceso, no multi-hilo. Cada conexión crea un proceso independiente en Linux que consume hasta diez megabytes de RAM sin hacer nada.
+
+PgBouncer actúa como un embudo inteligente. Mantiene solo veinte conexiones reales con la base y atiende a miles de clientes en modo transaccional.
+
+Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil.
+```
+
+---
+
+## 3. Remate & CTA Asignado
+- **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
+- **Tipo de Oferta:** database
+- **Última Escena (CTA Leve):** 
+  > *"Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil."*

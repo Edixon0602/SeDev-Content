@@ -1,0 +1,83 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[18] Ahorra miles de dólares en queries usando filtros probabilísticos en Redis (Var B)",
+  "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+  "slug": "18_bloom_filters_probabilistic",
+  "variation": "B",
+  "fps": 30,
+  "scenes": [
+    {
+      "id": "hook_bloom_b",
+      "type": "kinetic_hook",
+      "duration": 4.5,
+      "voiceover": "Hacer consultas a tu base de datos relacional para verificar si un email ya está registrado está quemando tu presupuesto de infraestructura.",
+      "visual_cue": "Gancho cinético sobre ahorro de queries repetitivas",
+      "props": {
+        "badge": "AHORRO DE RECURSOS",
+        "lines": [
+          {
+            "text": "AHORRA MILES DE DÓLARES",
+            "color": "#10b981"
+          },
+          {
+            "text": "CON BLOOM FILTERS",
+            "color": "#ffffff"
+          }
+        ],
+        "subtitle": "ELIMINA EL 95% DE LAS CONSULTAS A DISCO",
+        "icon": "database"
+      }
+    },
+    {
+      "id": "latency_bloom",
+      "type": "latency_scale",
+      "duration": 6,
+      "voiceover": "Un filtro de Bloom en Redis responde en microsegundos y consume apenas un megabyte para un millón de registros. Tu base de datos te lo va a agradecer.",
+      "visual_cue": "Escala de latencia comparando chequeo en RAM vs Query SQL a disco",
+      "props": {
+        "header": "TIEMPO DE RESPUESTA",
+        "title": "FILTRO EN MEMORIA VS BÚSQUEDA EN DISCO",
+        "subtitle": "COMPARATIVA DE LATENCIA DE COMPROBACIÓN",
+        "tiers": [
+          {
+            "name": "BLOOM FILTER EN RAM (REDIS)",
+            "latency": "0.05 ms",
+            "ratio": 0.1,
+            "color": "#10b981",
+            "human": "Microsegundos"
+          },
+          {
+            "name": "QUERY SQL CON ÍNDICE B-TREE",
+            "latency": "4.5 ms",
+            "ratio": 0.6,
+            "color": "#fbbf24",
+            "human": "90x más lento"
+          },
+          {
+            "name": "ESCANEO SIN ÍNDICE (TABLE SCAN)",
+            "latency": "120 ms",
+            "ratio": 1,
+            "color": "#ef4444",
+            "human": "Colapso de disco"
+          }
+        ],
+        "conclusion": "Descartas el 99% de las comprobaciones antes de tocar el motor de base de datos.",
+        "conclusionSub": "Menos consumo de CPU, menos IOPS y menor factura cloud."
+      }
+    },
+    {
+      "id": "cta_bloom_b",
+      "type": "tradeoff_matrix",
+      "duration": 5,
+      "voiceover": "Audito capas de persistencia y caching para reducir facturas y multiplicar la escala de tu producto. Contáctame en el link de la bio.",
+      "visual_cue": "Cierre con auditoría de base de datos y caché",
+      "props": {
+        "header": "AUDITORÍA DE ESCALABILIDAD & COSTES",
+        "title": "OPTIMIZACIÓN DE CAPAS DE CACHÉ",
+        "cta": {
+          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "text": "Reduce el estrés de tu base de datos y recorta costes. Agenda tu sesión en mi perfil."
+        }
+      }
+    }
+  ]
+};
