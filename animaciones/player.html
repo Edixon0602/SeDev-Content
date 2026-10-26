@@ -72,6 +72,108 @@
       color: #a1a1aa;
     }
 
+    /* Video Catalog Dropdown & Quick Selector */
+    .video-selector-wrap {
+      background: #141418;
+      border: 1.5px solid #27272a;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .catalog-dropdown {
+      width: 100%;
+      background: #1c1c22;
+      color: #ffffff;
+      border: 1.5px solid #3f3f46;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .catalog-dropdown:focus, .catalog-dropdown:hover {
+      border-color: #38bdf8;
+    }
+    .catalog-dropdown optgroup {
+      background: #121216;
+      color: #fbbf24;
+      font-weight: 800;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .catalog-dropdown option {
+      background: #1c1c22;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px;
+    }
+
+    .catalog-nav-row {
+      display: flex;
+      gap: 6px;
+    }
+    .nav-btn {
+      flex: 1;
+      background: #27272a;
+      color: #e4e4e7;
+      border: 1px solid #3f3f46;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .nav-btn:hover {
+      background: #38bdf8;
+      color: #09090b;
+      border-color: #38bdf8;
+    }
+    .nav-btn.toggle-var {
+      background: #292312;
+      color: #fbbf24;
+      border-color: #785a18;
+    }
+    .nav-btn.toggle-var:hover {
+      background: #fbbf24;
+      color: #09090b;
+      border-color: #fbbf24;
+    }
+
+    .badge-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: #38bdf8;
+      background: #0c2434;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid #0369a1;
+      text-transform: uppercase;
+    }
+    .badge-var {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 800;
+      color: #fbbf24;
+      background: #2e230a;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid #854d0e;
+    }
+
     .load-btn {
       background: #27272a;
       color: #d4d4d8;
@@ -645,15 +747,37 @@
     <div class="brand">
       <span class="brand-dot"></span>
       SEDEV 60S ENGINE
+      <span style="font-size:10px; color:#10b981; margin-left:auto; font-family:'JetBrains Mono'; background:#06261c; padding:3px 8px; border-radius:4px; border:1px solid #059669; font-weight:800;">41 VÍDEOS</span>
     </div>
 
+    <!-- Master Video Selector Directly in UI -->
+    <div class="video-selector-wrap">
+      <div style="font-size: 11px; font-weight: 800; letter-spacing: 1px; color: #a1a1aa; text-transform: uppercase; display:flex; justify-content:space-between; align-items:center;">
+        <span>CATÁLOGO DE VÍDEOS</span>
+        <span id="videoIndexLabel" style="color:#fbbf24; font-family:'JetBrains Mono'; font-size:12px;">1 / 41</span>
+      </div>
+
+      <select id="videoSelect" class="catalog-dropdown" onchange="onVideoSelectChange(parseInt(this.value, 10))"></select>
+
+      <div class="catalog-nav-row">
+        <button class="nav-btn" onclick="navigateVideo(-1)" title="Vídeo anterior ([)">◀ Ant</button>
+        <button class="nav-btn toggle-var" id="varToggleBtn" onclick="toggleVariation()" title="Alternar entre Variación A y B">Var B ⇄</button>
+        <button class="nav-btn" onclick="navigateVideo(1)" title="Vídeo siguiente (])">Sig ▶</button>
+      </div>
+    </div>
+
+    <!-- Active Video Info Card -->
     <div class="manifest-info">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span id="mCategory" class="badge-category">ARQUITECTURA</span>
+        <span id="mVariation" class="badge-var">VAR A</span>
+      </div>
       <div class="manifest-title" id="mTitle">Cargando manifiesto...</div>
       <div class="manifest-meta" id="mMeta">0 escenas // 0.0s total</div>
     </div>
 
     <button class="load-btn" onclick="document.getElementById('filePicker').click()">
-      📂 Cargar otro JSON de Manifiesto
+      📂 Cargar archivo JSON externo...
     </button>
     <input type="file" id="filePicker" accept=".json" style="display:none;" onchange="handleFileSelect(event)">
 
@@ -706,7 +830,8 @@
   <script src="templates/components/tradeoff_matrix.js"></script>
   <script src="templates/components/terminal_split.js"></script>
 
-  <!-- Default Manifest Script (Zero CORS on file://) -->
+  <!-- Master Video Catalog Bundle (41 Videos Preloaded) -->
+  <script src="manifests/all_manifests_bundle.js"></script>
   <script src="manifests/ejemplo_redis_60s.js"></script>
 
   <script>
@@ -735,6 +860,9 @@
     let currentScene = null;
     let currentComponent = null;
 
+    let catalog = window.__BIBLIOTECA_2026__ || [];
+    let currentVideoIndex = 0;
+
     const stageEl = document.getElementById('stage');
     const stageScaler = document.getElementById('stageScaler');
     const stageWrapper = document.getElementById('stageWrapper');
@@ -743,9 +871,14 @@
     const scrubber = document.getElementById('scrubber');
     const mTitle = document.getElementById('mTitle');
     const mMeta = document.getElementById('mMeta');
+    const mCategory = document.getElementById('mCategory');
+    const mVariation = document.getElementById('mVariation');
     const sceneList = document.getElementById('sceneList');
     const tpCue = document.getElementById('tpCue');
     const tpText = document.getElementById('tpText');
+    const videoSelect = document.getElementById('videoSelect');
+    const videoIndexLabel = document.getElementById('videoIndexLabel');
+    const varToggleBtn = document.getElementById('varToggleBtn');
 
     // Auto-scale stage to fit stageWrapper cleanly
     function resizeStage() {
@@ -792,6 +925,9 @@
       reader.onload = (e) => {
         try {
           const data = JSON.parse(e.target.result);
+          mCategory.innerText = 'EXTERNO';
+          mVariation.innerText = 'CUSTOM';
+          videoIndexLabel.innerText = 'EXT';
           loadManifestData(data);
         } catch (err) {
           alert('Error leyendo JSON: ' + err.message);
@@ -912,18 +1048,120 @@
       seek(parseFloat(e.target.value));
     };
 
-    // Bootstrap: check window.__DEFAULT_MANIFEST__ first, or fallback to fetch
-    if (window.__DEFAULT_MANIFEST__) {
-      loadManifestData(window.__DEFAULT_MANIFEST__);
-    } else {
-      fetch('manifests/ejemplo_redis_60s.json')
-        .then(r => r.json())
-        .then(data => loadManifestData(data))
-        .catch(err => {
-          mTitle.innerText = 'Selecciona un archivo JSON abajo';
-          mMeta.innerText = 'Usa el botón "Cargar otro JSON"';
+    // ----------------------------------------------------
+    // Video Catalog Integration (41 Videos Built-in)
+    // ----------------------------------------------------
+    function initCatalog() {
+      if (!catalog || catalog.length === 0) {
+        if (window.__DEFAULT_MANIFEST__) {
+          loadManifestData(window.__DEFAULT_MANIFEST__);
+        }
+        return;
+      }
+
+      // Populate Dropdown with optgroups
+      videoSelect.innerHTML = '';
+      const groups = {};
+      catalog.forEach((item, idx) => {
+        const g = item.group || 'Varios';
+        if (!groups[g]) groups[g] = [];
+        groups[g].push({ item, idx });
+      });
+
+      Object.entries(groups).forEach(([groupName, items]) => {
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = groupName;
+        items.forEach(({ item, idx }) => {
+          const opt = document.createElement('option');
+          opt.value = idx;
+          opt.innerText = item.label;
+          optgroup.appendChild(opt);
         });
+        videoSelect.appendChild(optgroup);
+      });
+
+      // Default to Topic 01 Var A (index 1) or Redis Demo (index 0)
+      const defaultIdx = catalog.length > 1 ? 1 : 0;
+      selectVideoByIndex(defaultIdx);
     }
+
+    function selectVideoByIndex(idx) {
+      if (!catalog || catalog.length === 0) return;
+      currentVideoIndex = (idx + catalog.length) % catalog.length;
+      videoSelect.value = currentVideoIndex;
+
+      const item = catalog[currentVideoIndex];
+      videoIndexLabel.innerText = `${currentVideoIndex + 1} / ${catalog.length}`;
+      mCategory.innerText = item.category || 'SEDEV';
+      mVariation.innerText = item.variation ? `VAR ${item.variation}` : 'DEMO';
+
+      if (item.key && item.key.endsWith('_A')) {
+        varToggleBtn.innerText = 'Ver Var B ⇄';
+        varToggleBtn.title = 'Cambiar a Variación B (Polémica)';
+      } else if (item.key && item.key.endsWith('_B')) {
+        varToggleBtn.innerText = 'Ver Var A ⇄';
+        varToggleBtn.title = 'Cambiar a Variación A (Técnica)';
+      } else {
+        varToggleBtn.innerText = 'Var A ⇄';
+      }
+
+      if (isPlaying) {
+        isPlaying = false;
+        playBtn.innerText = '▶ REPRODUCIR';
+      }
+
+      loadManifestData(item.manifest);
+    }
+
+    function onVideoSelectChange(idx) {
+      selectVideoByIndex(idx);
+    }
+
+    function navigateVideo(step) {
+      selectVideoByIndex(currentVideoIndex + step);
+    }
+
+    function toggleVariation() {
+      const current = catalog[currentVideoIndex];
+      if (!current || !current.key) return;
+
+      let targetKey = null;
+      if (current.key.endsWith('_A')) {
+        targetKey = current.key.replace('_A', '_B');
+      } else if (current.key.endsWith('_B')) {
+        targetKey = current.key.replace('_B', '_A');
+      } else {
+        targetKey = '01_A';
+      }
+
+      const foundIdx = catalog.findIndex(v => v.key === targetKey);
+      if (foundIdx !== -1) {
+        selectVideoByIndex(foundIdx);
+      }
+    }
+
+    // Keyboard Shortcuts: Space (Play/Pause), [ and ] (Prev/Next Video), V (Toggle Var)
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        playBtn.click();
+      } else if (e.code === 'BracketLeft' || e.code === 'PageUp') {
+        navigateVideo(-1);
+      } else if (e.code === 'BracketRight' || e.code === 'PageDown') {
+        navigateVideo(1);
+      } else if (e.key === 'v' || e.key === 'V') {
+        toggleVariation();
+      } else if (e.code === 'ArrowLeft') {
+        seek(Math.max(0, currentTime - 1.0));
+      } else if (e.code === 'ArrowRight') {
+        seek(Math.min(totalDuration, currentTime + 1.0));
+      }
+    });
+
+    // Initialize Catalog on startup
+    initCatalog();
   </script>
 </body>
 </html>

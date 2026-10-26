@@ -140,6 +140,58 @@ allTopics.forEach((topic, idx) => {
   });
 });
 
+// 3. Generate Master Bundle for Direct Loading in Player.html (Zero CORS, 1-Click Access)
+const bundleList = [];
+
+// Include Demo Redis
+try {
+  const redisPath = path.resolve('animaciones/manifests/ejemplo_redis_60s.json');
+  if (fs.existsSync(redisPath)) {
+    const redisManifest = JSON.parse(fs.readFileSync(redisPath, 'utf8'));
+    bundleList.push({
+      key: 'demo_redis',
+      topicNum: '00',
+      group: '00. DEMO ORIGINAL',
+      label: 'Por qué Redis procesa 100K peticiones por segundo',
+      variation: 'Demo',
+      category: 'SISTEMAS & RENDIMIENTO',
+      manifest: redisManifest
+    });
+  }
+} catch (e) {
+  console.warn('Could not load demo redis manifest:', e.message);
+}
+
+// Include all 20 topics x 2 variations
+allTopics.forEach((topic) => {
+  const num = topic.slug.slice(0, 2);
+  const cleanName = topic.slug.slice(3).replace(/_/g, ' ').toUpperCase();
+
+  bundleList.push({
+    key: `${num}_A`,
+    topicNum: num,
+    group: `${num}. ${cleanName}`,
+    label: `Var A (Técnico): ${topic.varA.title}`,
+    variation: 'A (Técnico)',
+    category: topic.category,
+    manifest: buildManifest(topic, topic.varA, 'varA')
+  });
+
+  bundleList.push({
+    key: `${num}_B`,
+    topicNum: num,
+    group: `${num}. ${cleanName}`,
+    label: `Var B (Polémico): ${topic.varB.title}`,
+    variation: 'B (Polémico)',
+    category: topic.category,
+    manifest: buildManifest(topic, topic.varB, 'varB')
+  });
+});
+
+const bundleJsPath = path.resolve('animaciones/manifests/all_manifests_bundle.js');
+fs.writeFileSync(bundleJsPath, `window.__BIBLIOTECA_2026__ = ${JSON.stringify(bundleList, null, 2)};\n`, 'utf8');
+console.log(`📦 Bundle maestro generado con ${bundleList.length} vídeos: ${bundleJsPath}`);
+
 // Generate Master README for the library
 const readmeContent = `# Biblioteca SeDev 2026: 20 Temas en Tendencia (40 Vídeos)
 
