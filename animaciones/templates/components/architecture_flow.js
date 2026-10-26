@@ -1,5 +1,6 @@
 // Component: architecture_flow
 // Clean engineering architecture diagram with discrete nodes, queues, and packet rails.
+// Zero text overflow, dynamic node counts (supports 2, 3, 4+ nodes), and safe particle rails.
 
 window.registerComponent('architecture_flow', {
   init(container, props) {
@@ -14,7 +15,8 @@ window.registerComponent('architecture_flow', {
   },
 
   render(container, t, duration, props, utils) {
-    const { spring, clamp } = utils;
+    const { spring, clamp, lerp } = utils;
+    const mu = window.motionUtils;
     const ctx = this.ctx;
     ctx.clearRect(0, 0, 960, 1300);
 
@@ -39,109 +41,124 @@ window.registerComponent('architecture_flow', {
     ctx.globalAlpha = exitAlpha;
     ctx.translate(0, exitY);
 
-    const nodes = props.nodes || [
-      { id: 'clients', label: 'CLIENT REQUESTS', sublabel: '10,000 CONCURRENT CONNS', color: '#38bdf8', y: 160 },
-      { id: 'eventloop', label: 'SINGLE-THREADED EVENT LOOP', sublabel: 'I/O MULTIPLEXING (epoll/kqueue)', color: '#fbbf24', y: 520 },
-      { id: 'storage', label: 'IN-MEMORY KEY-VALUE STORE', sublabel: 'DIRECT RAM ACCESS (O(1))', color: '#10b981', y: 880 }
+    const title = props.title || 'DIAGRAMA DE ARQUITECTURA';
+    const subtitle = props.subtitle || 'FLUJO DE DATOS Y LÍMITES DE DOMINIO';
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    if (mu) {
+      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
+    } else {
+      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(title, 480, 65);
+    }
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '700 17px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 480, 102);
+
+    const rawNodes = props.nodes || [
+      { id: 'clients', label: 'CLIENT REQUESTS', sublabel: '10,000 CONCURRENT CONNS', color: '#38bdf8' },
+      { id: 'eventloop', label: 'SINGLE-THREADED EVENT LOOP', sublabel: 'I/O MULTIPLEXING (epoll)', color: '#fbbf24' },
+      { id: 'storage', label: 'IN-MEMORY KEY-VALUE STORE', sublabel: 'DIRECT RAM ACCESS (O(1))', color: '#10b981' }
     ];
 
-    // 1. Draw Connecting Rails
+    const count = rawNodes.length;
+    const startY = 200;
+    const totalSpan = 600;
+
+    const nodes = rawNodes.map((n, idx) => ({
+      ...n,
+      y: n.y !== undefined ? n.y : (startY + idx * Math.floor(totalSpan / Math.max(1, count - 1))),
+      color: n.color || (idx === 0 ? '#38bdf8' : idx === 1 ? '#fbbf24' : '#10b981')
+    }));
+
+    // 1. Draw Connecting Rails & Traveling Packets
     for (let i = 0; i < nodes.length - 1; i++) {
-      const y1 = nodes[i].y + 55;
-      const y2 = nodes[i + 1].y - 55;
+      const y1 = nodes[i].y + 50;
+      const y2 = nodes[i + 1].y - 50;
+
       ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 2;
-      ctx.setLineDash([]);
+      ctx.lineWidth = 2.5;
       ctx.beginPath();
       ctx.moveTo(480, y1);
       ctx.lineTo(480, y2);
       ctx.stroke();
 
-      // Flow direction arrows
-      const arrowY = y1 + (y2 - y1) * 0.5;
-      ctx.fillStyle = '#3f3f46';
+      // Traveling pulse packet
+      const packetProgress = ((t * 1.6 + i * 0.35) % 1);
+      const py = lerp(y1 + 10, y2 - 10, packetProgress);
+
+      ctx.fillStyle = nodes[i].color;
       ctx.beginPath();
-      ctx.moveTo(473, arrowY - 6);
-      ctx.lineTo(480, arrowY + 4);
-      ctx.lineTo(487, arrowY - 6);
-      ctx.closePath();
+      ctx.arc(480, py, 6, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    // 2. Animate Traveling Packets
-    const packetProgress = (t * 1.5) % 1;
-    const packetY1 = (nodes[0].y + 60) + packetProgress * (nodes[1].y - nodes[0].y - 120);
-    const packetY2 = (nodes[1].y + 60) + ((packetProgress + 0.4) % 1) * (nodes[2].y - nodes[1].y - 120);
-
-    [packetY1, packetY2].forEach((py, idx) => {
-      ctx.fillStyle = idx === 0 ? '#38bdf8' : '#10b981';
-      ctx.fillRect(474, py - 12, 12, 24);
-      ctx.strokeStyle = '#050505';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(474, py - 12, 12, 24);
-    });
-
-    // 3. Draw Nodes with Spring Entry
+    // 2. Draw Nodes with Spring Entry
     nodes.forEach((node, idx) => {
-      const dt = t - (0.15 + idx * 0.2);
-      if (dt < 0) return;
-      const s = spring(dt, 24, 0.65);
-      const scale = 0.8 + 0.2 * s;
-      const alpha = clamp(dt / 0.08, 0, 1);
-
+      const s = spring(Math.max(0, t - idx * 0.15), 22, 0.72);
       ctx.save();
-      ctx.globalAlpha = alpha * exitAlpha;
       ctx.translate(480, node.y);
-      ctx.scale(scale, scale);
+      ctx.scale(s, s);
 
-      const w = 620, h = 110;
-      // Background Box
-      ctx.fillStyle = '#0f0f11';
-      ctx.fillRect(-w / 2, -h / 2, w, h);
-      ctx.strokeStyle = node.color || '#ffffff';
-      ctx.lineWidth = 1.8;
-      ctx.strokeRect(-w / 2, -h / 2, w, h);
+      const w = 680, h = 96;
 
-      // Status indicator light
-      ctx.fillStyle = node.color || '#ffffff';
+      ctx.fillStyle = '#121216';
+      ctx.strokeStyle = node.color;
+      ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(-w / 2 + 30, 0, 6, 0, Math.PI * 2);
+      ctx.roundRect(-w / 2, -h / 2, w, h, 14);
       ctx.fill();
+      ctx.stroke();
 
-      // Node label
+      // Left Accent Pill
+      ctx.fillStyle = node.color;
+      ctx.fillRect(-w / 2, -h / 2 + 16, 6, h - 32);
+
+      // Label & Sublabel
+      ctx.textAlign = 'center';
       ctx.fillStyle = '#ffffff';
-      ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(node.label, -w / 2 + 55, -8);
+      ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(node.label, 0, -8);
 
-      // Node sublabel
       ctx.fillStyle = '#a1a1aa';
-      ctx.font = '600 16px "JetBrains Mono", monospace';
-      ctx.fillText(node.sublabel, -w / 2 + 55, 24);
+      ctx.font = '600 13px "JetBrains Mono", monospace';
+      ctx.fillText(node.sublabel || node.sub || '', 0, 22);
 
       ctx.restore();
     });
 
-    // 4. Middle Buffer Slots (between node 0 and 1)
-    const queueSlots = props.queueSlots || 6;
-    const activeSlots = Math.min(queueSlots, Math.floor(((t * 2) % queueSlots) + 1));
-    const startX = 480 - (queueSlots * 24) / 2;
-    const qY = 340;
-
-    for (let i = 0; i < queueSlots; i++) {
-      const sx = startX + i * 24;
+    // 3. Bottom Summary
+    const bAlpha = clamp((t - 0.45) / 0.3, 0, 1);
+    if (bAlpha > 0) {
+      ctx.globalAlpha = bAlpha * exitAlpha;
+      ctx.fillStyle = '#111116';
       ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 1;
-      ctx.strokeRect(sx, qY - 14, 18, 28);
-      if (i < activeSlots) {
-        ctx.fillStyle = '#fbbf24';
-        ctx.fillRect(sx + 2, qY - 12, 14, 24);
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(70, 840, 820, 180, 16);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = '800 14px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText('AISLAMIENTO DE LÍMITES ARQUITECTÓNICOS', 105, 885);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
+      const sumArch = 'Módulos independientes comunicándose a través de interfaces explícitas en RAM.';
+      if (mu) {
+        mu.wrapText(ctx, sumArch, 105, 925, 750, 28, 2);
+      } else {
+        ctx.fillText(sumArch, 105, 925);
       }
+
+      ctx.fillStyle = '#a1a1aa';
+      ctx.font = '500 14px "JetBrains Mono", monospace';
+      ctx.fillText('Garantiza mantenibilidad a largo plazo sin sobrecarga de microservicios.', 105, 985);
     }
-    ctx.fillStyle = '#71717a';
-    ctx.font = '600 13px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('NON-BLOCKING EVENT QUEUE', 480, qY + 32);
 
     ctx.restore();
   }

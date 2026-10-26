@@ -738,6 +738,20 @@
       font-weight: 900;
       color: #52525b;
     }
+
+    /* Universal Component Container & Canvas Styling */
+    [class^="comp-"] {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 960px;
+      position: relative;
+    }
+    [class^="comp-"] canvas {
+      display: block;
+      max-width: 960px;
+    }
   </style>
 </head>
 <body>
@@ -789,7 +803,10 @@
   <div class="viewport">
     <div class="stage-wrapper" id="stageWrapper">
       <div id="stageScaler">
-        <div id="stage"></div>
+        <div id="stage">
+          <canvas id="stageBgCanvas" width="1080" height="1920" style="position:absolute; top:0; left:0; width:1080px; height:1920px; z-index:0; pointer-events:none;"></canvas>
+          <div id="stageContent" style="position:relative; z-index:2; width:1080px; height:1920px; display:flex; flex-direction:column; align-items:center; justify-content:center;"></div>
+        </div>
       </div>
     </div>
 
@@ -816,6 +833,9 @@
       window.__COMPONENTS__[name] = def;
     };
   </script>
+
+  <!-- Motion Graphics Utilities & Atmospheric Background -->
+  <script src="templates/components/motion_utils.js"></script>
 
   <!-- Component Scripts & Icons -->
   <script src="templates/components/icons_sedev.js"></script>
@@ -870,6 +890,9 @@
     let currentVideoIndex = 0;
 
     const stageEl = document.getElementById('stage');
+    const stageContent = document.getElementById('stageContent');
+    const bgCanvas = document.getElementById('stageBgCanvas');
+    const bgCtx = bgCanvas ? bgCanvas.getContext('2d') : null;
     const stageScaler = document.getElementById('stageScaler');
     const stageWrapper = document.getElementById('stageWrapper');
     const playBtn = document.getElementById('playBtn');
@@ -944,15 +967,15 @@
 
     function loadScene(sceneData) {
       currentScene = sceneData;
-      stageEl.innerHTML = '';
+      stageContent.innerHTML = '';
       const compDef = window.__COMPONENTS__[sceneData.type];
       if (!compDef) {
-        stageEl.innerHTML = `<div style="color:red; font-size:32px;">Component not found: ${sceneData.type}</div>`;
+        stageContent.innerHTML = `<div style="color:red; font-size:32px;">Component not found: ${sceneData.type}</div>`;
         return;
       }
       currentComponent = compDef;
       if (typeof compDef.init === 'function') {
-        compDef.init(stageEl, sceneData.props || {});
+        compDef.init(stageContent, sceneData.props || {});
       }
     }
 
@@ -961,11 +984,21 @@
       const duration = currentScene.duration || 5.0;
       const t = utils.clamp(timeInSeconds, 0, duration);
 
-      // Subtle dynamic camera push-in
-      const camPush = 1.0 + (t / duration) * 0.035;
-      stageEl.style.transform = `scale(${camPush.toFixed(4)})`;
+      // Render dynamic ambient lighting & telemetry background
+      if (bgCtx && window.motionUtils && typeof window.motionUtils.renderBackdrop === 'function') {
+        const meta = {
+          category: (manifest && manifest.category) || 'SYSTEMS',
+          slug: (manifest && manifest.slug) || '',
+          title: (manifest && manifest.title) || ''
+        };
+        window.motionUtils.renderBackdrop(bgCtx, 1080, 1920, t, meta);
+      }
 
-      currentComponent.render(stageEl, t, duration, currentScene.props || {}, utils);
+      // Subtle dynamic camera push-in on stage content
+      const camPush = 1.0 + (t / duration) * 0.035;
+      stageContent.style.transform = `scale(${camPush.toFixed(4)})`;
+
+      currentComponent.render(stageContent, t, duration, currentScene.props || {}, utils);
     }
 
     function getSceneAtTime(time) {

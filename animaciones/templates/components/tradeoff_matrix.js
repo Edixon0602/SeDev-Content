@@ -1,5 +1,6 @@
 // Component: tradeoff_matrix
 // Side-by-side engineering tradeoff table with metric badges and dimension comparisons.
+// Zero text overflow, three clean dedicated columns, auto-wrapping text.
 
 window.registerComponent('tradeoff_matrix', {
   init(container, props) {
@@ -15,6 +16,7 @@ window.registerComponent('tradeoff_matrix', {
 
   render(container, t, duration, props, utils) {
     const { spring, clamp } = utils;
+    const mu = window.motionUtils;
     const ctx = this.ctx;
     ctx.clearRect(0, 0, 960, 1300);
 
@@ -40,39 +42,46 @@ window.registerComponent('tradeoff_matrix', {
     ctx.translate(0, exitY);
 
     const title = props.title || 'ARCHITECTURAL TRADEOFF MATRIX';
-    const subtitle = props.subtitle || 'MONOLITH VS MICROSERVICES IN 2026';
+    const subtitle = props.subtitle || 'ANÁLISIS COMPARATIVO DE INGENIERÍA';
 
+    // Auto-fit Title and Subtitle
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 34px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(title, 480, 80);
+    if (mu) {
+      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
+    } else {
+      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(title, 480, 65);
+    }
 
     ctx.fillStyle = '#38bdf8';
-    ctx.font = '600 20px "JetBrains Mono", monospace';
-    ctx.fillText(subtitle, 480, 125);
+    ctx.font = '700 17px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 480, 102);
 
-    const colA = props.colA || 'MODULAR MONOLITH';
-    const colB = props.colB || 'MICROSERVICES';
+    const colA = props.colA || 'OPCIÓN A (RECOMENDADA)';
+    const colB = props.colB || 'OPCIÓN B (CONVENCIONAL)';
 
-    // Column Headers
-    ctx.fillStyle = '#10b981';
-    ctx.font = '800 22px "JetBrains Mono", monospace';
+    // Column Headers in Table (Y = 175)
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#a1a1aa';
+    ctx.fillText('CRITERIO TÉCNICO', 90, 175);
+
     ctx.textAlign = 'center';
-    ctx.fillText(colA, 540, 210);
+    ctx.fillStyle = '#10b981';
+    ctx.fillText(colA, 520, 175);
 
     ctx.fillStyle = '#ef4444';
-    ctx.fillText(colB, 780, 210);
+    ctx.fillText(colB, 770, 175);
 
     const rows = props.rows || [
       { dim: 'Latencia Interna', a: '< 0.1ms (RAM)', b: '15-40ms (HTTP)', aGood: true },
       { dim: 'Despliegue & CI/CD', a: '1 Solo Binario', b: '12 Pipelines K8s', aGood: true },
-      { dim: 'Transacciones', a: 'ACID Nativas', b: 'Saga Pattern Complejo', aGood: true },
-      { dim: 'Coste Servidores', a: '$150/mes (VPS)', b: '$4,200/mes (AWS)', aGood: true },
-      { dim: 'Contexto para AI', a: 'Repositorio Completo', b: 'Contexto Fragmentado', aGood: true }
+      { dim: 'Transacciones', a: 'ACID Nativas', b: 'Saga Pattern', aGood: true }
     ];
 
-    const startY = 270;
-    const rowH = 115;
+    const startY = 240;
+    const rowH = 100;
 
     rows.forEach((row, idx) => {
       const ry = startY + idx * rowH;
@@ -83,79 +92,75 @@ window.registerComponent('tradeoff_matrix', {
       ctx.scale(s, s);
 
       // Row background
-      ctx.fillStyle = idx % 2 === 0 ? '#18181b' : '#101014';
+      ctx.fillStyle = idx % 2 === 0 ? '#121216' : '#0d0d10';
       ctx.strokeStyle = '#27272a';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.roundRect(-400, -45, 800, 90, 12);
+      ctx.roundRect(-410, -42, 820, 84, 12);
       ctx.fill();
       ctx.stroke();
 
-      // Dimension Name (Left)
+      // Column 1: Dimension Name (Dedicated zone: x = -385 to -140)
       ctx.textAlign = 'left';
       ctx.fillStyle = '#ffffff';
-      ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(row.dim, -370, 6);
+      ctx.font = '700 16px "Plus Jakarta Sans", sans-serif';
+      if (mu) {
+        mu.wrapText(ctx, row.dim, -385, -10, 240, 22, 2);
+      } else {
+        ctx.fillText(row.dim, -385, 5);
+      }
 
-      // Column A Value
+      // Column 2: Option A (Dedicated zone centered at x = 40, width = 230)
       ctx.textAlign = 'center';
-      ctx.fillStyle = row.aGood ? '#34d399' : '#f87171';
-      ctx.font = '700 16px "JetBrains Mono", monospace';
-      ctx.fillText(row.a, 60, 6);
+      ctx.fillStyle = row.aGood ? '#10b981' : '#f87171';
+      ctx.font = '700 14px "JetBrains Mono", monospace';
+      if (mu) {
+        mu.wrapText(ctx, row.a, 40, -10, 220, 20, 2);
+      } else {
+        ctx.fillText(row.a, 40, 5);
+      }
 
-      // Column B Value
-      ctx.fillStyle = !row.aGood ? '#34d399' : '#f87171';
-      ctx.fillText(row.b, 300, 6);
+      // Column 3: Option B (Dedicated zone centered at x = 290, width = 230)
+      ctx.fillStyle = !row.aGood ? '#10b981' : '#f87171';
+      if (mu) {
+        mu.wrapText(ctx, row.b, 290, -10, 220, 20, 2);
+      } else {
+        ctx.fillText(row.b, 290, 5);
+      }
 
       ctx.restore();
     });
 
-    // Bottom conclusion
+    // Bottom Conclusion / CTA
     const bAlpha = clamp((t - 0.45) / 0.3, 0, 1);
     if (bAlpha > 0) {
       ctx.globalAlpha = bAlpha * exitAlpha;
-      ctx.fillStyle = '#101014';
+      ctx.fillStyle = '#111116';
       ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.roundRect(80, 890, 800, 160, 16);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = '#fbbf24';
-      ctx.font = '700 16px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText(props.verdictBadge || 'VEREDICTO DE ARQUITECTURA', 120, 940);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '600 21px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(props.verdictText || 'Microservicios solo cuando equipos independientes necesitan aislar deploys.', 120, 985);
-
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '500 17px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(props.verdictSub || 'Para todo lo demás, el Monolito Modular reduce costes y acelera entrega.', 120, 1018);
-    }
-
-    // CTA Banner Slot (Optional props.cta)
-    if (props.cta) {
-      const ctaAlpha = clamp((t - 0.5) / 0.25, 0, 1);
-      ctx.globalAlpha = ctaAlpha * exitAlpha;
-      ctx.fillStyle = '#18181b';
-      ctx.strokeStyle = '#38bdf8';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(80, 1075, 800, 110, 14);
+      ctx.roundRect(70, 830, 820, 210, 16);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = '#38bdf8';
-      ctx.font = '800 15px "JetBrains Mono", monospace';
+      ctx.font = '800 14px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText(props.cta.badge || 'CONSULTORÍA TÉCNICA (Link en perfil)', 110, 1115);
+      const ctaBadge = (props.cta && props.cta.badge) || 'DECISIÓN ARQUITECTÓNICA BASADA EN DATOS';
+      ctx.fillText(ctaBadge, 105, 875);
 
       ctx.fillStyle = '#ffffff';
-      ctx.font = '700 19px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(props.cta.text || '¿Dudas con tu arquitectura? Enlace en mi perfil para agendar una sesión.', 110, 1150);
+      ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+      const ctaTitle = (props.cta && props.cta.text) || 'Elige la simplicidad antes de que la complejidad sature a tu equipo.';
+      if (mu) {
+        mu.wrapText(ctx, ctaTitle, 105, 915, 750, 30, 3);
+      } else {
+        ctx.fillText(ctaTitle, 105, 915);
+      }
+
+      ctx.fillStyle = '#a1a1aa';
+      ctx.font = '500 15px "JetBrains Mono", monospace';
+      ctx.fillText('Agenda tu sesión de auditoría técnica en el enlace del perfil.', 105, 995);
     }
 
     ctx.restore();

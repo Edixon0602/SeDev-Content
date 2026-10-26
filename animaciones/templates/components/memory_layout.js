@@ -1,18 +1,22 @@
 // Component: memory_layout
 // Low-level memory addresses, hex bytes inspection, and hardware latency comparison.
+// Fully normalized for rows and items with zero overflow.
 
 window.registerComponent('memory_layout', {
   init(container, props) {
-    const rows = props.rows || [
+    const rawRows = props.rows || (props.items ? props.items.map(it => ({
+      addr: it.addr || '0x7FFF00',
+      hex: ['00', '04', 'A2', 'FF', '10', '00', '00', '00'],
+      label: `${it.name}: ${it.value || ''}`
+    })) : [
       { addr: '0x7FFE0010', hex: ['72', '65', '64', '69', '73', '5F', '6B', '76'], label: 'KEY: "redis_kv"' },
       { addr: '0x7FFE0018', hex: ['00', '00', '00', '08', '7F', 'FE', '00', '40'], label: 'POINTER -> DICT' },
-      { addr: '0x7FFE0020', hex: ['FF', '00', 'C0', 'A8', '01', '0A', '1F', '90'], label: 'CLIENT TCP FD' },
-      { addr: '0x7FFE0028', hex: ['01', '00', '00', '00', '00', '00', '00', '00'], label: 'EXPIRE AT (TTL)' }
-    ];
+      { addr: '0x7FFE0020', hex: ['FF', '00', 'C0', 'A8', '01', '0A', '1F', '90'], label: 'CLIENT TCP FD' }
+    ]);
 
     container.innerHTML = `
       <div class="comp-memory-layout">
-        ${props.badge ? `<div class="scene-category" id="mlBadge">${props.badge}</div>` : ''}
+        ${props.badge || props.header ? `<div class="scene-category" id="mlBadge">${props.badge || props.header}</div>` : ''}
         <div class="ml-title" id="mlTitle">${props.title || 'INSPECCIÓN DE MEMORIA RAM'}</div>
 
         <!-- Hex Dump Table -->
@@ -22,11 +26,11 @@ window.registerComponent('memory_layout', {
             <span class="ml-th bytes">BYTES (HEX DUMP)</span>
             <span class="ml-th label">INTERPRETACIÓN</span>
           </div>
-          ${rows.map((row, i) => `
+          ${rawRows.map((row, i) => `
             <div class="ml-row" id="mlRow_${i}">
               <span class="ml-addr">${row.addr}</span>
               <div class="ml-bytes">
-                ${row.hex.map((b, bi) => `<span class="byte ${bi === 0 ? 'lead' : ''}">${b}</span>`).join('')}
+                ${(row.hex || ['00','00','00','00']).map((b, bi) => `<span class="byte ${bi === 0 ? 'lead' : ''}">${b}</span>`).join('')}
               </div>
               <span class="ml-label">${row.label}</span>
             </div>
@@ -49,6 +53,7 @@ window.registerComponent('memory_layout', {
         </div>
       </div>
     `;
+    this.rowCount = rawRows.length;
   },
 
   render(container, t, duration, props, utils) {
@@ -93,34 +98,32 @@ window.registerComponent('memory_layout', {
     }
 
     // Staggered rows reveal
-    const rows = props.rows || [{}, {}, {}, {}];
-    rows.forEach((_, i) => {
+    for (let i = 0; i < (this.rowCount || 4); i++) {
       const rowEl = container.querySelector(`#mlRow_${i}`);
-      if (!rowEl) return;
-      const startT = 0.28 + i * 0.12;
+      if (!rowEl) continue;
+      const startT = 0.28 + i * 0.1;
       const dt = t - startT;
       if (dt < 0) {
         rowEl.style.opacity = '0';
-        rowEl.style.transform = 'translateX(-15px)';
+        rowEl.style.transform = 'translateX(-20px)';
       } else {
-        const s = spring(dt, 26, 0.68);
-        rowEl.style.opacity = (clamp(dt / 0.06, 0, 1) * exitAlpha).toFixed(3);
-        rowEl.style.transform = `translateX(${((1 - s) * -15).toFixed(1)}px)`;
+        const s = spring(dt, 22, 0.7);
+        rowEl.style.opacity = (clamp(dt / 0.08, 0, 1) * exitAlpha).toFixed(3);
+        rowEl.style.transform = `translateX(${((1 - s) * -20).toFixed(1)}px)`;
       }
-    });
+    }
 
-    // Hardware Latency Banner Entry
+    // Latency Box Entry
     const latEl = container.querySelector('#mlLatency');
     if (latEl) {
-      const startLat = 0.28 + rows.length * 0.12 + 0.2;
-      const dt = t - startLat;
+      const dt = t - 0.6;
       if (dt < 0) {
         latEl.style.opacity = '0';
-        latEl.style.transform = 'translateY(30px) scale(0.96)';
+        latEl.style.transform = 'translateY(40px)';
       } else {
-        const s = spring(dt, 24, 0.65);
+        const s = spring(dt, 20, 0.7);
         latEl.style.opacity = (clamp(dt / 0.08, 0, 1) * exitAlpha).toFixed(3);
-        latEl.style.transform = `translateY(${((1 - s) * 30 + exitY).toFixed(1)}px) scale(${(0.96 + 0.04 * s).toFixed(3)})`;
+        latEl.style.transform = `translateY(${((1 - s) * 40 + exitY).toFixed(1)}px)`;
       }
     }
   }

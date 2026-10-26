@@ -1,5 +1,6 @@
 // Component: storage_engine_viz
 // Visualizer for database storage engines: LSM-Trees, Columnar Parquet, B-Trees & Vector HNSW.
+// Zero text overflow, active pulse packets, and dynamic particle animations.
 
 window.registerComponent('storage_engine_viz', {
   init(container, props) {
@@ -15,6 +16,7 @@ window.registerComponent('storage_engine_viz', {
 
   render(container, t, duration, props, utils) {
     const { spring, clamp, lerp } = utils;
+    const mu = window.motionUtils;
     const ctx = this.ctx;
     ctx.clearRect(0, 0, 960, 1300);
 
@@ -39,19 +41,23 @@ window.registerComponent('storage_engine_viz', {
     ctx.globalAlpha = exitAlpha;
     ctx.translate(0, exitY);
 
-    const mode = props.mode || 'lsm'; // 'lsm' | 'columnar' | 'btree' | 'hnsw'
+    const mode = props.mode || 'lsm';
     const title = props.title || 'MOTOR DE ALMACENAMIENTO';
     const subtitle = props.subtitle || 'ESTRUCTURA DE MEMORIA Y DISCO';
 
-    // Header
+    // Auto-fit Title and Subtitle
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 34px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(title, 480, 70);
+    if (mu) {
+      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
+    } else {
+      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(title, 480, 65);
+    }
 
     ctx.fillStyle = '#38bdf8';
-    ctx.font = '700 18px "JetBrains Mono", monospace';
-    ctx.fillText(subtitle, 480, 105);
+    ctx.font = '700 17px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 480, 102);
 
     if (mode === 'columnar') {
       this.renderColumnar(ctx, t, duration, props, utils);
@@ -68,307 +74,321 @@ window.registerComponent('storage_engine_viz', {
 
   // LSM-Tree: MemTable (RAM) -> Flush to SSTable (Disk) -> Compaction
   renderLSM(ctx, t, duration, props, utils) {
-    const { spring, clamp } = utils;
+    const { spring, clamp, lerp } = utils;
+    const mu = window.motionUtils;
 
     // 1. RAM Region Header
     ctx.fillStyle = '#10b981';
-    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.font = '800 15px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('MEMORIA RAM (VOLATIL, O(1) WRITES)', 80, 170);
+    ctx.fillText('MEMORIA RAM (VOLATIL, O(1) WRITES)', 80, 160);
 
     // MemTable Box
     const s1 = spring(Math.max(0, t - 0.2), 20, 0.75);
     ctx.fillStyle = '#121216';
     ctx.strokeStyle = '#10b981';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(80, 190, 800, 220, 16);
+    ctx.roundRect(80, 180, 800, 210, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('ACTIVE MEMTABLE (SKIPLIST / RED-BLACK TREE)', 110, 230);
+    ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('ACTIVE MEMTABLE (SKIPLIST / RED-BLACK TREE)', 105, 218);
 
     // Incoming write keys animation
     const keys = [
-      { k: 'user:102', v: '{"active":true}', t: 0.4 },
-      { k: 'order:941', v: '{"total":180}', t: 0.9 },
-      { k: 'metric:cpu', v: '{"usage":84.2}', t: 1.4 },
-      { k: 'token:x91', v: '{"exp":1762}', t: 1.9 }
+      { k: 'user:102', v: '{"active":true}', t: 0.3 },
+      { k: 'order:941', v: '{"total":180}', t: 0.8 },
+      { k: 'metric:cpu', v: '{"usage":84.2}', t: 1.3 },
+      { k: 'token:x91', v: '{"exp":1762}', t: 1.8 }
     ];
 
     keys.forEach((item, idx) => {
-      const entrySpring = spring(Math.max(0, t - item.t), 24, 0.7);
       if (t >= item.t) {
-        const y = 260 + idx * 36;
-        ctx.fillStyle = '#1c1c22';
+        const entrySpring = spring(Math.max(0, t - item.t), 24, 0.7);
+        const y = 245 + idx * 34;
+
+        ctx.fillStyle = '#1a1a20';
         ctx.strokeStyle = '#27272a';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.roundRect(110, y, 740 * entrySpring, 30, 6);
+        ctx.roundRect(105, y, 750 * entrySpring, 28, 6);
         ctx.fill();
         ctx.stroke();
 
-        ctx.fillStyle = '#10b981';
-        ctx.font = '700 14px "JetBrains Mono", monospace';
-        ctx.fillText(`+ PUT ${item.k} => ${item.v}`, 130, y + 20);
+        if (entrySpring > 0.4) {
+          ctx.fillStyle = '#10b981';
+          ctx.font = '700 13px "JetBrains Mono", monospace';
+          ctx.fillText(`+ PUT ${item.k} => ${item.v}`, 125, y + 19);
+        }
       }
     });
 
-    // 2. Flush arrow to disk
-    const flushT = spring(Math.max(0, t - 2.4), 22, 0.7);
+    // 2. Flush arrow to disk with animated particle stream
+    const flushT = spring(Math.max(0, t - 2.2), 22, 0.7);
     ctx.strokeStyle = '#f59e0b';
-    ctx.lineWidth = 3;
+    ctx.lineWidth = 2.5;
     ctx.setLineDash([8, 6]);
     ctx.beginPath();
-    ctx.moveTo(480, 420);
-    ctx.lineTo(480, 420 + 90 * flushT);
+    ctx.moveTo(480, 400);
+    ctx.lineTo(480, 400 + 80 * flushT);
     ctx.stroke();
     ctx.setLineDash([]);
 
-    if (t > 2.5) {
+    if (t > 2.2) {
+      // Flowing particle
+      const pY = lerp(400, 480, (t * 2) % 1);
       ctx.fillStyle = '#f59e0b';
-      ctx.font = '800 14px "JetBrains Mono", monospace';
+      ctx.beginPath();
+      ctx.arc(480, pY, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.font = '800 13px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('ASYNCHRONOUS FLUSH (WRITE BUFFER FULL)', 480, 470);
+      ctx.fillText('ASYNCHRONOUS FLUSH (WRITE BUFFER FULL)', 480, 445);
     }
 
     // 3. Disk NVMe Region
     ctx.fillStyle = '#a855f7';
-    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.font = '800 15px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('DISCO NVMe PERSISTENTE (IMMUTABLE SSTABLES)', 80, 540);
+    ctx.fillText('DISCO NVMe PERSISTENTE (IMMUTABLE SSTABLES)', 80, 515);
 
     // SSTable L0
-    const s2 = spring(Math.max(0, t - 2.7), 20, 0.75);
-    ctx.fillStyle = '#14141a';
+    ctx.fillStyle = '#121218';
     ctx.strokeStyle = '#a855f7';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(80, 560, 380, 250, 16);
+    ctx.roundRect(80, 535, 385, 230, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('LEVEL 0 SSTABLE', 110, 600);
+    ctx.font = '800 17px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('LEVEL 0 SSTABLE', 105, 570);
     ctx.fillStyle = '#a1a1aa';
     ctx.font = '600 13px "JetBrains Mono", monospace';
-    ctx.fillText('Secuencia inmutable en disco', 110, 625);
-    ctx.fillText('Índice Bloom Filter embebido', 110, 650);
+    ctx.fillText('Secuencia inmutable en disco', 105, 598);
+    ctx.fillText('Filtro Bloom embebido O(1)', 105, 624);
 
     // SSTable L1
-    ctx.fillStyle = '#14141a';
+    ctx.fillStyle = '#121218';
     ctx.strokeStyle = '#38bdf8';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(500, 560, 380, 250, 16);
+    ctx.roundRect(495, 535, 385, 230, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('LEVEL 1 (COMPACTADO)', 530, 600);
+    ctx.font = '800 17px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('LEVEL 1 (COMPACTADO)', 520, 570);
     ctx.fillStyle = '#a1a1aa';
     ctx.font = '600 13px "JetBrains Mono", monospace';
-    ctx.fillText('Rangos de claves sin solapamiento', 530, 625);
-    ctx.fillText('Merge-Sort ordenado en bloques', 530, 650);
+    ctx.fillText('Rangos sin solapamiento', 520, 598);
+    ctx.fillText('Merge-Sort ordenado por claves', 520, 624);
 
-    // Compaction animation indicator
-    if (t > 3.2) {
-      const compP = (t - 3.2) * 2;
+    // Compaction indicator
+    if (t > 2.8) {
+      const compP = (t - 2.8) * 3;
       ctx.strokeStyle = '#38bdf8';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(490, 685, 20 + Math.sin(compP) * 4, 0, Math.PI * 2);
+      ctx.arc(490, 650, 18 + Math.sin(compP) * 3, 0, Math.PI * 2);
       ctx.stroke();
       ctx.fillStyle = '#38bdf8';
-      ctx.font = '800 12px "JetBrains Mono", monospace';
+      ctx.font = '800 11px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('MERGE', 490, 690);
+      ctx.fillText('MERGE', 490, 654);
     }
 
-    // Bottom Summary Banner
-    const s3 = spring(Math.max(0, t - 3.5), 22, 0.7);
-    ctx.fillStyle = '#0c1a16';
+    // 4. Bottom Summary Banner (Zero overflow with wrapText)
+    ctx.fillStyle = '#0d1815';
     ctx.strokeStyle = '#10b981';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(80, 860, 800, 140, 16);
+    ctx.roundRect(80, 800, 800, 170, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#10b981';
-    ctx.font = '800 18px "JetBrains Mono", monospace';
+    ctx.font = '800 15px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('BENEFICIO DE ARQUITECTURA LSM', 110, 900);
+    ctx.fillText('BENEFICIO DE ARQUITECTURA LSM', 110, 840);
+
     ctx.fillStyle = '#ffffff';
-    ctx.font = '600 17px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Zero random I/O: Todas las escrituras son secuenciales (Append-Only).', 110, 935);
-    ctx.fillStyle = '#71717a';
-    ctx.font = '500 15px "JetBrains Mono", monospace';
-    ctx.fillText('Multiplica la vida útil del SSD NVMe al eliminar la amplificación de escritura.', 110, 965);
+    ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';
+    const sum = 'Zero random I/O: Todas las escrituras son secuenciales en memoria.';
+    if (mu) {
+      mu.wrapText(ctx, sum, 110, 875, 740, 28, 2);
+    } else {
+      ctx.fillText(sum, 110, 875);
+    }
+
+    ctx.fillStyle = '#a1a1aa';
+    ctx.font = '500 14px "JetBrains Mono", monospace';
+    ctx.fillText('Multiplica la vida útil del SSD NVMe al eliminar la amplificación de escritura.', 110, 935);
   },
 
-  // Columnar: Row-Oriented vs Columnar (DuckDB / Parquet)
+  // Columnar (Parquet / DuckDB)
   renderColumnar(ctx, t, duration, props, utils) {
-    const { spring, clamp } = utils;
+    const { spring } = utils;
+    const mu = window.motionUtils;
+    const colY = 160;
+    const colH = 590;
 
-    // Row-Oriented vs Columnar side-by-side
-    const colW = 380;
-    const colY = 170;
-    const colH = 650;
-
-    // Left: Row Oriented (Postgres / MySQL)
+    // Left: Row-Oriented
     ctx.fillStyle = '#141418';
     ctx.strokeStyle = '#ef4444';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(80, colY, colW, colH, 16);
+    ctx.roundRect(80, colY, 385, colH, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#ef4444';
-    ctx.font = '800 18px "JetBrains Mono", monospace';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('ROW-ORIENTED (POSTGRES)', 110, colY + 40);
+    ctx.fillText('ROW-ORIENTED (POSTGRES)', 105, colY + 36);
     ctx.fillStyle = '#a1a1aa';
-    ctx.font = '600 14px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Escanea registros completos de disco', 110, colY + 70);
+    ctx.font = '600 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Escanea registros completos de disco', 105, colY + 62);
 
     for (let r = 0; r < 5; r++) {
-      const y = colY + 110 + r * 95;
-      ctx.fillStyle = '#1c1c22';
+      const y = colY + 95 + r * 90;
+      ctx.fillStyle = '#1a1a20';
       ctx.strokeStyle = '#27272a';
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.roundRect(100, y, 340, 75, 8);
+      ctx.roundRect(100, y, 345, 70, 8);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = '#71717a';
-      ctx.font = '600 12px "JetBrains Mono", monospace';
-      ctx.fillText(`Row #${r + 1} (Offset 0x${(r * 256).toString(16).toUpperCase()})`, 115, y + 25);
+      ctx.font = '600 11px "JetBrains Mono", monospace';
+      ctx.fillText(`Row #${r + 1} (Offset 0x${(r * 256).toString(16).toUpperCase()})`, 115, y + 24);
       ctx.fillStyle = '#ffffff';
-      ctx.fillText(`[ID] [NAME] [TOTAL] [CREATED_AT]`, 115, y + 55);
+      ctx.fillText(`[ID] [NAME] [TOTAL] [CREATED_AT]`, 115, y + 50);
     }
 
-    // Right: Columnar (DuckDB / Parquet)
+    // Right: Columnar (DuckDB)
     ctx.fillStyle = '#141418';
     ctx.strokeStyle = '#10b981';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(500, colY, colW, colH, 16);
+    ctx.roundRect(495, colY, 385, colH, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#10b981';
-    ctx.font = '800 18px "JetBrains Mono", monospace';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('COLUMNAR (DUCKDB / PARQUET)', 530, colY + 40);
+    ctx.fillText('COLUMNAR (DUCKDB / PARQUET)', 520, colY + 36);
     ctx.fillStyle = '#a1a1aa';
-    ctx.font = '600 14px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('SIMD vectorizado sobre 1 columna', 530, colY + 70);
+    ctx.font = '600 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('SIMD vectorizado sobre 1 columna', 520, colY + 62);
 
-    // Columns
     const cols = [
-      { name: 'TOTAL (Float64)', color: '#38bdf8', active: true },
+      { name: 'TOTAL (F64)', color: '#38bdf8', active: true },
       { name: 'ID (Int64)', color: '#71717a', active: false },
-      { name: 'DATE (Int32)', color: '#71717a', active: false }
+      { name: 'DATE (I32)', color: '#71717a', active: false }
     ];
 
     cols.forEach((c, ci) => {
-      const cx = 525 + ci * 110;
-      ctx.fillStyle = c.active ? '#082f25' : '#1c1c22';
+      const cx = 515 + ci * 115;
+      ctx.fillStyle = c.active ? '#09271e' : '#18181f';
       ctx.strokeStyle = c.active ? '#10b981' : '#27272a';
       ctx.lineWidth = c.active ? 2 : 1;
       ctx.beginPath();
-      ctx.roundRect(cx, colY + 110, 100, 480, 8);
+      ctx.roundRect(cx, colY + 95, 105, 460, 8);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = c.color;
-      ctx.font = '700 11px "JetBrains Mono", monospace';
-      ctx.fillText(c.name, cx + 10, colY + 140);
+      ctx.font = '700 12px "JetBrains Mono", monospace';
+      ctx.fillText(c.name, cx + 8, colY + 125);
 
-      // Vector elements
-      for (let i = 0; i < 8; i++) {
-        const vy = colY + 170 + i * 48;
+      for (let i = 0; i < 7; i++) {
+        const vy = colY + 155 + i * 45;
         ctx.fillStyle = c.active ? '#10b981' : '#3f3f46';
         ctx.font = '700 13px "JetBrains Mono", monospace';
-        ctx.fillText(c.active ? `${(12.5 + i * 4.2).toFixed(1)}` : `...`, cx + 25, vy + 20);
+        ctx.fillText(c.active ? `${(12.5 + i * 4.2).toFixed(1)}` : `...`, cx + 20, vy + 20);
       }
     });
 
-    // Speedup badge bottom
-    const s = spring(Math.max(0, t - 1.5), 20, 0.7);
+    // Summary Card
     ctx.fillStyle = '#0f241d';
     ctx.strokeStyle = '#10b981';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(80, 860, 800, 140, 16);
+    ctx.roundRect(80, 800, 800, 170, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#10b981';
-    ctx.font = '900 24px "JetBrains Mono", monospace';
+    ctx.font = '900 22px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('94% MENOS I/O EN AGREGACIONES', 480, 915);
+    ctx.fillText('94% MENOS I/O EN AGREGACIONES', 480, 845);
+
     ctx.fillStyle = '#ffffff';
     ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('CPU ejecuta instrucciones AVX-512 directamente sobre arreglos contiguos en RAM.', 480, 955);
+    const sumCol = 'CPU ejecuta instrucciones AVX-512 directamente sobre arreglos contiguos en RAM.';
+    if (mu) {
+      mu.wrapText(ctx, sumCol, 480, 885, 740, 26, 2);
+    } else {
+      ctx.fillText(sumCol, 480, 885);
+    }
   },
 
-  // B-Tree Node Splits
+  // BTree mode
   renderBTree(ctx, t, duration, props, utils) {
-    const { spring } = utils;
-    // Root Node
+    const mu = window.motionUtils;
     ctx.fillStyle = '#18181b';
     ctx.strokeStyle = '#38bdf8';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(330, 200, 300, 80, 12);
+    ctx.roundRect(330, 180, 300, 80, 12);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#38bdf8';
     ctx.font = '800 16px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('ROOT PAGE (4 KB BLOCK)', 480, 235);
+    ctx.fillText('ROOT PAGE (4 KB BLOCK)', 480, 215);
     ctx.fillStyle = '#ffffff';
     ctx.font = '700 18px "JetBrains Mono", monospace';
-    ctx.fillText('[ 20 | 50 | 80 ]', 480, 265);
+    ctx.fillText('[ 20 | 50 | 80 ]', 480, 245);
 
-    // Child Pages
     const pages = [
-      { x: 80, y: 380, label: 'LEAF A: [5..19]', color: '#10b981' },
-      { x: 380, y: 380, label: 'LEAF B: [21..49]', color: '#fbbf24' },
-      { x: 680, y: 380, label: 'LEAF C (SPLIT): [51..79]', color: '#ef4444' }
+      { x: 80, y: 360, label: 'LEAF A: [5..19]', color: '#10b981' },
+      { x: 380, y: 360, label: 'LEAF B: [21..49]', color: '#fbbf24' },
+      { x: 680, y: 360, label: 'LEAF C (SPLIT): [51..79]', color: '#ef4444' }
     ];
 
     pages.forEach(p => {
       ctx.strokeStyle = '#3f3f46';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(480, 280);
+      ctx.moveTo(480, 260);
       ctx.lineTo(p.x + 100, p.y);
       ctx.stroke();
 
       ctx.fillStyle = '#141418';
       ctx.strokeStyle = p.color;
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
-      ctx.roundRect(p.x, p.y, 200, 100, 12);
+      ctx.roundRect(p.x, p.y, 200, 90, 12);
       ctx.fill();
       ctx.stroke();
 
       ctx.fillStyle = p.color;
       ctx.font = '700 13px "JetBrains Mono", monospace';
-      ctx.fillText(p.label, p.x + 100, p.y + 45);
+      ctx.fillText(p.label, p.x + 100, p.y + 40);
       ctx.fillStyle = '#a1a1aa';
       ctx.font = '600 11px "JetBrains Mono", monospace';
-      ctx.fillText('Disk Pointer 0x' + (p.x * 4).toString(16), p.x + 100, p.y + 75);
+      ctx.fillText('Disk Pointer 0x' + (p.x * 4).toString(16), p.x + 100, p.y + 68);
     });
 
     // Summary
@@ -376,51 +396,55 @@ window.registerComponent('storage_engine_viz', {
     ctx.strokeStyle = '#38bdf8';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(80, 860, 800, 140, 16);
+    ctx.roundRect(80, 800, 800, 170, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#38bdf8';
     ctx.font = '900 22px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('OPTIMIZADO PARA LECTURAS ALEATORIAS O(log N)', 480, 915);
+    ctx.fillText('OPTIMIZADO PARA LECTURAS ALEATORIAS O(log N)', 480, 845);
+
     ctx.fillStyle = '#ffffff';
     ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Árbol balanceado ideal para búsquedas puntuales por clave primaria.', 480, 955);
+    const sumBt = 'Árbol balanceado ideal para búsquedas puntuales por clave primaria.';
+    if (mu) {
+      mu.wrapText(ctx, sumBt, 480, 885, 740, 26, 2);
+    } else {
+      ctx.fillText(sumBt, 480, 885);
+    }
   },
 
   // HNSW Vector Graph
   renderHNSW(ctx, t, duration, props, utils) {
-    const { spring } = utils;
-    ctx.fillStyle = '#18181b';
+    const mu = window.motionUtils;
+    ctx.fillStyle = '#141418';
     ctx.strokeStyle = '#ec4899';
-    ctx.lineWidth = 2.5;
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.roundRect(80, 180, 800, 640, 20);
+    ctx.roundRect(80, 170, 800, 580, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#ec4899';
-    ctx.font = '800 20px "JetBrains Mono", monospace';
+    ctx.font = '800 18px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('HNSW (HIERARCHICAL NAVIGABLE SMALL WORLD GRAPH)', 110, 230);
+    ctx.fillText('HNSW (HIERARCHICAL NAVIGABLE SMALL WORLD GRAPH)', 105, 210);
     ctx.fillStyle = '#a1a1aa';
-    ctx.font = '600 14px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('Búsqueda por similitud de cosenos en memoria con salto logarítmico', 110, 260);
+    ctx.font = '600 13px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Búsqueda por similitud de cosenos en memoria con salto logarítmico', 105, 235);
 
-    // Draw graph nodes
     const nodes = [
-      { x: 220, y: 380, label: 'v1' },
-      { x: 380, y: 320, label: 'v2' },
-      { x: 540, y: 440, label: 'v3 (Query Match)' },
-      { x: 700, y: 360, label: 'v4' },
-      { x: 300, y: 560, label: 'v5' },
-      { x: 620, y: 620, label: 'v6' }
+      { x: 220, y: 350, label: 'v1' },
+      { x: 380, y: 300, label: 'v2' },
+      { x: 540, y: 410, label: 'v3 (Match)' },
+      { x: 700, y: 330, label: 'v4' },
+      { x: 300, y: 520, label: 'v5' },
+      { x: 620, y: 580, label: 'v6' }
     ];
 
-    // Edges
     ctx.strokeStyle = '#3f3f46';
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         if ((i + j) % 2 === 1) {
@@ -434,12 +458,27 @@ window.registerComponent('storage_engine_viz', {
 
     // Active path
     ctx.strokeStyle = '#ec4899';
-    ctx.lineWidth = 4;
+    ctx.lineWidth = 3.5;
     ctx.beginPath();
-    ctx.moveTo(220, 380);
-    ctx.lineTo(380, 320);
-    ctx.lineTo(540, 440);
+    ctx.moveTo(220, 350);
+    ctx.lineTo(380, 300);
+    ctx.lineTo(540, 410);
     ctx.stroke();
+
+    // Pulse packet moving along search path
+    const pT = (t * 1.5) % 2;
+    let px = 220, py = 350;
+    if (pT < 1) {
+      px = utils.lerp(220, 380, pT);
+      py = utils.lerp(350, 300, pT);
+    } else {
+      px = utils.lerp(380, 540, pT - 1);
+      py = utils.lerp(300, 410, pT - 1);
+    }
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(px, py, 6, 0, Math.PI * 2);
+    ctx.fill();
 
     nodes.forEach(n => {
       ctx.fillStyle = n.label.includes('Match') ? '#ec4899' : '#27272a';
@@ -453,7 +492,7 @@ window.registerComponent('storage_engine_viz', {
       ctx.fillStyle = '#ffffff';
       ctx.font = '700 12px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
-      ctx.fillText(n.label.split(' ')[0], n.x, n.y + 5);
+      ctx.fillText(n.label.split(' ')[0], n.x, n.y + 4);
     });
 
     // Summary
@@ -461,16 +500,22 @@ window.registerComponent('storage_engine_viz', {
     ctx.strokeStyle = '#ec4899';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(80, 860, 800, 140, 16);
+    ctx.roundRect(80, 800, 800, 170, 16);
     ctx.fill();
     ctx.stroke();
 
     ctx.fillStyle = '#ec4899';
     ctx.font = '900 22px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
-    ctx.fillText('BÚSQUEDA VECTORIAL IN-PROCESS EN POSTGRES', 480, 915);
+    ctx.fillText('BÚSQUEDA VECTORIAL IN-PROCESS EN POSTGRES', 480, 845);
+
     ctx.fillStyle = '#ffffff';
     ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText('99% recall con latencia < 5ms sin necesidad de bases vectoriales externas.', 480, 955);
+    const sumHnsw = '99% recall con latencia < 5ms sin necesidad de bases vectoriales externas.';
+    if (mu) {
+      mu.wrapText(ctx, sumHnsw, 480, 885, 740, 26, 2);
+    } else {
+      ctx.fillText(sumHnsw, 480, 885);
+    }
   }
 });

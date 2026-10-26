@@ -1,47 +1,51 @@
 // Component: kinetic_hook
-// Dynamic kinetic typography supporting 3 distinct styles:
-// 1. 'impact': Massive staggered typography (no icons, zero clutter)
-// 2. 'stat': Giant quantitative shock counter ($14,800, 50,000 req/s, 0ms)
-// 3. 'editorial': Sharp, high-contrast headline statement (optional clean icon)
+// Dynamic kinetic typography hook with varied layouts ('impact', 'stat', 'editorial').
+// Auto-sizing font based on character length to ensure zero text clipping.
 
 window.registerComponent('kinetic_hook', {
   init(container, props) {
-    const layout = props.layout || (props.stat ? 'stat' : (props.icon ? 'editorial' : 'impact'));
+    const layout = props.layout || 'editorial';
 
     if (layout === 'stat') {
       container.innerHTML = `
         <div class="comp-kinetic-hook layout-stat">
           ${props.badge ? `<div class="scene-category" id="khBadge">${props.badge}</div>` : ''}
-          <div class="kh-stat-val" id="khStat" style="color: ${props.statColor || '#fbbf24'}; font-size: 110px; font-weight: 900; letter-spacing: -3px; font-family: 'JetBrains Mono', monospace; line-height: 1;">
-            ${props.stat}
+          <div class="kh-stat-num" id="khStatNum" style="font-size: 110px; font-weight: 900; letter-spacing: -4px; color: ${props.statColor || '#10b981'}; font-family: 'JetBrains Mono', monospace; line-height: 1;">
+            ${props.statValue || '0ms'}
           </div>
-          <div class="kh-stat-label" id="khStatLabel" style="font-size: 38px; font-weight: 800; color: #ffffff; text-transform: uppercase; margin-top: 24px; letter-spacing: -1px; max-width: 850px;">
-            ${props.statLabel || ''}
+          <div class="kh-stat-label" id="khStatLabel" style="font-size: 32px; font-weight: 800; color: #ffffff; text-transform: uppercase; margin-top: 14px;">
+            ${props.statLabel || props.title || 'MÉTRICA REAL'}
           </div>
-          ${props.subtitle ? `<div class="kh-subtitle" id="khSub" style="margin-top: 20px; font-size: 19px; color: #71717a; font-family: 'JetBrains Mono', monospace;">${props.subtitle}</div>` : ''}
+          ${props.subtitle ? `<div class="kh-subtitle" id="khSub" style="margin-top: 20px; font-size: 18px; color: #71717a; font-family: 'JetBrains Mono', monospace;">${props.subtitle}</div>` : ''}
         </div>
       `;
       return;
     }
 
     if (layout === 'impact') {
+      const lines = props.lines || [];
       container.innerHTML = `
         <div class="comp-kinetic-hook layout-impact">
           ${props.badge ? `<div class="scene-category" id="khBadge">${props.badge}</div>` : ''}
           <div class="kh-lines" id="khLines" style="display:flex; flex-direction:column; gap: 14px;">
-            ${(props.lines || []).map((line, i) => `
-              <div class="kh-line" id="khLine_${i}" style="font-size: 96px; font-weight: 900; letter-spacing: -3px; line-height: 1.02; text-transform: uppercase; color: ${line.color || '#ffffff'};">
-                ${line.text}
-              </div>
-            `).join('')}
+            ${lines.map((line, i) => {
+              const len = (line.text || '').length;
+              const fSize = len > 18 ? '72px' : (len > 14 ? '84px' : '96px');
+              return `
+                <div class="kh-line" id="khLine_${i}" style="font-size: ${fSize}; font-weight: 900; letter-spacing: -2px; line-height: 1.05; text-transform: uppercase; color: ${line.color || '#ffffff'}; word-break: break-word;">
+                  ${line.text}
+                </div>
+              `;
+            }).join('')}
           </div>
-          ${props.subtitle ? `<div class="kh-subtitle" id="khSub" style="margin-top: 30px; font-size: 20px; color: #71717a; font-family: 'JetBrains Mono', monospace;">${props.subtitle}</div>` : ''}
+          ${props.subtitle ? `<div class="kh-subtitle" id="khSub" style="margin-top: 28px; font-size: 19px; color: #71717a; font-family: 'JetBrains Mono', monospace;">${props.subtitle}</div>` : ''}
         </div>
       `;
       return;
     }
 
-    // Default 'editorial' with optional icon
+    // Default 'editorial'
+    const lines = props.lines || [];
     const hasIcon = Boolean(props.icon);
     container.innerHTML = `
       <div class="comp-kinetic-hook layout-editorial">
@@ -52,11 +56,15 @@ window.registerComponent('kinetic_hook', {
           </div>
         ` : ''}
         <div class="kh-lines" id="khLines">
-          ${(props.lines || []).map((line, i) => `
-            <div class="kh-line" id="khLine_${i}" style="font-size: 80px; font-weight: 900; letter-spacing: -2px; line-height: 1.05; text-transform: uppercase; color: ${line.color || '#ffffff'};">
-              ${line.text}
-            </div>
-          `).join('')}
+          ${lines.map((line, i) => {
+            const len = (line.text || '').length;
+            const fSize = len > 20 ? '62px' : (len > 15 ? '72px' : '82px');
+            return `
+              <div class="kh-line" id="khLine_${i}" style="font-size: ${fSize}; font-weight: 900; letter-spacing: -2px; line-height: 1.05; text-transform: uppercase; color: ${line.color || '#ffffff'}; word-break: break-word;">
+                ${line.text}
+              </div>
+            `;
+          }).join('')}
         </div>
         ${props.subtitle ? `<div class="kh-subtitle" id="khSub" style="margin-top: 22px; font-size: 19px; color: #a1a1aa; font-family: 'JetBrains Mono', monospace;">${props.subtitle}</div>` : ''}
       </div>
@@ -65,7 +73,7 @@ window.registerComponent('kinetic_hook', {
 
   getIconSVG(type) {
     if (typeof window.getSeDevIcon === 'function') {
-      return window.getSeDevIcon(type, 90);
+      return window.getSeDevIcon(type, 90, null, 'glow');
     }
     return '';
   },
@@ -83,94 +91,60 @@ window.registerComponent('kinetic_hook', {
       exitAlpha = clamp(1 - p * 1.3, 0, 1);
     }
 
-    // Badge
-    const badgeEl = container.querySelector('#khBadge');
-    if (badgeEl) {
-      const dt = t - 0.05;
-      if (dt < 0) {
-        badgeEl.style.opacity = '0';
-        badgeEl.style.transform = 'translateY(-20px)';
-      } else {
-        const s = spring(dt, 26, 0.65);
-        badgeEl.style.opacity = (clamp(dt / 0.06, 0, 1) * exitAlpha).toFixed(3);
-        badgeEl.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
-      }
+    // Badge spring
+    const badge = container.querySelector('#khBadge');
+    if (badge) {
+      const s = spring(Math.max(0, t - 0.05), 24, 0.7);
+      badge.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
+      badge.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
     }
 
-    // Stat Value & Label
-    const statEl = container.querySelector('#khStat');
-    const statLabelEl = container.querySelector('#khStatLabel');
-    if (statEl) {
-      const dt = t - 0.12;
-      if (dt < 0) {
-        statEl.style.opacity = '0';
-        statEl.style.transform = 'scale(0.8) translateY(30px)';
-      } else {
-        const s = spring(dt, 24, 0.6);
-        const op = clamp(dt / 0.08, 0, 1) * exitAlpha;
-        const scale = 0.8 + 0.2 * s;
-        statEl.style.opacity = op.toFixed(3);
-        statEl.style.transform = `scale(${scale.toFixed(3)}) translateY(${((1 - s) * 30 + exitY).toFixed(1)}px)`;
-      }
-    }
-    if (statLabelEl) {
-      const dt = t - 0.25;
-      if (dt < 0) {
-        statLabelEl.style.opacity = '0';
-        statLabelEl.style.transform = 'translateY(20px)';
-      } else {
-        const s = spring(dt, 22, 0.65);
-        statLabelEl.style.opacity = (clamp(dt / 0.08, 0, 1) * exitAlpha).toFixed(3);
-        statLabelEl.style.transform = `translateY(${((1 - s) * 20 + exitY).toFixed(1)}px)`;
-      }
+    // Icon spring with subtle hover float
+    const icon = container.querySelector('#khIcon');
+    if (icon) {
+      const s = spring(Math.max(0, t - 0.1), 22, 0.65);
+      const floatY = Math.sin(t * 3) * 4;
+      icon.style.opacity = (clamp((t - 0.05) / 0.1, 0, 1) * exitAlpha).toFixed(3);
+      icon.style.transform = `scale(${s.toFixed(3)}) translateY(${(floatY + exitY).toFixed(1)}px)`;
     }
 
-    // Icon (only if present)
-    const iconEl = container.querySelector('#khIcon');
-    if (iconEl) {
-      const dt = t - 0.14;
-      if (dt < 0) {
-        iconEl.style.opacity = '0';
-        iconEl.style.transform = 'scale(0.6)';
-      } else {
-        const s = spring(dt, 25, 0.65);
-        const op = clamp(dt / 0.08, 0, 1) * exitAlpha;
-        const scale = 0.6 + 0.4 * s;
-        iconEl.style.opacity = op.toFixed(3);
-        iconEl.style.transform = `scale(${scale.toFixed(3)}) translateY(${exitY.toFixed(1)}px)`;
-      }
+    // Stat Number spring
+    const statNum = container.querySelector('#khStatNum');
+    if (statNum) {
+      const s = spring(Math.max(0, t - 0.12), 20, 0.6);
+      statNum.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
+      statNum.style.transform = `scale(${s.toFixed(3)}) translateY(${exitY.toFixed(1)}px)`;
     }
 
-    // Lines (staggered spring entrance)
-    (props.lines || []).forEach((_, i) => {
-      const lineEl = container.querySelector(`#khLine_${i}`);
-      if (!lineEl) return;
-      const startTime = 0.15 + i * 0.18;
-      const dt = t - startTime;
+    // Stat Label spring
+    const statLabel = container.querySelector('#khStatLabel');
+    if (statLabel) {
+      const s = spring(Math.max(0, t - 0.25), 24, 0.7);
+      statLabel.style.opacity = (clamp((t - 0.2) / 0.1, 0, 1) * exitAlpha).toFixed(3);
+      statLabel.style.transform = `translateY(${((1 - s) * 20 + exitY).toFixed(1)}px)`;
+    }
+
+    // Lines staggered cascade
+    const lines = container.querySelectorAll('.kh-line');
+    lines.forEach((line, i) => {
+      const startT = 0.15 + i * 0.12;
+      const dt = t - startT;
       if (dt < 0) {
-        lineEl.style.opacity = '0';
-        lineEl.style.transform = 'translateY(40px) scale(0.9)';
+        line.style.opacity = '0';
+        line.style.transform = 'translateY(40px)';
       } else {
-        const s = spring(dt, 25, 0.62);
-        const op = clamp(dt / 0.08, 0, 1) * exitAlpha;
-        const ty = (1 - s) * 40 + exitY;
-        const scale = 0.9 + 0.1 * s;
-        lineEl.style.opacity = op.toFixed(3);
-        lineEl.style.transform = `translateY(${ty.toFixed(1)}px) scale(${scale.toFixed(3)})`;
+        const s = spring(dt, 24, 0.65);
+        line.style.opacity = (clamp(dt / 0.08, 0, 1) * exitAlpha).toFixed(3);
+        line.style.transform = `translateY(${((1 - s) * 40 + exitY).toFixed(1)}px) scale(${s.toFixed(3)})`;
       }
     });
 
-    // Subtitle
-    const subEl = container.querySelector('#khSub');
-    if (subEl) {
-      const dt = t - 0.45;
-      if (dt < 0) {
-        subEl.style.opacity = '0';
-      } else {
-        const s = spring(dt, 22, 0.7);
-        subEl.style.opacity = (clamp(dt / 0.1, 0, 1) * exitAlpha).toFixed(3);
-        subEl.style.transform = `translateY(${((1 - s) * 15 + exitY).toFixed(1)}px)`;
-      }
+    // Subtitle spring
+    const sub = container.querySelector('#khSub');
+    if (sub) {
+      const s = spring(Math.max(0, t - 0.45), 22, 0.7);
+      sub.style.opacity = (clamp((t - 0.4) / 0.15, 0, 1) * exitAlpha).toFixed(3);
+      sub.style.transform = `translateY(${((1 - s) * 20 + exitY).toFixed(1)}px)`;
     }
   }
 });
