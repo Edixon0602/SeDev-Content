@@ -6,87 +6,49 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hnsw_tree_hook",
-      "type": "tree_hierarchy",
+      "id": "hnsw_engine",
+      "type": "storage_engine_viz",
       "duration": 6.5,
-      "voiceover": "¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW navegables.",
-      "visual_cue": "Apertura directa con jerarquía de árbol navegable mostrando saltos hasta el vector",
+      "voiceover": "¿Cómo busca pgvector embeddings entre millones de documentos en dos milisegundos? Utiliza el algoritmo HNSW en memoria.",
+      "visual_cue": "Visualizador del grafo vectorial HNSW navegable en capas en la memoria de Postgres",
       "props": {
-        "header": "ALGORITMO HNSW",
-        "title": "HIERARCHICAL NAVIGABLE SMALL WORLD",
-        "complexity": "COMPLEJIDAD: O(log N) · DISTANCIA COSENO",
-        "nodes": [
-          {
-            "id": "top",
-            "label": "CAPA 2: SALTOS LARGOS",
-            "x": 480,
-            "y": 240,
-            "level": 0
-          },
-          {
-            "id": "mid1",
-            "label": "CAPA 1: CLUSTER A",
-            "x": 260,
-            "y": 520,
-            "level": 1,
-            "parent": "top"
-          },
-          {
-            "id": "mid2",
-            "label": "CAPA 1: CLUSTER B",
-            "x": 700,
-            "y": 520,
-            "level": 1,
-            "parent": "top"
-          },
-          {
-            "id": "leaf",
-            "label": "TARGET: SIMILARITY 0.94",
-            "x": 260,
-            "y": 840,
-            "level": 2,
-            "parent": "mid1",
-            "target": true
-          }
-        ],
-        "footerBadge": "RENDIMIENTO HNSW EN POSTGRES",
-        "footerText": "Recorre un grafo multidimensional en RAM sin escanear la tabla entera.",
-        "footerSubtext": "Búsqueda por similitud semántica en menos de 4 milisegundos."
+        "mode": "hnsw",
+        "badge": "ALGORITMO DE GRAFOS",
+        "title": "HNSW VECTORIAL EN MEMORIA",
+        "subtitle": "BÚSQUEDA POR SIMILITUD DE COSENOS EN POSTGRESQL"
       }
     },
     {
-      "id": "pg_sql",
-      "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Lo mejor es que puedes combinar búsqueda de similitud semántica con filtros relacionales clásicos en una sola consulta SQL transaccional.",
-      "visual_cue": "Terminal ejecutando query combinada en PostgreSQL con pgvector",
+      "id": "latency_hnsw",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "Al estar en la misma base de datos relacional, el join entre el vector y los datos del usuario toma cero coma cinco milisegundos.",
+      "visual_cue": "Escala de latencia: join in-memory en Postgres vs llamada HTTP externa a Pinecone",
       "props": {
-        "header": "CONSULTA HÍBRIDA EN POSTGRES",
-        "title": "FILTRO RELACIONAL + VECTOR SEARCH",
-        "filename": "db/hybrid_search.sql",
-        "codeLines": [
-          "SELECT id, title, (embedding <=> $1) as distance",
-          "FROM articles",
-          "WHERE user_id = 42 AND published_at > NOW() - INTERVAL \"30 days\"",
-          "ORDER BY embedding <=> $1",
-          "LIMIT 5;",
-          "-- Ejecución: 3.8ms usando índice HNSW"
-        ],
-        "cursorLine": 5
+        "header": "MÉTRICA DE LATENCIA EN IA",
+        "title": "JOIN RELACIONAL VS LLAMADA EXTERNA",
+        "subtitle": "CONSULTA IN-PROCESS EN POSTGRES VS API VECTORIAL"
       }
     },
     {
-      "id": "cta_pgvector",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Si quieres implementar búsqueda semántica o auditar tu arquitectura de datos para IA sin sobrecostes innecesarios, link en mi perfil.",
-      "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+      "id": "cta_vectordb",
+      "type": "metrics_comparison",
+      "duration": 5.5,
+      "voiceover": "Todo tu stack de IA cabe en Postgres con pgvector. Link en mi bio si quieres simplificar tu arquitectura y recortar costes innecesarios.",
+      "visual_cue": "Comparativa de costos: Pinecone dedicado vs Postgres unificado",
       "props": {
-        "header": "AUDITORÍA DE BASES DE DATOS & IA",
-        "title": "OPTIMIZA TUS PIPELINES DE EMBEDDINGS",
-        "cta": {
-          "badge": "AUDITORÍA DE DATOS (Link en bio)",
-          "text": "¿Búsquedas vectoriales lentas o caras? Hablemos en el enlace de mi perfil."
+        "header": "CONSULTORÍA EN BASES DE DATOS (Link en bio)",
+        "metricA": {
+          "label": "PINECONE + POSTGRES",
+          "value": "$1.450 / mes",
+          "sub": "Doble base de datos · Salto de red",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "PGVECTOR UNIFICADO",
+          "value": "$85 / mes",
+          "sub": "Transacciones ACID · Joins inmediatos",
+          "color": "#10b981"
         }
       }
     }

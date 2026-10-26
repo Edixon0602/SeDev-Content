@@ -1,58 +1,42 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[10] De $15.000 a $200 al mes: El éxodo de la nube a servidores Hetzner (Var B)",
-  "category": "INFRAESTRUCTURA & CLOUD COSTS",
+  "category": "DEVOPS & CLOUD",
   "slug": "10_exodo_bare_metal_kamal",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "hetzner_split_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Empresas como 37signals abandonaron la nube pública y pasaron de pagar cientos de miles de dólares a una fracción en servidores dedicados.",
-      "visual_cue": "Apertura directa con terminal comparando factura mensual de AWS frente a servidor dedicado",
+      "id": "exodus_metrics",
+      "type": "metrics_comparison",
+      "duration": 6,
+      "voiceover": "Las grandes nubes te cobran por cada gigabyte transferido y cada balanceador levantado. Con un servidor dedicado en Hetzner obtienes diez veces más potencia por una fracción del precio.",
+      "visual_cue": "Métricas de ahorro masivo de infraestructura",
       "props": {
-        "header": "COMPARATIVA DE HARDWARE Y COSTES",
-        "title": "VIRTUALIZACIÓN AWS VS SERVIDOR FÍSICO HETZNER",
-        "termA": {
-          "title": "AWS CLOUD (EKS + RDS + NAT)",
-          "color": "#ef4444",
-          "cmd": "aws billing get-monthly-forecast",
-          "status": "Facturación por cada gigabyte transferido",
-          "time": "$14,800/mes",
-          "lines": [
-            "CPU compartida con vecinos ruidosos",
-            "Coste por transferencia de datos: $0.09 por GB",
-            "Complejidad: 40 servicios conectados en consola"
-          ]
+        "header": "EL ÉXODO DE LA NUBE EN 2026",
+        "metricA": {
+          "label": "FACTURA TÍPICA AWS",
+          "value": "$14.800",
+          "sub": "Servicios inflados y tráfico de red",
+          "color": "#ef4444"
         },
-        "termB": {
-          "title": "HETZNER DEDICATED SERVER",
-          "color": "#10b981",
-          "cmd": "lscpu && free -h",
-          "status": "AMD EPYC 32 Cores · 128GB DDR5 RAM · 2x 2TB NVMe",
-          "time": "$190/mes",
-          "lines": [
-            "100% de la CPU física dedicada a tu app",
-            "Tráfico ilimitado a 1 Gbps incluido",
-            "Despliegues sencillos con Docker y Kamal"
-          ]
+        "metricB": {
+          "label": "HETZNER BARE METAL",
+          "value": "$220",
+          "sub": "Tráfico ilimitado · Hardware dedicado",
+          "color": "#10b981"
         }
       }
     },
     {
-      "id": "cta_kamal_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Diseño planes de migración a bare-metal para recortar costes y multiplicar la velocidad de tu backend. Hablemos en el enlace de mi perfil.",
-      "visual_cue": "Cierre con auditoría de infraestructura",
+      "id": "kamal_rollout",
+      "type": "migration_stepper_viz",
+      "duration": 5.5,
+      "voiceover": "Con herramientas como Kamal despliegas con un solo comando desde tu terminal manteniendo cero caídas en producción. Link en bio para auditar tu nube.",
+      "visual_cue": "Visualizador del flujo de despliegue en servidor bare metal",
       "props": {
-        "header": "PLAN DE MIGRACIÓN BARE-METAL",
-        "title": "AHORRA MILES DE DÓLARES EN INFRAESTRUCTURA",
-        "cta": {
-          "badge": "AUDITORÍA DE COSTES (Link en perfil)",
-          "text": "¿Listo para salir de la trampa de costes de la nube? Link en mi perfil para agendar tu plan."
-        }
+        "badge": "SIMPLICIDAD OPERATIVA",
+        "title": "BARE METAL EN PRODUCCIÓN",
+        "subtitle": "DOCKER + TRAEFIK ORQUESTADO POR KAMAL"
       }
     }
   ]

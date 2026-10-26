@@ -1,65 +1,35 @@
 {
   "title": "[09] GitHub desactiva postinstall: Cómo blindar tu pipeline Zero-Trust (Var B)",
-  "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+  "category": "CIBERSEGURIDAD & DEVOPS",
   "slug": "09_seguridad_supply_chain",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "zerotrust_hook",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust.",
-      "visual_cue": "Tipografía cinética de impacto para ciberseguridad",
-      "props": {
-        "layout": "impact",
-        "badge": "DEFENSA EN CI/CD",
-        "lines": [
-          {
-            "text": "BLINDA TU PIPELINE",
-            "color": "#ffffff"
-          },
-          {
-            "text": "CON ZERO-TRUST",
-            "color": "#10b981"
-          }
-        ],
-        "subtitle": "Bloqueo estricto de scripts no autorizados"
-      }
-    },
-    {
-      "id": "sandbox_terminal",
-      "type": "code_terminal",
+      "id": "attack_demo",
+      "type": "terminal_split",
       "duration": 6,
-      "voiceover": "Con la bandera ignore-scripts y aislación en sandboxes efímeros, neutralizas cualquier ataque antes de que pueda tocar tus archivos locales.",
-      "visual_cue": "Terminal configurando npm config set ignore-scripts true",
+      "voiceover": "Si tu pipeline corre npm install sin la bandera ignore-scripts, estás a un paquete comprometido de perder el control total de tu infraestructura.",
+      "visual_cue": "Terminal mostrando ataque simulado y cómo la bandera ignore-scripts lo neutraliza",
       "props": {
-        "header": "CONFIGURACIÓN DEFENSIVA",
-        "title": "POLÍTICAS DE INSTALACIÓN SEGURA",
-        "filename": ".npmrc",
-        "codeLines": [
-          "# Desactiva ejecución arbitraria de scripts en dependencias:",
-          "ignore-scripts=true",
-          "audit=true",
-          "engine-strict=true",
-          "# Si un paquete requiere compilar binarios, debe ser autorizado manualmente"
-        ],
-        "cursorLine": 4
+        "header": "VECTOR DE ATAQUE EN CI/CD",
+        "title": "EJECUCIÓN ARBITRARIA EN BUILD",
+        "leftTitle": "PIPELINE VULNERABLE",
+        "rightTitle": "PIPELINE BLINDADO",
+        "leftText": "$ npm install\nRunning postinstall script...\n✖ Exfiltrando .env a servidor remoto\n✖ Credenciales comprometidas en 0.8s",
+        "rightText": "$ npm ci --ignore-scripts\n✔ Postinstall ignorado por completo\n✔ 0 llamadas salientes a internet\n✔ Repositorio 100% blindado"
       }
     },
     {
-      "id": "cta_security_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la postura de seguridad de tu infraestructura y configuro entornos blindados contra fugas de datos. Agenda en mi perfil.",
-      "visual_cue": "Cierre con auditoría de ciberseguridad",
+      "id": "kernel_defense",
+      "type": "kernel_sandbox_viz",
+      "duration": 5.5,
+      "voiceover": "Bloquea los scripts por defecto y aísla el entorno de build con contenedores sin acceso a internet saliente. Link en mi bio para auditar tu pipeline.",
+      "visual_cue": "Visualizador del kernel impidiendo conexiones salientes no autorizadas",
       "props": {
-        "header": "AUDITORÍA DE CIBERSEGURIDAD",
-        "title": "ZERO-TRUST EN TUS PIPELINES DE DESPLIEGUE",
-        "cta": {
-          "badge": "AUDITORÍA DE SEGURIDAD (Link en perfil)",
-          "text": "Protege tus credenciales y entorno productivo. Link directo en mi perfil."
-        }
+        "badge": "ZERO-TRUST NETWORKING",
+        "title": "AISLAMIENTO DE PROCESO DE BUILD",
+        "subtitle": "BLOQUEO DE CONEXIONES EXTERNAS NO PERMITIDAS"
       }
     }
   ]

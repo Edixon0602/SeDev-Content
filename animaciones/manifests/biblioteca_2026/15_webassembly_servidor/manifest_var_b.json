@@ -1,56 +1,32 @@
 {
   "title": "[15] ¿Morirá Docker en el Edge? Arranques en 1 milisegundo con WASM (Var B)",
-  "category": "RUNTIMES DE SERVIDOR & WASM",
+  "category": "COMPILACIÓN & RUNTIMES",
   "slug": "15_webassembly_servidor",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "docker_tradeoff_hook",
-      "type": "tradeoff_matrix",
-      "duration": 6.5,
-      "voiceover": "El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior.",
-      "visual_cue": "Apertura directa con matriz comparativa Docker frente a WebAssembly",
+      "id": "cold_start_shock",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "El arranque en frío de los contenedores Docker está destruyendo la experiencia de usuario en arquitecturas serverless.",
+      "visual_cue": "Gráfica de escala de latencia mostrando el cold start de Docker vs Wasm",
       "props": {
-        "header": "COMPARATIVA DE CONTENCIÓN",
-        "title": "DOCKER CONTAINERS VS WEBASSEMBLY",
-        "colA": "WEBASSEMBLY (WASI)",
-        "colB": "DOCKER (OCI)",
-        "rows": [
-          {
-            "dim": "Tiempo de arranque en frío",
-            "a": "✔ < 1 milisegundo",
-            "b": "✖ 300-800 milisegundos",
-            "aGood": true
-          },
-          {
-            "dim": "Tamaño del binario",
-            "a": "✔ 2 a 10 Megabytes",
-            "b": "✖ 150 a 500 Megabytes",
-            "aGood": true
-          },
-          {
-            "dim": "Soporte de apps monolíticas",
-            "a": "✖ Requiere compilar a WASI",
-            "b": "✔ Cualquier Linux binario",
-            "aGood": false
-          }
-        ]
+        "header": "COLD START EN SERVERLESS",
+        "title": "EL COSTE OCULTO DE LOS CONTENEDORES",
+        "subtitle": "ARRANQUE DE KERNEL VS INSTANCIACIÓN DE MEMORIA"
       }
     },
     {
-      "id": "cta_wasm_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía.",
-      "visual_cue": "Cierre con consultoría de infraestructura",
+      "id": "kernel_diagram_wasm",
+      "type": "kernel_sandbox_viz",
+      "duration": 6,
+      "voiceover": "Con WebAssembly y WASI compilas código en Rust o Go que corre en cualquier servidor a velocidad nativa sin el peso de un sistema operativo virtual. Link en bio.",
+      "visual_cue": "Visualizador del aislamiento en servidor mediante Wasmtime",
       "props": {
-        "header": "CONSULTORÍA DE INFRAESTRUCTURA",
-        "title": "ARQUITECTURA SERVERLESS MODERNA",
-        "cta": {
-          "badge": "CONSULTORÍA TÉCNICA (Link en perfil)",
-          "text": "¿Interesado en WASM o arquitecturas Edge? Link en mi perfil para agendar tu sesión."
-        }
+        "badge": "EL FUTURO DEL EDGE",
+        "title": "EJECUCIÓN DE CERO SOBRECARGA",
+        "subtitle": "WASI: INTERFAZ DE SISTEMA OPERATIVO UNIVERSAL"
       }
     }
   ]

@@ -1,85 +1,78 @@
 {
   "title": "[03] Procesamiento Columnar Vectorizado: 10M filas en milisegundos (Var A)",
-  "category": "DATA ENGINEERING & ANALYTICS",
+  "category": "DATA ENGINEERING",
   "slug": "03_duckdb_analytics",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "stat_hook",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Diez millones de filas analizadas en medio segundo dentro de tu laptop? Así funciona el procesamiento columnar de DuckDB.",
-      "visual_cue": "Gancho cinético con número cuantitativo gigante",
+      "id": "columnar_viz",
+      "type": "storage_engine_viz",
+      "duration": 6.5,
+      "voiceover": "¿Por qué DuckDB analiza diez millones de filas en milisegundos mientras Postgres colapsa? Todo está en el formato columnar y las instrucciones SIMD.",
+      "visual_cue": "Visualizador del motor columnar vectorizado procesando bloques contiguos de memoria con SIMD",
       "props": {
-        "layout": "stat",
-        "badge": "ANALÍTICA DE DATOS",
-        "stat": "10.000.000",
-        "statLabel": "Filas procesadas en 420ms",
-        "subtitle": "Procesamiento columnar vectorizado"
+        "mode": "columnar",
+        "badge": "MOTOR VECTORIZADO",
+        "title": "FILAS TRADICIONALES VS COLUMNAS SIMD",
+        "subtitle": "DUCKDB: PROCESAMIENTO POR LOTES DE VECTORES"
       }
     },
     {
-      "id": "row_vs_col",
-      "type": "memory_layout",
-      "duration": 6,
-      "voiceover": "Las bases transaccionales leen filas enteras, desperdiciando caché de CPU. DuckDB lee solo las columnas que necesitas en vectores contiguos.",
-      "visual_cue": "Comparación visual de layout de memoria: Row-oriented vs Columnar Vectorized",
-      "props": {
-        "header": "MEMORIA Y HARDWARE",
-        "title": "ROW-STORE VS COLUMN-STORE",
-        "items": [
-          {
-            "name": "POSTGRES (ROW-STORE)",
-            "addr": "Heap Tuple: Lee todos los campos de disco",
-            "value": "Desperdicio de CPU L3 Cache",
-            "color": "#ef4444"
-          },
-          {
-            "name": "DUCKDB (VECTORIZED)",
-            "addr": "Vector Chunk: 2048 enteros contiguos",
-            "value": "Aceleración SIMD directa en CPU",
-            "color": "#10b981"
-          }
-        ]
-      }
-    },
-    {
-      "id": "parquet_query",
+      "id": "code_parquet",
       "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Puedes consultar archivos Parquet directamente en Amazon S3 sin importar los datos. Solo descargas los bytes exactos que pide tu consulta.",
-      "visual_cue": "Terminal ejecutando query SQL directa sobre s3://bucket/data.parquet",
+      "duration": 5,
+      "voiceover": "DuckDB lee archivos Parquet directamente desde S3 o tu disco local sin levantar servidores pesados ni pipelines de Kafka.",
+      "visual_cue": "Terminal mostrando consulta SQL directa sobre Parquet sin ingesta previa",
       "props": {
-        "header": "CONSULTA DIRECTA SOBRE PARQUET",
-        "title": "ZERO-ETL ANALYTICS",
-        "filename": "analytics/query.py",
+        "header": "QUERY IN-PROCESS",
+        "title": "CONSULTA DIRECTA SOBRE PARQUET",
+        "filename": "analytics.sql",
         "codeLines": [
-          "import duckdb",
-          "# Lee 50GB en S3 descargando solo 40MB de metadata:",
-          "res = duckdb.query(\"\"\"",
-          "  SELECT user_country, SUM(amount_usd) ",
-          "  FROM read_parquet(\"s3://logs-2026/*.parquet\")",
-          "  GROUP BY 1 ORDER BY 2 DESC LIMIT 10;",
-          "\"\"\").df()",
-          "print(f\"Completado en {res.execution_time}ms\")"
+          "# Consulta in-process sin servidor intermedio:",
+          "SELECT country, SUM(total_amount)",
+          "FROM \"s3://warehouse/sales_2026/*.parquet\"",
+          "WHERE created_at >= \"2026-01-01\"",
+          "GROUP BY country ORDER BY 2 DESC;"
         ],
-        "cursorLine": 6
+        "cursorLine": 4
       }
     },
     {
-      "id": "cta_duckdb",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Si tu empresa gasta miles de dólares en Snowflake o BigQuery para consultas simples, audito tus costes de datos para migrar a motores in-process. Link en bio.",
-      "visual_cue": "Cierre con llamado a auditoría de costes cloud de datos",
+      "id": "metrics_speed",
+      "type": "metrics_comparison",
+      "duration": 5.5,
+      "voiceover": "El resultado: consultas analíticas hasta ochenta veces más rápidas usando una fracción de la memoria.",
+      "visual_cue": "Comparativa de velocidad analítica: Postgres vs DuckDB",
       "props": {
-        "header": "AUDITORÍA DE COSTES CLOUD",
-        "title": "REDUCE TU FACTURA DE ANALÍTICA",
-        "cta": {
-          "badge": "AUDITORÍA DE COSTES (Link en bio)",
-          "text": "¿Gastas fortunas en Snowflake o Databricks? Link en mi perfil para auditar tus pipelines."
+        "header": "AGREGACIÓN SOBRE 10M FILAS",
+        "metricA": {
+          "label": "POSTGRESQL (ROW)",
+          "value": "18.4 seg",
+          "sub": "Escaneo completo de filas en disco",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "DUCKDB (COLUMNAR)",
+          "value": "0.24 seg",
+          "sub": "SIMD AVX-512 sobre vectores en RAM",
+          "color": "#10b981"
         }
+      }
+    },
+    {
+      "id": "cta_data",
+      "type": "terminal_split",
+      "duration": 4.5,
+      "voiceover": "Si tu equipo gasta fortunas en Snowflake o Databricks para analítica básica, link en bio para modernizar tu pipeline de datos.",
+      "visual_cue": "Terminal de auditoría con optimización de analítica in-process",
+      "props": {
+        "header": "CONSULTORÍA DE DATOS (Link en bio)",
+        "title": "ANALÍTICA SIN SERVIDORES",
+        "leftTitle": "INSPECCIÓN DE DATA PIPELINES",
+        "rightTitle": "AHORRO INMEDIATO",
+        "leftText": "$ npx audit-data-stack\n✔ Warehouse actual: Snowflake ($14K/mes)\n✔ Cargas de trabajo: 92% agregaciones simples\n✔ Migración recomendada: DuckDB + Parquet",
+        "rightText": "• Elimina el 85% de tu factura analítica\n• Respuestas en milisegundos en vez de minutos\n• Cero mantenimiento de infraestructura\n• ¿Agendamos revisión? Enlace en perfil"
       }
     }
   ]

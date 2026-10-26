@@ -1,9 +1,9 @@
 # Guion de Grabación: Sandboxing matemático: Wasmtime y aislamiento de código
 > **Tema #15:** 15_webassembly_servidor  
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
-> **Categoría:** RUNTIMES DE SERVIDOR & WASM  
-> **Tono:** Seguridad a nivel de bytecode, modelos de componentes, microsegundos  
-> **Duración total:** 17.5s | **Palabras:** 81 palabras (~278 palabras/minuto)
+> **Categoría:** COMPILACIÓN & RUNTIMES  
+> **Tono:** Sistemas formales, seguridad por aislamiento, compilación Wasm  
+> **Duración total:** 17.5s | **Palabras:** 70 palabras (~240 palabras/minuto)
 
 ---
 
@@ -11,26 +11,26 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `metrics_comparison` | Apertura directa con comparativa de cold start entre Docker y WebAssembly | "¿Cómo ejecutar código no confiable de usuarios a velocidad nativa sin riesgo de seguridad? Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo." | 34 |
-| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `memory_layout` | Memoria lineal delimitada de WebAssembly | "Un módulo WASI tiene una memoria lineal estrictamente delimitada. El programa no puede leer ni escribir ni un solo byte fuera de su espacio asignado." | 25 |
-| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con contratación senior | "Diseño arquitecturas seguras de ejecución de código y micro-runtimes aislados. Si necesitas un ingeniero especializado para tu sistema, link en mi bio." | 22 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `kernel_sandbox_viz` | Visualizador del sandbox de memoria lineal Wasmtime aislando código de terceros | "WebAssembly ya no es solo para el navegador. En el servidor ofrece un aislamiento de código tan seguro como Docker pero arrancando en un milisegundo." | 25 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `latency_scale` | Escala de latencia comparando arranque de contenedor Docker vs módulo WebAssembly | "Un contenedor Docker tarda ochocientos milisegundos en arrancar y consume cien megabytes de base. Un módulo Wasm arranca en microsegundos usando dos megabytes." | 23 |
+| **3** | `[00:11.5 - 00:17.5]` (6.0s) | `terminal_split` | Terminal ejecutando wasmtime con permisos acotados mediante WASI y llamada a la acción en bio | "Ideal para plugins de usuarios y funciones serverless ultrarrápidas en el Edge. Link en bio si quieres diseñar arquitecturas seguras con WebAssembly." | 22 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Cómo ejecutar código no confiable de usuarios a velocidad nativa sin riesgo de seguridad? Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo.
+WebAssembly ya no es solo para el navegador. En el servidor ofrece un aislamiento de código tan seguro como Docker pero arrancando en un milisegundo.
 
-Un módulo WASI tiene una memoria lineal estrictamente delimitada. El programa no puede leer ni escribir ni un solo byte fuera de su espacio asignado.
+Un contenedor Docker tarda ochocientos milisegundos en arrancar y consume cien megabytes de base. Un módulo Wasm arranca en microsegundos usando dos megabytes.
 
-Diseño arquitecturas seguras de ejecución de código y micro-runtimes aislados. Si necesitas un ingeniero especializado para tu sistema, link en mi bio.
+Ideal para plugins de usuarios y funciones serverless ultrarrápidas en el Edge. Link en bio si quieres diseñar arquitecturas seguras con WebAssembly.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** contratacion_senior
+- **Tipo de Oferta:** arquitectura_backend
 - **Última Escena (CTA Leve):** 
-  > *"Diseño arquitecturas seguras de ejecución de código y micro-runtimes aislados. Si necesitas un ingeniero especializado para tu sistema, link en mi bio."*
+  > *"Ideal para plugins de usuarios y funciones serverless ultrarrápidas en el Edge. Link en bio si quieres diseñar arquitecturas seguras con WebAssembly."*

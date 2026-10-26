@@ -1,60 +1,36 @@
 {
   "title": "[18] Ahorra miles de dólares en queries usando filtros probabilísticos en Redis (Var B)",
-  "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+  "category": "ESTRUCTURAS DE DATOS PROBABILÍSTICAS",
   "slug": "18_bloom_filters_probabilistic",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "bloom_latency_hook",
-      "type": "latency_scale",
-      "duration": 6.5,
-      "voiceover": "Hacer consultas a tu base de datos relacional para comprobar si un registro existe está quemando tu presupuesto. Un filtro Bloom en Redis responde en microsegundos.",
-      "visual_cue": "Apertura directa con escala de latencia comparando RAM vs Query SQL",
+      "id": "bloom_shock_b",
+      "type": "cache_flow_viz",
+      "duration": 6,
+      "voiceover": "Tu base de datos pasa la mitad del tiempo buscando registros que ni siquiera existen en el sistema. Un filtro de Bloom detiene esas consultas en memoria.",
+      "visual_cue": "Visualizador del veredicto instantáneo de Bloom evitando consultas a disco",
       "props": {
-        "header": "TIEMPO DE RESPUESTA",
-        "title": "FILTRO EN MEMORIA VS BÚSQUEDA EN DISCO",
-        "subtitle": "COMPARATIVA DE LATENCIA DE COMPROBACIÓN",
-        "tiers": [
-          {
-            "name": "BLOOM FILTER EN RAM (REDIS)",
-            "latency": "0.05 ms",
-            "ratio": 0.1,
-            "color": "#10b981",
-            "human": "Microsegundos"
-          },
-          {
-            "name": "QUERY SQL CON ÍNDICE B-TREE",
-            "latency": "4.5 ms",
-            "ratio": 0.6,
-            "color": "#fbbf24",
-            "human": "90x más lento"
-          },
-          {
-            "name": "ESCANEO SIN ÍNDICE (TABLE SCAN)",
-            "latency": "120 ms",
-            "ratio": 1,
-            "color": "#ef4444",
-            "human": "Colapso de disco"
-          }
-        ],
-        "conclusion": "Descartas el 99% de las comprobaciones antes de tocar el motor de base de datos.",
-        "conclusionSub": "Menos consumo de CPU, menos IOPS y menor factura cloud."
+        "mode": "bloom",
+        "badge": "ZERO DISK I/O",
+        "title": "FILTRO PROBABILÍSTICO EN REDIS",
+        "subtitle": "DETIENE CONSULTAS INÚTILES ANTES DE TOCAR POSTGRES"
       }
     },
     {
-      "id": "cta_bloom_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito capas de persistencia y caching para reducir facturas y multiplicar la escala de tu producto. Contáctame en el link de la bio.",
-      "visual_cue": "Cierre con auditoría de base de datos y caché",
+      "id": "terminal_bloom_b",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Por solo unos megabytes de memoria proteges tu clúster principal y garantizas respuestas en microsegundos. Link en bio para auditar tu caché.",
+      "visual_cue": "Terminal mostrando benchmark de Bloom Filter y llamada a la acción en bio",
       "props": {
-        "header": "AUDITORÍA DE ESCALABILIDAD & COSTES",
-        "title": "OPTIMIZACIÓN DE CAPAS DE CACHÉ",
-        "cta": {
-          "badge": "AUDITORÍA DE DATOS (Link en bio)",
-          "text": "Reduce el estrés de tu base de datos y recorta costes. Agenda tu sesión en mi perfil."
-        }
+        "header": "AUDITORÍA DE INFRAESTRUCTURA (Link en bio)",
+        "title": "PROTECCIÓN DE BASE DE DATOS",
+        "leftTitle": "BENCHMARK DE CACHÉ",
+        "rightTitle": "BENEFICIOS CLAVE",
+        "leftText": "$ redis-benchmark -t bf.exists -q\n✔ Throughput: 124.000 ops/sec\n✔ Latencia media: 0.08 ms\n✔ 99.2% de lecturas a disco evitadas",
+        "rightText": "• Reduce el tamaño de tu clúster de DB\n• Desaparecen los timeouts en picos\n• Estructura ligera de pocos megabytes\n• ¿Evaluamos tu caso? Enlace en mi perfil"
       }
     }
   ]

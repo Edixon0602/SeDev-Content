@@ -1,9 +1,9 @@
 # Guion de Grabación: Model Context Protocol (MCP): El estándar universal para IA y código
 > **Tema #05:** 05_mcp_agent_harness  
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
-> **Categoría:** AI ENGINEERING & AGENT PROTOCOLS  
-> **Tono:** Arquitectura de software de vanguardia, estándares abiertos, protocolos  
-> **Duración total:** 17.5s | **Palabras:** 68 palabras (~233 palabras/minuto)
+> **Categoría:** INTELIGENCIA ARTIFICIAL  
+> **Tono:** Protocolos de sistemas, ingeniería de software para IA, estándares  
+> **Duración total:** 17.5s | **Palabras:** 78 palabras (~267 palabras/minuto)
 
 ---
 
@@ -11,26 +11,26 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `architecture_flow` | Apertura directa con arquitectura de protocolo cliente-servidor de herramientas | "El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol." | 21 |
-| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `code_terminal` | Terminal mostrando definición de herramienta en servidor MCP con TypeScript | "Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones." | 20 |
-| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con contratación senior backend / IA | "Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio." | 27 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `quantization_weights_viz` | Visualizador del protocolo MCP conectando el harness de agentes con herramientas del entorno | "Olvídate de pegar código a mano en el chat. Model Context Protocol es el estándar abierto que conecta modelos de IA con bases de datos, APIs y herramientas locales." | 29 |
+| **2** | `[00:06.0 - 00:12.0]` (6.0s) | `architecture_flow` | Flujo de comunicación entre Claude / GPT, el arnés de MCP y las herramientas locales | "Funciona como un Language Server Protocol: el modelo solicita herramientas y el servidor MCP ejecuta la acción de forma segura en tu máquina." | 23 |
+| **3** | `[00:12.0 - 00:17.5]` (5.5s) | `terminal_split` | Terminal mostrando ejecución de herramienta MCP con validación estricta de esquema | "Esto convierte a los modelos en agentes autónomos reales con límites de seguridad estrictos. Link en bio si quieres integrar IA en tu software de producción." | 26 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol.
+Olvídate de pegar código a mano en el chat. Model Context Protocol es el estándar abierto que conecta modelos de IA con bases de datos, APIs y herramientas locales.
 
-Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones.
+Funciona como un Language Server Protocol: el modelo solicita herramientas y el servidor MCP ejecuta la acción de forma segura en tu máquina.
 
-Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio.
+Esto convierte a los modelos en agentes autónomos reales con límites de seguridad estrictos. Link en bio si quieres integrar IA en tu software de producción.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** contratacion_senior
+- **Tipo de Oferta:** desarrollo_ia
 - **Última Escena (CTA Leve):** 
-  > *"Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio."*
+  > *"Esto convierte a los modelos en agentes autónomos reales con límites de seguridad estrictos. Link en bio si quieres integrar IA en tu software de producción."*

@@ -1,45 +1,78 @@
 {
   "title": "[08] Por qué Discord y Cloudflare mataron Go y adoptaron Rust (Var B)",
-  "category": "LENGUAJES DE SISTEMAS & RENDIMIENTO",
+  "category": "LENGUAJES & RENDIMIENTO",
   "slug": "08_rust_sistemas_criticos",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "metric_spike_hook",
-      "type": "metrics_comparison",
-      "duration": 6.5,
-      "voiceover": "Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia.",
-      "visual_cue": "Apertura directa con comparativa gráfica de p99 latency con Garbage Collection vs Rust",
+      "id": "memory_gc_shock",
+      "type": "memory_layout",
+      "duration": 6,
+      "voiceover": "Discord tenía un servicio en Go procesando millones de mensajes. Cada dos minutos, el Garbage Collector congelaba el servicio creando picos de latencia inaceptables.",
+      "visual_cue": "Inspección de memoria con picos de pausa de Garbage Collector en Go",
       "props": {
-        "header": "MÉTRICAS DE RENDIMIENTO REAL",
-        "metricA": {
-          "label": "GO RUNTIME (GC SPIKES)",
-          "value": "180ms p99",
-          "sub": "Picos cada 2 minutos por barrido de memoria",
-          "color": "#ef4444"
-        },
-        "metricB": {
-          "label": "RUST (DETERMINISTIC)",
-          "value": "0.8ms p99",
-          "sub": "Línea completamente plana las 24 horas",
-          "color": "#10b981"
-        }
+        "badge": "COLAPSO POR RECOLECTOR",
+        "title": "EL PROBLEMA DEL GC EN ESCALA",
+        "rows": [
+          {
+            "addr": "0xDEAD010",
+            "hex": [
+              "FF",
+              "FF",
+              "FF",
+              "FF",
+              "00",
+              "00",
+              "00",
+              "00"
+            ],
+            "label": "OBJETOS HUÉRFANOS EN HEAP"
+          },
+          {
+            "addr": "0xDEAD018",
+            "hex": [
+              "53",
+              "54",
+              "4F",
+              "50",
+              "5F",
+              "57",
+              "4F",
+              "52"
+            ],
+            "label": "PAUSA STOP-THE-WORLD"
+          },
+          {
+            "addr": "0xDEAD020",
+            "hex": [
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "05",
+              "00"
+            ],
+            "label": "LATENCIA P99: 1200 MS"
+          }
+        ]
       }
     },
     {
-      "id": "cta_rust_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Construyo software de alto rendimiento y arquitectura sin picos de latencia. Si buscas un lead engineer para tu infraestructura, link en mi biografía.",
-      "visual_cue": "Cierre con contratación senior",
+      "id": "rust_rewrite",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Reescribieron el servicio en Rust. El uso de CPU se desplomó y la latencia pasó de dos segundos a menos de un milisegundo constante. Link en bio para optimizaciones.",
+      "visual_cue": "Terminal mostrando comparativa de métricas tras la migración a Rust",
       "props": {
-        "header": "CONTRATACIÓN SENIOR BACKEND",
-        "title": "SISTEMAS DE BAJA LATENCIA Y ALTO RENDIMIENTO",
-        "cta": {
-          "badge": "LEAD ENGINEER (Contacto en bio)",
-          "text": "Desarrollo de servicios backend de misión crítica. Hablemos en el enlace de mi perfil."
-        }
+        "header": "OPTIMIZACIÓN DE SISTEMAS (Link en bio)",
+        "title": "MIGRACIÓN DE GO A RUST",
+        "leftTitle": "SERVICIO EN GO",
+        "rightTitle": "SERVICIO EN RUST",
+        "leftText": "CPU: 85% de saturación continua\nLatencia P99: 2.400 ms (GC Spike)\nRAM: 14 GB con fragmentación",
+        "rightText": "CPU: 8% de uso estable\nLatencia P99: 0.35 ms constante\nRAM: 420 MB sin picos ni fugas"
       }
     }
   ]

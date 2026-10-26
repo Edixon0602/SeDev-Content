@@ -1,58 +1,43 @@
 {
   "title": "[03] Snowflake es un desperdicio: Analítica in-process con Parquet (Var B)",
-  "category": "DATA ENGINEERING & ANALYTICS",
+  "category": "DATA ENGINEERING",
   "slug": "03_duckdb_analytics",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "cost_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.",
-      "visual_cue": "Apertura directa con comparativa de costes de Snowflake vs DuckDB",
+      "id": "bill_shock",
+      "type": "metrics_comparison",
+      "duration": 5.5,
+      "voiceover": "Tu startup paga catorce mil dólares mensuales en Snowflake para hacer queries que caben perfectamente en la memoria de una laptop.",
+      "visual_cue": "Métricas de coste comparando Snowflake vs DuckDB",
       "props": {
-        "header": "COMPARATIVA DE FACTURACIÓN",
-        "title": "CLOUD DATA WAREHOUSE VS IN-PROCESS",
-        "termA": {
-          "title": "SNOWFLAKE / BIGQUERY CLUSTER",
-          "color": "#ef4444",
-          "cmd": "Warehouse XS Always-On + Storage fees",
-          "status": "Créditos computacionales consumiéndose",
-          "time": "$4,500/mes",
-          "lines": [
-            "Egress data transfer costs: $650",
-            "Tiempo de arranque de warehouse: 8 segundos",
-            "Lock-in de proveedor propietario"
-          ]
+        "header": "DESPERDICIO DE NUBE EN ANALÍTICA",
+        "metricA": {
+          "label": "SNOWFLAKE WAREHOUSE",
+          "value": "$14.200",
+          "sub": "Factura mensual recurrente en la nube",
+          "color": "#ef4444"
         },
-        "termB": {
-          "title": "DUCKDB EMBEDDED + PARQUET EN S3",
-          "color": "#10b981",
-          "cmd": "duckdb server.duckdb --readonly",
-          "status": "Motor C++ embebido en contenedor",
-          "time": "$80/mes",
-          "lines": [
-            "Almacenamiento en S3 estándar: $45",
-            "Instancia Hetzner 64GB RAM: $35",
-            "Formato abierto Parquet y Apache Iceberg"
-          ]
+        "metricB": {
+          "label": "DUCKDB + S3 PARQUET",
+          "value": "$85",
+          "sub": "Almacenamiento S3 + CPU del servidor",
+          "color": "#10b981"
         }
       }
     },
     {
-      "id": "cta_duckdb_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la arquitectura de datos de tu empresa para recortar sobrecostes de infraestructura. Escríbeme o agenda tu sesión en el link de mi perfil.",
-      "visual_cue": "Cierre con auditoría de infraestructura de datos",
+      "id": "columnar_diagram",
+      "type": "storage_engine_viz",
+      "duration": 6,
+      "voiceover": "DuckDB corre embebido en tu API de Node o Python. Lee Parquet comprimido con Dictionary Encoding y procesa cien mil registros en milisegundos.",
+      "visual_cue": "Visualizador del almacenamiento columnar demostrando el 94% menos de I/O en lecturas",
       "props": {
-        "header": "AUDITORÍA DE INFRAESTRUCTURA",
-        "title": "OPTIMIZACIÓN DE PIPELINES DE DATOS",
-        "cta": {
-          "badge": "AUDITORÍA DE COSTES (Link en perfil)",
-          "text": "Recorta hasta un 80% en tu infraestructura de analítica. Enlace directo en mi perfil."
-        }
+        "mode": "columnar",
+        "badge": "ZERO SERVIDORES",
+        "title": "ANALÍTICA IN-PROCESS",
+        "subtitle": "PARQUET + DUCKDB CORRIENDO EN TU PROPIA APP"
       }
     }
   ]

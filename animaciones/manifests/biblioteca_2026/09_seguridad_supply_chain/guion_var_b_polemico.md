@@ -1,9 +1,9 @@
 # Guion de Grabación: GitHub desactiva postinstall: Cómo blindar tu pipeline Zero-Trust
 > **Tema #09:** 09_seguridad_supply_chain  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** CIBERSEGURIDAD & SUPPLY CHAIN  
-> **Tono:** Práctico, defensivo, aplicando políticas seguras en package managers  
-> **Duración total:** 15.5s | **Palabras:** 59 palabras (~228 palabras/minuto)
+> **Categoría:** CIBERSEGURIDAD & DEVOPS  
+> **Tono:** Alerta técnica, urgente, buenas prácticas de DevOps  
+> **Duración total:** 11.5s | **Palabras:** 49 palabras (~256 palabras/minuto)
 
 ---
 
@@ -11,26 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Tipografía cinética de impacto para ciberseguridad | "GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust." | 19 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `code_terminal` | Terminal configurando npm config set ignore-scripts true | "Con la bandera ignore-scripts y aislación en sandboxes efímeros, neutralizas cualquier ataque antes de que pueda tocar tus archivos locales." | 20 |
-| **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de ciberseguridad | "Audito la postura de seguridad de tu infraestructura y configuro entornos blindados contra fugas de datos. Agenda en mi perfil." | 20 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `terminal_split` | Terminal mostrando ataque simulado y cómo la bandera ignore-scripts lo neutraliza | "Si tu pipeline corre npm install sin la bandera ignore-scripts, estás a un paquete comprometido de perder el control total de tu infraestructura." | 23 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `kernel_sandbox_viz` | Visualizador del kernel impidiendo conexiones salientes no autorizadas | "Bloquea los scripts por defecto y aísla el entorno de build con contenedores sin acceso a internet saliente. Link en mi bio para auditar tu pipeline." | 26 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust.
+Si tu pipeline corre npm install sin la bandera ignore-scripts, estás a un paquete comprometido de perder el control total de tu infraestructura.
 
-Con la bandera ignore-scripts y aislación en sandboxes efímeros, neutralizas cualquier ataque antes de que pueda tocar tus archivos locales.
-
-Audito la postura de seguridad de tu infraestructura y configuro entornos blindados contra fugas de datos. Agenda en mi perfil.
+Bloquea los scripts por defecto y aísla el entorno de build con contenedores sin acceso a internet saliente. Link en mi bio para auditar tu pipeline.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** seguridad_infra
+- **Tipo de Oferta:** auditoria_seguridad
 - **Última Escena (CTA Leve):** 
-  > *"Audito la postura de seguridad de tu infraestructura y configuro entornos blindados contra fugas de datos. Agenda en mi perfil."*
+  > *"Bloquea los scripts por defecto y aísla el entorno de build con contenedores sin acceso a internet saliente. Link en mi bio para auditar tu pipeline."*

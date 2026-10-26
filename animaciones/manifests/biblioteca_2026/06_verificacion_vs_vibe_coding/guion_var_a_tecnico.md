@@ -13,7 +13,7 @@
 |---|---|---|---|---|---|
 | **1** | `[00:00.0 - 00:06.5]` (6.5s) | `code_terminal` | Apertura directa con terminal ejecutando mutaciones de prueba sobre el código | "Generar código con IA es instantáneo; verificar que no destruya producción a las tres de la madrugada es el verdadero reto de ingeniería." | 23 |
 | **2** | `[00:06.5 - 00:12.5]` (6.0s) | `tradeoff_matrix` | Matriz comparando Unit Tests manuales vs Property-Based Testing | "En vez de probar tres casos aislados, los tests basados en propiedades generan diez mil combinaciones de datos aleatorios para romper tu lógica." | 23 |
-| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de calidad de software | "Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión." | 22 |
+| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `terminal_split` | Terminal con informe de calidad de software y llamada a la acción | "Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión." | 22 |
 
 ---
 

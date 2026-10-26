@@ -7,24 +7,36 @@
   "scenes": [
     {
       "id": "hook",
-      "type": "kinetic_hook",
-      "duration": 4.5,
+      "type": "architecture_flow",
+      "duration": 6,
       "voiceover": "¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio.",
-      "visual_cue": "Tipografía cinética de impacto sin iconos genéricos",
+      "visual_cue": "Diagrama de arquitectura con límites estrictos de dominio y módulos aislados",
       "props": {
-        "layout": "impact",
-        "badge": "ARQUITECTURA MODERNA",
-        "lines": [
+        "header": "ARQUITECTURA MODERNA",
+        "title": "LÍMITES DE DOMINIO EN UN SOLO BINARIO",
+        "nodes": [
           {
-            "text": "EL GRAN REGRESO DEL",
-            "color": "#ffffff"
+            "id": "api",
+            "label": "API ROUTER UNIFICADO",
+            "sublabel": "Fastify / Axum Gateway",
+            "color": "#38bdf8",
+            "y": 160
           },
           {
-            "text": "MONOLITO MODULAR",
-            "color": "#38bdf8"
+            "id": "modules",
+            "label": "MÓDULOS DE DOMINIO (DDD)",
+            "sublabel": "Auth · Orders · Billing (Aislamiento en RAM)",
+            "color": "#10b981",
+            "y": 520
+          },
+          {
+            "id": "storage",
+            "label": "POSTGRES TRANSACCIONAL",
+            "sublabel": "Esquemas lógicos separados con ACID nativo",
+            "color": "#fbbf24",
+            "y": 880
           }
-        ],
-        "subtitle": "Límites de dominio en un solo binario"
+        ]
       }
     },
     {
@@ -62,45 +74,11 @@
       }
     },
     {
-      "id": "modules_arch",
-      "type": "architecture_flow",
-      "duration": 6,
-      "voiceover": "Un monolito modular vive en un solo binario, pero sus módulos están aislados como si fueran cajas negras.",
-      "visual_cue": "Diagrama de flujo mostrando módulos aislados: Auth, Billing y Inventory comunicándose por interfaces",
-      "props": {
-        "header": "ESTRUCTURA DE DOMINIO",
-        "title": "LÍMITES ESTRICTOS EN MEMORIA",
-        "nodes": [
-          {
-            "id": "api",
-            "label": "API GATEWAY INTERNO",
-            "sublabel": "Fastify / Axum Router",
-            "color": "#38bdf8",
-            "y": 160
-          },
-          {
-            "id": "modules",
-            "label": "DOMINIOS AISLADOS (DDD)",
-            "sublabel": "Orders · Billing · Users (Aislamiento de imports)",
-            "color": "#10b981",
-            "y": 520
-          },
-          {
-            "id": "storage",
-            "label": "POSTGRES TRANSACCIONAL",
-            "sublabel": "Esquemas lógicos separados en una sola DB",
-            "color": "#fbbf24",
-            "y": 880
-          }
-        ]
-      }
-    },
-    {
       "id": "code_boundary",
       "type": "code_terminal",
       "duration": 6,
       "voiceover": "En código, prohibimos las importaciones directas entre módulos. Cada dominio expone una interfaz pública estricta.",
-      "visual_cue": "Terminal mostrando TypeScript / Rust haciendo cumplir límites de módulos con ESLint / ArchUnit",
+      "visual_cue": "Terminal mostrando TypeScript haciendo cumplir límites de módulos con ESLint",
       "props": {
         "header": "REGLAS EN CI/CD",
         "title": "ENFORCEMENT DE IMPORTACIONES",
@@ -140,18 +118,17 @@
     },
     {
       "id": "cta",
-      "type": "tradeoff_matrix",
-      "duration": 4.5,
+      "type": "terminal_split",
+      "duration": 5,
       "voiceover": "Si tu equipo está atrapado en un laberinto de microservicios y quieres migrar a un monolito modular limpio, link en mi bio para auditar tu arquitectura.",
-      "visual_cue": "Cierre con tarjeta de contacto y consultoría de arquitectura",
+      "visual_cue": "Terminal de auditoría con verificación de arquitectura y llamada a la acción",
       "props": {
-        "header": "CONSULTORÍA DE ARQUITECTURA",
+        "header": "AUDITORÍA DE ARQUITECTURA (Link en bio)",
         "title": "SIMPLIFICA TU CODEBASE",
-        "subtitle": "REDUCE COSTES · MULTIPLICA VELOCIDAD",
-        "cta": {
-          "badge": "AUDITORÍA DE ARQUITECTURA (Link en bio)",
-          "text": "¿Dudas con tu arquitectura? Enlace en mi perfil para agendar una sesión técnica."
-        }
+        "leftTitle": "ANÁLISIS DE MIGRACIÓN",
+        "rightTitle": "BENEFICIOS CLAVE",
+        "leftText": "$ npx audit-architecture --inspect\n✔ Dependencias cíclicas: 0 detectadas\n✔ Aislamiento de módulos: 100% verificado\n✔ Latencia interna: 0.01ms (In-Memory)",
+        "rightText": "• Despliegue en 1 comando\n• Cero sobrecarga de Kubernetes\n• Ahorro del 60% en costos de nube\n• Agenda tu sesión: enlace en el perfil"
       }
     }
   ]

@@ -1,58 +1,36 @@
 {
   "title": "[05] El \"Prompting\" ha muerto: Por qué la industria se mudó a los arneses de IA (Var B)",
-  "category": "AI ENGINEERING & AGENT PROTOCOLS",
+  "category": "INTELIGENCIA ARTIFICIAL",
   "slug": "05_mcp_agent_harness",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "harness_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Un prompt gigantesco no te dará software de producción. Lo que importa es el arnés de ejecución y el bucle de verificación de tests.",
-      "visual_cue": "Apertura directa con terminal comparando prompting ciego vs arnés determinista",
+      "id": "harness_diagram",
+      "type": "quantization_weights_viz",
+      "duration": 6,
+      "voiceover": "Intentar que una IA programe escribiéndole biblias de texto es una pérdida de tiempo. Los equipos serios usan arneses deterministas con MCP.",
+      "visual_cue": "Visualizador del harness de ingeniería conectando IA con herramientas estructuradas",
       "props": {
-        "header": "MÉTODO DE DESARROLLO",
-        "title": "PROMPT PURO VS BUCLE DE VERIFICACIÓN",
-        "termA": {
-          "title": "PROMPTING TRADICIONAL",
-          "color": "#ef4444",
-          "cmd": "chat_gpt(\"escribe un backend\")",
-          "status": "Alucinaciones en imports y dependencias",
-          "time": "Fallo silente",
-          "lines": [
-            "Genera 500 líneas de código sin verificar",
-            "Usa librerías deprecadas o inexistentes",
-            "Cero tests de ejecución"
-          ]
-        },
-        "termB": {
-          "title": "AGENT HARNESS DETERMINISTA",
-          "color": "#10b981",
-          "cmd": "agent run --verify --strict-sandbox",
-          "status": "Ejecuta tests y autocorrige en bucle",
-          "time": "Verificado",
-          "lines": [
-            "Llama a servidor MCP para validar esquema de DB",
-            "Corre suite de tests unitarios antes de commitear",
-            "Feedback loop determinista en tiempo real"
-          ]
-        }
+        "mode": "mcp",
+        "badge": "INGENIERÍA VS PROMPTING",
+        "title": "EL FIN DEL PROMPTING INFORMAL",
+        "subtitle": "HERRAMIENTAS ESTRUCTURADAS Y CONTRATOS ESTRICTOS"
       }
     },
     {
-      "id": "cta_mcp_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Construyo arneses de automatización e integraciones complejas para empresas. Si necesitas un ingeniero especializado en flujos de IA, link en mi biografía.",
-      "visual_cue": "Cierre con contratación directa senior",
+      "id": "terminal_eval",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "El arnés compila, corre los tests, lee los errores y le devuelve al modelo exactamente lo que necesita arreglar. Link en mi perfil para consultoría de IA.",
+      "visual_cue": "Terminal mostrando ciclo autónomo: código -> test fallido -> mutación -> test verde",
       "props": {
-        "header": "CONTRATACIÓN SENIOR BACKEND",
-        "title": "SISTEMAS AUTÓNOMOS Y AGENTES ROBUSTOS",
-        "cta": {
-          "badge": "LEAD DEVELOPER (Contacto en bio)",
-          "text": "Desarrollo de agentes y flujos autónomos de alta fiabilidad. Contáctame en mi biografía."
-        }
+        "header": "CONSULTORÍA EN IA (Link en bio)",
+        "title": "LOOP AUTÓNOMO DE VERIFICACIÓN",
+        "leftTitle": "EJECUCIÓN DEL ARNÉS",
+        "rightTitle": "RESULTADO DE CÓDIGO",
+        "leftText": "$ agent-harness run-task\n✔ Generando parche de código...\n✖ npm test falló: TypeError en auth.ts:42\n✔ Reintentando con contexto del error\n✔ npm test pasó al 100% (Green)",
+        "rightText": "• Cero alucinaciones sin verificar\n• Parches validados por tests antes de merge\n• Automatización real para equipos de software\n• Agenda tu sesión: enlace en mi perfil"
       }
     }
   ]

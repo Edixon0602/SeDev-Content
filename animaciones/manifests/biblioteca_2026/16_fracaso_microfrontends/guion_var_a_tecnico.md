@@ -3,7 +3,7 @@
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
 > **Categoría:** FRONTEND ARCHITECTURE & WEB PERFORMANCE  
 > **Tono:** Análisis técnico de rendimiento web, parseo de JavaScript, waterfalls de red  
-> **Duración total:** 18.0s | **Palabras:** 66 palabras (~220 palabras/minuto)
+> **Duración total:** 18.0s | **Palabras:** 68 palabras (~227 palabras/minuto)
 
 ---
 
@@ -11,9 +11,9 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `metrics_comparison` | Apertura directa con comparativa de Core Web Vitals: Micro-frontends frente a Monorepo limpio | "¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Porque descargar múltiples versiones de frameworks destruyó la velocidad de carga." | 25 |
-| **2** | `[00:06.5 - 00:13.0]` (6.5s) | `network_pipeline` | Pipeline visual mostrando la cascada de scripts y dependencias duplicadas | "Cada micro-frontend descarga su propia copia de librerías, provocando descargas de múltiples versiones de React y waterfalls de red inmanejables." | 20 |
-| **3** | `[00:13.0 - 00:18.0]` (5.0s) | `tradeoff_matrix` | Cierre con llamado a auditoría de arquitectura frontend | "Audito la arquitectura frontend y optimizo Core Web Vitals para aplicaciones complejas. Link en mi perfil para agendar una sesión técnica." | 21 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `tree_hierarchy` | Visualizador de árbol de dependencias duplicadas compitiendo en el navegador | "¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Porque descargar múltiples versiones de frameworks destruyó la velocidad de carga." | 25 |
+| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `migration_stepper_viz` | Visualizador de fases de consolidación hacia monorepo unificado | "Cada micro-frontend descarga su propio runtime. La solución moderna es consolidar en un monorepo con Turborepo manteniendo aislamiento por paquetes de código." | 22 |
+| **3** | `[00:12.5 - 00:18.0]` (5.5s) | `terminal_split` | Terminal con análisis de bundle y llamada a la acción en bio | "Audito la arquitectura frontend y optimizo Core Web Vitals para aplicaciones complejas. Link en mi perfil para agendar una sesión técnica." | 21 |
 
 ---
 
@@ -22,7 +22,7 @@
 ```text
 ¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Porque descargar múltiples versiones de frameworks destruyó la velocidad de carga.
 
-Cada micro-frontend descarga su propia copia de librerías, provocando descargas de múltiples versiones de React y waterfalls de red inmanejables.
+Cada micro-frontend descarga su propio runtime. La solución moderna es consolidar en un monorepo con Turborepo manteniendo aislamiento por paquetes de código.
 
 Audito la arquitectura frontend y optimizo Core Web Vitals para aplicaciones complejas. Link en mi perfil para agendar una sesión técnica.
 ```

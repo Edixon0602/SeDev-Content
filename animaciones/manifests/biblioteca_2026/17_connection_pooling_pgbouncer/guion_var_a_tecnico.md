@@ -2,8 +2,8 @@
 > **Tema #17:** 17_connection_pooling_pgbouncer  
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
 > **Categoría:** BASES DE DATOS & ESCALABILIDAD  
-> **Tono:** Sistemas operativos, arquitectura interna de PostgreSQL, forks y memoria  
-> **Duración total:** 18.0s | **Palabras:** 77 palabras (~257 palabras/minuto)
+> **Tono:** Bajo nivel, llamadas al sistema de Linux, internals de procesos de Postgres  
+> **Duración total:** 18.0s | **Palabras:** 79 palabras (~263 palabras/minuto)
 
 ---
 
@@ -11,26 +11,26 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `memory_layout` | Apertura directa con layout de memoria mostrando backend processes compitiendo por CPU y RAM | "¿Por qué conectar mil clientes directos a PostgreSQL satura tu servidor aunque no hagan consultas? Porque Postgres crea un proceso independiente de diez megabytes por cada conexión." | 27 |
-| **2** | `[00:06.5 - 00:13.0]` (6.5s) | `architecture_flow` | Diagrama de flujo: 10,000 conexiones de clientes pasando por PgBouncer a 20 conexiones reales de Postgres | "PgBouncer actúa como un embudo inteligente. Mantiene solo veinte conexiones reales con la base y atiende a miles de clientes en modo transaccional." | 23 |
-| **3** | `[00:13.0 - 00:18.0]` (5.0s) | `tradeoff_matrix` | Cierre con llamado a auditoría de bases de datos | "Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil." | 27 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `connection_pool_viz` | Visualizador de 1.000 streams de clientes entrando a PgBouncer y multiplexándose en 20 workers | "Cada vez que tu backend abre una conexión nueva a PostgreSQL, el kernel de Linux ejecuta un fork de diez megabytes. Con mil clientes, tu servidor colapsa por memoria." | 29 |
+| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `latency_scale` | Escala de latencia comparando tiempo de creación de proceso fork vs pool de conexiones | "El proceso de crear una conexión toma quince milisegundos de handshake y context switching. Con PgBouncer, la conexión ya está viva y responde en microsegundos." | 25 |
+| **3** | `[00:12.5 - 00:18.0]` (5.5s) | `terminal_split` | Terminal mostrando pgbench con saturación neutralizada y llamada a la acción en bio | "Configuro clústeres de PgBouncer y optimizo la concurrencia de bases de datos para soportar alto tráfico. Link en mi perfil para agendar una auditoría técnica." | 25 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Por qué conectar mil clientes directos a PostgreSQL satura tu servidor aunque no hagan consultas? Porque Postgres crea un proceso independiente de diez megabytes por cada conexión.
+Cada vez que tu backend abre una conexión nueva a PostgreSQL, el kernel de Linux ejecuta un fork de diez megabytes. Con mil clientes, tu servidor colapsa por memoria.
 
-PgBouncer actúa como un embudo inteligente. Mantiene solo veinte conexiones reales con la base y atiende a miles de clientes en modo transaccional.
+El proceso de crear una conexión toma quince milisegundos de handshake y context switching. Con PgBouncer, la conexión ya está viva y responde en microsegundos.
 
-Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil.
+Configuro clústeres de PgBouncer y optimizo la concurrencia de bases de datos para soportar alto tráfico. Link en mi perfil para agendar una auditoría técnica.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** database
+- **Tipo de Oferta:** optimizacion_db
 - **Última Escena (CTA Leve):** 
-  > *"Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil."*
+  > *"Configuro clústeres de PgBouncer y optimizo la concurrencia de bases de datos para soportar alto tráfico. Link en mi perfil para agendar una auditoría técnica."*

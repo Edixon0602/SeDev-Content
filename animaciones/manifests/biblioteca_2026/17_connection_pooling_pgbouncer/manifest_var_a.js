@@ -6,77 +6,42 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "fork_memory_hook",
-      "type": "memory_layout",
+      "id": "conn_pool_hook",
+      "type": "connection_pool_viz",
       "duration": 6.5,
-      "voiceover": "¿Por qué conectar mil clientes directos a PostgreSQL satura tu servidor aunque no hagan consultas? Porque Postgres crea un proceso independiente de diez megabytes por cada conexión.",
-      "visual_cue": "Apertura directa con layout de memoria mostrando backend processes compitiendo por CPU y RAM",
+      "voiceover": "Cada vez que tu backend abre una conexión nueva a PostgreSQL, el kernel de Linux ejecuta un fork de diez megabytes. Con mil clientes, tu servidor colapsa por memoria.",
+      "visual_cue": "Visualizador de 1.000 streams de clientes entrando a PgBouncer y multiplexándose en 20 workers",
       "props": {
-        "header": "ARQUITECTURA DE PROCESOS",
-        "title": "POSTMASTER Y BACKEND WORKERS",
-        "items": [
-          {
-            "name": "1000 CONEXIONES DIRECTAS",
-            "addr": "1000 PROCESOS FORK()",
-            "value": "10GB RAM consumidos solo en sockets",
-            "color": "#ef4444"
-          },
-          {
-            "name": "CAMBIO DE CONTEXTO EN KERNEL",
-            "addr": "CONTEXT SWITCH OVERHEAD",
-            "value": "La CPU gasta 60% solo cambiando de tarea",
-            "color": "#f59e0b"
-          }
-        ]
+        "badge": "MULTIPLEXACIÓN DE CLIENTES",
+        "title": "EL COSTE DE UN FORK() EN LINUX",
+        "subtitle": "1.000 CONEXIONES ENTRANTES => 20 BACKEND PROCESSES"
       }
     },
     {
-      "id": "pgbouncer_pool",
-      "type": "architecture_flow",
-      "duration": 6.5,
-      "voiceover": "PgBouncer actúa como un embudo inteligente. Mantiene solo veinte conexiones reales con la base y atiende a miles de clientes en modo transaccional.",
-      "visual_cue": "Diagrama de flujo: 10,000 conexiones de clientes pasando por PgBouncer a 20 conexiones reales de Postgres",
+      "id": "latency_fork",
+      "type": "latency_scale",
+      "duration": 6,
+      "voiceover": "El proceso de crear una conexión toma quince milisegundos de handshake y context switching. Con PgBouncer, la conexión ya está viva y responde en microsegundos.",
+      "visual_cue": "Escala de latencia comparando tiempo de creación de proceso fork vs pool de conexiones",
       "props": {
-        "header": "CONNECTION POOLING EFICIENTE",
-        "title": "EMBUDO TRANSACCIONAL CON PGBOUNCER",
-        "nodes": [
-          {
-            "id": "clients",
-            "label": "10,000 CONEXIONES ACTIVAS",
-            "sublabel": "Servidores web y workers concurrentes",
-            "color": "#38bdf8",
-            "y": 160
-          },
-          {
-            "id": "pooler",
-            "label": "PGBOUNCER (TRANSACTION MODE)",
-            "sublabel": "Multiplexa peticiones en un micro-proceso en C",
-            "color": "#fbbf24",
-            "y": 520
-          },
-          {
-            "id": "db",
-            "label": "POSTGRES (20 POOL WORKERS)",
-            "sublabel": "100% de la CPU dedicada a ejecutar queries reales",
-            "color": "#10b981",
-            "y": 880
-          }
-        ]
+        "header": "TIEMPO DE ESTABLECIMIENTO DE CONEXIÓN",
+        "title": "FORK EN LINUX VS POOL REUTILIZADO",
+        "subtitle": "HANDSHAKE COMPLETO VS TRANSACCIÓN DIRECTA"
       }
     },
     {
-      "id": "cta_pgb",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Si tu base de datos sufre picos de latencia o agota su pool de conexiones en momentos críticos, audito tu infraestructura de datos. Link en mi perfil.",
-      "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+      "id": "cta_pgbouncer",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Configuro clústeres de PgBouncer y optimizo la concurrencia de bases de datos para soportar alto tráfico. Link en mi perfil para agendar una auditoría técnica.",
+      "visual_cue": "Terminal mostrando pgbench con saturación neutralizada y llamada a la acción en bio",
       "props": {
-        "header": "AUDITORÍA DE RENDIMIENTO DE BASES DE DATOS",
-        "title": "OPTIMIZA TUS POOLS DE CONEXIÓN",
-        "cta": {
-          "badge": "AUDITORÍA DE DATOS (Link en bio)",
-          "text": "¿Problemas con max_connections en Postgres? Link en mi bio para agendar una auditoría técnica."
-        }
+        "header": "AUDITORÍA DE BASES DE DATOS (Link en bio)",
+        "title": "CONCURRENCIA SIN SOBRECARGA",
+        "leftTitle": "BENCHMARK PGBENCH",
+        "rightTitle": "MÉTRICAS CLAVE",
+        "leftText": "$ pgbench -c 1000 -j 8 -T 10 app_db\n✔ Clientes concurrentes: 1.000 activos\n✔ Throughput: 18.400 TPS\n✔ Uso de RAM en Postgres: 210 MB estables",
+        "rightText": "• Reduce el 95% del uso de memoria en DB\n• Elimina errores de \"too many clients\"\n• Soporta picos masivos de tráfico\n• ¿Dudas con Postgres? Enlace en mi bio"
       }
     }
   ]

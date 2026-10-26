@@ -6,73 +6,49 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "mfe_impact_hook",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Adoptaste micro-frontends porque estaba de moda y ahora tienes un infierno de estilos rotos, dependencias cruzadas y aplicaciones lentas.",
-      "visual_cue": "Tipografía de impacto gigante sin iconos genéricos",
+      "id": "metrics_bundle_shock",
+      "type": "metrics_comparison",
+      "duration": 6,
+      "voiceover": "Adoptaste micro-frontends porque estaba de moda y ahora tu usuario tiene que descargar ocho megabytes de JavaScript para ver una simple tienda online.",
+      "visual_cue": "Comparativa de peso de bundle: Micro-frontends fragmentados vs Monorepo unificado",
       "props": {
-        "layout": "impact",
-        "badge": "LECCIONES DE INDUSTRIA",
-        "lines": [
-          {
-            "text": "DESMANTELANDO LOS",
-            "color": "#ef4444"
-          },
-          {
-            "text": "MICRO-FRONTENDS",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "El regreso al monorepo limpio con arquitectura de islas"
+        "header": "PESO TOTAL DE JAVASCRIPT",
+        "metricA": {
+          "label": "MICRO-FRONTENDS FEDERATION",
+          "value": "8.4 MB",
+          "sub": "Múltiples runtimes compitiendo en CPU",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "MONOREPO OPTIMIZADO",
+          "value": "320 KB",
+          "sub": "Tree-shaking estricto en un solo bundle",
+          "color": "#10b981"
+        }
       }
     },
     {
-      "id": "tradeoff_mfe",
-      "type": "tradeoff_matrix",
-      "duration": 6,
-      "voiceover": "Los monorepos modernos con herramientas como Turborepo o Nx permiten que múltiples equipos trabajen sin destruir la experiencia del usuario final.",
-      "visual_cue": "Matriz comparativa Micro-frontends vs Monorepo moderno",
+      "id": "stepper_mfe",
+      "type": "migration_stepper_viz",
+      "duration": 5.5,
+      "voiceover": "Los monorepos modernos permiten que múltiples equipos trabajen de forma independiente sin destruir la experiencia del usuario final.",
+      "visual_cue": "Visualizador de migración hacia monorepo modular",
       "props": {
-        "header": "ORGANIZACIÓN VS EXPERIENCIA DE USUARIO",
-        "title": "MICRO-FRONTENDS VS MONOREPO MODERNO",
-        "colA": "MONOREPO CON TURBOREPO",
-        "colB": "MICRO-FRONTENDS (IFRAMES/MFE)",
-        "rows": [
-          {
-            "dim": "Experiencia de Usuario (LCP)",
-            "a": "✔ Rápida y unificada",
-            "b": "✖ Lenta y fragmentada",
-            "aGood": true
-          },
-          {
-            "dim": "Consistencia de Diseño (CSS)",
-            "a": "✔ Sistema de diseño único",
-            "b": "✖ Conflictos de estilos globales",
-            "aGood": true
-          },
-          {
-            "dim": "Mantenimiento de Dependencias",
-            "a": "✔ 1 solo lockfile auditado",
-            "b": "✖ 8 package.json desfasados",
-            "aGood": true
-          }
-        ]
+        "badge": "SIMPLICIDAD ORGANIZATIVA",
+        "title": "MIGRACIÓN HACIA MONOREPO",
+        "subtitle": "ELIMINA IFRAMES Y REDUCE EL TIEMPO DE CARGA"
       }
     },
     {
       "id": "cta_mf_b",
       "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Ayudo a empresas a consolidar arquitecturas frontend fragmentadas en monorepos de alto rendimiento. Escríbeme o agenda en mi perfil.",
-      "visual_cue": "Cierre con auditoría de arquitectura frontend",
+      "duration": 4,
+      "voiceover": "Si tu aplicación web está pesada y fragmentada, link en mi perfil para auditarla y devolverle la velocidad.",
+      "visual_cue": "Matriz comparativa final y enlace en bio",
       "props": {
-        "header": "CONSOLIDACIÓN DE CODEBASE FRONTEND",
-        "title": "SIMPLIFICA TUS PROCESOS DE ENTREGA",
-        "cta": {
-          "badge": "CONSULTORÍA FRONTEND (Contacto en perfil)",
-          "text": "Consolida tus micro-frontends en un monorepo limpio. Link en mi perfil."
-        }
+        "header": "CONSULTORÍA DE RENDIMIENTO",
+        "title": "ARQUITECTURAS WEB RÁPIDAS",
+        "subtitle": "LINK EN BIO PARA AUDITAR TU APLICACIÓN"
       }
     }
   ]

@@ -1,9 +1,9 @@
 # Guion de Grabación: LSM Trees vs B-Trees: MemTable, SSTables y páginas en disco
 > **Tema #14:** 14_lsm_trees_vs_btrees  
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
-> **Categoría:** SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS  
-> **Tono:** Ciencia del almacenamiento en disco, escrituras secuenciales vs aleatorias  
-> **Duración total:** 17.5s | **Palabras:** 71 palabras (~243 palabras/minuto)
+> **Categoría:** ESTRUCTURAS DE DATOS & DB INTERNALS  
+> **Tono:** Estructuras de datos avanzadas, internals de bases de datos  
+> **Duración total:** 17.5s | **Palabras:** 62 palabras (~213 palabras/minuto)
 
 ---
 
@@ -11,26 +11,26 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `architecture_flow` | Apertura directa con arquitectura de escritura secuencial: MemTable a SSTables | "¿Por qué RocksDB escribe a velocidades récord mientras Postgres prefiere B-Trees? Un LSM Tree escribe en una MemTable en RAM y luego vuelca bloques secuenciales inmutables en disco." | 28 |
-| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `tradeoff_matrix` | Matriz técnica de compensaciones entre motores | "En cambio, un B-Tree sobrescribe páginas en ubicaciones aleatorias. Es más lento para escribir, pero sus lecturas son instantáneas con un solo salto." | 23 |
-| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con llamado a auditoría de bases de datos | "Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil." | 20 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `storage_engine_viz` | Visualizador del motor de almacenamiento LSM Tree con MemTable en RAM y compactación de SSTables | "Si tu base de datos colapsa cuando recibe millones de escrituras por segundo, estás usando la estructura de datos equivocada." | 20 |
+| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `tree_hierarchy` | Visualizador del árbol B balanceado mostrando el coste de la división de páginas | "Los B-Trees de PostgreSQL modifican páginas en disco de forma aleatoria, lo que desgasta los discos SSD y satura el canal de I/O." | 23 |
+| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `latency_scale` | Escala de latencia comparando escrituras aleatorias en B-Tree vs escrituras append-only en LSM | "Los LSM Trees como RocksDB convierten cada escritura en una operación secuencial en memoria, multiplicando el throughput por diez." | 19 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Por qué RocksDB escribe a velocidades récord mientras Postgres prefiere B-Trees? Un LSM Tree escribe en una MemTable en RAM y luego vuelca bloques secuenciales inmutables en disco.
+Si tu base de datos colapsa cuando recibe millones de escrituras por segundo, estás usando la estructura de datos equivocada.
 
-En cambio, un B-Tree sobrescribe páginas en ubicaciones aleatorias. Es más lento para escribir, pero sus lecturas son instantáneas con un solo salto.
+Los B-Trees de PostgreSQL modifican páginas en disco de forma aleatoria, lo que desgasta los discos SSD y satura el canal de I/O.
 
-Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil.
+Los LSM Trees como RocksDB convierten cada escritura en una operación secuencial en memoria, multiplicando el throughput por diez.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** database
+- **Tipo de Oferta:** optimizacion_db
 - **Última Escena (CTA Leve):** 
-  > *"Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil."*
+  > *"Los LSM Trees como RocksDB convierten cada escritura en una operación secuencial en memoria, multiplicando el throughput por diez."*

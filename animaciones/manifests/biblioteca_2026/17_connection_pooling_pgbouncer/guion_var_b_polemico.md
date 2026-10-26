@@ -2,8 +2,8 @@
 > **Tema #17:** 17_connection_pooling_pgbouncer  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** BASES DE DATOS & ESCALABILIDAD  
-> **Tono:** Diagnóstico de emergencia, resolutivo, enfocado en incidentes comunes  
-> **Duración total:** 11.5s | **Palabras:** 46 palabras (~240 palabras/minuto)
+> **Tono:** Provocador, directo, salvando bases de datos de startups  
+> **Duración total:** 11.5s | **Palabras:** 57 palabras (~297 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal mostrando error fatal de max_connections frente a PgBouncer | "Subiste el tamaño del servidor a una máquina de mil dólares y sigue lento. No necesitas más hardware: necesitas un pooler para evitar saturar conexiones." | 25 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría técnica de Postgres | "Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio." | 21 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `connection_pool_viz` | Visualizador de PgBouncer absorbiendo la sobrecarga de conexiones | "Tu backend en Node o Serverless abre conexiones a lo loco y cuando sube el tráfico tu base de datos se congela. El problema no son tus queries, es la saturación de conexiones." | 33 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `metrics_comparison` | Comparativa de memoria consumida: 10 GB sin pool vs 200 MB con PgBouncer | "Un servidor de base de datos con cuatro núcleos solo puede ejecutar cuatro queries simultáneamente en CPU. Tener quinientas conexiones abiertas solo causa contención." | 24 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Subiste el tamaño del servidor a una máquina de mil dólares y sigue lento. No necesitas más hardware: necesitas un pooler para evitar saturar conexiones.
+Tu backend en Node o Serverless abre conexiones a lo loco y cuando sube el tráfico tu base de datos se congela. El problema no son tus queries, es la saturación de conexiones.
 
-Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio.
+Un servidor de base de datos con cuatro núcleos solo puede ejecutar cuatro queries simultáneamente en CPU. Tener quinientas conexiones abiertas solo causa contención.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** database
+- **Tipo de Oferta:** optimizacion_db
 - **Última Escena (CTA Leve):** 
-  > *"Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio."*
+  > *"Un servidor de base de datos con cuatro núcleos solo puede ejecutar cuatro queries simultáneamente en CPU. Tener quinientas conexiones abiertas solo causa contención."*

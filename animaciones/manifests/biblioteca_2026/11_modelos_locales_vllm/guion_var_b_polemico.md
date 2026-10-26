@@ -3,7 +3,7 @@
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** AI INFRASTRUCTURE & OPEN WEIGHTS  
 > **Tono:** Financiero y privacidad, liberándose de la dependencia de OpenAI  
-> **Duración total:** 11.5s | **Palabras:** 37 palabras (~193 palabras/minuto)
+> **Duración total:** 11.5s | **Palabras:** 48 palabras (~250 palabras/minuto)
 
 ---
 
@@ -11,17 +11,17 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal comparando coste de API propietaria vs inferencia local | "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes." | 19 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de IA privada | "Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil." | 18 |
+| **1** | `[00:00.0 - 00:05.5]` (5.5s) | `latency_scale` | Escala de latencia comparando tiempo de red a OpenAI vs inferencia local en tu propio hardware | "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes a servidores de terceros." | 23 |
+| **2** | `[00:05.5 - 00:11.5]` (6.0s) | `quantization_weights_viz` | Visualizador de tensores cuantizados corriendo en hardware accesible | "Con modelos cuantizados a cuatro bits en un servidor propio con tarjetas RTX obtienes inferencia ilimitada las veinticuatro horas del día por una tarifa fija." | 25 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.
+Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes a servidores de terceros.
 
-Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil.
+Con modelos cuantizados a cuatro bits en un servidor propio con tarjetas RTX obtienes inferencia ilimitada las veinticuatro horas del día por una tarifa fija.
 ```
 
 ---
@@ -30,4 +30,4 @@ Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para emp
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
 - **Tipo de Oferta:** ia_privada
 - **Última Escena (CTA Leve):** 
-  > *"Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil."*
+  > *"Con modelos cuantizados a cuatro bits en un servidor propio con tarjetas RTX obtienes inferencia ilimitada las veinticuatro horas del día por una tarifa fija."*

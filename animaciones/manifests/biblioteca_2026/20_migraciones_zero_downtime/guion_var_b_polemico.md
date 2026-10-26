@@ -1,9 +1,9 @@
 # Guion de Grabación: Nunca hagas ALTER TABLE a ciegas: Cómo evitar bloqueos de tabla
 > **Tema #20:** 20_migraciones_zero_downtime  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** BASES DE DATOS & PRODUCCIÓN CRÍTICA  
-> **Tono:** Alerta técnica, advertencia de producción, desmitificando bloqueos de Postgres  
-> **Duración total:** 11.5s | **Palabras:** 52 palabras (~271 palabras/minuto)
+> **Categoría:** BASES DE DATOS & OPERACIONES EN VIVO  
+> **Tono:** Advertencia técnica, historias de terror en producción, lecciones reales  
+> **Duración total:** 11.5s | **Palabras:** 46 palabras (~240 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal mostrando bloqueo infinito de tabla frente a migración segura con lock_timeout | "Hiciste un ALTER TABLE en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos. Postgres adquiere un ACCESS EXCLUSIVE lock que frena cada petición." | 26 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de migración de bases de datos | "Audito planes de migración de datos y acompaño a startups en cambios estructurales de base de datos sin riesgo. Contáctame en el link de la bio." | 26 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `migration_stepper_viz` | Visualizador de prevención de bloqueos mediante fases progresivas | "Un simple ALTER TABLE adquiere un bloqueo exclusivo en PostgreSQL que encola todas las lecturas y escrituras, tirando tus servidores en segundos." | 22 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `terminal_split` | Terminal monitoreando bloqueos en pg_stat_activity y llamada a la acción en bio | "Usa herramientas de migración con algoritmos de tiempo compartido y divide los cambios en fases atómicas. Link en mi perfil para auditar tus esquemas." | 24 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Hiciste un ALTER TABLE en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos. Postgres adquiere un ACCESS EXCLUSIVE lock que frena cada petición.
+Un simple ALTER TABLE adquiere un bloqueo exclusivo en PostgreSQL que encola todas las lecturas y escrituras, tirando tus servidores en segundos.
 
-Audito planes de migración de datos y acompaño a startups en cambios estructurales de base de datos sin riesgo. Contáctame en el link de la bio.
+Usa herramientas de migración con algoritmos de tiempo compartido y divide los cambios en fases atómicas. Link en mi perfil para auditar tus esquemas.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** migracion_critica
+- **Tipo de Oferta:** auditoria_db
 - **Última Escena (CTA Leve):** 
-  > *"Audito planes de migración de datos y acompaño a startups en cambios estructurales de base de datos sin riesgo. Contáctame en el link de la bio."*
+  > *"Usa herramientas de migración con algoritmos de tiempo compartido y divide los cambios en fases atómicas. Link en mi perfil para auditar tus esquemas."*

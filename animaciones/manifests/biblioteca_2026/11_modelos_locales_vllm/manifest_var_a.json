@@ -6,63 +6,86 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "quant_memory_hook",
-      "type": "memory_layout",
+      "id": "quant_weights_lead",
+      "type": "quantization_weights_viz",
       "duration": 6.5,
       "voiceover": "¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor local? Pasando de coma flotante a enteros de cuatro bits con cuantización.",
-      "visual_cue": "Apertura directa con layout de memoria comparando FP16 (2 bytes) vs INT4 (0.5 bytes)",
+      "visual_cue": "Visualizador de matriz de tensores FP16 comprimiéndose en bloques INT4 GGUF con factor de escala",
       "props": {
-        "header": "REDUCCIÓN DE HUELLA EN VRAM",
-        "title": "FP16 VS CUANTIZACIÓN INT4",
-        "items": [
+        "mode": "quant",
+        "badge": "OPTIMIZACIÓN MATEMÁTICA",
+        "title": "CUANTIZACIÓN INT4 GGUF",
+        "subtitle": "FP16 (16 BITS) VS INT4 NIBBLES EN GPU LOCAL"
+      }
+    },
+    {
+      "id": "memory_nibbles",
+      "type": "memory_layout",
+      "duration": 6,
+      "voiceover": "En vez de almacenar dieciséis bits por peso, agrupamos los valores en bloques de treinta y dos pesos compartiendo una escala alfa. Ocupa un cuarto de la memoria sin perder precisión.",
+      "visual_cue": "Inspección de memoria RAM mostrando empaquetado de dos pesos por cada byte de memoria",
+      "props": {
+        "badge": "EMPAQUETADO DE TENSORES",
+        "title": "ALINEACIÓN DE MEMORIA EN VRAM",
+        "rows": [
           {
-            "name": "PESOS ORIGINALES (FP16)",
-            "addr": "16 BITS POR PESO",
-            "value": "Requiere 32GB VRAM · Servidor de alto coste",
-            "color": "#ef4444"
+            "addr": "0xCUDA010",
+            "hex": [
+              "6A",
+              "FE",
+              "14",
+              "9C",
+              "02",
+              "5B",
+              "E3",
+              "77"
+            ],
+            "label": "BLOQUE INT4 (8 PESOS EN 4 BYTES)"
           },
           {
-            "name": "PESOS CUANTIZADOS (INT4)",
-            "addr": "4 BITS POR PESO",
-            "value": "Solo 8GB VRAM · Corre en hardware estándar",
-            "color": "#10b981"
+            "addr": "0xCUDA018",
+            "hex": [
+              "3F",
+              "80",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00"
+            ],
+            "label": "FACTOR DE ESCALA ALFA (FLOAT32)"
+          },
+          {
+            "addr": "0xCUDA020",
+            "hex": [
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00"
+            ],
+            "label": "REDUCCIÓN DE HUELLA VRAM: 74%"
           }
         ]
       }
     },
     {
-      "id": "vllm_speed",
-      "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Con motores como vLLM y PagedAttention, el servidor procesa peticiones en lotes continuos multiplicando la velocidad de inferencia.",
-      "visual_cue": "Terminal levantando vLLM con modelo cuantizado",
-      "props": {
-        "header": "INFERENCIA DE ALTO RENDIMIENTO",
-        "title": "VLLM CON PAGEDATTENTION",
-        "filename": "deploy/vllm.sh",
-        "codeLines": [
-          "vllm serve Qwen2.5-Coder-32B-Instruct-AWQ \\",
-          "  --gpu-memory-utilization 0.95 \\",
-          "  --max-model-len 32768 \\",
-          "  --port 8000",
-          "# Rendimiento: 120 tokens/s con 40 usuarios concurrentes"
-        ],
-        "cursorLine": 5
-      }
-    },
-    {
       "id": "cta_quant",
-      "type": "tradeoff_matrix",
+      "type": "terminal_split",
       "duration": 5,
       "voiceover": "Ayudo a empresas a desplegar clústeres de inferencia privada con modelos abiertos para no depender de APIs externas. Contáctame en mi perfil.",
-      "visual_cue": "Cierre con consultoría de IA privada",
+      "visual_cue": "Terminal con benchmark de inferencia local vLLM y llamada a la acción en bio",
       "props": {
-        "header": "CONSULTORÍA DE IA PRIVADA",
-        "title": "SOBERANÍA TOTAL DE TUS MODELOS",
-        "cta": {
-          "badge": "INGENIERÍA DE IA (Link en bio)",
-          "text": "¿Quieres correr modelos locales sin pagar APIs caras? Link en mi bio para agendar una sesión."
-        }
+        "header": "INFRAESTRUCTURA DE IA (Link en bio)",
+        "title": "INFERENCIA PRIVADA EN PRODUCCIÓN",
+        "leftTitle": "VLLM SERVER EN LOCAL",
+        "rightTitle": "VENTAJAS DE SOBERANÍA",
+        "leftText": "$ vllm serve Qwen2.5-Coder-32B-AWQ\n✔ Modelo cargado en 8.4 GB VRAM\n✔ Throughput: 114 tokens/segundo\n✔ Cumplimiento estricto GDPR y HIPAA",
+        "rightText": "• Elimina pagos recurrentes de OpenAI\n• Cero fugas de propiedad intelectual\n• Latencia predecible de 15ms\n• Asesoría de despliegue: link en bio"
       }
     }
   ]

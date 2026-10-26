@@ -6,91 +6,74 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "direct_terminal_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Tu startup tiene tres desarrolladores y diez microservicios. Están quemando la mitad de su tiempo y presupuesto manteniendo Kubernetes.",
-      "visual_cue": "Apertura directa con terminal comparando factura mensual y tiempo de despliegue",
+      "id": "shock_hook",
+      "type": "architecture_flow",
+      "duration": 5.5,
+      "voiceover": "Netflix usa microservicios porque tiene dos mil ingenieros. Tú tienes cuatro personas y estás quemando quince mil dólares al mes.",
+      "visual_cue": "Diagrama mostrando la telaraña de microservicios vs la simplicidad de 1 binario",
       "props": {
-        "header": "EL COSTE DE LA MODA",
-        "title": "KUBERNETES VS UN SOLO SERVIDOR",
-        "subtitle": "COMPARATIVA DE COSTES REALES EN PRODUCCIÓN",
-        "termA": {
-          "title": "STACK CON MICROSERVICIOS",
-          "color": "#ef4444",
-          "cmd": "kubectl get pods --all-namespaces",
-          "status": "24 pods en ejecución · 8 clusters",
-          "time": "$3,800/mes",
-          "lines": [
-            "Factura AWS EKS + NAT Gateways: $3,800",
-            "Tiempo medio de debugging: 4 horas",
-            "Tracing distribuido obligatorio con Jaeger"
-          ]
-        },
-        "termB": {
-          "title": "MONOLITO MODULAR CON KAMAL",
-          "color": "#10b981",
-          "cmd": "kamal deploy",
-          "status": "1 solo binario en VPS dedicado",
-          "time": "$120/mes",
-          "lines": [
-            "Factura servidor Hetzner: $120/mes",
-            "Tiempo medio de deploy: 18 segundos",
-            "Logs centralizados en stdout directos"
-          ]
-        }
-      }
-    },
-    {
-      "id": "verdict_b",
-      "type": "tradeoff_matrix",
-      "duration": 6,
-      "voiceover": "Los microservicios resuelven problemas de organización cuando tienes mil ingenieros, no de rendimiento técnico.",
-      "visual_cue": "Matriz de tradeoffs demoledora",
-      "props": {
-        "header": "PRAGMATISMO TÉCNICO",
-        "title": "¿CUÁNDO USAR CADA UNO?",
-        "colA": "STARTUPS Y PYMES",
-        "colB": "BIG TECH (+500 DEVS)",
-        "rows": [
+        "header": "REALIDAD DE STARTUP",
+        "title": "SOBREINGENIERÍA VS RENTABILIDAD",
+        "nodes": [
           {
-            "dim": "Arquitectura recomendada",
-            "a": "Monolito Modular",
-            "b": "Microservicios",
-            "aGood": true
+            "id": "clients",
+            "label": "TRÁFICO REAL DE STARTUP",
+            "sublabel": "100-500 peticiones por minuto",
+            "color": "#38bdf8",
+            "y": 160
           },
           {
-            "dim": "Tiempo a producción",
-            "a": "1 semana",
-            "b": "3 meses",
-            "aGood": true
+            "id": "monolith",
+            "label": "1 BINARIO COMPILADO EN HETZNER",
+            "sublabel": "Postgres embebido o local · 0ms red",
+            "color": "#10b981",
+            "y": 520
           },
           {
-            "dim": "Mantenimiento DevOps",
-            "a": "0 personas dedicadas",
-            "b": "Equipo entero",
-            "aGood": true
+            "id": "k8s_hell",
+            "label": "KUBERNETES DISTRIBUIDO (EVITAR)",
+            "sublabel": "15 pods · Sidecars · AWS NAT Gateway carísimo",
+            "color": "#ef4444",
+            "y": 880
           }
         ]
       }
     },
     {
-      "id": "cta_b",
-      "type": "code_terminal",
-      "duration": 5,
-      "voiceover": "Si tu equipo pasa más tiempo arreglando pipelines que creando producto, audito tu arquitectura para volver a la simplicidad. Agenda en mi perfil.",
-      "visual_cue": "Terminal de contacto con auditoría técnica",
+      "id": "metrics_cost",
+      "type": "metrics_comparison",
+      "duration": 6,
+      "voiceover": "La factura de AWS: tres mil dólares en NAT Gateways y bases de datos distribuidas que solo mueven cien peticiones por minuto.",
+      "visual_cue": "Métricas de coste mensual: 15.000 dólares en microservicios vs 120 dólares en servidor bare metal",
       "props": {
-        "header": "AUDITORÍA DE ARQUITECTURA",
-        "title": "DESMANTELA LA COMPLEJIDAD",
-        "filename": "audit/contact.sh",
-        "codeLines": [
-          "# Diagnóstico de cuellos de botella y costes cloud",
-          "npx audit --target=microservices --strategy=consolidation",
-          "Resultado estimado: -75% costes y 5x velocidad de entrega",
-          "Agenda tu sesión técnica en el link de la bio."
-        ],
-        "cursorLine": 3
+        "header": "GASTO MENSUAL EN INFRAESTRUCTURA",
+        "metricA": {
+          "label": "MICROSERVICIOS K8S",
+          "value": "$14.800",
+          "sub": "NAT Gateways · Control Plane · Logs",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "MONOLITO MODULAR",
+          "value": "$140",
+          "sub": "Servidor Bare Metal en Hetzner",
+          "color": "#10b981"
+        }
+      }
+    },
+    {
+      "id": "cta_solucion",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Vuelve a lo simple: un solo repositorio, un solo pipeline, despliegue en diez segundos. Link en mi perfil si necesitas auditar tu infraestructura.",
+      "visual_cue": "Terminal con despliegue instantáneo en 10 segundos y enlace en bio",
+      "props": {
+        "header": "CONSULTORÍA TÉCNICA (Link en bio)",
+        "title": "DESPLIEGUE EN 10 SEGUNDOS",
+        "leftTitle": "PIPELINE SIMPLIFICADO",
+        "rightTitle": "BENEFICIOS DE NEGOCIO",
+        "leftText": "$ git push production main\n✔ Compilando binario único...\n✔ Tests de módulos aprobados (3.2s)\n✔ Despliegue Zero-Downtime completado",
+        "rightText": "• Reduce el gasto de AWS en 90%\n• Despliega features 5x más rápido\n• Cero llamadas rotas entre microservicios\n• ¿Evaluamos tu stack? Link en bio"
       }
     }
   ]

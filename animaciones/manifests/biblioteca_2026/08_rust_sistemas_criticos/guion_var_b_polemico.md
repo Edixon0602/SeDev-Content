@@ -1,9 +1,9 @@
 # Guion de Grabación: Por qué Discord y Cloudflare mataron Go y adoptaron Rust
 > **Tema #08:** 08_rust_sistemas_criticos  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** LENGUAJES DE SISTEMAS & RENDIMIENTO  
-> **Tono:** Caso de estudio real de industria, analizando p99 y recolector de basura  
-> **Duración total:** 11.5s | **Palabras:** 51 palabras (~266 palabras/minuto)
+> **Categoría:** LENGUAJES & RENDIMIENTO  
+> **Tono:** Contundente, arquitectura de alta escala, lecciones aprendidas  
+> **Duración total:** 11.5s | **Palabras:** 53 palabras (~277 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `metrics_comparison` | Apertura directa con comparativa gráfica de p99 latency con Garbage Collection vs Rust | "Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia." | 28 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con contratación senior | "Construyo software de alto rendimiento y arquitectura sin picos de latencia. Si buscas un lead engineer para tu infraestructura, link en mi biografía." | 23 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `memory_layout` | Inspección de memoria con picos de pausa de Garbage Collector en Go | "Discord tenía un servicio en Go procesando millones de mensajes. Cada dos minutos, el Garbage Collector congelaba el servicio creando picos de latencia inaceptables." | 24 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `terminal_split` | Terminal mostrando comparativa de métricas tras la migración a Rust | "Reescribieron el servicio en Rust. El uso de CPU se desplomó y la latencia pasó de dos segundos a menos de un milisegundo constante. Link en bio para optimizaciones." | 29 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia.
+Discord tenía un servicio en Go procesando millones de mensajes. Cada dos minutos, el Garbage Collector congelaba el servicio creando picos de latencia inaceptables.
 
-Construyo software de alto rendimiento y arquitectura sin picos de latencia. Si buscas un lead engineer para tu infraestructura, link en mi biografía.
+Reescribieron el servicio en Rust. El uso de CPU se desplomó y la latencia pasó de dos segundos a menos de un milisegundo constante. Link en bio para optimizaciones.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** contratacion_senior
+- **Tipo de Oferta:** optimizacion_backend
 - **Última Escena (CTA Leve):** 
-  > *"Construyo software de alto rendimiento y arquitectura sin picos de latencia. Si buscas un lead engineer para tu infraestructura, link en mi biografía."*
+  > *"Reescribieron el servicio en Rust. El uso de CPU se desplomó y la latencia pasó de dos segundos a menos de un milisegundo constante. Link en bio para optimizaciones."*

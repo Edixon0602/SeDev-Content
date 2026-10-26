@@ -1,90 +1,62 @@
 {
   "title": "[14] LSM Trees vs B-Trees: MemTable, SSTables y páginas en disco (Var A)",
-  "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+  "category": "ESTRUCTURAS DE DATOS & DB INTERNALS",
   "slug": "14_lsm_trees_vs_btrees",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "lsm_flow_hook",
-      "type": "architecture_flow",
+      "id": "storage_engine_lsm",
+      "type": "storage_engine_viz",
       "duration": 6.5,
-      "voiceover": "¿Por qué RocksDB escribe a velocidades récord mientras Postgres prefiere B-Trees? Un LSM Tree escribe en una MemTable en RAM y luego vuelca bloques secuenciales inmutables en disco.",
-      "visual_cue": "Apertura directa con arquitectura de escritura secuencial: MemTable a SSTables",
+      "voiceover": "Si tu base de datos colapsa cuando recibe millones de escrituras por segundo, estás usando la estructura de datos equivocada.",
+      "visual_cue": "Visualizador del motor de almacenamiento LSM Tree con MemTable en RAM y compactación de SSTables",
       "props": {
-        "header": "FLUJO DE ESCRITURA EN LSM",
-        "title": "ESCRITURAS SECUENCIALES INMUTABLES",
-        "nodes": [
-          {
-            "id": "ram",
-            "label": "MEMTABLE (SKIPLIST EN RAM)",
-            "sublabel": "Escrituras directas O(1) en memoria DDR5",
-            "color": "#10b981",
-            "y": 160
-          },
-          {
-            "id": "wal",
-            "label": "APPEND-ONLY LOG EN NVMe",
-            "sublabel": "Cero escrituras aleatorias · Máximo throughput",
-            "color": "#fbbf24",
-            "y": 520
-          },
-          {
-            "id": "sst",
-            "label": "SSTABLES INMUTABLES EN DISCO",
-            "sublabel": "Compactación en segundo plano por niveles",
-            "color": "#38bdf8",
-            "y": 880
-          }
-        ]
+        "mode": "lsm",
+        "badge": "ESTRUCTURAS DE ALMACENAMIENTO",
+        "title": "LSM-TREE: LOG-STRUCTURED MERGE",
+        "subtitle": "MEMTABLE EN RAM => FLUSH SECUENCIAL A SSTABLE"
       }
     },
     {
-      "id": "btree_diff",
-      "type": "tradeoff_matrix",
+      "id": "tree_hierarchy_btree",
+      "type": "tree_hierarchy",
       "duration": 6,
-      "voiceover": "En cambio, un B-Tree sobrescribe páginas en ubicaciones aleatorias. Es más lento para escribir, pero sus lecturas son instantáneas con un solo salto.",
-      "visual_cue": "Matriz técnica de compensaciones entre motores",
+      "voiceover": "Los B-Trees de PostgreSQL modifican páginas en disco de forma aleatoria, lo que desgasta los discos SSD y satura el canal de I/O.",
+      "visual_cue": "Visualizador del árbol B balanceado mostrando el coste de la división de páginas",
       "props": {
-        "header": "COMPENSACIONES DE HARDWARE",
-        "title": "LSM-TREE VS B-TREE",
-        "colA": "LSM-TREE (ROCKSDB)",
-        "colB": "B-TREE (POSTGRESQL)",
-        "rows": [
+        "badge": "ESTRUCTURA B-TREE",
+        "title": "PÁGINAS BALANCED-TREE EN DISCO",
+        "items": [
           {
-            "dim": "Velocidad de Escritura",
-            "a": "✔ Ultra rápida (Append-only)",
-            "b": "✖ Lenta (Random page writes)",
-            "aGood": true
+            "name": "Root Node",
+            "level": 0
           },
           {
-            "dim": "Velocidad de Lectura puntual",
-            "a": "✖ Requiere Bloom Filters",
-            "b": "✔ 1 solo seek O(log N)",
-            "aGood": false
+            "name": "Internal Page A",
+            "level": 1
           },
           {
-            "dim": "Amplificación de Escritura",
-            "a": "Alta (Por compactación)",
-            "b": "Baja (Páginas directas)",
-            "aGood": false
+            "name": "Internal Page B",
+            "level": 1
+          },
+          {
+            "name": "Leaf Disk Page (4 KB)",
+            "level": 2
           }
         ]
       }
     },
     {
-      "id": "cta_lsm",
-      "type": "tradeoff_matrix",
+      "id": "latency_lsm",
+      "type": "latency_scale",
       "duration": 5,
-      "voiceover": "Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil.",
-      "visual_cue": "Cierre con llamado a auditoría de bases de datos",
+      "voiceover": "Los LSM Trees como RocksDB convierten cada escritura en una operación secuencial en memoria, multiplicando el throughput por diez.",
+      "visual_cue": "Escala de latencia comparando escrituras aleatorias en B-Tree vs escrituras append-only en LSM",
       "props": {
-        "header": "AUDITORÍA DE BASES DE DATOS Y I/O",
-        "title": "RESOLUCIÓN DE CUELLOS DE BOTELLA",
-        "cta": {
-          "badge": "AUDITORÍA DE DATOS (Link en bio)",
-          "text": "¿Tu base de datos sufre por escrituras masivas? Link en mi perfil para agendar tu auditoría."
-        }
+        "header": "MÉTRICAS DE RENDIMIENTO",
+        "title": "THROUGHPUT DE ESCRITURA",
+        "subtitle": "ESCRITURAS ALEATORIAS VS SECUENCIALES"
       }
     }
   ]

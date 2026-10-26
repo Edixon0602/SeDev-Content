@@ -2,8 +2,8 @@
 > **Tema #12:** 12_sse_vs_websockets  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** REDES & PROTOCOLOS WEB  
-> **Tono:** Directo y simplificador, desmontando la necesidad de balanceadores complejos  
-> **Duración total:** 11.5s | **Palabras:** 42 palabras (~219 palabras/minuto)
+> **Tono:** Directo, antipatrones de ingeniería, desmitificación técnica  
+> **Duración total:** 11.5s | **Palabras:** 46 palabras (~240 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `tradeoff_matrix` | Apertura directa con tabla comparativa de Server-Sent Events frente a WebSockets | "Usar WebSockets solo para mostrar texto progresivo o notificaciones complica tus balanceadores de carga sin ninguna necesidad técnica real." | 19 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de arquitectura | "Audito la arquitectura de red de aplicaciones web para simplificar el stack y mejorar la fiabilidad. Agenda en el link de mi perfil." | 23 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `terminal_split` | Terminal mostrando cortes de conexión WebSocket vs flujo continuo de SSE | "Mantener un clúster de WebSockets requiere balanceadores especiales, heartbeat constante y una pesadilla de reconexión cuando falla la red móvil." | 20 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `network_pipeline` | Tubería de paquetes HTTP/2 procesando el stream de eventos | "Si tu cliente solo escucha actualizaciones del servidor como chats o cotizaciones, SSE sobre HTTP/2 es diez veces más fácil de operar. Link en mi bio." | 26 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Usar WebSockets solo para mostrar texto progresivo o notificaciones complica tus balanceadores de carga sin ninguna necesidad técnica real.
+Mantener un clúster de WebSockets requiere balanceadores especiales, heartbeat constante y una pesadilla de reconexión cuando falla la red móvil.
 
-Audito la arquitectura de red de aplicaciones web para simplificar el stack y mejorar la fiabilidad. Agenda en el link de mi perfil.
+Si tu cliente solo escucha actualizaciones del servidor como chats o cotizaciones, SSE sobre HTTP/2 es diez veces más fácil de operar. Link en mi bio.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** contratacion_senior
+- **Tipo de Oferta:** optimizacion_backend
 - **Última Escena (CTA Leve):** 
-  > *"Audito la arquitectura de red de aplicaciones web para simplificar el stack y mejorar la fiabilidad. Agenda en el link de mi perfil."*
+  > *"Si tu cliente solo escucha actualizaciones del servidor como chats o cotizaciones, SSE sobre HTTP/2 es diez veces más fácil de operar. Link en mi bio."*

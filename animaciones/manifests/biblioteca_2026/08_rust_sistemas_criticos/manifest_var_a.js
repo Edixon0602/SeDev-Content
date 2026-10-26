@@ -1,68 +1,99 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[08] El Borrow Checker de Rust: Cero fugas de memoria sin GC (Var A)",
-  "category": "LENGUAJES DE SISTEMAS & RENDIMIENTO",
+  "category": "LENGUAJES & RENDIMIENTO",
   "slug": "08_rust_sistemas_criticos",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "memory_borrow_hook",
-      "type": "memory_layout",
-      "duration": 6.5,
-      "voiceover": "¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática.",
-      "visual_cue": "Apertura directa con layout de memoria Stack vs Heap y liberación sin recolector",
+      "id": "rust_compile_hook",
+      "type": "terminal_split",
+      "duration": 6,
+      "voiceover": "Rust garantiza seguridad de memoria en tiempo de compilación. No hay recolector de basura deteniendo el mundo ni fugas ocultas.",
+      "visual_cue": "Terminal mostrando error del borrow checker atrapando un puntero colgante antes de llegar a prod",
       "props": {
-        "header": "GESTIÓN ESTÁTICA DE MEMORIA",
-        "title": "PROPIEDAD Y PRÉSTAMOS (OWNERSHIP)",
-        "items": [
+        "header": "GARANTÍA EN COMPILACIÓN",
+        "title": "EL BORROW CHECKER EN ACCIÓN",
+        "leftTitle": "COMPILADOR RUSTC",
+        "rightTitle": "GARANTÍA DE MEMORIA",
+        "leftText": "$ cargo check\nerror[E0382]: borrow of moved value: `data`\n  --> src/network.rs:42:18\n  | value moved here, in previous iteration\n✖ El compilador prohíbe data races",
+        "rightText": "• 0 punteros nulos en runtime\n• 0 fugas de memoria sin recolector\n• Rendimiento idéntico a C/C++\n• Aislamiento estricto de hilos"
+      }
+    },
+    {
+      "id": "memory_inspection",
+      "type": "memory_layout",
+      "duration": 6,
+      "voiceover": "Cada valor tiene un único dueño. Cuando la variable sale del ámbito, la memoria se libera inmediatamente en el stack sin pausas de CPU.",
+      "visual_cue": "Inspección de memoria RAM mostrando asignación en stack sin fragmentación de heap",
+      "props": {
+        "badge": "GESTIÓN RAII",
+        "title": "ASIGNACIÓN EN STACK VS HEAP",
+        "rows": [
           {
-            "name": "STACK FRAME ACTIVO",
-            "addr": "0x7fff001",
-            "value": "Buffer asignado y dueño único",
-            "color": "#10b981"
+            "addr": "0x7FFF010",
+            "hex": [
+              "72",
+              "75",
+              "73",
+              "74",
+              "5F",
+              "6F",
+              "77",
+              "6E"
+            ],
+            "label": "BUFFER EXCLUSIVO (STACK)"
           },
           {
-            "name": "DROP AUTOMÁTICO EN COMPILACIÓN",
-            "addr": "0x7fff002",
-            "value": "Cero pausas de Garbage Collector (0ns)",
-            "color": "#38bdf8"
+            "addr": "0x7FFF018",
+            "hex": [
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "20"
+            ],
+            "label": "CAPACIDAD (32 BYTES)"
+          },
+          {
+            "addr": "0x7FFF020",
+            "hex": [
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00",
+              "00"
+            ],
+            "label": "LIBERACIÓN AUTOMÁTICA"
           }
         ]
       }
     },
     {
-      "id": "rust_code",
-      "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción.",
-      "visual_cue": "Terminal mostrando error del borrow checker previniendo una condición de carrera",
-      "props": {
-        "header": "PREVENCIÓN EN COMPILACIÓN",
-        "title": "EL COMPILADOR DEFIENDE TU SISTEMA",
-        "filename": "src/concurrency.rs",
-        "codeLines": [
-          "fn process(shared: &mut Data) {",
-          "  thread::spawn(move || {",
-          "    shared.mutate(); // ERROR E0502: Cannot borrow as mutable",
-          "  });",
-          "  shared.read();",
-          "}"
-        ],
-        "cursorLine": 4
-      }
-    },
-    {
       "id": "cta_rust",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Diseño servicios backend de alto rendimiento y baja latencia en Rust y Go. Si buscas un desarrollador senior para liderar tu sistema, link en mi perfil.",
-      "visual_cue": "Cierre con contratación senior backend",
+      "type": "metrics_comparison",
+      "duration": 5.5,
+      "voiceover": "Optimizo microservicios críticos y migro cuellos de botella a Rust para reducir la latencia p99 a microsegundos. Link en bio para auditar tu backend.",
+      "visual_cue": "Comparativa de latencia de cola p99: Go con GC vs Rust nativo",
       "props": {
-        "header": "CONTRATACIÓN SENIOR / STAFF ENGINEER",
-        "title": "DESARROLLO DE SISTEMAS DE ALTA CONCURRENCIA",
-        "cta": {
-          "badge": "STAFF BACKEND DEVELOPER (Link en bio)",
-          "text": "¿Necesitas desarrollo en Rust o Go para sistemas críticos? Contáctame en el link de la bio."
+        "header": "CONSULTORÍA EN RUST (Link en bio)",
+        "metricA": {
+          "label": "GO BACKEND (GC PAUSES)",
+          "value": "45.2 ms",
+          "sub": "Picos de latencia en percentil p99",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "RUST NATIVO (ZERO-GC)",
+          "value": "0.48 ms",
+          "sub": "Latencia predecible y uniforme",
+          "color": "#10b981"
         }
       }
     }

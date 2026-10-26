@@ -1,9 +1,9 @@
 # Guion de Grabación: Cómo servir respuestas en 5 milisegundos sin servir datos desactualizados
 > **Tema #19:** 19_cache_stale_while_revalidate  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** REDES & ARQUITECTURA DE CACHÉ  
-> **Tono:** Práctico y directo, dominando los encabezados HTTP y el edge  
-> **Duración total:** 11.5s | **Palabras:** 53 palabras (~277 palabras/minuto)
+> **Categoría:** SISTEMAS DE CACHÉ & ALTA DISPONIBILIDAD  
+> **Tono:** Directo al grano, trucos de arquitectura de alto nivel, rendimiento web  
+> **Duración total:** 11.5s | **Palabras:** 48 palabras (~250 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `metrics_comparison` | Apertura directa con métricas de descarga de servidor y latencia TTFB | "No necesitas pagar un clúster de Redis para que tu web vuele. El encabezado Stale-While-Revalidate en el Edge reduce la carga de base de datos en un noventa y ocho por ciento." | 32 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de escalabilidad | "Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio." | 21 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `cache_flow_viz` | Visualizador del reemplazo atómico de datos en caché | "Creer que una caché rápida siempre devuelve datos viejos es un error. Con la técnica adecuada entregas contenido en dos milisegundos y mantienes los datos frescos." | 26 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `terminal_split` | Terminal comparando latencia con SWR y llamada a la acción en bio | "Aprovecha las capacidades nativas de HTTP y CDNs modernas sin meter capas complejas de software. Link en mi perfil para asesoría técnica." | 22 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-No necesitas pagar un clúster de Redis para que tu web vuele. El encabezado Stale-While-Revalidate en el Edge reduce la carga de base de datos en un noventa y ocho por ciento.
+Creer que una caché rápida siempre devuelve datos viejos es un error. Con la técnica adecuada entregas contenido en dos milisegundos y mantienes los datos frescos.
 
-Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio.
+Aprovecha las capacidades nativas de HTTP y CDNs modernas sin meter capas complejas de software. Link en mi perfil para asesoría técnica.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** arquitectura
+- **Tipo de Oferta:** optimizacion_backend
 - **Última Escena (CTA Leve):** 
-  > *"Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio."*
+  > *"Aprovecha las capacidades nativas de HTTP y CDNs modernas sin meter capas complejas de software. Link en mi perfil para asesoría técnica."*

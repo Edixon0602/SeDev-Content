@@ -1,9 +1,9 @@
 # Guion de Grabación: Muerte a los Sidecars de Kubernetes: Por qué eBPF lo cambia todo
 > **Tema #04:** 04_ebpf_linux_kernel  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** SISTEMAS OPERATIVOS & OBSERVABILIDAD  
-> **Tono:** Contundente, técnico, desmontando el sobrecoste de Envoy y mTLS tradicional  
-> **Duración total:** 11.5s | **Palabras:** 44 palabras (~230 palabras/minuto)
+> **Categoría:** SISTEMAS Y REDES  
+> **Tono:** Provocador, anti-sidecar, arquitecturas modernas de red  
+> **Duración total:** 11.5s | **Palabras:** 49 palabras (~256 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `tradeoff_matrix` | Apertura directa con tabla comparativa de Sidecars vs eBPF | "Meter un sidecar proxy en cada contenedor de Kubernetes duplica tu factura de memoria y añade latencia innecesaria. eBPF vino a matarlos." | 22 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de infraestructura y clusters | "Audito la arquitectura de red y el gasto en clústeres de Kubernetes para eliminar fricción y sobrecostes. Enlace directo en mi perfil." | 22 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `kernel_sandbox_viz` | Visualizador del kernel mostrando el bypass de sidecars mediante eBPF | "Los sidecars de Envoy en Kubernetes consumen hasta el veinticinco por ciento de tu CPU solo copiando paquetes entre userspace y kernel. eBPF los hace obsoletos." | 26 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `terminal_split` | Terminal comparando latencia y consumo de CPU: Istio vs Cilium eBPF | "Cilium reemplaza toda esa basura enrutando el tráfico directamente en el socket del kernel. Link en bio si quieres reducir costes de Kubernetes." | 23 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Meter un sidecar proxy en cada contenedor de Kubernetes duplica tu factura de memoria y añade latencia innecesaria. eBPF vino a matarlos.
+Los sidecars de Envoy en Kubernetes consumen hasta el veinticinco por ciento de tu CPU solo copiando paquetes entre userspace y kernel. eBPF los hace obsoletos.
 
-Audito la arquitectura de red y el gasto en clústeres de Kubernetes para eliminar fricción y sobrecostes. Enlace directo en mi perfil.
+Cilium reemplaza toda esa basura enrutando el tráfico directamente en el socket del kernel. Link en bio si quieres reducir costes de Kubernetes.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** seguridad_infra
+- **Tipo de Oferta:** auditoria_infra
 - **Última Escena (CTA Leve):** 
-  > *"Audito la arquitectura de red y el gasto en clústeres de Kubernetes para eliminar fricción y sobrecostes. Enlace directo en mi perfil."*
+  > *"Cilium reemplaza toda esa basura enrutando el tráfico directamente en el socket del kernel. Link en bio si quieres reducir costes de Kubernetes."*

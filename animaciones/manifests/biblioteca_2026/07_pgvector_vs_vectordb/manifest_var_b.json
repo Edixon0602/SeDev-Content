@@ -6,53 +6,28 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "sync_split_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.",
-      "visual_cue": "Apertura directa con terminal comparando sincronización dual problemática vs base única",
+      "id": "pinecone_shock",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "Contratar una base de datos vectorial externa solo para guardar embeddings es el mayor error de arquitectura de 2026.",
+      "visual_cue": "Gráfica de latencia mostrando el salto de red de 85ms a Pinecone vs 3ms en Postgres",
       "props": {
-        "header": "COMPLEJIDAD OPERATIVA",
-        "title": "DOS BASES DE DATOS VS UNA SOLA",
-        "termA": {
-          "title": "POSTGRES + PINECONE EXTERNO",
-          "color": "#ef4444",
-          "cmd": "sync_worker.py (Sincronizando IDs)",
-          "status": "Inconsistencias cuando falla la red",
-          "time": "$340/mes extra",
-          "lines": [
-            "Si el delete falla en Pinecone, quedan embeddings huérfanos",
-            "Doble factura: Base de datos + Proveedor vectorial",
-            "Latencia añadida entre dos nubes distintas"
-          ]
-        },
-        "termB": {
-          "title": "POSTGRESQL NATIVO (PGVECTOR)",
-          "color": "#10b981",
-          "cmd": "CREATE INDEX USING hnsw (embedding vector_cosine_ops)",
-          "status": "Transacciones ACID nativas",
-          "time": "$0 extra",
-          "lines": [
-            "Un solo respaldo con pg_dump tradicional",
-            "Join directo entre tablas relacionales y embeddings",
-            "Cero sincronizaciones en segundo plano"
-          ]
-        }
+        "header": "SOBRECARGA DE RED EN RAG",
+        "title": "EL ERROR DE FRAGMENTAR TU BASE",
+        "subtitle": "LATENCIA DE RED HTTP VS JOINS EN EL MISMO MOTOR"
       }
     },
     {
-      "id": "cta_pgvector_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio.",
-      "visual_cue": "Cierre con auditoría de base de datos",
+      "id": "hnsw_storage",
+      "type": "storage_engine_viz",
+      "duration": 6,
+      "voiceover": "Postgres maneja tus usuarios, tus pagos y tus vectores con consistencia transaccional y backups unificados con pg_dump.",
+      "visual_cue": "Visualizador del motor de almacenamiento HNSW demostrando 99% recall",
       "props": {
-        "header": "AUDITORÍA DE BASES DE DATOS",
-        "title": "SIMPLIFICA TU CAPA DE PERSISTENCIA",
-        "cta": {
-          "badge": "AUDITORÍA DE DATOS (Link en bio)",
-          "text": "Consolida tus bases de datos y ahorra costes. Link en mi perfil para agendar tu auditoría."
-        }
+        "mode": "hnsw",
+        "badge": "STACK UNIFICADO",
+        "title": "CERO BASES DE DATOS EXTERNAS",
+        "subtitle": "RELACIONAL + VECTORES EN EL MISMO CLÚSTER ACID"
       }
     }
   ]

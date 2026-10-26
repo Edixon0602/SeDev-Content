@@ -1,56 +1,35 @@
 {
   "title": "[04] Muerte a los Sidecars de Kubernetes: Por qué eBPF lo cambia todo (Var B)",
-  "category": "SISTEMAS OPERATIVOS & OBSERVABILIDAD",
+  "category": "SISTEMAS Y REDES",
   "slug": "04_ebpf_linux_kernel",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "sidecar_hook",
-      "type": "tradeoff_matrix",
-      "duration": 6.5,
-      "voiceover": "Meter un sidecar proxy en cada contenedor de Kubernetes duplica tu factura de memoria y añade latencia innecesaria. eBPF vino a matarlos.",
-      "visual_cue": "Apertura directa con tabla comparativa de Sidecars vs eBPF",
+      "id": "sidecar_death",
+      "type": "kernel_sandbox_viz",
+      "duration": 6,
+      "voiceover": "Los sidecars de Envoy en Kubernetes consumen hasta el veinticinco por ciento de tu CPU solo copiando paquetes entre userspace y kernel. eBPF los hace obsoletos.",
+      "visual_cue": "Visualizador del kernel mostrando el bypass de sidecars mediante eBPF",
       "props": {
-        "header": "SERVICE MESH OVERHEAD",
-        "title": "ENVOY SIDECARS VS CILIUM EBPF",
-        "colA": "CILIUM EBPF (KERNEL)",
-        "colB": "ISTIO / ENVOY SIDECAR",
-        "rows": [
-          {
-            "dim": "Memoria por Pod",
-            "a": "0 MB extra",
-            "b": "150-250 MB por pod",
-            "aGood": true
-          },
-          {
-            "dim": "Saltos TCP en Loopback",
-            "a": "0 hops (Socket direct)",
-            "b": "4 hops por petición",
-            "aGood": true
-          },
-          {
-            "dim": "Cifrado mTLS",
-            "a": "WireGuard en Kernel",
-            "b": "mTLS en User Space",
-            "aGood": true
-          }
-        ]
+        "badge": "ELIMINACIÓN DE SIDECARS",
+        "title": "BYPASS TOTAL DEL USERSPACE",
+        "subtitle": "CILIUM eBPF REEMPLAZANDO PROXIES PESADOS"
       }
     },
     {
-      "id": "cta_ebpf_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la arquitectura de red y el gasto en clústeres de Kubernetes para eliminar fricción y sobrecostes. Enlace directo en mi perfil.",
-      "visual_cue": "Cierre con auditoría de infraestructura y clusters",
+      "id": "terminal_compare",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Cilium reemplaza toda esa basura enrutando el tráfico directamente en el socket del kernel. Link en bio si quieres reducir costes de Kubernetes.",
+      "visual_cue": "Terminal comparando latencia y consumo de CPU: Istio vs Cilium eBPF",
       "props": {
-        "header": "AUDITORÍA DE INFRAESTRUCTURA",
-        "title": "OPTIMIZA TU CLÚSTER KUBERNETES",
-        "cta": {
-          "badge": "AUDITORÍA DE K8S (Link en perfil)",
-          "text": "Elimina sobrecargas en tus clústeres. Link en mi biografía para agendar tu diagnóstico."
-        }
+        "header": "AUDITORÍA DE KUBERNETES (Link en bio)",
+        "title": "CILIUM eBPF EN PRODUCCIÓN",
+        "leftTitle": "CONSUMO DE RECURSOS",
+        "rightTitle": "MÉTRICAS CLAVE",
+        "leftText": "ISTIO PROXIES: 24% CPU | 1.8 ms delay\nCILIUM eBPF:   2% CPU  | 0.2 ms delay\n✔ Ahorro de RAM: 3.2 GB por nodo",
+        "rightText": "• Reduce el gasto en clusters un 35%\n• Desaparecen los errores de timeout\n• Observabilidad nativa con Hubble\n• Contacto para asesoría en mi perfil"
       }
     }
   ]

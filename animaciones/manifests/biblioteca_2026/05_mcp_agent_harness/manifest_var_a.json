@@ -1,38 +1,51 @@
 {
   "title": "[05] Model Context Protocol (MCP): El estándar universal para IA y código (Var A)",
-  "category": "AI ENGINEERING & AGENT PROTOCOLS",
+  "category": "INTELIGENCIA ARTIFICIAL",
   "slug": "05_mcp_agent_harness",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "mcp_hook",
-      "type": "architecture_flow",
-      "duration": 6.5,
-      "voiceover": "El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol.",
-      "visual_cue": "Apertura directa con arquitectura de protocolo cliente-servidor de herramientas",
+      "id": "mcp_lead",
+      "type": "quantization_weights_viz",
+      "duration": 6,
+      "voiceover": "Olvídate de pegar código a mano en el chat. Model Context Protocol es el estándar abierto que conecta modelos de IA con bases de datos, APIs y herramientas locales.",
+      "visual_cue": "Visualizador del protocolo MCP conectando el harness de agentes con herramientas del entorno",
       "props": {
-        "header": "ARQUITECTURA DE PROTOCOLO",
-        "title": "DESACOPLAMIENTO DE HERRAMIENTAS",
+        "mode": "mcp",
+        "badge": "ESTÁNDAR UNIVERSAL",
+        "title": "MODEL CONTEXT PROTOCOL (MCP)",
+        "subtitle": "COMUNICACIÓN TIPADA CLIENTE-SERVIDOR PARA AGENTES"
+      }
+    },
+    {
+      "id": "flow_mcp",
+      "type": "architecture_flow",
+      "duration": 6,
+      "voiceover": "Funciona como un Language Server Protocol: el modelo solicita herramientas y el servidor MCP ejecuta la acción de forma segura en tu máquina.",
+      "visual_cue": "Flujo de comunicación entre Claude / GPT, el arnés de MCP y las herramientas locales",
+      "props": {
+        "header": "CONTRATO DE HERRAMIENTAS",
+        "title": "ARQUITECTURA CLIENTE - SERVIDOR MCP",
         "nodes": [
           {
             "id": "llm",
-            "label": "AGENTE / CLIENTE MCP",
-            "sublabel": "Claude Code · Cursor · Custom Runner",
+            "label": "MODELO DE IA (LLM)",
+            "sublabel": "Claude · GPT-4 · DeepSeek",
             "color": "#a855f7",
             "y": 160
           },
           {
-            "id": "protocol",
-            "label": "PROTOCOLO JSON-RPC 2.0",
-            "sublabel": "Capabilities Negotiation · Tools & Resources",
+            "id": "client",
+            "label": "MCP CLIENT (ARNÉS)",
+            "sublabel": "Validación de JSON-Schema y permisos",
             "color": "#38bdf8",
             "y": 520
           },
           {
             "id": "servers",
-            "label": "SERVIDORES MCP AISLADOS",
-            "sublabel": "PostgreSQL · GitHub · Terminal Shell",
+            "label": "MCP SERVERS LOCALES",
+            "sublabel": "Postgres · Terminal · Git · FileSystem",
             "color": "#10b981",
             "y": 880
           }
@@ -40,40 +53,18 @@
       }
     },
     {
-      "id": "mcp_terminal",
-      "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones.",
-      "visual_cue": "Terminal mostrando definición de herramienta en servidor MCP con TypeScript",
+      "id": "terminal_mcp",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Esto convierte a los modelos en agentes autónomos reales con límites de seguridad estrictos. Link en bio si quieres integrar IA en tu software de producción.",
+      "visual_cue": "Terminal mostrando ejecución de herramienta MCP con validación estricta de esquema",
       "props": {
-        "header": "ESPECIFICACIÓN DE HERRAMIENTAS",
-        "title": "SERVIDOR MCP EN TYPESCRIPT",
-        "filename": "mcp/database_server.ts",
-        "codeLines": [
-          "server.setRequestHandler(ListToolsRequestSchema, async () => ({",
-          "  tools: [{",
-          "    name: \"query_database\",",
-          "    description: \"Ejecuta consultas de solo lectura en Postgres\",",
-          "    inputSchema: zodToJsonSchema(QuerySchema)",
-          "  }]",
-          "}));"
-        ],
-        "cursorLine": 6
-      }
-    },
-    {
-      "id": "cta_mcp",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio.",
-      "visual_cue": "Cierre con contratación senior backend / IA",
-      "props": {
-        "header": "DESARROLLO SENIOR BACKEND Y IA",
-        "title": "ARQUITECTURAS AGÉNTICAS A MEDIDA",
-        "cta": {
-          "badge": "STAFF ENGINEER (Link en bio)",
-          "text": "¿Necesitas integrar agentes de IA en tu infraestructura? Hablemos en el enlace de mi perfil."
-        }
+        "header": "DESARROLLO DE AGENTES (Link en bio)",
+        "title": "AGENTES DETERMINISTAS",
+        "leftTitle": "TRAZA JSON-RPC",
+        "rightTitle": "BENEFICIOS DE MCP",
+        "leftText": "--> tools/call {\"name\": \"query_db\", \"sql\": \"...\"}\n<-- tools/result {\"rows\": 4, \"time_ms\": 1.2}\n✔ Schema validado con Zod / JSON-Schema",
+        "rightText": "• Sin wrappers propietarios frágiles\n• Conecta cualquier modelo a tus datos\n• Ejecución local 100% segura\n• Construye agentes serios: link en bio"
       }
     }
   ]

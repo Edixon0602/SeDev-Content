@@ -1,81 +1,62 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[19] Anatomía de un Cache Stampede y cómo el encabezado SWR lo neutraliza (Var A)",
-  "category": "REDES & ARQUITECTURA DE CACHÉ",
+  "category": "SISTEMAS DE CACHÉ & ALTA DISPONIBILIDAD",
   "slug": "19_cache_stale_while_revalidate",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "stampede_flow_hook",
-      "type": "network_pipeline",
+      "id": "swr_flow_lead",
+      "type": "cache_flow_viz",
       "duration": 6.5,
-      "voiceover": "¿Qué pasa cuando la caché de tu página más visitada expira justo cuando entran diez mil usuarios a la vez? Tu servidor colapsa por una estampida de peticiones a la base de datos.",
-      "visual_cue": "Apertura directa con pipeline visual mostrando la avalancha de peticiones colapsando la base",
+      "voiceover": "Cuando la clave de caché de tu producto más vendido expira, diez mil peticiones simultáneas golpean la base de datos al mismo tiempo: eso es un Cache Stampede.",
+      "visual_cue": "Visualizador del ciclo de vida SWR y neutralización del Cache Stampede",
       "props": {
-        "header": "AVALANCHA DE PETICIONES",
-        "title": "CACHE MISS SIMULTÁNEO",
-        "subtitle": "10,000 CONEXIONES ATACANDO LA BASE DE DATOS",
+        "mode": "swr",
+        "badge": "RESILIENCIA EN ALTA ESCALA",
+        "title": "CICLO STALE-WHILE-REVALIDATE",
+        "subtitle": "RESPUESTAS EN 2 MS MIENTRAS UN WORKER REVALIDA DE FONDO"
+      }
+    },
+    {
+      "id": "pipeline_swr",
+      "type": "network_pipeline",
+      "duration": 5.5,
+      "voiceover": "Con el encabezado Stale-While-Revalidate, el primer usuario recibe el dato viejo en dos milisegundos mientras un proceso en segundo plano actualiza el valor sin bloquear a nadie.",
+      "visual_cue": "Tubería de red mostrando cómo los clientes reciben datos de caché sin esperar por la base de datos",
+      "props": {
+        "header": "FLUJO DE PETICIONES HTTP",
+        "title": "RESPUESTA INMEDIATA DESDE EL EDGE",
+        "latency": "2.1 ms",
         "stages": [
           {
-            "id": "users",
-            "label": "10,000 USUARIOS CONCURRENTES",
-            "sublabel": "Petición masiva en el segundo 00:00",
-            "y": 220,
-            "color": "#ef4444",
-            "metric": "10K RPS"
+            "name": "Edge Cache Hit",
+            "tag": "Stale data servido"
           },
           {
-            "id": "cdn",
-            "label": "CDN CACHE (EXPIRADA)",
-            "sublabel": "TTL agotado y deja pasar todo el tráfico",
-            "y": 520,
-            "color": "#fbbf24",
-            "metric": "Stampede"
+            "name": "Background Lock",
+            "tag": "1 sola query a DB"
           },
           {
-            "id": "db",
-            "label": "BASE DE DATOS EN COLAPSO",
-            "sublabel": "10,000 queries pesadas idénticas a la vez",
-            "y": 820,
-            "color": "#ef4444",
-            "metric": "CPU 100%"
+            "name": "Atomic Cache Swap",
+            "tag": "Nuevo valor disponible"
           }
         ]
       }
     },
     {
-      "id": "swr_solution",
-      "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Con Stale-While-Revalidate la CDN entrega el contenido en cinco milisegundos mientras un solo hilo actualiza la caché en segundo plano.",
-      "visual_cue": "Terminal configurando encabezado Cache-Control stale-while-revalidate",
-      "props": {
-        "header": "CABECERA HTTP PROTECTORA",
-        "title": "STALE-WHILE-REVALIDATE PATTERN",
-        "filename": "routes/products.ts",
-        "codeLines": [
-          "# Sirve respuesta anterior en 5ms y actualiza en background sin bloquear:",
-          "reply.header(\"Cache-Control\", ",
-          "  \"public, max-age=60, stale-while-revalidate=86400, stale-if-error=86400\"",
-          ");",
-          "# Resultado: Cero Cache Stampedes y rendimiento 100% estable"
-        ],
-        "cursorLine": 4
-      }
-    },
-    {
       "id": "cta_swr",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la arquitectura de caching y entrega de contenido en CDN para garantizar escalabilidad extrema en picos de tráfico. Enlace en mi bio.",
-      "visual_cue": "Cierre con llamado a auditoría de arquitectura y escalabilidad",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Diseño arquitecturas de caché resilientes para evitar caídas en eventos de alto tráfico. Link en mi perfil para auditar tu sistema.",
+      "visual_cue": "Terminal mostrando cabeceras HTTP de SWR y llamada a la acción en bio",
       "props": {
-        "header": "AUDITORÍA DE ESCALABILIDAD Y CACHING",
-        "title": "RESISTENCIA A PICOS MASIVOS DE TRÁFICO",
-        "cta": {
-          "badge": "AUDITORÍA DE ESCALABILIDAD (Link en bio)",
-          "text": "¿Tu web sufre caídas en picos de tráfico? Link en mi perfil para agendar tu diagnóstico."
-        }
+        "header": "CONSULTORÍA EN CACHÉ (Link en bio)",
+        "title": "ALTA DISPONIBILIDAD GARANTIZADA",
+        "leftTitle": "CABECERA HTTP DE RESPUESTA",
+        "rightTitle": "IMPACTO EN PRODUCCIÓN",
+        "leftText": "HTTP/2 200 OK\ncache-control: max-age=60, stale-while-revalidate=300\nx-cache-status: STALE (Background refreshed)\n✔ Tiempo de respuesta: 1.8 ms",
+        "rightText": "• Cero caídas por expiración de caché\n• 100% de peticiones en < 5ms\n• Base de datos protegida ante avalanchas\n• Contacto para auditoría: link en bio"
       }
     }
   ]

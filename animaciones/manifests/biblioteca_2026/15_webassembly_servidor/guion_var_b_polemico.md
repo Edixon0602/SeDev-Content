@@ -1,9 +1,9 @@
 # Guion de Grabación: ¿Morirá Docker en el Edge? Arranques en 1 milisegundo con WASM
 > **Tema #15:** 15_webassembly_servidor  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** RUNTIMES DE SERVIDOR & WASM  
-> **Tono:** Visionario, futurista y provocador sobre el relevo generacional en la nube  
-> **Duración total:** 11.5s | **Palabras:** 45 palabras (~235 palabras/minuto)
+> **Categoría:** COMPILACIÓN & RUNTIMES  
+> **Tono:** Futurista pero pragmático, evolución del cloud computing  
+> **Duración total:** 11.5s | **Palabras:** 46 palabras (~240 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `tradeoff_matrix` | Apertura directa con matriz comparativa Docker frente a WebAssembly | "El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior." | 28 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de infraestructura | "Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía." | 17 |
+| **1** | `[00:00.0 - 00:05.5]` (5.5s) | `latency_scale` | Gráfica de escala de latencia mostrando el cold start de Docker vs Wasm | "El arranque en frío de los contenedores Docker está destruyendo la experiencia de usuario en arquitecturas serverless." | 17 |
+| **2** | `[00:05.5 - 00:11.5]` (6.0s) | `kernel_sandbox_viz` | Visualizador del aislamiento en servidor mediante Wasmtime | "Con WebAssembly y WASI compilas código en Rust o Go que corre en cualquier servidor a velocidad nativa sin el peso de un sistema operativo virtual. Link en bio." | 29 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior.
+El arranque en frío de los contenedores Docker está destruyendo la experiencia de usuario en arquitecturas serverless.
 
-Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía.
+Con WebAssembly y WASI compilas código en Rust o Go que corre en cualquier servidor a velocidad nativa sin el peso de un sistema operativo virtual. Link en bio.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** contratacion_senior
+- **Tipo de Oferta:** arquitectura_backend
 - **Última Escena (CTA Leve):** 
-  > *"Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía."*
+  > *"Con WebAssembly y WASI compilas código en Rust o Go que corre en cualquier servidor a velocidad nativa sin el peso de un sistema operativo virtual. Link en bio."*

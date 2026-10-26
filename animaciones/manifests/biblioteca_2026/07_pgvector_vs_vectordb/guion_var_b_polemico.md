@@ -2,8 +2,8 @@
 > **Tema #07:** 07_pgvector_vs_vectordb  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** BASES DE DATOS & IA  
-> **Tono:** Pragmático, contra el despilfarro de bases vectoriales dedicadas  
-> **Duración total:** 11.5s | **Palabras:** 49 palabras (~256 palabras/minuto)
+> **Tono:** Provocador, anti-fragmentación de datos, pragmático  
+> **Duración total:** 11.5s | **Palabras:** 36 palabras (~188 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal comparando sincronización dual problemática vs base única | "Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan." | 23 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de base de datos | "Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio." | 26 |
+| **1** | `[00:00.0 - 00:05.5]` (5.5s) | `latency_scale` | Gráfica de latencia mostrando el salto de red de 85ms a Pinecone vs 3ms en Postgres | "Contratar una base de datos vectorial externa solo para guardar embeddings es el mayor error de arquitectura de 2026." | 19 |
+| **2** | `[00:05.5 - 00:11.5]` (6.0s) | `storage_engine_viz` | Visualizador del motor de almacenamiento HNSW demostrando 99% recall | "Postgres maneja tus usuarios, tus pagos y tus vectores con consistencia transaccional y backups unificados con pg_dump." | 17 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.
+Contratar una base de datos vectorial externa solo para guardar embeddings es el mayor error de arquitectura de 2026.
 
-Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio.
+Postgres maneja tus usuarios, tus pagos y tus vectores con consistencia transaccional y backups unificados con pg_dump.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** database
+- **Tipo de Oferta:** arquitectura_ia
 - **Última Escena (CTA Leve):** 
-  > *"Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio."*
+  > *"Postgres maneja tus usuarios, tus pagos y tus vectores con consistencia transaccional y backups unificados con pg_dump."*

@@ -60,17 +60,17 @@ window.__DEFAULT_MANIFEST__ = {
     },
     {
       "id": "cta_testing",
-      "type": "tradeoff_matrix",
+      "type": "terminal_split",
       "duration": 5,
       "voiceover": "Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión.",
-      "visual_cue": "Cierre con auditoría de calidad de software",
+      "visual_cue": "Terminal con informe de calidad de software y llamada a la acción",
       "props": {
-        "header": "AUDITORÍA DE CALIDAD Y TESTING",
+        "header": "AUDITORÍA DE CALIDAD (Link en bio)",
         "title": "BLINDA TU SOFTWARE EN PRODUCCIÓN",
-        "cta": {
-          "badge": "AUDITORÍA DE CALIDAD (Link en bio)",
-          "text": "¿Dudas de la fiabilidad de tu código autogenerado? Link en bio para auditar tus suites de prueba."
-        }
+        "leftTitle": "INSPECCIÓN DE TEST SUITE",
+        "rightTitle": "MÉTRICAS CLAVE",
+        "leftText": "$ npx stryker run --reporters html\n✔ Mutantes ejecutados: 482\n✔ Mutantes eliminados: 479 (99.3% score)\n✔ 0 falsos positivos en CI/CD",
+        "rightText": "• Detecta bugs antes de desplegar a usuarios\n• Pruebas automáticas con datos extremos\n• Verifica código autogenerado por IA\n• Agenda sesión: enlace en el perfil"
       }
     }
   ]

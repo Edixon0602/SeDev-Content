@@ -1,9 +1,9 @@
 # Guion de Grabación: Snowflake es un desperdicio: Analítica in-process con Parquet
 > **Tema #03:** 03_duckdb_analytics  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** DATA ENGINEERING & ANALYTICS  
-> **Tono:** Crítico financiero, mostrando el despilfarro de clústeres cloud  
-> **Duración total:** 11.5s | **Palabras:** 48 palabras (~250 palabras/minuto)
+> **Categoría:** DATA ENGINEERING  
+> **Tono:** Provocador, anti-cloud waste, pragmático  
+> **Duración total:** 11.5s | **Palabras:** 44 palabras (~230 palabras/minuto)
 
 ---
 
@@ -11,23 +11,23 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con comparativa de costes de Snowflake vs DuckDB | "Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB." | 24 |
-| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de infraestructura de datos | "Audito la arquitectura de datos de tu empresa para recortar sobrecostes de infraestructura. Escríbeme o agenda tu sesión en el link de mi perfil." | 24 |
+| **1** | `[00:00.0 - 00:05.5]` (5.5s) | `metrics_comparison` | Métricas de coste comparando Snowflake vs DuckDB | "Tu startup paga catorce mil dólares mensuales en Snowflake para hacer queries que caben perfectamente en la memoria de una laptop." | 21 |
+| **2** | `[00:05.5 - 00:11.5]` (6.0s) | `storage_engine_viz` | Visualizador del almacenamiento columnar demostrando el 94% menos de I/O en lecturas | "DuckDB corre embebido en tu API de Node o Python. Lee Parquet comprimido con Dictionary Encoding y procesa cien mil registros en milisegundos." | 23 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.
+Tu startup paga catorce mil dólares mensuales en Snowflake para hacer queries que caben perfectamente en la memoria de una laptop.
 
-Audito la arquitectura de datos de tu empresa para recortar sobrecostes de infraestructura. Escríbeme o agenda tu sesión en el link de mi perfil.
+DuckDB corre embebido en tu API de Node o Python. Lee Parquet comprimido con Dictionary Encoding y procesa cien mil registros en milisegundos.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** cloud_costs
+- **Tipo de Oferta:** optimizacion_data
 - **Última Escena (CTA Leve):** 
-  > *"Audito la arquitectura de datos de tu empresa para recortar sobrecostes de infraestructura. Escríbeme o agenda tu sesión en el link de mi perfil."*
+  > *"DuckDB corre embebido en tu API de Node o Python. Lee Parquet comprimido con Dictionary Encoding y procesa cien mil registros en milisegundos."*

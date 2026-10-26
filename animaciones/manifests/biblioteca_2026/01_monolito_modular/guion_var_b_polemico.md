@@ -3,7 +3,7 @@
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** ARQUITECTURA DE SOFTWARE  
 > **Tono:** Polémico, pragmático, enfocado en velocidad de negocio y dinero  
-> **Duración total:** 17.5s | **Palabras:** 56 palabras (~192 palabras/minuto)
+> **Duración total:** 17.0s | **Palabras:** 65 palabras (~229 palabras/minuto)
 
 ---
 
@@ -11,20 +11,20 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal comparando factura mensual y tiempo de despliegue | "Tu startup tiene tres desarrolladores y diez microservicios. Están quemando la mitad de su tiempo y presupuesto manteniendo Kubernetes." | 19 |
-| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `tradeoff_matrix` | Matriz de tradeoffs demoledora | "Los microservicios resuelven problemas de organización cuando tienes mil ingenieros, no de rendimiento técnico." | 14 |
-| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `code_terminal` | Terminal de contacto con auditoría técnica | "Si tu equipo pasa más tiempo arreglando pipelines que creando producto, audito tu arquitectura para volver a la simplicidad. Agenda en mi perfil." | 23 |
+| **1** | `[00:00.0 - 00:05.5]` (5.5s) | `architecture_flow` | Diagrama mostrando la telaraña de microservicios vs la simplicidad de 1 binario | "Netflix usa microservicios porque tiene dos mil ingenieros. Tú tienes cuatro personas y estás quemando quince mil dólares al mes." | 20 |
+| **2** | `[00:05.5 - 00:11.5]` (6.0s) | `metrics_comparison` | Métricas de coste mensual: 15.000 dólares en microservicios vs 120 dólares en servidor bare metal | "La factura de AWS: tres mil dólares en NAT Gateways y bases de datos distribuidas que solo mueven cien peticiones por minuto." | 22 |
+| **3** | `[00:11.5 - 00:17.0]` (5.5s) | `terminal_split` | Terminal con despliegue instantáneo en 10 segundos y enlace en bio | "Vuelve a lo simple: un solo repositorio, un solo pipeline, despliegue en diez segundos. Link en mi perfil si necesitas auditar tu infraestructura." | 23 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Tu startup tiene tres desarrolladores y diez microservicios. Están quemando la mitad de su tiempo y presupuesto manteniendo Kubernetes.
+Netflix usa microservicios porque tiene dos mil ingenieros. Tú tienes cuatro personas y estás quemando quince mil dólares al mes.
 
-Los microservicios resuelven problemas de organización cuando tienes mil ingenieros, no de rendimiento técnico.
+La factura de AWS: tres mil dólares en NAT Gateways y bases de datos distribuidas que solo mueven cien peticiones por minuto.
 
-Si tu equipo pasa más tiempo arreglando pipelines que creando producto, audito tu arquitectura para volver a la simplicidad. Agenda en mi perfil.
+Vuelve a lo simple: un solo repositorio, un solo pipeline, despliegue en diez segundos. Link en mi perfil si necesitas auditar tu infraestructura.
 ```
 
 ---
@@ -33,4 +33,4 @@ Si tu equipo pasa más tiempo arreglando pipelines que creando producto, audito 
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
 - **Tipo de Oferta:** arquitectura
 - **Última Escena (CTA Leve):** 
-  > *"Si tu equipo pasa más tiempo arreglando pipelines que creando producto, audito tu arquitectura para volver a la simplicidad. Agenda en mi perfil."*
+  > *"Vuelve a lo simple: un solo repositorio, un solo pipeline, despliegue en diez segundos. Link en mi perfil si necesitas auditar tu infraestructura."*

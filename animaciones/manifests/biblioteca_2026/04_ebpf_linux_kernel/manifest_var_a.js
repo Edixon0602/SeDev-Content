@@ -1,84 +1,61 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[04] eBPF: Cómo el Kernel de Linux intercepta tráfico a velocidad hardware (Var A)",
-  "category": "SISTEMAS OPERATIVOS & OBSERVABILIDAD",
+  "category": "SISTEMAS Y REDES",
   "slug": "04_ebpf_linux_kernel",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "pipe_hook",
-      "type": "network_pipeline",
-      "duration": 6.5,
-      "voiceover": "¿Cómo monitorizar cada paquete de red a velocidad de silicio sin tocar una sola línea de código? Con eBPF en el Kernel de Linux.",
-      "visual_cue": "Apertura directa con pipeline visual mostrando intercepción en el kernel",
+      "id": "kernel_lead",
+      "type": "kernel_sandbox_viz",
+      "duration": 6,
+      "voiceover": "Cada vez que un paquete viaja de la tarjeta de red a tu aplicación en Node o Go, el kernel gasta miles de nanosegundos en context switches.",
+      "visual_cue": "Visualizador de privilegios Ring 3 (Userspace) vs Ring 0 (Kernel) y penalización de Syscalls",
       "props": {
-        "header": "ARQUITECTURA DE RED EN KERNEL",
-        "title": "INSPECCIÓN EN TIEMPO REAL SIN COPIAS",
-        "subtitle": "BYTECODE VERIFICADO EN LINUX",
+        "badge": "NIVEL DE PRIVILEGIO OS",
+        "title": "FRONTERA DE SYSCALLS",
+        "subtitle": "USERSPACE VS KERNEL SPACE EN LINUX"
+      }
+    },
+    {
+      "id": "packet_pipeline",
+      "type": "network_pipeline",
+      "duration": 6,
+      "voiceover": "Con eBPF inyectas programas verificados directo en el kernel. Los paquetes se filtran y enrutan en el driver de la tarjeta antes de tocar la pila de red.",
+      "visual_cue": "Tubería de red con hooks XDP procesando paquetes a velocidad de cable",
+      "props": {
+        "header": "ARQUITECTURA eBPF",
+        "title": "HOOKS DIRECTOS EN XDP / DRIVER",
+        "latency": "12 ns",
         "stages": [
           {
-            "id": "nic",
-            "label": "TARJETA DE RED (NIC)",
-            "sub": "Llegada de paquetes Ethernet",
-            "y": 220,
-            "color": "#06b6d4",
-            "metric": "40 Gbps"
+            "name": "NIC Driver (XDP)",
+            "tag": "Hardware hook"
           },
           {
-            "id": "ebpf",
-            "label": "EBPF PROGRAM (XDP)",
-            "sub": "Intercepción en Ring Buffer del Kernel",
-            "y": 520,
-            "color": "#f59e0b",
-            "metric": "0.005ms"
+            "name": "eBPF JIT Verifier",
+            "tag": "Ring 0 execution"
           },
           {
-            "id": "app",
-            "label": "USER SPACE RUNTIME",
-            "sub": "Solo recibe paquetes legítimos",
-            "y": 820,
-            "color": "#10b981",
-            "metric": "Cero CPU perdida"
+            "name": "Direct Packet Return",
+            "tag": "Bypass Userspace"
           }
         ]
       }
     },
     {
-      "id": "ebpf_code",
-      "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "El verificador de Linux garantiza matemáticamente que el código eBPF nunca entrará en bucles infinitos ni causará un kernel panic.",
-      "visual_cue": "Terminal mostrando programa C en eBPF verificando cabeceras IP",
+      "id": "trace_terminal",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Telemetría, seguridad Zero-Trust y balanceo de carga sin modificar una sola línea de tu código. Link en bio si quieres optimizar tu infraestructura Linux.",
+      "visual_cue": "Terminal mostrando bpftrace interceptando conexiones en tiempo real",
       "props": {
-        "header": "CÓDIGO DE KERNEL SEGURO",
-        "title": "HOOK DE RED CON XDP",
-        "filename": "kernel/filter.bpf.c",
-        "codeLines": [
-          "SEC(\"xdp\")",
-          "int filter_packets(struct xdp_md *ctx) {",
-          "  void *data = (void *)(long)ctx->data;",
-          "  void *data_end = (void *)(long)ctx->data_end;",
-          "  # Verificación estricta de límites por el kernel:",
-          "  if (data + sizeof(struct ethhdr) > data_end) return XDP_PASS;",
-          "  return XDP_DROP; // Bloqueo instantáneo en hardware",
-          "}"
-        ],
-        "cursorLine": 7
-      }
-    },
-    {
-      "id": "cta_ebpf",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Diseño arquitecturas de observabilidad y seguridad de bajo impacto en infraestructura Linux. Contáctame en el link de la bio.",
-      "visual_cue": "Cierre con consultoría de infraestructura y sistemas",
-      "props": {
-        "header": "CONSULTORÍA DE INFRAESTRUCTURA",
-        "title": "OBSERVABILIDAD Y SEGURIDAD EN LINUX",
-        "cta": {
-          "badge": "CONSULTORÍA LINUX (Link en bio)",
-          "text": "¿Problemas de rendimiento u observabilidad en Linux? Link en mi perfil para agendar una sesión."
-        }
+        "header": "CONSULTORÍA DE INFRAESTRUCTURA (Link en bio)",
+        "title": "OBSERVABILIDAD EN KERNEL",
+        "leftTitle": "BPFTRACE TELEMETRÍA",
+        "rightTitle": "BENEFICIOS DE RENDIMIENTO",
+        "leftText": "$ bpftrace -e \"kprobe:tcp_connect { printf(\"%s -> %d\\n\", comm, pid); }\"\nAttaching 1 probe...\nnode -> 4819 (10.0.1.4:443)\ncurl -> 4822 (10.0.1.8:80)",
+        "rightText": "• Cero sobrecarga de proxies sidecar\n• Latencia reducida en un 80%\n• Seguridad verificada a nivel de socket\n• Audita tus servidores: enlace en bio"
       }
     }
   ]

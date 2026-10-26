@@ -1,9 +1,9 @@
 # Guion de Grabación: El Borrow Checker de Rust: Cero fugas de memoria sin GC
 > **Tema #08:** 08_rust_sistemas_criticos  
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
-> **Categoría:** LENGUAJES DE SISTEMAS & RENDIMIENTO  
-> **Tono:** Ciencia de la computación, seguridad de memoria en tiempo de compilación  
-> **Duración total:** 17.5s | **Palabras:** 79 palabras (~271 palabras/minuto)
+> **Categoría:** LENGUAJES & RENDIMIENTO  
+> **Tono:** Bajo nivel, rigor de sistemas, compiladores y punteros  
+> **Duración total:** 17.5s | **Palabras:** 68 palabras (~233 palabras/minuto)
 
 ---
 
@@ -11,26 +11,26 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `memory_layout` | Apertura directa con layout de memoria Stack vs Heap y liberación sin recolector | "¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática." | 27 |
-| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `code_terminal` | Terminal mostrando error del borrow checker previniendo una condición de carrera | "Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción." | 26 |
-| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con contratación senior backend | "Diseño servicios backend de alto rendimiento y baja latencia en Rust y Go. Si buscas un desarrollador senior para liderar tu sistema, link en mi perfil." | 26 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `terminal_split` | Terminal mostrando error del borrow checker atrapando un puntero colgante antes de llegar a prod | "Rust garantiza seguridad de memoria en tiempo de compilación. No hay recolector de basura deteniendo el mundo ni fugas ocultas." | 20 |
+| **2** | `[00:06.0 - 00:12.0]` (6.0s) | `memory_layout` | Inspección de memoria RAM mostrando asignación en stack sin fragmentación de heap | "Cada valor tiene un único dueño. Cuando la variable sale del ámbito, la memoria se libera inmediatamente en el stack sin pausas de CPU." | 24 |
+| **3** | `[00:12.0 - 00:17.5]` (5.5s) | `metrics_comparison` | Comparativa de latencia de cola p99: Go con GC vs Rust nativo | "Optimizo microservicios críticos y migro cuellos de botella a Rust para reducir la latencia p99 a microsegundos. Link en bio para auditar tu backend." | 24 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática.
+Rust garantiza seguridad de memoria en tiempo de compilación. No hay recolector de basura deteniendo el mundo ni fugas ocultas.
 
-Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción.
+Cada valor tiene un único dueño. Cuando la variable sale del ámbito, la memoria se libera inmediatamente en el stack sin pausas de CPU.
 
-Diseño servicios backend de alto rendimiento y baja latencia en Rust y Go. Si buscas un desarrollador senior para liderar tu sistema, link en mi perfil.
+Optimizo microservicios críticos y migro cuellos de botella a Rust para reducir la latencia p99 a microsegundos. Link en bio para auditar tu backend.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** contratacion_senior
+- **Tipo de Oferta:** optimizacion_backend
 - **Última Escena (CTA Leve):** 
-  > *"Diseño servicios backend de alto rendimiento y baja latencia en Rust y Go. Si buscas un desarrollador senior para liderar tu sistema, link en mi perfil."*
+  > *"Optimizo microservicios críticos y migro cuellos de botella a Rust para reducir la latencia p99 a microsegundos. Link en bio para auditar tu backend."*

@@ -1,58 +1,36 @@
 {
   "title": "[14] ¿Por qué tu base colapsa en escrituras masivas? Postgres vs RocksDB (Var B)",
-  "category": "SISTEMAS DE ALMACENAMIENTO & BASES DE DATOS",
+  "category": "ESTRUCTURAS DE DATOS & DB INTERNALS",
   "slug": "14_lsm_trees_vs_btrees",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "iops_split_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Estás bombardeando PostgreSQL con eventos de analítica y tu disco colapsó por contención de páginas de B-Trees.",
-      "visual_cue": "Apertura directa con terminal mostrando saturación de IOPS al 100% en disco",
+      "id": "lsm_shock",
+      "type": "storage_engine_viz",
+      "duration": 6,
+      "voiceover": "Postgres es fantástico para consultas complejas, pero cuando le lanzas cincuenta mil inserts por segundo el I/O del disco explota.",
+      "visual_cue": "Visualizador del motor LSM demostrando cómo las escrituras se ordenan en RAM antes de tocar el SSD",
       "props": {
-        "header": "TELEMETRÍA DE DISCO",
-        "title": "SATURACIÓN DE IOPS EN NVME",
-        "termA": {
-          "title": "POSTGRESQL INSERT MASIVO",
-          "color": "#ef4444",
-          "cmd": "iostat -xz 1",
-          "status": "Disco al 99.8% de utilización · I/O Wait",
-          "time": "Saturado",
-          "lines": [
-            "B-Tree lock contention en páginas de índices",
-            "WAL flush bottleneck bloqueando hilos de workers",
-            "Peticiones HTTP cayendo con error 504 Gateway Timeout"
-          ]
-        },
-        "termB": {
-          "title": "LSM / COLUMNAR ENGINE",
-          "color": "#10b981",
-          "cmd": "ingest_worker --batch=10000",
-          "status": "Escrituras secuenciales sin bloqueos",
-          "time": "Fluido",
-          "lines": [
-            "MemTable absorbe ráfagas de 150,000 req/s",
-            "Utilización de disco por debajo del 25%",
-            "Latencia de inserción estable en sub-milisegundos"
-          ]
-        }
+        "mode": "lsm",
+        "badge": "INGENIERÍA DE ALMACENAMIENTO",
+        "title": "ROCKSDB VS POSTGRESQL",
+        "subtitle": "ESCRIBE EN RAM PRIMERO · MERGE ORDENADO EN DISCO"
       }
     },
     {
-      "id": "cta_lsm_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la arquitectura de datos de tu producto para seleccionar el motor adecuado y evitar caídas en picos de tráfico. Enlace en mi bio.",
-      "visual_cue": "Cierre con auditoría de datos",
+      "id": "terminal_split_storage",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Bases de datos basadas en LSM como Cassandra o RocksDB son la respuesta para telemetría y logs. Link en mi perfil para auditar tu almacenamiento.",
+      "visual_cue": "Terminal comparando throughput de escrituras y llamada a la acción en bio",
       "props": {
-        "header": "AUDITORÍA DE PERSISTENCIA Y LATENCIA",
-        "title": "DISEÑO DE CAPA DE DATOS PARA ALTA CARGA",
-        "cta": {
-          "badge": "AUDITORÍA DE DATOS (Link en perfil)",
-          "text": "Evita caídas por saturación de base de datos. Agenda tu auditoría técnica en mi perfil."
-        }
+        "header": "AUDITORÍA DE BASES DE DATOS (Link en bio)",
+        "title": "OPTIMIZACIÓN DE ESCRITURA",
+        "leftTitle": "POSTGRES B-TREE",
+        "rightTitle": "ROCKSDB LSM-TREE",
+        "leftText": "Throughput: 4.800 inserts/seg\nI/O Wait: 42% de saturación en NVMe\nColapso por bloqueo de páginas",
+        "rightText": "Throughput: 84.000 inserts/seg\nI/O Wait: 2% (Escritura secuencial)\nCero sobrecarga de actualización"
       }
     }
   ]

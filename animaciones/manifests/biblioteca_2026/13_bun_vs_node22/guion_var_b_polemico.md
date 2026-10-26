@@ -1,8 +1,8 @@
 # Guion de Grabación: ¿Vale la pena migrar a Bun en producción o Node.js ya cerró la brecha?
 > **Tema #13:** 13_bun_vs_node22  
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
-> **Categoría:** JAVASCRIPT RUNTIMES & HERRAMIENTAS  
-> **Tono:** Pragmático de producción, analizando estabilidad y compatibilidad de paquetes  
+> **Categoría:** RUNTIMES JAVASCRIPT  
+> **Tono:** Pragmático, toma de decisiones tecnológicas, evitando modas  
 > **Duración total:** 15.5s | **Palabras:** 68 palabras (~263 palabras/minuto)
 
 ---
@@ -11,26 +11,26 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Tipografía de impacto gigante sin iconos repetitivos | "Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?" | 20 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `tradeoff_matrix` | Matriz de compatibilidad y recomendación de adopción gradual | "Usa Bun como gestor de paquetes y ejecutor de tests para ganar diez veces más velocidad en CI/CD; evalúa con cuidado las librerías C++ nativas en el servidor." | 28 |
-| **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de modernización | "Ayudo a equipos de ingeniería a modernizar sus proyectos TypeScript sin romper producción. Contáctame en el enlace de mi perfil." | 20 |
+| **1** | `[00:00.0 - 00:06.0]` (6.0s) | `terminal_split` | Terminal comparando ejecución de tests y compatibilidad de paquetes | "Reescribir tu infraestructura para correr en Bun puede ser tentador, pero los bugs sutiles en librerías nativas pueden costarte semanas de depuración." | 22 |
+| **2** | `[00:06.0 - 00:11.5]` (5.5s) | `metrics_comparison` | Métricas de productividad de desarrollo vs estabilidad en producción | "Usa Bun como gestor de paquetes y test runner en desarrollo; mantén Node 22 para los servidores de producción críticos. Link en bio para asesoría." | 25 |
+| **3** | `[00:11.5 - 00:15.5]` (4.0s) | `tradeoff_matrix` | Matriz de decisión final con llamada a la acción en bio | "Audito arquitecturas de backend y evalúo migraciones de runtime para equipos que buscan rendimiento real sin riesgos innecesarios. Enlace en perfil." | 21 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?
+Reescribir tu infraestructura para correr en Bun puede ser tentador, pero los bugs sutiles en librerías nativas pueden costarte semanas de depuración.
 
-Usa Bun como gestor de paquetes y ejecutor de tests para ganar diez veces más velocidad en CI/CD; evalúa con cuidado las librerías C++ nativas en el servidor.
+Usa Bun como gestor de paquetes y test runner en desarrollo; mantén Node 22 para los servidores de producción críticos. Link en bio para asesoría.
 
-Ayudo a equipos de ingeniería a modernizar sus proyectos TypeScript sin romper producción. Contáctame en el enlace de mi perfil.
+Audito arquitecturas de backend y evalúo migraciones de runtime para equipos que buscan rendimiento real sin riesgos innecesarios. Enlace en perfil.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** performance_ts
+- **Tipo de Oferta:** optimizacion_backend
 - **Última Escena (CTA Leve):** 
-  > *"Ayudo a equipos de ingeniería a modernizar sus proyectos TypeScript sin romper producción. Contáctame en el enlace de mi perfil."*
+  > *"Audito arquitecturas de backend y evalúo migraciones de runtime para equipos que buscan rendimiento real sin riesgos innecesarios. Enlace en perfil."*

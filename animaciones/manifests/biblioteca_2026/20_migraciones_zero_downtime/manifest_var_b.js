@@ -1,58 +1,35 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[20] Nunca hagas ALTER TABLE a ciegas: Cómo evitar bloqueos de tabla (Var B)",
-  "category": "BASES DE DATOS & PRODUCCIÓN CRÍTICA",
+  "category": "BASES DE DATOS & OPERACIONES EN VIVO",
   "slug": "20_migraciones_zero_downtime",
   "variation": "B",
   "fps": 30,
   "scenes": [
     {
-      "id": "lock_split_hook",
-      "type": "terminal_split",
-      "duration": 6.5,
-      "voiceover": "Hiciste un ALTER TABLE en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos. Postgres adquiere un ACCESS EXCLUSIVE lock que frena cada petición.",
-      "visual_cue": "Apertura directa con terminal mostrando bloqueo infinito de tabla frente a migración segura con lock_timeout",
+      "id": "stepper_disaster_avoid",
+      "type": "migration_stepper_viz",
+      "duration": 6,
+      "voiceover": "Un simple ALTER TABLE adquiere un bloqueo exclusivo en PostgreSQL que encola todas las lecturas y escrituras, tirando tus servidores en segundos.",
+      "visual_cue": "Visualizador de prevención de bloqueos mediante fases progresivas",
       "props": {
-        "header": "MECANISMO DE BLOQUEO DE POSTGRES",
-        "title": "ACCESS EXCLUSIVE LOCK VS LOCK TIMEOUT",
-        "termA": {
-          "title": "MIGRACIÓN SIN TIMEOUT",
-          "color": "#ef4444",
-          "cmd": "ALTER TABLE orders ADD COLUMN status_code INT;",
-          "status": "Esperando lock indefinidamente",
-          "time": "Incidencia P1",
-          "lines": [
-            "Todas las queries entrantes se encolan detrás del ALTER",
-            "Pool de conexiones saturado al 100%",
-            "La aplicación completa deja de responder a usuarios"
-          ]
-        },
-        "termB": {
-          "title": "MIGRACIÓN CON DEFENSA",
-          "color": "#10b981",
-          "cmd": "SET lock_timeout = \"2s\"; ALTER TABLE orders ...",
-          "status": "Si no adquiere el lock en 2s, aborta limpiamente",
-          "time": "Zero caída",
-          "lines": [
-            "Reintenta con backoff en momentos de menor concurrencia",
-            "Los usuarios nunca notan degradación del servicio",
-            "Garantía total de disponibilidad"
-          ]
-        }
+        "badge": "ERROR FATAL EN PRODUCCIÓN",
+        "title": "EVITANDO BLOQUEOS EXCLUSIVOS",
+        "subtitle": "ALTER TABLE A CIEGAS = CAÍDA TOTAL DEL SERVICIO"
       }
     },
     {
-      "id": "cta_migration_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito planes de migración de datos y acompaño a startups en cambios estructurales de base de datos sin riesgo. Contáctame en el link de la bio.",
-      "visual_cue": "Cierre con consultoría de migración de bases de datos",
+      "id": "terminal_lock_monitor",
+      "type": "terminal_split",
+      "duration": 5.5,
+      "voiceover": "Usa herramientas de migración con algoritmos de tiempo compartido y divide los cambios en fases atómicas. Link en mi perfil para auditar tus esquemas.",
+      "visual_cue": "Terminal monitoreando bloqueos en pg_stat_activity y llamada a la acción en bio",
       "props": {
-        "header": "CONSULTORÍA DE MIGRACIONES SEGURAS",
-        "title": "PROTEGE TU DISPONIBILIDAD EN PRODUCCIÓN",
-        "cta": {
-          "badge": "AUDITORÍA DE MIGRACIONES (Link en bio)",
-          "text": "Evita caídas en tus cambios de esquema. Hablemos en el enlace de mi perfil."
-        }
+        "header": "AUDITORÍA DE BASE DE DATOS (Link en bio)",
+        "title": "MONITOREO DE LOCKS EN TIEMPO REAL",
+        "leftTitle": "PG_STAT_ACTIVITY",
+        "rightTitle": "BUENAS PRÁCTICAS",
+        "leftText": "$ psql -c \"SELECT pid, locktype, mode, granted FROM pg_locks;\"\n✔ AccessExclusiveLock evitado con éxito\n✔ Cola de peticiones: 0 bloqueadas\n✔ 100% de transacciones fluidas",
+        "rightText": "• Nunca agregues columnas con DEFAULT sin NOT NULL\n• Usa CREATE INDEX CONCURRENTLY\n• Migra datos históricos en lotes controlados\n• Asesoría técnica: enlace en mi bio"
       }
     }
   ]

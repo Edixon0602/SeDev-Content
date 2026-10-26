@@ -1,67 +1,63 @@
 window.__DEFAULT_MANIFEST__ = {
   "title": "[18] Bloom Filters: Cómo saber si un registro existe con 99% de certeza (Var A)",
-  "category": "ESTRUCTURAS DE DATOS & CACHÉ",
+  "category": "ESTRUCTURAS DE DATOS PROBABILÍSTICAS",
   "slug": "18_bloom_filters_probabilistic",
   "variation": "A",
   "fps": 30,
   "scenes": [
     {
-      "id": "bloom_math_hook",
-      "type": "memory_layout",
+      "id": "bloom_lead",
+      "type": "cache_flow_viz",
       "duration": 6.5,
-      "voiceover": "¿Cómo saber si un usuario ya leyó un post entre quinientos millones de registros usando solo tres bits de RAM? Con Bloom Filters probabilísticos.",
-      "visual_cue": "Apertura directa con array de bits encendiéndose por hashes SHA-256 y Murmur3",
+      "voiceover": "¿Cómo saber si un nombre de usuario ya está registrado entre quinientos millones de registros sin tocar el disco? Usando un filtro de Bloom en memoria.",
+      "visual_cue": "Visualizador de array de bits de Bloom Filter iluminando posiciones de hash",
       "props": {
-        "header": "MECANISMO DE HASHING",
-        "title": "ARRAY DE BITS Y CERO FALSOS NEGATIVOS",
-        "items": [
-          {
-            "name": "CLAVE: \"user_98412\"",
-            "addr": "3 FUNCIONES HASH",
-            "value": "Bits calculados: [14, 52, 88]",
-            "color": "#38bdf8"
-          },
-          {
-            "name": "ARRAY DE BITS EN RAM",
-            "addr": "BIT 52 = 0",
-            "value": "GARANTIZADO: El registro NO existe en disco",
-            "color": "#10b981"
-          }
-        ]
+        "mode": "bloom",
+        "badge": "ESTRUCTURA PROBABILÍSTICA",
+        "title": "FILTRO DE BLOOM EN MEMORIA",
+        "subtitle": "3 FUNCIONES HASH ILUMINANDO UN ARRAY DE BITS"
       }
     },
     {
-      "id": "bloom_code",
+      "id": "redis_code_bloom",
       "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "Puede tener falsos positivos leves, pero jamás un falso negativo. Esto ahorra millones de lecturas innecesarias al disco en Cassandra y Redis.",
-      "visual_cue": "Terminal ejecutando comandos BF.EXISTS en Redis",
+      "duration": 5.5,
+      "voiceover": "La clave pasa por tres funciones hash que encienden bits en un vector binario. Si algún bit es cero, sabemos con certeza absoluta que el dato no existe.",
+      "visual_cue": "Terminal ejecutando comandos BF.ADD y BF.EXISTS en Redis",
       "props": {
-        "header": "REDIS BLOOM FILTER NATIVO",
-        "title": "CONSULTA DE EXISTENCIA EN SUB-MILISEGUNDO",
-        "filename": "cache/bloom.sh",
+        "header": "COMANDOS DE BLOOM EN REDIS",
+        "title": "VERIFICACIÓN EN TIEMPO O(1)",
+        "filename": "bloom_check.sh",
         "codeLines": [
-          "# Comprueba existencia en RAM sin tocar base de datos principal:",
-          "BF.ADD post_views \"usr_42:post_991\"",
-          "BF.EXISTS post_views \"usr_42:post_991\" -> (integer) 1",
-          "BF.EXISTS post_views \"usr_88:post_991\" -> (integer) 0",
-          "# 99% de lecturas a disco descartadas en memoria RAM"
+          "# Reservar filtro con 0.1% de error:",
+          "BF.RESERVE usernames 0.001 10000000",
+          "BF.ADD usernames \"edixon_dev\"",
+          "",
+          "# Comprobación instantánea:",
+          "BF.EXISTS usernames \"inexistent_user\" -> 0 (0ms disco)"
         ],
-        "cursorLine": 4
+        "cursorLine": 5
       }
     },
     {
-      "id": "cta_bloom",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Diseño arquitecturas de caché y capas probabilísticas para reducir la carga de bases de datos. Link en mi perfil para auditar tu sistema.",
-      "visual_cue": "Cierre con llamado a auditoría de caché y performance",
+      "id": "metrics_bloom",
+      "type": "metrics_comparison",
+      "duration": 5.5,
+      "voiceover": "Evitas el noventa y nueve por ciento de las consultas pesadas a la base de datos ahorrando miles de dólares en servidores. Link en bio para optimizaciones.",
+      "visual_cue": "Comparativa de lecturas de disco ahorradas gracias al filtro probabilístico",
       "props": {
-        "header": "AUDITORÍA DE CACHÉ Y ALTO RENDIMIENTO",
-        "title": "PROTEGE TU BASE DE CONSULTAS INÚTILES",
-        "cta": {
-          "badge": "AUDITORÍA DE CACHÉ (Link en bio)",
-          "text": "¿Tu base de datos sufre por queries repetitivas? Link en mi perfil para auditar tu caché."
+        "header": "CONSULTORÍA EN ALGORITMOS (Link en bio)",
+        "metricA": {
+          "label": "CONSULTAS SQL A DISCO",
+          "value": "45.000 / seg",
+          "sub": "I/O intensivo saturando el SSD",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "CON FILTRO DE BLOOM",
+          "value": "450 / seg",
+          "sub": "99% resuelto en nanosegundos en RAM",
+          "color": "#10b981"
         }
       }
     }

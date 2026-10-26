@@ -6,57 +6,44 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "ws_tradeoff_hook",
-      "type": "tradeoff_matrix",
-      "duration": 6.5,
-      "voiceover": "Usar WebSockets solo para mostrar texto progresivo o notificaciones complica tus balanceadores de carga sin ninguna necesidad técnica real.",
-      "visual_cue": "Apertura directa con tabla comparativa de Server-Sent Events frente a WebSockets",
+      "id": "ws_failure_hook",
+      "type": "terminal_split",
+      "duration": 6,
+      "voiceover": "Mantener un clúster de WebSockets requiere balanceadores especiales, heartbeat constante y una pesadilla de reconexión cuando falla la red móvil.",
+      "visual_cue": "Terminal mostrando cortes de conexión WebSocket vs flujo continuo de SSE",
       "props": {
-        "header": "CRITERIO DE SELECCIÓN",
-        "title": "SERVER-SENT EVENTS VS WEBSOCKETS",
-        "colA": "SERVER-SENT EVENTS (SSE)",
-        "colB": "WEBSOCKETS (WS)",
-        "rows": [
-          {
-            "dim": "Streaming de IA y feeds",
-            "a": "✔ Perfecto y nativo",
-            "b": "✖ Sobreingeniería",
-            "aGood": true
-          },
-          {
-            "dim": "Reconexión automática",
-            "a": "✔ Manejada por browser",
-            "b": "✖ Manual con código JS",
-            "aGood": true
-          },
-          {
-            "dim": "Compatibilidad con Proxies",
-            "a": "✔ HTTP/2 estándar",
-            "b": "✖ Requiere Upgrade HTTP",
-            "aGood": true
-          },
-          {
-            "dim": "Juegos online y Audio full-duplex",
-            "a": "✖ Unidireccional",
-            "b": "✔ Ideal para bidireccional",
-            "aGood": false
-          }
-        ]
+        "header": "ANTIPATRÓN EN PRODUCCIÓN",
+        "title": "LA FRAGILIDAD DE WEBSOCKETS",
+        "leftTitle": "WEBSOCKET CLÚSTER",
+        "rightTitle": "STREAMING CON SSE",
+        "leftText": "✖ Conexión caída en túnel móvil\n✖ Handshake WS bloqueado por proxy corporativo\n✖ Requiere servidores socket con estado",
+        "rightText": "✔ EventSource reconecta automáticamente\n✔ Pasa por Cloudflare y CDNs sin cambios\n✔ Stateless en balanceadores de carga"
       }
     },
     {
-      "id": "cta_sse_b",
-      "type": "tradeoff_matrix",
-      "duration": 5,
-      "voiceover": "Audito la arquitectura de red de aplicaciones web para simplificar el stack y mejorar la fiabilidad. Agenda en el link de mi perfil.",
-      "visual_cue": "Cierre con auditoría de arquitectura",
+      "id": "network_diagram",
+      "type": "network_pipeline",
+      "duration": 5.5,
+      "voiceover": "Si tu cliente solo escucha actualizaciones del servidor como chats o cotizaciones, SSE sobre HTTP/2 es diez veces más fácil de operar. Link en mi bio.",
+      "visual_cue": "Tubería de paquetes HTTP/2 procesando el stream de eventos",
       "props": {
-        "header": "AUDITORÍA DE ARQUITECTURA WEB",
-        "title": "SIMPLIFICA TUS CONEXIONES DE RED",
-        "cta": {
-          "badge": "AUDITORÍA DE ARQUITECTURA (Link en perfil)",
-          "text": "Elimina complejidad innecesaria en tu backend. Link en mi perfil para agendar tu revisión."
-        }
+        "header": "SIMPLICIDAD OPERATIVA",
+        "title": "TEXT/EVENT-STREAM EN HTTP/2",
+        "latency": "1.8 ms",
+        "stages": [
+          {
+            "name": "Gateway Edge",
+            "tag": "Caché transparente"
+          },
+          {
+            "name": "HTTP/2 Multiplexing",
+            "tag": "1 sola conexión TCP"
+          },
+          {
+            "name": "Browser EventSource",
+            "tag": "Reconexión automática"
+          }
+        ]
       }
     }
   ]

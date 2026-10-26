@@ -1,9 +1,9 @@
 # Guion de Grabación: Procesamiento Columnar Vectorizado: 10M filas en milisegundos
 > **Tema #03:** 03_duckdb_analytics  
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
-> **Categoría:** DATA ENGINEERING & ANALYTICS  
-> **Tono:** Técnico de computación, registros SIMD, almacenamiento columnar  
-> **Duración total:** 21.5s | **Palabras:** 87 palabras (~243 palabras/minuto)
+> **Categoría:** DATA ENGINEERING  
+> **Tono:** Científico de computación, optimización extrema, hardware moderno  
+> **Duración total:** 21.5s | **Palabras:** 78 palabras (~218 palabras/minuto)
 
 ---
 
@@ -11,29 +11,29 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético con número cuantitativo gigante | "¿Diez millones de filas analizadas en medio segundo dentro de tu laptop? Así funciona el procesamiento columnar de DuckDB." | 19 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `memory_layout` | Comparación visual de layout de memoria: Row-oriented vs Columnar Vectorized | "Las bases transaccionales leen filas enteras, desperdiciando caché de CPU. DuckDB lee solo las columnas que necesitas en vectores contiguos." | 20 |
-| **3** | `[00:10.5 - 00:16.5]` (6.0s) | `code_terminal` | Terminal ejecutando query SQL directa sobre s3://bucket/data.parquet | "Puedes consultar archivos Parquet directamente en Amazon S3 sin importar los datos. Solo descargas los bytes exactos que pide tu consulta." | 21 |
-| **4** | `[00:16.5 - 00:21.5]` (5.0s) | `tradeoff_matrix` | Cierre con llamado a auditoría de costes cloud de datos | "Si tu empresa gasta miles de dólares en Snowflake o BigQuery para consultas simples, audito tus costes de datos para migrar a motores in-process. Link en bio." | 27 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `storage_engine_viz` | Visualizador del motor columnar vectorizado procesando bloques contiguos de memoria con SIMD | "¿Por qué DuckDB analiza diez millones de filas en milisegundos mientras Postgres colapsa? Todo está en el formato columnar y las instrucciones SIMD." | 23 |
+| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `code_terminal` | Terminal mostrando consulta SQL directa sobre Parquet sin ingesta previa | "DuckDB lee archivos Parquet directamente desde S3 o tu disco local sin levantar servidores pesados ni pipelines de Kafka." | 19 |
+| **3** | `[00:11.5 - 00:17.0]` (5.5s) | `metrics_comparison` | Comparativa de velocidad analítica: Postgres vs DuckDB | "El resultado: consultas analíticas hasta ochenta veces más rápidas usando una fracción de la memoria." | 15 |
+| **4** | `[00:17.0 - 00:21.5]` (4.5s) | `terminal_split` | Terminal de auditoría con optimización de analítica in-process | "Si tu equipo gasta fortunas en Snowflake o Databricks para analítica básica, link en bio para modernizar tu pipeline de datos." | 21 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Diez millones de filas analizadas en medio segundo dentro de tu laptop? Así funciona el procesamiento columnar de DuckDB.
+¿Por qué DuckDB analiza diez millones de filas en milisegundos mientras Postgres colapsa? Todo está en el formato columnar y las instrucciones SIMD.
 
-Las bases transaccionales leen filas enteras, desperdiciando caché de CPU. DuckDB lee solo las columnas que necesitas en vectores contiguos.
+DuckDB lee archivos Parquet directamente desde S3 o tu disco local sin levantar servidores pesados ni pipelines de Kafka.
 
-Puedes consultar archivos Parquet directamente en Amazon S3 sin importar los datos. Solo descargas los bytes exactos que pide tu consulta.
+El resultado: consultas analíticas hasta ochenta veces más rápidas usando una fracción de la memoria.
 
-Si tu empresa gasta miles de dólares en Snowflake o BigQuery para consultas simples, audito tus costes de datos para migrar a motores in-process. Link en bio.
+Si tu equipo gasta fortunas en Snowflake o Databricks para analítica básica, link en bio para modernizar tu pipeline de datos.
 ```
 
 ---
 
 ## 3. Remate & CTA Asignado
 - **Objetivo de Negocio:** Posicionamiento y captación de clientes cualificados.
-- **Tipo de Oferta:** cloud_costs
+- **Tipo de Oferta:** optimizacion_data
 - **Última Escena (CTA Leve):** 
-  > *"Si tu empresa gasta miles de dólares en Snowflake o BigQuery para consultas simples, audito tus costes de datos para migrar a motores in-process. Link en bio."*
+  > *"Si tu equipo gasta fortunas en Snowflake o Databricks para analítica básica, link en bio para modernizar tu pipeline de datos."*
