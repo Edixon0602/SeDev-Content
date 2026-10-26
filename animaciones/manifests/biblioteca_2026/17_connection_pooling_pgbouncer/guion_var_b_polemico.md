@@ -3,7 +3,7 @@
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** BASES DE DATOS & ESCALABILIDAD  
 > **Tono:** Diagnóstico de emergencia, resolutivo, enfocado en incidentes comunes  
-> **Duración total:** 15.5s | **Palabras:** 79 palabras (~306 palabras/minuto)
+> **Duración total:** 11.5s | **Palabras:** 46 palabras (~240 palabras/minuto)
 
 ---
 
@@ -11,18 +11,15 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre diagnósticos erróneos de infraestructura | "Subiste el tamaño del servidor de base de datos a una máquina de mil dólares y sigue lenta. El problema no es el hardware: es que no tienes un pooler." | 30 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `terminal_split` | Doble terminal: Error fatal de max_connections vs PgBouncer fluido | "Limitar las conexiones de la base de datos a dos veces el número de núcleos de CPU multiplica el throughput por cinco al eliminar la contención de cerraduras." | 28 |
-| **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría técnica de Postgres | "Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio." | 21 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal mostrando error fatal de max_connections frente a PgBouncer | "Subiste el tamaño del servidor a una máquina de mil dólares y sigue lento. No necesitas más hardware: necesitas un pooler para evitar saturar conexiones." | 25 |
+| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría técnica de Postgres | "Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio." | 21 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Subiste el tamaño del servidor de base de datos a una máquina de mil dólares y sigue lenta. El problema no es el hardware: es que no tienes un pooler.
-
-Limitar las conexiones de la base de datos a dos veces el número de núcleos de CPU multiplica el throughput por cinco al eliminar la contención de cerraduras.
+Subiste el tamaño del servidor a una máquina de mil dólares y sigue lento. No necesitas más hardware: necesitas un pooler para evitar saturar conexiones.
 
 Audito la configuración de PostgreSQL y resuelvo cuellos de botella de concurrencia y latencia p99. Agenda tu revisión en mi bio.
 ```

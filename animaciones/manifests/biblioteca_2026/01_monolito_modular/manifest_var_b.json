@@ -6,42 +6,20 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Tu startup tiene tres desarrolladores y diez microservicios. Están quemando el cincuenta por ciento de su tiempo manteniendo Kubernetes.",
-      "visual_cue": "Gancho cinético agresivo de llamada de atención",
-      "props": {
-        "badge": "REALIDAD DE STARTUP",
-        "lines": [
-          {
-            "text": "DEJA DE USAR",
-            "color": "#ef4444"
-          },
-          {
-            "text": "MICROSERVICIOS",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "COMPLEJIDAD ACCIDENTAL // VELOCIDAD CERO",
-        "icon": "server_rack"
-      }
-    },
-    {
-      "id": "bill_compare",
+      "id": "direct_terminal_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "Amazon Prime Video y Shopify consolidaron servicios para recortar el noventa por ciento de sus costes y latencias.",
-      "visual_cue": "Doble terminal comparando factura mensual y tiempo de despliegue",
+      "duration": 6.5,
+      "voiceover": "Tu startup tiene tres desarrolladores y diez microservicios. Están quemando la mitad de su tiempo y presupuesto manteniendo Kubernetes.",
+      "visual_cue": "Apertura directa con terminal comparando factura mensual y tiempo de despliegue",
       "props": {
         "header": "EL COSTE DE LA MODA",
         "title": "KUBERNETES VS UN SOLO SERVIDOR",
-        "subtitle": "DESPLIEGUE REAL EN PRODUCCIÓN",
+        "subtitle": "COMPARATIVA DE COSTES REALES EN PRODUCCIÓN",
         "termA": {
           "title": "STACK CON MICROSERVICIOS",
           "color": "#ef4444",
           "cmd": "kubectl get pods --all-namespaces",
-          "status": "24 pods en ejecución // 8 clusters",
+          "status": "24 pods en ejecución · 8 clusters",
           "time": "$3,800/mes",
           "lines": [
             "Factura AWS EKS + NAT Gateways: $3,800",
@@ -72,7 +50,7 @@
       "props": {
         "header": "PRAGMATISMO TÉCNICO",
         "title": "¿CUÁNDO USAR CADA UNO?",
-        "colA": "STARTUPS & PYMES",
+        "colA": "STARTUPS Y PYMES",
         "colB": "BIG TECH (+500 DEVS)",
         "rows": [
           {
@@ -89,8 +67,8 @@
           },
           {
             "dim": "Mantenimiento DevOps",
-            "a": "0 personas",
-            "b": "Equipo dedicado",
+            "a": "0 personas dedicadas",
+            "b": "Equipo entero",
             "aGood": true
           }
         ]
@@ -108,9 +86,9 @@
         "filename": "audit/contact.sh",
         "codeLines": [
           "# Diagnóstico de cuellos de botella y costes cloud",
-          "sedev audit --target=microservices --strategy=consolidation",
-          "✔ Retorno estimado: -75% costes y 5x velocidad de entrega",
-          "# Agenda tu sesión técnica en el link de la bio."
+          "npx audit --target=microservices --strategy=consolidation",
+          "Resultado estimado: -75% costes y 5x velocidad de entrega",
+          "Agenda tu sesión técnica en el link de la bio."
         ],
         "cursorLine": 3
       }

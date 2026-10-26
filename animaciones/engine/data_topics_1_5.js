@@ -1,4 +1,4 @@
-// Data definitions for Topics 01 to 05
+// Data definitions for Topics 01 to 05 (Zero // AI-slop, Zero SeDev watermarks, Varied Hooks)
 module.exports = [
   // ----------------------------------------------------
   // TEMA 01: MONOLITO MODULAR
@@ -16,15 +16,15 @@ module.exports = [
           type: 'kinetic_hook',
           duration: 4.5,
           voiceover: '¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio.',
-          visual_cue: 'Gancho cinético de apertura con engranaje de arquitectura',
+          visual_cue: 'Tipografía cinética de impacto sin iconos genéricos',
           props: {
-            badge: 'ARQUITECTURA 2026',
+            layout: 'impact',
+            badge: 'ARQUITECTURA MODERNA',
             lines: [
               { text: 'EL GRAN REGRESO DEL', color: '#ffffff' },
               { text: 'MONOLITO MODULAR', color: '#38bdf8' }
             ],
-            subtitle: 'LÍMITES DE DOMINIO // UN SOLO BINARIO',
-            icon: 'cpu'
+            subtitle: 'Límites de dominio en un solo binario'
           }
         },
         {
@@ -57,8 +57,8 @@ module.exports = [
             title: 'LÍMITES ESTRICTOS EN MEMORIA',
             nodes: [
               { id: 'api', label: 'API GATEWAY INTERNO', sublabel: 'Fastify / Axum Router', color: '#38bdf8', y: 160 },
-              { id: 'modules', label: 'DOMINIOS AISLADOS (DDD)', sublabel: 'Orders // Billing // Users (Zero cross-imports)', color: '#10b981', y: 520 },
-              { id: 'storage', label: 'POSTGRES TRANSACCIONAL', sublabel: 'Esquemas lógicos separados (Single DB)', color: '#fbbf24', y: 880 }
+              { id: 'modules', label: 'DOMINIOS AISLADOS (DDD)', sublabel: 'Orders · Billing · Users (Aislamiento de imports)', color: '#10b981', y: 520 },
+              { id: 'storage', label: 'POSTGRES TRANSACCIONAL', sublabel: 'Esquemas lógicos separados en una sola DB', color: '#fbbf24', y: 880 }
             ]
           }
         },
@@ -69,15 +69,15 @@ module.exports = [
           voiceover: 'En código, prohibimos las importaciones directas entre módulos. Cada dominio expone una interfaz pública estricta.',
           visual_cue: 'Terminal mostrando TypeScript / Rust haciendo cumplir límites de módulos con ESLint / ArchUnit',
           props: {
-            header: 'ENFORCEMENT EN CI/CD',
-            title: 'REGLAS DE IMPORTACIÓN STRICT',
+            header: 'REGLAS EN CI/CD',
+            title: 'ENFORCEMENT DE IMPORTACIONES',
             filename: 'packages/orders/domain.ts',
             codeLines: [
-              '// ❌ ERROR: Importación profunda prohibida',
-              'import { PaymentModel } from "@sedev/billing/internal";',
+              '# Importación profunda bloqueada por el linter:',
+              'import { PaymentModel } from "@app/billing/internal"; // ERROR',
               '',
-              '// ✔ CORRECTO: Comunicación por interfaz pública',
-              'import { BillingFacade } from "@sedev/billing";',
+              '# Comunicación correcta por contrato público:',
+              'import { BillingFacade } from "@app/billing";',
               'const invoice = await BillingFacade.charge(order.id);'
             ],
             cursorLine: 5
@@ -104,9 +104,9 @@ module.exports = [
           props: {
             header: 'CONSULTORÍA DE ARQUITECTURA',
             title: 'SIMPLIFICA TU CODEBASE',
-            subtitle: 'REDUCE COSTES // MULTIPLICA VELOCIDAD',
+            subtitle: 'REDUCE COSTES · MULTIPLICA VELOCIDAD',
             cta: {
-              badge: 'AUDITORÍA DE ARQUITECTURA // SEDEV',
+              badge: 'AUDITORÍA DE ARQUITECTURA (Link en bio)',
               text: '¿Dudas con tu arquitectura? Enlace en mi perfil para agendar una sesión técnica.'
             }
           }
@@ -118,36 +118,20 @@ module.exports = [
       tone: 'Polémico, pragmático, enfocado en velocidad de negocio y dinero',
       scenes: [
         {
-          id: 'hook_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Tu startup tiene tres desarrolladores y diez microservicios. Están quemando el cincuenta por ciento de su tiempo manteniendo Kubernetes.',
-          visual_cue: 'Gancho cinético agresivo de llamada de atención',
-          props: {
-            badge: 'REALIDAD DE STARTUP',
-            lines: [
-              { text: 'DEJA DE USAR', color: '#ef4444' },
-              { text: 'MICROSERVICIOS', color: '#ffffff' }
-            ],
-            subtitle: 'COMPLEJIDAD ACCIDENTAL // VELOCIDAD CERO',
-            icon: 'server_rack'
-          }
-        },
-        {
-          id: 'bill_compare',
+          id: 'direct_terminal_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Amazon Prime Video y Shopify consolidaron servicios para recortar el noventa por ciento de sus costes y latencias.',
-          visual_cue: 'Doble terminal comparando factura mensual y tiempo de despliegue',
+          duration: 6.5,
+          voiceover: 'Tu startup tiene tres desarrolladores y diez microservicios. Están quemando la mitad de su tiempo y presupuesto manteniendo Kubernetes.',
+          visual_cue: 'Apertura directa con terminal comparando factura mensual y tiempo de despliegue',
           props: {
             header: 'EL COSTE DE LA MODA',
             title: 'KUBERNETES VS UN SOLO SERVIDOR',
-            subtitle: 'DESPLIEGUE REAL EN PRODUCCIÓN',
+            subtitle: 'COMPARATIVA DE COSTES REALES EN PRODUCCIÓN',
             termA: {
               title: 'STACK CON MICROSERVICIOS',
               color: '#ef4444',
               cmd: 'kubectl get pods --all-namespaces',
-              status: '24 pods en ejecución // 8 clusters',
+              status: '24 pods en ejecución · 8 clusters',
               time: '$3,800/mes',
               lines: [
                 'Factura AWS EKS + NAT Gateways: $3,800',
@@ -178,12 +162,12 @@ module.exports = [
           props: {
             header: 'PRAGMATISMO TÉCNICO',
             title: '¿CUÁNDO USAR CADA UNO?',
-            colA: 'STARTUPS & PYMES',
+            colA: 'STARTUPS Y PYMES',
             colB: 'BIG TECH (+500 DEVS)',
             rows: [
               { dim: 'Arquitectura recomendada', a: 'Monolito Modular', b: 'Microservicios', aGood: true },
               { dim: 'Tiempo a producción', a: '1 semana', b: '3 meses', aGood: true },
-              { dim: 'Mantenimiento DevOps', a: '0 personas', b: 'Equipo dedicado', aGood: true }
+              { dim: 'Mantenimiento DevOps', a: '0 personas dedicadas', b: 'Equipo entero', aGood: true }
             ]
           }
         },
@@ -199,9 +183,9 @@ module.exports = [
             filename: 'audit/contact.sh',
             codeLines: [
               '# Diagnóstico de cuellos de botella y costes cloud',
-              'sedev audit --target=microservices --strategy=consolidation',
-              '✔ Retorno estimado: -75% costes y 5x velocidad de entrega',
-              '# Agenda tu sesión técnica en el link de la bio.'
+              'npx audit --target=microservices --strategy=consolidation',
+              'Resultado estimado: -75% costes y 5x velocidad de entrega',
+              'Agenda tu sesión técnica en el link de la bio.'
             ],
             cursorLine: 3
           }
@@ -222,33 +206,17 @@ module.exports = [
       tone: 'Explicación técnica de bajo nivel, latencia de hardware y streaming',
       scenes: [
         {
-          id: 'hook_sqlite',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Hacer consultas a tu base de datos con cero milisegundos de latencia de red? Es hora de hablar de SQLite en producción.',
-          visual_cue: 'Gancho cinético con icono de base de datos ultraligera',
-          props: {
-            badge: 'BASES DE DATOS 2026',
-            lines: [
-              { text: 'SQLITE EN', color: '#ffffff' },
-              { text: 'PRODUCCIÓN', color: '#38bdf8' }
-            ],
-            subtitle: '0MS DE RED // REPLICACIÓN CONTINUA',
-            icon: 'sqlite_feather'
-          }
-        },
-        {
-          id: 'latency_gap',
+          id: 'latency_hook',
           type: 'latency_scale',
-          duration: 6.0,
+          duration: 6.5,
           voiceover: 'Cada vez que tu backend consulta PostgreSQL en AWS RDS, pierdes quince milisegundos en el cable de red. SQLite vive en el mismo proceso.',
-          visual_cue: 'Escala logarítmica de hardware mostrando el abismo entre red y disco NVMe local',
+          visual_cue: 'Apertura directa con escala logarítmica de hardware mostrando el abismo de red',
           props: {
             header: 'LATENCIA FÍSICA DE HARDWARE',
             title: 'EL ABISMO DE SALIR DEL PROCESO',
             subtitle: 'COMPARATIVA REAL DE TIEMPOS DE RESPUESTA',
             tiers: [
-              { name: 'RAM (DDR5)', latency: '100 ns', ratio: 0.1, color: '#10b981', human: 'Instante' },
+              { name: 'RAM (DDR5 BUS)', latency: '100 ns', ratio: 0.1, color: '#10b981', human: 'Instante' },
               { name: 'NVMe SSD LOCAL (SQLITE)', latency: '0.1 ms', ratio: 0.35, color: '#38bdf8', human: '0.1 milisegundos' },
               { name: 'AWS RDS NETWORK ROUND-TRIP', latency: '18 ms', ratio: 1.0, color: '#ef4444', human: '180x más lento' }
             ],
@@ -280,11 +248,11 @@ module.exports = [
           voiceover: 'Si tu base de datos colapsa en picos de tráfico o estás saturando conexiones, realizo auditorías de latencia y arquitectura de datos. Enlace en mi bio.',
           visual_cue: 'Tarjeta final con oferta de auditoría de rendimiento en base de datos',
           props: {
-            header: 'AUDITORÍA DE DATOS & LATENCIA',
+            header: 'AUDITORÍA DE DATOS Y LATENCIA',
             title: 'OPTIMIZA TU CAPA DE DATOS',
-            subtitle: 'SEDEV CONSULTING',
+            subtitle: 'ELIMINA CUELLOS DE BOTELLA',
             cta: {
-              badge: 'AUDITORÍA DE BASES DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE BASES DE DATOS (Link en bio)',
               text: '¿Latencia alta o saturación en tu DB? Link en mi perfil para auditar tus queries y pools.'
             }
           }
@@ -296,51 +264,14 @@ module.exports = [
       tone: 'Directo, basado en benchmarks, destruyendo mitos sobre bloqueos',
       scenes: [
         {
-          id: 'hook_sqlite_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Te dijeron que SQLite es solo un juguete para desarrollo. La verdad es que puede aguantar cincuenta mil peticiones por segundo en un VPS.',
-          visual_cue: 'Gancho cinético retador',
-          props: {
-            badge: 'DESMITIFICANDO SOFTWARE',
-            lines: [
-              { text: '¿SQLITE NO AGUANTA', color: '#ffffff' },
-              { text: 'PRODUCCIÓN?', color: '#ef4444' }
-            ],
-            subtitle: 'EL MITO DE LA BASE DE DATOS DE JUGUETE',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'wal_mode',
-          type: 'code_terminal',
-          duration: 6.0,
-          voiceover: 'Con el modo WAL activado, los lectores nunca bloquean a los escritores y las lecturas son concurrentes y paralelas.',
-          visual_cue: 'Terminal configurando PRAGMA journal_mode=WAL y synchronous=NORMAL',
-          props: {
-            header: 'CONFIGURACIÓN DE PRODUCCIÓN',
-            title: 'MODO WAL & CONCURRENCIA',
-            filename: 'db/setup.sql',
-            codeLines: [
-              '-- Activa escritura paralela sin bloqueo de lectores',
-              'PRAGMA journal_mode = WAL;',
-              'PRAGMA synchronous = NORMAL;',
-              'PRAGMA busy_timeout = 5000;',
-              'PRAGMA cache_size = -64000; -- 64MB RAM Cache',
-              '-- Resultado: 50.000 lecturas/s por núcleo de CPU'
-            ],
-            cursorLine: 5
-          }
-        },
-        {
-          id: 'benchmark_split',
+          id: 'benchmark_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Mientras Postgres gasta CPU manejando conexiones de red, SQLite procesa queries directamente en la memoria del kernel.',
-          visual_cue: 'Benchmark en vivo comparando RPS y consumo de memoria',
+          duration: 6.5,
+          voiceover: 'Te dijeron que SQLite es solo un juguete. Aquí tienes cincuenta mil peticiones por segundo en un VPS de diez dólares con modo WAL.',
+          visual_cue: 'Apertura directa con benchmark en vivo comparando RPS y consumo de memoria',
           props: {
             header: 'BENCHMARK DE CONCURRENCIA',
-            title: 'WRK BENCHMARK // 10,000 CONCURRENT CLIENTS',
+            title: 'WRK BENCHMARK · 10,000 CLIENTES CONCURRENTES',
             termA: {
               title: 'POSTGRESQL EN CLOUD RDS',
               color: '#ef4444',
@@ -368,6 +299,27 @@ module.exports = [
           }
         },
         {
+          id: 'wal_mode',
+          type: 'code_terminal',
+          duration: 6.0,
+          voiceover: 'Con el modo WAL activado, los lectores nunca bloquean a los escritores y las lecturas son concurrentes y paralelas.',
+          visual_cue: 'Terminal configurando PRAGMA journal_mode=WAL y synchronous=NORMAL',
+          props: {
+            header: 'CONFIGURACIÓN DE PRODUCCIÓN',
+            title: 'MODO WAL Y CONCURRENCIA',
+            filename: 'db/setup.sql',
+            codeLines: [
+              '-- Activa escritura paralela sin bloqueo de lectores',
+              'PRAGMA journal_mode = WAL;',
+              'PRAGMA synchronous = NORMAL;',
+              'PRAGMA busy_timeout = 5000;',
+              'PRAGMA cache_size = -64000; -- 64MB RAM Cache',
+              '-- 50.000 lecturas/s por núcleo de CPU'
+            ],
+            cursorLine: 5
+          }
+        },
+        {
           id: 'cta_sqlite_b',
           type: 'tradeoff_matrix',
           duration: 5.0,
@@ -375,9 +327,9 @@ module.exports = [
           visual_cue: 'Cierre con llamado a auditoría de bases de datos',
           props: {
             header: 'AUDITORÍA TÉCNICA DE BASES DE DATOS',
-            title: 'REDUCE COSTES // ELEVA CONCURRENCIA',
+            title: 'REDUCE COSTES · ELEVA CONCURRENCIA',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en perfil)',
               text: '¿Tu base de datos está lenta o cara? Agenda una auditoría técnica en el enlace del perfil.'
             }
           }
@@ -398,19 +350,17 @@ module.exports = [
       tone: 'Técnico de computación, registros SIMD, almacenamiento columnar',
       scenes: [
         {
-          id: 'hook_duckdb',
+          id: 'stat_hook',
           type: 'kinetic_hook',
           duration: 4.5,
-          voiceover: '¿Cómo procesar diez millones de filas de analítica en tu laptop en medio segundo sin levantar un clúster de Spark? Con DuckDB.',
-          visual_cue: 'Gancho cinético con icono columnar',
+          voiceover: '¿Diez millones de filas analizadas en medio segundo dentro de tu laptop? Así funciona el procesamiento columnar de DuckDB.',
+          visual_cue: 'Gancho cinético con número cuantitativo gigante',
           props: {
-            badge: 'ANALÍTICA DE DATOS 2026',
-            lines: [
-              { text: 'DUCKDB: EL SQLITE', color: '#ffffff' },
-              { text: 'DE LA ANALÍTICA', color: '#fbbf24' }
-            ],
-            subtitle: 'PROCESAMIENTO COLUMNAR VECTORIZADO',
-            icon: 'duckdb'
+            layout: 'stat',
+            badge: 'ANALÍTICA DE DATOS',
+            stat: '10.000.000',
+            statLabel: 'Filas procesadas en 420ms',
+            subtitle: 'Procesamiento columnar vectorizado'
           }
         },
         {
@@ -440,7 +390,7 @@ module.exports = [
             filename: 'analytics/query.py',
             codeLines: [
               'import duckdb',
-              '# Lee 50GB de logs en S3 descargando solo 40MB de metadata',
+              '# Lee 50GB en S3 descargando solo 40MB de metadata:',
               'res = duckdb.query("""',
               '  SELECT user_country, SUM(amount_usd) ',
               '  FROM read_parquet("s3://logs-2026/*.parquet")',
@@ -461,7 +411,7 @@ module.exports = [
             header: 'AUDITORÍA DE COSTES CLOUD',
             title: 'REDUCE TU FACTURA DE ANALÍTICA',
             cta: {
-              badge: 'AUDITORÍA DE COSTES // SEDEV',
+              badge: 'AUDITORÍA DE COSTES (Link en bio)',
               text: '¿Gastas fortunas en Snowflake o Databricks? Link en mi perfil para auditar tus pipelines.'
             }
           }
@@ -473,27 +423,11 @@ module.exports = [
       tone: 'Crítico financiero, mostrando el despilfarro de clústeres cloud',
       scenes: [
         {
-          id: 'hook_duckdb_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.',
-          visual_cue: 'Gancho cinético sobre costes en analítica',
-          props: {
-            badge: 'DESTRUYENDO COSTES CLOUD',
-            lines: [
-              { text: 'DEJA DE PAGAR', color: '#ef4444' },
-              { text: 'SNOWFLAKE', color: '#ffffff' }
-            ],
-            subtitle: 'EL DESPILFARRO DE LOS DATA WAREHOUSES',
-            icon: 'duckdb'
-          }
-        },
-        {
-          id: 'cost_split',
+          id: 'cost_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'El noventa por ciento de las empresas no tienen big data: tienen medium data que cabe perfectamente en la memoria de un solo servidor.',
-          visual_cue: 'Doble terminal comparando factura mensual y tiempos de query',
+          duration: 6.5,
+          voiceover: 'Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.',
+          visual_cue: 'Apertura directa con comparativa de costes de Snowflake vs DuckDB',
           props: {
             header: 'COMPARATIVA DE FACTURACIÓN',
             title: 'CLOUD DATA WAREHOUSE VS IN-PROCESS',
@@ -518,7 +452,7 @@ module.exports = [
               lines: [
                 'Almacenamiento en S3 estándar: $45',
                 'Instancia Hetzner 64GB RAM: $35',
-                'Formato abierto Parquet / Apache Iceberg'
+                'Formato abierto Parquet y Apache Iceberg'
               ]
             }
           }
@@ -533,7 +467,7 @@ module.exports = [
             header: 'AUDITORÍA DE INFRAESTRUCTURA',
             title: 'OPTIMIZACIÓN DE PIPELINES DE DATOS',
             cta: {
-              badge: 'AUDITORÍA DE COSTES // SEDEV',
+              badge: 'AUDITORÍA DE COSTES (Link en perfil)',
               text: 'Recorta hasta un 80% en tu infraestructura de analítica. Enlace directo en mi perfil.'
             }
           }
@@ -554,35 +488,19 @@ module.exports = [
       tone: 'Sistemas operativos, bajo nivel en C/Kernel, seguridad y redes',
       scenes: [
         {
-          id: 'hook_ebpf',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo monitorizar y asegurar cada paquete de red sin tocar una sola línea de código de tu aplicación? Con eBPF en el Kernel de Linux.',
-          visual_cue: 'Gancho cinético con escudo de kernel Linux',
-          props: {
-            badge: 'KERNEL DE LINUX 2026',
-            lines: [
-              { text: 'EBPF: REVOLUCIÓN', color: '#ffffff' },
-              { text: 'EN EL KERNEL', color: '#f59e0b' }
-            ],
-            subtitle: 'SANDBOX SEGURO A NIVEL DE SISTEMA OPERATIVO',
-            icon: 'kernel_shield'
-          }
-        },
-        {
-          id: 'kernel_pipe',
+          id: 'pipe_hook',
           type: 'network_pipeline',
           duration: 6.5,
-          voiceover: 'eBPF permite ejecutar bytecode verificado dentro del kernel. Los paquetes se filtran y analizan antes de que lleguen al espacio de usuario.',
-          visual_cue: 'Pipeline visual mostrando la intercepción en el kernel sin copias a user space',
+          voiceover: '¿Cómo monitorizar cada paquete de red a velocidad de silicio sin tocar una sola línea de código? Con eBPF en el Kernel de Linux.',
+          visual_cue: 'Apertura directa con pipeline visual mostrando intercepción en el kernel',
           props: {
             header: 'ARQUITECTURA DE RED EN KERNEL',
-            title: 'INSPECCIÓN EN TIEMPO REAL SIN COPÍAS',
-            subtitle: 'BYTECODE VERIFICADO // ZERO USER-SPACE OVERHEAD',
+            title: 'INSPECCIÓN EN TIEMPO REAL SIN COPIAS',
+            subtitle: 'BYTECODE VERIFICADO EN LINUX',
             stages: [
               { id: 'nic', label: 'TARJETA DE RED (NIC)', sub: 'Llegada de paquetes Ethernet', y: 220, color: '#06b6d4', metric: '40 Gbps' },
               { id: 'ebpf', label: 'EBPF PROGRAM (XDP)', sub: 'Intercepción en Ring Buffer del Kernel', y: 520, color: '#f59e0b', metric: '0.005ms' },
-              { id: 'app', label: 'USER SPACE RUNTIME', sub: 'Solo recibe paquetes legítimos', y: 820, color: '#10b981', metric: 'Zero CPU waste' }
+              { id: 'app', label: 'USER SPACE RUNTIME', sub: 'Solo recibe paquetes legítimos', y: 820, color: '#10b981', metric: 'Cero CPU perdida' }
             ]
           }
         },
@@ -601,9 +519,9 @@ module.exports = [
               'int filter_packets(struct xdp_md *ctx) {',
               '  void *data = (void *)(long)ctx->data;',
               '  void *data_end = (void *)(long)ctx->data_end;',
-              '  // Verificación estricta de límites por el kernel',
+              '  # Verificación estricta de límites por el kernel:',
               '  if (data + sizeof(struct ethhdr) > data_end) return XDP_PASS;',
-              '  return XDP_DROP; // Bloqueo a velocidad de silicio',
+              '  return XDP_DROP; // Bloqueo instantáneo en hardware',
               '}'
             ],
             cursorLine: 7
@@ -617,9 +535,9 @@ module.exports = [
           visual_cue: 'Cierre con consultoría de infraestructura y sistemas',
           props: {
             header: 'CONSULTORÍA DE INFRAESTRUCTURA',
-            title: 'OBSERVABILIDAD & SEGURIDAD EN LINUX',
+            title: 'OBSERVABILIDAD Y SEGURIDAD EN LINUX',
             cta: {
-              badge: 'INGENIERÍA DE SISTEMAS // SEDEV',
+              badge: 'CONSULTORÍA LINUX (Link en bio)',
               text: '¿Problemas de rendimiento u observabilidad en Linux? Link en mi perfil para agendar una sesión.'
             }
           }
@@ -631,27 +549,11 @@ module.exports = [
       tone: 'Contundente, técnico, desmontando el sobrecoste de Envoy y mTLS tradicional',
       scenes: [
         {
-          id: 'hook_ebpf_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Meter un sidecar proxy en cada contenedor de Kubernetes está destruyendo el rendimiento de tus servidores. eBPF vino a matarlos.',
-          visual_cue: 'Gancho cinético contra el abuso de sidecars',
-          props: {
-            badge: 'KUBERNETES EN 2026',
-            lines: [
-              { text: 'EL FIN DE LOS', color: '#ef4444' },
-              { text: 'SIDECARS EN K8S', color: '#ffffff' }
-            ],
-            subtitle: 'ELIMINANDO LA SOBRECARGA DE SERVICE MESH',
-            icon: 'kernel_shield'
-          }
-        },
-        {
-          id: 'sidecar_overhead',
+          id: 'sidecar_hook',
           type: 'tradeoff_matrix',
-          duration: 6.0,
-          voiceover: 'Cada sidecar de Envoy duplica el uso de memoria y añade saltos TCP locales innecesarios. Cilium con eBPF maneja la red directamente en el kernel.',
-          visual_cue: 'Matriz comparando Istio/Envoy vs Cilium eBPF',
+          duration: 6.5,
+          voiceover: 'Meter un sidecar proxy en cada contenedor de Kubernetes duplica tu factura de memoria y añade latencia innecesaria. eBPF vino a matarlos.',
+          visual_cue: 'Apertura directa con tabla comparativa de Sidecars vs eBPF',
           props: {
             header: 'SERVICE MESH OVERHEAD',
             title: 'ENVOY SIDECARS VS CILIUM EBPF',
@@ -674,7 +576,7 @@ module.exports = [
             header: 'AUDITORÍA DE INFRAESTRUCTURA',
             title: 'OPTIMIZA TU CLÚSTER KUBERNETES',
             cta: {
-              badge: 'AUDITORÍA DE K8S // SEDEV',
+              badge: 'AUDITORÍA DE K8S (Link en perfil)',
               text: 'Elimina sobrecargas en tus clústeres. Link en mi biografía para agendar tu diagnóstico.'
             }
           }
@@ -695,34 +597,18 @@ module.exports = [
       tone: 'Arquitectura de software de vanguardia, estándares abiertos, protocolos',
       scenes: [
         {
-          id: 'hook_mcp',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'El prompt engineering murió. La verdadera ingeniería de IA en 2026 se llama Model Context Protocol: el estándar que conecta modelos a tus sistemas.',
-          visual_cue: 'Gancho cinético sobre el protocolo MCP',
-          props: {
-            badge: 'INGENIERÍA DE IA 2026',
-            lines: [
-              { text: 'MODEL CONTEXT', color: '#ffffff' },
-              { text: 'PROTOCOL (MCP)', color: '#a855f7' }
-            ],
-            subtitle: 'EL ESTÁNDAR ABIERTO PARA AGENTES AUTÓNOMOS',
-            icon: 'agent_loop'
-          }
-        },
-        {
-          id: 'mcp_arch',
+          id: 'mcp_hook',
           type: 'architecture_flow',
           duration: 6.5,
-          voiceover: 'En vez de escribir código ad-hoc para cada modelo, MCP crea una interfaz cliente-servidor donde la IA descubre herramientas y contexto dinámicamente.',
-          visual_cue: 'Diagrama de arquitectura MCP: Modelo LLM <-> Cliente MCP <-> Servidores de Herramientas (Postgres, Git, Filesystem)',
+          voiceover: 'El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol.',
+          visual_cue: 'Apertura directa con arquitectura de protocolo cliente-servidor de herramientas',
           props: {
             header: 'ARQUITECTURA DE PROTOCOLO',
             title: 'DESACOPLAMIENTO DE HERRAMIENTAS',
             nodes: [
-              { id: 'llm', label: 'AGENTE / CLIENTE MCP', sublabel: 'Claude Code // Cursor // Custom Runner', color: '#a855f7', y: 160 },
-              { id: 'protocol', label: 'PROTOCOLO JSON-RPC 2.0', sublabel: 'Capabilities Negotiation // Tools & Resources', color: '#38bdf8', y: 520 },
-              { id: 'servers', label: 'SERVIDORES MCP AISLADOS', sublabel: 'PostgreSQL // GitHub // Terminal Shell', color: '#10b981', y: 880 }
+              { id: 'llm', label: 'AGENTE / CLIENTE MCP', sublabel: 'Claude Code · Cursor · Custom Runner', color: '#a855f7', y: 160 },
+              { id: 'protocol', label: 'PROTOCOLO JSON-RPC 2.0', sublabel: 'Capabilities Negotiation · Tools & Resources', color: '#38bdf8', y: 520 },
+              { id: 'servers', label: 'SERVIDORES MCP AISLADOS', sublabel: 'PostgreSQL · GitHub · Terminal Shell', color: '#10b981', y: 880 }
             ]
           }
         },
@@ -755,10 +641,10 @@ module.exports = [
           voiceover: 'Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio.',
           visual_cue: 'Cierre con contratación senior backend / IA',
           props: {
-            header: 'DESARROLLO SENIOR BACKEND & IA',
+            header: 'DESARROLLO SENIOR BACKEND Y IA',
             title: 'ARQUITECTURAS AGÉNTICAS A MEDIDA',
             cta: {
-              badge: 'STAFF ENGINEER // SEDEV',
+              badge: 'STAFF ENGINEER (Link en bio)',
               text: '¿Necesitas integrar agentes de IA en tu infraestructura? Hablemos en el enlace de mi perfil.'
             }
           }
@@ -770,34 +656,18 @@ module.exports = [
       tone: 'Provocador, técnico, enfocado en el ciclo de ejecución y permisos',
       scenes: [
         {
-          id: 'hook_mcp_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Hacer prompts gigantescos no te dará software de producción. Lo que importa es el arnés de ejecución y las herramientas que le das al modelo.',
-          visual_cue: 'Gancho cinético sobre la muerte del prompt engineering',
-          props: {
-            badge: 'DEBATES DE INGENIERÍA',
-            lines: [
-              { text: 'EL PROMPTING', color: '#ef4444' },
-              { text: 'HA MUERTO', color: '#ffffff' }
-            ],
-            subtitle: 'EL PODER ESTÁ EN EL ARNÉS DE EJECUCIÓN',
-            icon: 'agent_loop'
-          }
-        },
-        {
-          id: 'split_prompt_vs_harness',
+          id: 'harness_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Un mal prompt en un buen arnés con tests automáticos gana siempre a un prompt perfecto sin capacidad de ejecución.',
-          visual_cue: 'Doble terminal: Vibe Prompting vs Agent Harness con bucle de verificación',
+          duration: 6.5,
+          voiceover: 'Un prompt gigantesco no te dará software de producción. Lo que importa es el arnés de ejecución y el bucle de verificación de tests.',
+          visual_cue: 'Apertura directa con terminal comparando prompting ciego vs arnés determinista',
           props: {
             header: 'MÉTODO DE DESARROLLO',
             title: 'PROMPT PURO VS BUCLE DE VERIFICACIÓN',
             termA: {
               title: 'PROMPTING TRADICIONAL',
               color: '#ef4444',
-              cmd: 'chat_gpt("escribe un backend completo")',
+              cmd: 'chat_gpt("escribe un backend")',
               status: 'Alucinaciones en imports y dependencias',
               time: 'Fallo silente',
               lines: [
@@ -810,8 +680,8 @@ module.exports = [
               title: 'AGENT HARNESS DETERMINISTA',
               color: '#10b981',
               cmd: 'agent run --verify --strict-sandbox',
-              status: 'Ejecuta tests, detecta errores y autocorrige',
-              time: '✔ Verificado',
+              status: 'Ejecuta tests y autocorrige en bucle',
+              time: 'Verificado',
               lines: [
                 'Llama a servidor MCP para validar esquema de DB',
                 'Corre suite de tests unitarios antes de commitear',
@@ -830,7 +700,7 @@ module.exports = [
             header: 'CONTRATACIÓN SENIOR BACKEND',
             title: 'SISTEMAS AUTÓNOMOS Y AGENTES ROBUSTOS',
             cta: {
-              badge: 'LEAD DEVELOPER // SEDEV',
+              badge: 'LEAD DEVELOPER (Contacto en bio)',
               text: 'Desarrollo de agentes y flujos autónomos de alta fiabilidad. Contáctame en mi biografía.'
             }
           }

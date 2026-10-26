@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_lsm",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Por qué bases de datos como Cassandra y RocksDB escriben a velocidades inhumanas mientras Postgres prefiere B-Trees? La clave está en los LSM Trees.",
-      "visual_cue": "Gancho cinético sobre almacenamiento interno",
-      "props": {
-        "badge": "INTERNAL STORAGE ENGINES",
-        "lines": [
-          {
-            "text": "LSM TREES VS B-TREES",
-            "color": "#ffffff"
-          },
-          {
-            "text": "CÓMO ESCRIBEN EN DISCO",
-            "color": "#10b981"
-          }
-        ],
-        "subtitle": "MEMTABLE // SSTABLES // BÚSQUEDA BINARIA",
-        "icon": "tree"
-      }
-    },
-    {
-      "id": "lsm_flow",
+      "id": "lsm_flow_hook",
       "type": "architecture_flow",
       "duration": 6.5,
-      "voiceover": "Un LSM Tree escribe primero en una MemTable en memoria RAM y luego vuelca bloques secuenciales inmutables en disco, logrando escrituras casi a velocidad de cable.",
-      "visual_cue": "Diagrama de flujo: MemTable en RAM -> Append-Only WAL -> Flush a SSTables en NVMe",
+      "voiceover": "¿Por qué RocksDB escribe a velocidades récord mientras Postgres prefiere B-Trees? Un LSM Tree escribe en una MemTable en RAM y luego vuelca bloques secuenciales inmutables en disco.",
+      "visual_cue": "Apertura directa con arquitectura de escritura secuencial: MemTable a SSTables",
       "props": {
         "header": "FLUJO DE ESCRITURA EN LSM",
         "title": "ESCRITURAS SECUENCIALES INMUTABLES",
@@ -47,7 +25,7 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "wal",
             "label": "APPEND-ONLY LOG EN NVMe",
-            "sublabel": "Cero escrituras aleatorias // Máximo throughput",
+            "sublabel": "Cero escrituras aleatorias · Máximo throughput",
             "color": "#fbbf24",
             "y": 520
           },
@@ -81,7 +59,7 @@ window.__DEFAULT_MANIFEST__ = {
           },
           {
             "dim": "Velocidad de Lectura puntual",
-            "a": "✖ Requiere mirar Bloom Filters",
+            "a": "✖ Requiere Bloom Filters",
             "b": "✔ 1 solo seek O(log N)",
             "aGood": false
           },
@@ -101,10 +79,10 @@ window.__DEFAULT_MANIFEST__ = {
       "voiceover": "Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil.",
       "visual_cue": "Cierre con llamado a auditoría de bases de datos",
       "props": {
-        "header": "AUDITORÍA DE BASES DE DATOS & I/O",
+        "header": "AUDITORÍA DE BASES DE DATOS Y I/O",
         "title": "RESOLUCIÓN DE CUELLOS DE BOTELLA",
         "cta": {
-          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "badge": "AUDITORÍA DE DATOS (Link en bio)",
           "text": "¿Tu base de datos sufre por escrituras masivas? Link en mi perfil para agendar tu auditoría."
         }
       }

@@ -6,37 +6,15 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_ebpf",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Cómo monitorizar y asegurar cada paquete de red sin tocar una sola línea de código de tu aplicación? Con eBPF en el Kernel de Linux.",
-      "visual_cue": "Gancho cinético con escudo de kernel Linux",
-      "props": {
-        "badge": "KERNEL DE LINUX 2026",
-        "lines": [
-          {
-            "text": "EBPF: REVOLUCIÓN",
-            "color": "#ffffff"
-          },
-          {
-            "text": "EN EL KERNEL",
-            "color": "#f59e0b"
-          }
-        ],
-        "subtitle": "SANDBOX SEGURO A NIVEL DE SISTEMA OPERATIVO",
-        "icon": "kernel_shield"
-      }
-    },
-    {
-      "id": "kernel_pipe",
+      "id": "pipe_hook",
       "type": "network_pipeline",
       "duration": 6.5,
-      "voiceover": "eBPF permite ejecutar bytecode verificado dentro del kernel. Los paquetes se filtran y analizan antes de que lleguen al espacio de usuario.",
-      "visual_cue": "Pipeline visual mostrando la intercepción en el kernel sin copias a user space",
+      "voiceover": "¿Cómo monitorizar cada paquete de red a velocidad de silicio sin tocar una sola línea de código? Con eBPF en el Kernel de Linux.",
+      "visual_cue": "Apertura directa con pipeline visual mostrando intercepción en el kernel",
       "props": {
         "header": "ARQUITECTURA DE RED EN KERNEL",
-        "title": "INSPECCIÓN EN TIEMPO REAL SIN COPÍAS",
-        "subtitle": "BYTECODE VERIFICADO // ZERO USER-SPACE OVERHEAD",
+        "title": "INSPECCIÓN EN TIEMPO REAL SIN COPIAS",
+        "subtitle": "BYTECODE VERIFICADO EN LINUX",
         "stages": [
           {
             "id": "nic",
@@ -60,7 +38,7 @@
             "sub": "Solo recibe paquetes legítimos",
             "y": 820,
             "color": "#10b981",
-            "metric": "Zero CPU waste"
+            "metric": "Cero CPU perdida"
           }
         ]
       }
@@ -80,9 +58,9 @@
           "int filter_packets(struct xdp_md *ctx) {",
           "  void *data = (void *)(long)ctx->data;",
           "  void *data_end = (void *)(long)ctx->data_end;",
-          "  // Verificación estricta de límites por el kernel",
+          "  # Verificación estricta de límites por el kernel:",
           "  if (data + sizeof(struct ethhdr) > data_end) return XDP_PASS;",
-          "  return XDP_DROP; // Bloqueo a velocidad de silicio",
+          "  return XDP_DROP; // Bloqueo instantáneo en hardware",
           "}"
         ],
         "cursorLine": 7
@@ -96,9 +74,9 @@
       "visual_cue": "Cierre con consultoría de infraestructura y sistemas",
       "props": {
         "header": "CONSULTORÍA DE INFRAESTRUCTURA",
-        "title": "OBSERVABILIDAD & SEGURIDAD EN LINUX",
+        "title": "OBSERVABILIDAD Y SEGURIDAD EN LINUX",
         "cta": {
-          "badge": "INGENIERÍA DE SISTEMAS // SEDEV",
+          "badge": "CONSULTORÍA LINUX (Link en bio)",
           "text": "¿Problemas de rendimiento u observabilidad en Linux? Link en mi perfil para agendar una sesión."
         }
       }

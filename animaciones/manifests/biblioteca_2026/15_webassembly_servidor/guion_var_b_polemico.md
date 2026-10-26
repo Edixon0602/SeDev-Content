@@ -3,7 +3,7 @@
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** RUNTIMES DE SERVIDOR & WASM  
 > **Tono:** Visionario, futurista y provocador sobre el relevo generacional en la nube  
-> **Duración total:** 15.5s | **Palabras:** 63 palabras (~244 palabras/minuto)
+> **Duración total:** 11.5s | **Palabras:** 45 palabras (~235 palabras/minuto)
 
 ---
 
@@ -11,18 +11,15 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre el futuro post-Docker | "El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. En 2026 estamos viendo esa profecía cumplirse." | 25 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `tradeoff_matrix` | Matriz comparativa Docker vs WebAssembly | "WebAssembly no reemplaza a Docker para sistemas legacy completos, pero para funciones serverless y plugins de alta densidad es infinitamente superior." | 21 |
-| **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de infraestructura | "Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía." | 17 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `tradeoff_matrix` | Apertura directa con matriz comparativa Docker frente a WebAssembly | "El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior." | 28 |
+| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de infraestructura | "Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía." | 17 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. En 2026 estamos viendo esa profecía cumplirse.
-
-WebAssembly no reemplaza a Docker para sistemas legacy completos, pero para funciones serverless y plugins de alta densidad es infinitamente superior.
+El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior.
 
 Asesoro a empresas en modernización de infraestructura serverless y diseño de sandboxes seguros. Contacto en mi biografía.
 ```

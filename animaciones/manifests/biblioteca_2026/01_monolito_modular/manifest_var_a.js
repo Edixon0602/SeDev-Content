@@ -10,9 +10,10 @@ window.__DEFAULT_MANIFEST__ = {
       "type": "kinetic_hook",
       "duration": 4.5,
       "voiceover": "¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio.",
-      "visual_cue": "Gancho cinético de apertura con engranaje de arquitectura",
+      "visual_cue": "Tipografía cinética de impacto sin iconos genéricos",
       "props": {
-        "badge": "ARQUITECTURA 2026",
+        "layout": "impact",
+        "badge": "ARQUITECTURA MODERNA",
         "lines": [
           {
             "text": "EL GRAN REGRESO DEL",
@@ -23,8 +24,7 @@ window.__DEFAULT_MANIFEST__ = {
             "color": "#38bdf8"
           }
         ],
-        "subtitle": "LÍMITES DE DOMINIO // UN SOLO BINARIO",
-        "icon": "cpu"
+        "subtitle": "Límites de dominio en un solo binario"
       }
     },
     {
@@ -81,14 +81,14 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "modules",
             "label": "DOMINIOS AISLADOS (DDD)",
-            "sublabel": "Orders // Billing // Users (Zero cross-imports)",
+            "sublabel": "Orders · Billing · Users (Aislamiento de imports)",
             "color": "#10b981",
             "y": 520
           },
           {
             "id": "storage",
             "label": "POSTGRES TRANSACCIONAL",
-            "sublabel": "Esquemas lógicos separados (Single DB)",
+            "sublabel": "Esquemas lógicos separados en una sola DB",
             "color": "#fbbf24",
             "y": 880
           }
@@ -102,15 +102,15 @@ window.__DEFAULT_MANIFEST__ = {
       "voiceover": "En código, prohibimos las importaciones directas entre módulos. Cada dominio expone una interfaz pública estricta.",
       "visual_cue": "Terminal mostrando TypeScript / Rust haciendo cumplir límites de módulos con ESLint / ArchUnit",
       "props": {
-        "header": "ENFORCEMENT EN CI/CD",
-        "title": "REGLAS DE IMPORTACIÓN STRICT",
+        "header": "REGLAS EN CI/CD",
+        "title": "ENFORCEMENT DE IMPORTACIONES",
         "filename": "packages/orders/domain.ts",
         "codeLines": [
-          "// ❌ ERROR: Importación profunda prohibida",
-          "import { PaymentModel } from \"@sedev/billing/internal\";",
+          "# Importación profunda bloqueada por el linter:",
+          "import { PaymentModel } from \"@app/billing/internal\"; // ERROR",
           "",
-          "// ✔ CORRECTO: Comunicación por interfaz pública",
-          "import { BillingFacade } from \"@sedev/billing\";",
+          "# Comunicación correcta por contrato público:",
+          "import { BillingFacade } from \"@app/billing\";",
           "const invoice = await BillingFacade.charge(order.id);"
         ],
         "cursorLine": 5
@@ -147,9 +147,9 @@ window.__DEFAULT_MANIFEST__ = {
       "props": {
         "header": "CONSULTORÍA DE ARQUITECTURA",
         "title": "SIMPLIFICA TU CODEBASE",
-        "subtitle": "REDUCE COSTES // MULTIPLICA VELOCIDAD",
+        "subtitle": "REDUCE COSTES · MULTIPLICA VELOCIDAD",
         "cta": {
-          "badge": "AUDITORÍA DE ARQUITECTURA // SEDEV",
+          "badge": "AUDITORÍA DE ARQUITECTURA (Link en bio)",
           "text": "¿Dudas con tu arquitectura? Enlace en mi perfil para agendar una sesión técnica."
         }
       }

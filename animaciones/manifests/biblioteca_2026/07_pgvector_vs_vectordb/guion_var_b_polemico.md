@@ -3,7 +3,7 @@
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** BASES DE DATOS & IA  
 > **Tono:** Pragmático, contra el despilfarro de bases vectoriales dedicadas  
-> **Duración total:** 15.5s | **Palabras:** 73 palabras (~283 palabras/minuto)
+> **Duración total:** 11.5s | **Palabras:** 49 palabras (~256 palabras/minuto)
 
 ---
 
@@ -11,18 +11,15 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético contra el exceso de herramientas | "Te vendieron que necesitas una base vectorial especializada como Pinecone o Qdrant para hacer IA. La verdad es que tu Postgres actual ya lo hace todo." | 26 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `terminal_split` | Doble terminal comparando sincronización dual vs base única | "Mantener dos bases de datos te obliga a sincronizar IDs y transacciones. Con pgvector tienes consistencia inmediata sin pagar dos servicios." | 21 |
-| **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de base de datos | "Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio." | 26 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal comparando sincronización dual problemática vs base única | "Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan." | 23 |
+| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de base de datos | "Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio." | 26 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-Te vendieron que necesitas una base vectorial especializada como Pinecone o Qdrant para hacer IA. La verdad es que tu Postgres actual ya lo hace todo.
-
-Mantener dos bases de datos te obliga a sincronizar IDs y transacciones. Con pgvector tienes consistencia inmediata sin pagar dos servicios.
+Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.
 
 Audito la capa de persistencia de tu producto para consolidar tu stack y reducir costes operativos. Agenda tu sesión técnica en el link de la bio.
 ```

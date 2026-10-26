@@ -1,4 +1,4 @@
-// Data definitions for Topics 16 to 20
+// Data definitions for Topics 16 to 20 (Zero // AI-slop, Zero SeDev watermarks, Varied Hooks)
 module.exports = [
   // ----------------------------------------------------
   // TEMA 16: FRACASO MICRO-FRONTENDS
@@ -12,19 +12,15 @@ module.exports = [
       tone: 'Análisis técnico de rendimiento web, parseo de JavaScript, waterfalls de red',
       scenes: [
         {
-          id: 'hook_mf',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Por el brutal impacto en el rendimiento.',
-          visual_cue: 'Gancho cinético sobre el colapso del rendimiento por micro-frontends',
+          id: 'vitals_hook',
+          type: 'metrics_comparison',
+          duration: 6.5,
+          voiceover: '¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Porque descargar múltiples versiones de frameworks destruyó la velocidad de carga.',
+          visual_cue: 'Apertura directa con comparativa de Core Web Vitals: Micro-frontends frente a Monorepo limpio',
           props: {
-            badge: 'ARQUITECTURA WEB 2026',
-            lines: [
-              { text: 'EL FRACASO DE LOS', color: '#ffffff' },
-              { text: 'MICRO-FRONTENDS', color: '#ef4444' }
-            ],
-            subtitle: 'SOBRECARGA DE BUNDLE // WATERFALLS DE RED',
-            icon: 'terminal'
+            header: 'IMPACTO EN CORE WEB VITALS',
+            metricA: { label: 'MICRO-FRONTENDS FEDERATION', value: '3.4s LCP', sub: 'Puntaje de Performance: 42/100', color: '#ef4444' },
+            metricB: { label: 'MONOREPO UNIFICADO', value: '0.6s LCP', sub: 'Puntaje de Performance: 98/100', color: '#10b981' }
           }
         },
         {
@@ -40,20 +36,8 @@ module.exports = [
             stages: [
               { id: 'app1', label: 'HEADER MFE (REACT 18.2)', sub: 'Descarga 140KB de runtime inicial', y: 220, color: '#ef4444', metric: '180ms' },
               { id: 'app2', label: 'CHECKOUT MFE (REACT 19.0)', sub: 'Descarga 160KB duplicados por conflicto', y: 520, color: '#fbbf24', metric: '290ms' },
-              { id: 'app3', label: 'FOOTER MFE (VUE 3)', sub: 'Tercer framework compitiendo por hilo principal', y: 820, color: '#38bdf8', metric: '420ms' }
+              { id: 'app3', label: 'FOOTER MFE (VUE 3)', sub: 'Tercer framework compitiendo en hilo principal', y: 820, color: '#38bdf8', metric: '420ms' }
             ]
-          }
-        },
-        {
-          id: 'metrics_perf',
-          type: 'metrics_comparison',
-          duration: 6.0,
-          voiceover: 'El navegador pasa más tiempo parseando JavaScript redundante que renderizando contenido, destruyendo las métricas de Core Web Vitals.',
-          visual_cue: 'Comparativa de Core Web Vitals: Micro-frontends vs Monorepo limpio',
-          props: {
-            header: 'IMPACTO EN CORE WEB VITALS',
-            metricA: { label: 'MICRO-FRONTENDS FEDERATION', value: '3.4s LCP', sub: 'Puntaje de Performance: 42/100', color: '#ef4444' },
-            metricB: { label: 'MONOREPO UNIFICADO', value: '0.6s LCP', sub: 'Puntaje de Performance: 98/100', color: '#10b981' }
           }
         },
         {
@@ -66,7 +50,7 @@ module.exports = [
             header: 'AUDITORÍA DE ARQUITECTURA FRONTEND',
             title: 'RECUPERA LA VELOCIDAD DE TU APLICACIÓN',
             cta: {
-              badge: 'AUDITORÍA DE RENDIMIENTO WEB // SEDEV',
+              badge: 'AUDITORÍA DE RENDIMIENTO WEB (Link en bio)',
               text: '¿Tu aplicación web está pesada y fragmentada? Link en mi perfil para auditarla.'
             }
           }
@@ -78,19 +62,19 @@ module.exports = [
       tone: 'Directo al grano, lecciones de fracaso de Big Tech y simplicidad organizativa',
       scenes: [
         {
-          id: 'hook_mf_b',
+          id: 'mfe_impact_hook',
           type: 'kinetic_hook',
           duration: 4.5,
-          voiceover: 'Adoptaste micro-frontends porque un artículo de Medium dijo que era lo moderno y ahora tienes un infierno de estilos rotos y dependencias cruzadas.',
-          visual_cue: 'Gancho cinético sobre el arrepentimiento de micro-frontends',
+          voiceover: 'Adoptaste micro-frontends porque estaba de moda y ahora tienes un infierno de estilos rotos, dependencias cruzadas y aplicaciones lentas.',
+          visual_cue: 'Tipografía de impacto gigante sin iconos genéricos',
           props: {
+            layout: 'impact',
             badge: 'LECCIONES DE INDUSTRIA',
             lines: [
               { text: 'DESMANTELANDO LOS', color: '#ef4444' },
               { text: 'MICRO-FRONTENDS', color: '#ffffff' }
             ],
-            subtitle: 'EL REGRESO AL MONOREPO LIMPIO CON ISLANDS',
-            icon: 'terminal'
+            subtitle: 'El regreso al monorepo limpio con arquitectura de islas'
           }
         },
         {
@@ -121,7 +105,7 @@ module.exports = [
             header: 'CONSOLIDACIÓN DE CODEBASE FRONTEND',
             title: 'SIMPLIFICA TUS PROCESOS DE ENTREGA',
             cta: {
-              badge: 'CONSULTORÍA FRONTEND // SEDEV',
+              badge: 'CONSULTORÍA FRONTEND (Contacto en perfil)',
               text: 'Consolida tus micro-frontends en un monorepo limpio. Link en mi perfil.'
             }
           }
@@ -142,32 +126,16 @@ module.exports = [
       tone: 'Sistemas operativos, arquitectura interna de PostgreSQL, forks y memoria',
       scenes: [
         {
-          id: 'hook_pgb',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Por qué conectar mil usuarios directos a PostgreSQL satura tu servidor aunque no estén haciendo ninguna consulta? Por el costo de los procesos de Linux.',
-          visual_cue: 'Gancho cinético sobre saturación de procesos en Postgres',
-          props: {
-            badge: 'POSTGRESQL INTERNALS',
-            lines: [
-              { text: 'EL COSTE DE UN FORK()', color: '#ffffff' },
-              { text: 'EN POSTGRESQL', color: '#38bdf8' }
-            ],
-            subtitle: 'PROCESO POR CONEXIÓN // CONSUMO DE MEMORIA',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'fork_arch',
+          id: 'fork_memory_hook',
           type: 'memory_layout',
-          duration: 6.0,
-          voiceover: 'Postgres es multi-proceso, no multi-hilo. Cada conexión crea un proceso independiente en Linux que consume hasta diez megabytes de RAM sin hacer nada.',
-          visual_cue: 'Layout de memoria mostrando backend processes compitiendo por CPU y RAM',
+          duration: 6.5,
+          voiceover: '¿Por qué conectar mil clientes directos a PostgreSQL satura tu servidor aunque no hagan consultas? Porque Postgres crea un proceso independiente de diez megabytes por cada conexión.',
+          visual_cue: 'Apertura directa con layout de memoria mostrando backend processes compitiendo por CPU y RAM',
           props: {
             header: 'ARQUITECTURA DE PROCESOS',
             title: 'POSTMASTER Y BACKEND WORKERS',
             items: [
-              { name: '1000 CONEXIONES DIRECTAS', addr: '1000 PROCESOS FORK()', value: '10GB RAM solo en estructuras de conexión', color: '#ef4444' },
+              { name: '1000 CONEXIONES DIRECTAS', addr: '1000 PROCESOS FORK()', value: '10GB RAM consumidos solo en sockets', color: '#ef4444' },
               { name: 'CAMBIO DE CONTEXTO EN KERNEL', addr: 'CONTEXT SWITCH OVERHEAD', value: 'La CPU gasta 60% solo cambiando de tarea', color: '#f59e0b' }
             ]
           }
@@ -182,7 +150,7 @@ module.exports = [
             header: 'CONNECTION POOLING EFICIENTE',
             title: 'EMBUDO TRANSACCIONAL CON PGBOUNCER',
             nodes: [
-              { id: 'clients', label: '10,000 CONEXIONES ACTIVAS', sublabel: 'Servidores web / Workers concurrentes', color: '#38bdf8', y: 160 },
+              { id: 'clients', label: '10,000 CONEXIONES ACTIVAS', sublabel: 'Servidores web y workers concurrentes', color: '#38bdf8', y: 160 },
               { id: 'pooler', label: 'PGBOUNCER (TRANSACTION MODE)', sublabel: 'Multiplexa peticiones en un micro-proceso en C', color: '#fbbf24', y: 520 },
               { id: 'db', label: 'POSTGRES (20 POOL WORKERS)', sublabel: '100% de la CPU dedicada a ejecutar queries reales', color: '#10b981', y: 880 }
             ]
@@ -198,7 +166,7 @@ module.exports = [
             header: 'AUDITORÍA DE RENDIMIENTO DE BASES DE DATOS',
             title: 'OPTIMIZA TUS POOLS DE CONEXIÓN',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en bio)',
               text: '¿Problemas con max_connections en Postgres? Link en mi bio para agendar una auditoría técnica.'
             }
           }
@@ -210,27 +178,11 @@ module.exports = [
       tone: 'Diagnóstico de emergencia, resolutivo, enfocado en incidentes comunes',
       scenes: [
         {
-          id: 'hook_pgb_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Subiste el tamaño del servidor de base de datos a una máquina de mil dólares y sigue lenta. El problema no es el hardware: es que no tienes un pooler.',
-          visual_cue: 'Gancho cinético sobre diagnósticos erróneos de infraestructura',
-          props: {
-            badge: 'DIAGNÓSTICO TÉCNICO',
-            lines: [
-              { text: 'TU BASE DE DATOS', color: '#ffffff' },
-              { text: 'NO ESTÁ LENTA', color: '#ef4444' }
-            ],
-            subtitle: 'ESTÁS SATURANDO EL POOL DE CONEXIONES',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'split_unpooled_pooled',
+          id: 'fatal_pool_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Limitar las conexiones de la base de datos a dos veces el número de núcleos de CPU multiplica el throughput por cinco al eliminar la contención de cerraduras.',
-          visual_cue: 'Doble terminal: Error fatal de max_connections vs PgBouncer fluido',
+          duration: 6.5,
+          voiceover: 'Subiste el tamaño del servidor a una máquina de mil dólares y sigue lento. No necesitas más hardware: necesitas un pooler para evitar saturar conexiones.',
+          visual_cue: 'Apertura directa con terminal mostrando error fatal de max_connections frente a PgBouncer',
           props: {
             header: 'BENCHMARK DE CONEXIONES',
             title: 'CONEXIÓN DIRECTA VS POOLING TRANSACCIONAL',
@@ -270,7 +222,7 @@ module.exports = [
             header: 'AUDITORÍA DE POSTGRESQL & ESCALABILIDAD',
             title: 'RESOLUCIÓN DE CONGESTIÓN DE CONEXIONES',
             cta: {
-              badge: 'AUDITORÍA TÉCNICA // SEDEV',
+              badge: 'AUDITORÍA TÉCNICA (Link en perfil)',
               text: 'Elimina cuellos de botella en tu base de datos. Enlace directo en mi perfil.'
             }
           }
@@ -291,33 +243,17 @@ module.exports = [
       tone: 'Algoritmia, funciones hash, estructuras de datos probabilísticas',
       scenes: [
         {
-          id: 'hook_bloom',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo saber si un usuario ya leyó un artículo entre quinientos millones de registros usando solo un par de bits de memoria? Con Bloom Filters.',
-          visual_cue: 'Gancho cinético sobre estructuras probabilísticas',
-          props: {
-            badge: 'ESTRUCTURAS DE DATOS 2026',
-            lines: [
-              { text: 'BLOOM FILTERS:', color: '#ffffff' },
-              { text: 'MAGIA EN BITS', color: '#10b981' }
-            ],
-            subtitle: 'CONSULTAS PROBABILÍSTICAS EN O(1)',
-            icon: 'memory'
-          }
-        },
-        {
-          id: 'bloom_math',
+          id: 'bloom_math_hook',
           type: 'memory_layout',
           duration: 6.5,
-          voiceover: 'Un Bloom Filter aplica múltiples funciones hash a una clave y enciende bits en un array. Si algún bit es cero, el elemento definitivamente no existe.',
-          visual_cue: 'Array de bits encendiéndose por hashes SHA-256 / Murmur3',
+          voiceover: '¿Cómo saber si un usuario ya leyó un post entre quinientos millones de registros usando solo tres bits de RAM? Con Bloom Filters probabilísticos.',
+          visual_cue: 'Apertura directa con array de bits encendiéndose por hashes SHA-256 y Murmur3',
           props: {
             header: 'MECANISMO DE HASHING',
             title: 'ARRAY DE BITS Y CERO FALSOS NEGATIVOS',
             items: [
               { name: 'CLAVE: "user_98412"', addr: '3 FUNCIONES HASH', value: 'Bits calculados: [14, 52, 88]', color: '#38bdf8' },
-              { name: 'ARRAY DE BITS (RAM)', addr: 'BIT 52 = 0', value: '✔ GARANTIZADO: El elemento NO existe en disco', color: '#10b981' }
+              { name: 'ARRAY DE BITS EN RAM', addr: 'BIT 52 = 0', value: 'GARANTIZADO: El registro NO existe en disco', color: '#10b981' }
             ]
           }
         },
@@ -332,11 +268,11 @@ module.exports = [
             title: 'CONSULTA DE EXISTENCIA EN SUB-MILISEGUNDO',
             filename: 'cache/bloom.sh',
             codeLines: [
-              '# Comprueba existencia en RAM sin tocar base de datos principal',
+              '# Comprueba existencia en RAM sin tocar base de datos principal:',
               'BF.ADD post_views "usr_42:post_991"',
               'BF.EXISTS post_views "usr_42:post_991" -> (integer) 1',
               'BF.EXISTS post_views "usr_88:post_991" -> (integer) 0',
-              '# Ahorro: 99% de lecturas a base de datos descartadas en RAM'
+              '# 99% de lecturas a disco descartadas en memoria RAM'
             ],
             cursorLine: 4
           }
@@ -348,10 +284,10 @@ module.exports = [
           voiceover: 'Diseño arquitecturas de caché y capas probabilísticas para reducir la carga de bases de datos. Link en mi perfil para auditar tu sistema.',
           visual_cue: 'Cierre con llamado a auditoría de caché y performance',
           props: {
-            header: 'AUDITORÍA DE CACHÉ & ALTO RENDIMIENTO',
+            header: 'AUDITORÍA DE CACHÉ Y ALTO RENDIMIENTO',
             title: 'PROTEGE TU BASE DE CONSULTAS INÚTILES',
             cta: {
-              badge: 'AUDITORÍA DE DATOS & CACHÉ // SEDEV',
+              badge: 'AUDITORÍA DE CACHÉ (Link en bio)',
               text: '¿Tu base de datos sufre por queries repetitivas? Link en mi perfil para auditar tu caché.'
             }
           }
@@ -363,27 +299,11 @@ module.exports = [
       tone: 'Financiero y escalabilidad masiva, eliminando lecturas a disco',
       scenes: [
         {
-          id: 'hook_bloom_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Hacer consultas a tu base de datos relacional para verificar si un email ya está registrado está quemando tu presupuesto de infraestructura.',
-          visual_cue: 'Gancho cinético sobre ahorro de queries repetitivas',
-          props: {
-            badge: 'AHORRO DE RECURSOS',
-            lines: [
-              { text: 'AHORRA MILES DE DÓLARES', color: '#10b981' },
-              { text: 'CON BLOOM FILTERS', color: '#ffffff' }
-            ],
-            subtitle: 'ELIMINA EL 95% DE LAS CONSULTAS A DISCO',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'latency_bloom',
+          id: 'bloom_latency_hook',
           type: 'latency_scale',
-          duration: 6.0,
-          voiceover: 'Un filtro de Bloom en Redis responde en microsegundos y consume apenas un megabyte para un millón de registros. Tu base de datos te lo va a agradecer.',
-          visual_cue: 'Escala de latencia comparando chequeo en RAM vs Query SQL a disco',
+          duration: 6.5,
+          voiceover: 'Hacer consultas a tu base de datos relacional para comprobar si un registro existe está quemando tu presupuesto. Un filtro Bloom en Redis responde en microsegundos.',
+          visual_cue: 'Apertura directa con escala de latencia comparando RAM vs Query SQL',
           props: {
             header: 'TIEMPO DE RESPUESTA',
             title: 'FILTRO EN MEMORIA VS BÚSQUEDA EN DISCO',
@@ -407,7 +327,7 @@ module.exports = [
             header: 'AUDITORÍA DE ESCALABILIDAD & COSTES',
             title: 'OPTIMIZACIÓN DE CAPAS DE CACHÉ',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en bio)',
               text: 'Reduce el estrés de tu base de datos y recorta costes. Agenda tu sesión en mi perfil.'
             }
           }
@@ -428,34 +348,18 @@ module.exports = [
       tone: 'Análisis de redes, estampidas de caché, micro-caching en CDN',
       scenes: [
         {
-          id: 'hook_swr',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Qué pasa cuando la caché de tu página más visitada expira justo cuando entran diez mil usuarios a la vez? Tu servidor colapsa por Cache Stampede.',
-          visual_cue: 'Gancho cinético sobre avalancha de peticiones por expiración de caché',
-          props: {
-            badge: 'ESCALABILIDAD WEB 2026',
-            lines: [
-              { text: 'ANATOMÍA DE UN', color: '#ffffff' },
-              { text: 'CACHE STAMPEDE', color: '#ef4444' }
-            ],
-            subtitle: 'CÓMO SWR NEUTRALIZA EL COLAPSO',
-            icon: 'network_packet'
-          }
-        },
-        {
-          id: 'stampede_flow',
+          id: 'stampede_flow_hook',
           type: 'network_pipeline',
           duration: 6.5,
-          voiceover: 'Todas las peticiones atraviesan la caché vacía e intentan recalcular la misma información en la base de datos simultáneamente tumbando el backend.',
-          visual_cue: 'Pipeline visual mostrando la estampida saturando la base de datos sin protección',
+          voiceover: '¿Qué pasa cuando la caché de tu página más visitada expira justo cuando entran diez mil usuarios a la vez? Tu servidor colapsa por una estampida de peticiones a la base de datos.',
+          visual_cue: 'Apertura directa con pipeline visual mostrando la avalancha de peticiones colapsando la base',
           props: {
             header: 'AVALANCHA DE PETICIONES',
             title: 'CACHE MISS SIMULTÁNEO',
             subtitle: '10,000 CONEXIONES ATACANDO LA BASE DE DATOS',
             stages: [
               { id: 'users', label: '10,000 USUARIOS CONCURRENTES', sublabel: 'Petición masiva en el segundo 00:00', y: 220, color: '#ef4444', metric: '10K RPS' },
-              { id: 'cdn', label: 'CDN CACHE (EXPIRADA)', sublabel: 'TTL agotado // Deja pasar todo el tráfico', y: 520, color: '#fbbf24', metric: 'Stampede' },
+              { id: 'cdn', label: 'CDN CACHE (EXPIRADA)', sublabel: 'TTL agotado y deja pasar todo el tráfico', y: 520, color: '#fbbf24', metric: 'Stampede' },
               { id: 'db', label: 'BASE DE DATOS EN COLAPSO', sublabel: '10,000 queries pesadas idénticas a la vez', y: 820, color: '#ef4444', metric: 'CPU 100%' }
             ]
           }
@@ -471,11 +375,11 @@ module.exports = [
             title: 'STALE-WHILE-REVALIDATE PATTERN',
             filename: 'routes/products.ts',
             codeLines: [
-              '// Sirve respuesta vieja en 5ms y actualiza en background sin bloquear',
+              '# Sirve respuesta anterior en 5ms y actualiza en background sin bloquear:',
               'reply.header("Cache-Control", ',
               '  "public, max-age=60, stale-while-revalidate=86400, stale-if-error=86400"',
               ');',
-              '// Resultado: Zero Cache Stampedes // Rendimiento 100% plano'
+              '# Resultado: Cero Cache Stampedes y rendimiento 100% estable'
             ],
             cursorLine: 4
           }
@@ -487,10 +391,10 @@ module.exports = [
           voiceover: 'Audito la arquitectura de caching y entrega de contenido en CDN para garantizar escalabilidad extrema en picos de tráfico. Enlace en mi bio.',
           visual_cue: 'Cierre con llamado a auditoría de arquitectura y escalabilidad',
           props: {
-            header: 'AUDITORÍA DE ESCALABILIDAD & CACHING',
+            header: 'AUDITORÍA DE ESCALABILIDAD Y CACHING',
             title: 'RESISTENCIA A PICOS MASIVOS DE TRÁFICO',
             cta: {
-              badge: 'AUDITORÍA DE ESCALABILIDAD // SEDEV',
+              badge: 'AUDITORÍA DE ESCALABILIDAD (Link en bio)',
               text: '¿Tu web sufre caídas en picos de tráfico? Link en mi perfil para agendar tu diagnóstico.'
             }
           }
@@ -502,27 +406,11 @@ module.exports = [
       tone: 'Práctico y directo, dominando los encabezados HTTP y el edge',
       scenes: [
         {
-          id: 'hook_swr_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'No necesitas pagar un clúster gigante de Redis para que tu web vuele. Los encabezados HTTP correctos en el Edge hacen todo el trabajo por ti.',
-          visual_cue: 'Gancho cinético sobre respuestas ultrarrápidas con HTTP',
-          props: {
-            badge: 'EDGE CACHING EN 2026',
-            lines: [
-              { text: 'RESPUESTAS EN 5MS', color: '#10b981' },
-              { text: 'SIN REDIS GIGANTE', color: '#ffffff' }
-            ],
-            subtitle: 'EL PODER DEL ENCABEZADO STALE-WHILE-REVALIDATE',
-            icon: 'lightning'
-          }
-        },
-        {
-          id: 'metrics_swr',
+          id: 'metrics_swr_hook',
           type: 'metrics_comparison',
-          duration: 6.0,
-          voiceover: 'Tus usuarios perciben una velocidad instantánea en cualquier parte del mundo mientras tu servidor de origen apenas recibe peticiones.',
-          visual_cue: 'Métricas de descarga y reducción de peticiones al origen',
+          duration: 6.5,
+          voiceover: 'No necesitas pagar un clúster de Redis para que tu web vuele. El encabezado Stale-While-Revalidate en el Edge reduce la carga de base de datos en un noventa y ocho por ciento.',
+          visual_cue: 'Apertura directa con métricas de descarga de servidor y latencia TTFB',
           props: {
             header: 'DESCARGA DE SERVIDOR DE ORIGEN',
             metricA: { label: 'PETICIONES A BASE DE DATOS', value: '-98.4%', sub: 'Solo una actualización en background por minuto', color: '#10b981' },
@@ -536,10 +424,10 @@ module.exports = [
           voiceover: 'Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio.',
           visual_cue: 'Cierre con consultoría de escalabilidad',
           props: {
-            header: 'CONSULTORÍA DE ESCALABILIDAD & EDGE',
-            title: 'MÁXIMA VELOCIDAD // MÍNIMO COSTE DE SERVIDOR',
+            header: 'CONSULTORÍA DE ESCALABILIDAD',
+            title: 'MÁXIMA VELOCIDAD Y MÍNIMO COSTE DE SERVIDOR',
             cta: {
-              badge: 'CONSULTORÍA SENIOR // SEDEV',
+              badge: 'CONSULTORÍA DE ESCALABILIDAD (Link en perfil)',
               text: 'Haz que tu backend soporte millones de visitas sin pestañear. Hablemos en mi perfil.'
             }
           }
@@ -560,34 +448,18 @@ module.exports = [
       tone: 'Metodología de ingeniería crítica, despliegues paralelos, transiciones seguras',
       scenes: [
         {
-          id: 'hook_migration',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo renombrar una columna en una tabla de cincuenta millones de usuarios con tráfico activo sin provocar un solo error 500? Con Expand & Contract.',
-          visual_cue: 'Gancho cinético sobre migraciones críticas sin downtime',
-          props: {
-            badge: 'INGENIERÍA DE DATOS 2026',
-            lines: [
-              { text: 'MIGRACIONES CON', color: '#ffffff' },
-              { text: 'CERO DOWNTIME', color: '#10b981' }
-            ],
-            subtitle: 'EL PATRÓN EXPAND & CONTRACT EN 3 FASES',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'expand_phases',
+          id: 'expand_phases_hook',
           type: 'architecture_flow',
           duration: 6.5,
-          voiceover: 'Nunca renombres en un solo paso. Fase uno: expandes añadiendo la nueva columna. Fase dos: doble escritura. Fase tres: contraes borrando la vieja.',
-          visual_cue: 'Diagrama de flujo mostrando las tres fases del patrón Expand & Contract',
+          voiceover: '¿Cómo renombrar una columna en cincuenta millones de filas sin provocar un solo error 500? Nunca lo hagas en un solo paso: usa el patrón Expand & Contract.',
+          visual_cue: 'Apertura directa con diagrama de las tres fases del patrón Expand & Contract',
           props: {
             header: 'LAS TRES FASES DEL PATRÓN',
             title: 'TRANSICIÓN SEGURA DE ESQUEMA',
             nodes: [
-              { id: 'f1', label: '1. FASE EXPAND', sublabel: 'Añadir columna nueva vacía (Nullable) // Cero locks', color: '#38bdf8', y: 160 },
-              { id: 'f2', label: '2. DOBLE ESCRITURA & BACKFILL', sublabel: 'La app escribe en ambas columnas // Worker migra histórico', color: '#fbbf24', y: 520 },
-              { id: 'f3', label: '3. FASE CONTRACT', sublabel: 'La app solo lee la nueva // Drop seguro de la columna vieja', color: '#10b981', y: 880 }
+              { id: 'f1', label: '1. FASE EXPAND', sublabel: 'Añadir columna nueva vacía (Nullable) sin locks', color: '#38bdf8', y: 160 },
+              { id: 'f2', label: '2. DOBLE ESCRITURA Y BACKFILL', sublabel: 'La app escribe en ambas columnas y worker migra histórico', color: '#fbbf24', y: 520 },
+              { id: 'f3', label: '3. FASE CONTRACT', sublabel: 'La app solo lee la nueva y drop seguro de la columna vieja', color: '#10b981', y: 880 }
             ]
           }
         },
@@ -602,9 +474,9 @@ module.exports = [
             title: 'CERO EXCLUSIVE LOCKS EN TABLA',
             filename: 'db/migrations/20261025_safe_column.sql',
             codeLines: [
-              '-- 1. Añade columna sin bloquear lectores ni escritores',
+              '-- 1. Añade columna sin bloquear lectores ni escritores:',
               'ALTER TABLE users ADD COLUMN phone_v2 VARCHAR(32);',
-              '-- 2. Backfill en lotes pequeños para no saturar transacciones',
+              '-- 2. Backfill en lotes pequeños para no saturar transacciones:',
               'UPDATE users SET phone_v2 = phone WHERE id BETWEEN $1 AND $2;',
               '-- 3. Deploy de código con lectura de phone_v2'
             ],
@@ -621,7 +493,7 @@ module.exports = [
             header: 'CONSULTORÍA DE MIGRACIONES CRÍTICAS',
             title: 'CAMBIOS DE ESQUEMA SIN TIEMPO DE CAÍDA',
             cta: {
-              badge: 'CONSULTORÍA DE DATOS // SEDEV',
+              badge: 'CONSULTORÍA DE DATOS (Link en bio)',
               text: '¿Planeas una migración compleja de base de datos? Link en mi perfil para acompañar a tu equipo.'
             }
           }
@@ -633,27 +505,11 @@ module.exports = [
       tone: 'Alerta técnica, advertencia de producción, desmitificando bloqueos de Postgres',
       scenes: [
         {
-          id: 'hook_migration_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Hiciste un ALTER TABLE agregando un valor por defecto en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos.',
-          visual_cue: 'Gancho cinético sobre el terror del bloqueo de tabla',
-          props: {
-            badge: 'ERRORES FATALES EN DB',
-            lines: [
-              { text: 'NUNCA HAGAS ALTER TABLE', color: '#ef4444' },
-              { text: 'A CIEGAS EN PRODUCCIÓN', color: '#ffffff' }
-            ],
-            subtitle: 'BLOQUEOS EXCLUSIVOS // HORRORES DE BASE DE DATOS',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'lock_split',
+          id: 'lock_split_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Postgres adquiere un bloqueo ACCESS EXCLUSIVE que frena cada petición detrás de él. Usa lock_timeout para que tu base de datos nunca se congele.',
-          visual_cue: 'Doble terminal: Bloqueo infinito de tabla vs Migración segura con lock_timeout',
+          duration: 6.5,
+          voiceover: 'Hiciste un ALTER TABLE en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos. Postgres adquiere un ACCESS EXCLUSIVE lock que frena cada petición.',
+          visual_cue: 'Apertura directa con terminal mostrando bloqueo infinito de tabla frente a migración segura con lock_timeout',
           props: {
             header: 'MECANISMO DE BLOQUEO DE POSTGRES',
             title: 'ACCESS EXCLUSIVE LOCK VS LOCK TIMEOUT',
@@ -693,7 +549,7 @@ module.exports = [
             header: 'CONSULTORÍA DE MIGRACIONES SEGURAS',
             title: 'PROTEGE TU DISPONIBILIDAD EN PRODUCCIÓN',
             cta: {
-              badge: 'AUDITORÍA DE MIGRACIONES // SEDEV',
+              badge: 'AUDITORÍA DE MIGRACIONES (Link en bio)',
               text: 'Evita caídas en tus cambios de esquema. Hablemos en el enlace de mi perfil.'
             }
           }

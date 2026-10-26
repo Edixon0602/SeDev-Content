@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_mcp",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "El prompt engineering murió. La verdadera ingeniería de IA en 2026 se llama Model Context Protocol: el estándar que conecta modelos a tus sistemas.",
-      "visual_cue": "Gancho cinético sobre el protocolo MCP",
-      "props": {
-        "badge": "INGENIERÍA DE IA 2026",
-        "lines": [
-          {
-            "text": "MODEL CONTEXT",
-            "color": "#ffffff"
-          },
-          {
-            "text": "PROTOCOL (MCP)",
-            "color": "#a855f7"
-          }
-        ],
-        "subtitle": "EL ESTÁNDAR ABIERTO PARA AGENTES AUTÓNOMOS",
-        "icon": "agent_loop"
-      }
-    },
-    {
-      "id": "mcp_arch",
+      "id": "mcp_hook",
       "type": "architecture_flow",
       "duration": 6.5,
-      "voiceover": "En vez de escribir código ad-hoc para cada modelo, MCP crea una interfaz cliente-servidor donde la IA descubre herramientas y contexto dinámicamente.",
-      "visual_cue": "Diagrama de arquitectura MCP: Modelo LLM <-> Cliente MCP <-> Servidores de Herramientas (Postgres, Git, Filesystem)",
+      "voiceover": "El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol.",
+      "visual_cue": "Apertura directa con arquitectura de protocolo cliente-servidor de herramientas",
       "props": {
         "header": "ARQUITECTURA DE PROTOCOLO",
         "title": "DESACOPLAMIENTO DE HERRAMIENTAS",
@@ -40,21 +18,21 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "llm",
             "label": "AGENTE / CLIENTE MCP",
-            "sublabel": "Claude Code // Cursor // Custom Runner",
+            "sublabel": "Claude Code · Cursor · Custom Runner",
             "color": "#a855f7",
             "y": 160
           },
           {
             "id": "protocol",
             "label": "PROTOCOLO JSON-RPC 2.0",
-            "sublabel": "Capabilities Negotiation // Tools & Resources",
+            "sublabel": "Capabilities Negotiation · Tools & Resources",
             "color": "#38bdf8",
             "y": 520
           },
           {
             "id": "servers",
             "label": "SERVIDORES MCP AISLADOS",
-            "sublabel": "PostgreSQL // GitHub // Terminal Shell",
+            "sublabel": "PostgreSQL · GitHub · Terminal Shell",
             "color": "#10b981",
             "y": 880
           }
@@ -90,10 +68,10 @@ window.__DEFAULT_MANIFEST__ = {
       "voiceover": "Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio.",
       "visual_cue": "Cierre con contratación senior backend / IA",
       "props": {
-        "header": "DESARROLLO SENIOR BACKEND & IA",
+        "header": "DESARROLLO SENIOR BACKEND Y IA",
         "title": "ARQUITECTURAS AGÉNTICAS A MEDIDA",
         "cta": {
-          "badge": "STAFF ENGINEER // SEDEV",
+          "badge": "STAFF ENGINEER (Link en bio)",
           "text": "¿Necesitas integrar agentes de IA en tu infraestructura? Hablemos en el enlace de mi perfil."
         }
       }

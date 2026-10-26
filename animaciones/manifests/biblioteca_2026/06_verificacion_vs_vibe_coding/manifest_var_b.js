@@ -6,12 +6,13 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_testing_b",
+      "id": "impact_hook_vibe",
       "type": "kinetic_hook",
       "duration": 4.5,
       "voiceover": "Aceptar sugerencias de IA sin entender cómo funcionan no es programar rápido: es firmar una hipoteca de deuda técnica que vas a pagar muy cara.",
-      "visual_cue": "Gancho cinético alertando del vibe coding descontrolado",
+      "visual_cue": "Tipografía de impacto gigante sin iconos genéricos",
       "props": {
+        "layout": "impact",
         "badge": "DEBATES DE LA INDUSTRIA",
         "lines": [
           {
@@ -23,8 +24,7 @@ window.__DEFAULT_MANIFEST__ = {
             "color": "#ef4444"
           }
         ],
-        "subtitle": "DEUDA TÉCNICA A VELOCIDAD DE LA LUZ",
-        "icon": "zero_trust_lock"
+        "subtitle": "Deuda técnica acumulada a velocidad récord"
       }
     },
     {
@@ -43,9 +43,9 @@ window.__DEFAULT_MANIFEST__ = {
           "status": "32 dependencias fantasma añadidas",
           "time": "Caída p99",
           "lines": [
-            "Memoria con fugas silentes en event listeners",
-            "Nadie entiende el archivo de 1,200 líneas generado",
-            "Tiempo medio de resolución de incidencias: 3 días"
+            "Fugas de memoria silentes en event listeners",
+            "Nadie entiende el archivo de 1,200 líneas autogenerado",
+            "Tiempo de resolución de incidencias: 3 días"
           ]
         },
         "termB": {
@@ -55,9 +55,9 @@ window.__DEFAULT_MANIFEST__ = {
           "status": "Cero warnings, tipos estrictos y límites claros",
           "time": "Estable 24/7",
           "lines": [
-            "Invariantes de negocio validados en el sistema de tipos",
+            "Invariantes de negocio validados en tipos estáticos",
             "Arquitectura modular documentada y legible",
-            "MTTR (tiempo de recuperación): 5 minutos"
+            "Tiempo medio de recuperación: 5 minutos"
           ]
         }
       }
@@ -72,7 +72,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "AUDITORÍA DE DEUDA TÉCNICA",
         "title": "RECUPERA EL CONTROL DE TU CODEBASE",
         "cta": {
-          "badge": "AUDITORÍA DE ARQUITECTURA // SEDEV",
+          "badge": "AUDITORÍA DE ARQUITECTURA (Contacto en bio)",
           "text": "¿Tu codebase se volvió inmanejable? Hablemos en el link de la biografía."
         }
       }

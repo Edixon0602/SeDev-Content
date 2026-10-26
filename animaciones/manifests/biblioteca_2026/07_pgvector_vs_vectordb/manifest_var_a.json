@@ -6,37 +6,15 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_pgvector",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW.",
-      "visual_cue": "Gancho cinético con icono de árbol y base de datos",
-      "props": {
-        "badge": "POSTGRESQL & IA 2026",
-        "lines": [
-          {
-            "text": "GRAFOS HNSW EN",
-            "color": "#ffffff"
-          },
-          {
-            "text": "PGVECTOR",
-            "color": "#38bdf8"
-          }
-        ],
-        "subtitle": "BÚSQUEDA SEMÁNTICA VECTORIZADA",
-        "icon": "tree"
-      }
-    },
-    {
-      "id": "hnsw_tree",
+      "id": "hnsw_tree_hook",
       "type": "tree_hierarchy",
       "duration": 6.5,
-      "voiceover": "HNSW crea capas jerárquicas de grafos navegables. La búsqueda empieza en la capa superior con saltos largos y desciende refinando la similitud.",
-      "visual_cue": "Jerarquía de árbol navegable mostrando saltos hasta encontrar el vector objetivo",
+      "voiceover": "¿Cómo busca PostgreSQL entre un millón de vectores de IA en menos de cinco milisegundos? Con grafos HNSW navegables.",
+      "visual_cue": "Apertura directa con jerarquía de árbol navegable mostrando saltos hasta el vector",
       "props": {
         "header": "ALGORITMO HNSW",
         "title": "HIERARCHICAL NAVIGABLE SMALL WORLD",
-        "complexity": "COMPLEJIDAD: O(log N) // DISTANCIA COSENO",
+        "complexity": "COMPLEJIDAD: O(log N) · DISTANCIA COSENO",
         "nodes": [
           {
             "id": "top",
@@ -73,7 +51,7 @@
         ],
         "footerBadge": "RENDIMIENTO HNSW EN POSTGRES",
         "footerText": "Recorre un grafo multidimensional en RAM sin escanear la tabla entera.",
-        "footerSubtext": "Búsqueda por similitud semántica en menos de 4ms."
+        "footerSubtext": "Búsqueda por similitud semántica en menos de 4 milisegundos."
       }
     },
     {
@@ -107,7 +85,7 @@
         "header": "AUDITORÍA DE BASES DE DATOS & IA",
         "title": "OPTIMIZA TUS PIPELINES DE EMBEDDINGS",
         "cta": {
-          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "badge": "AUDITORÍA DE DATOS (Link en bio)",
           "text": "¿Búsquedas vectoriales lentas o caras? Hablemos en el enlace de mi perfil."
         }
       }

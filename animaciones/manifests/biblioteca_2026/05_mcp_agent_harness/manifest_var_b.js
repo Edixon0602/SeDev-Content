@@ -6,40 +6,18 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_mcp_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Hacer prompts gigantescos no te dará software de producción. Lo que importa es el arnés de ejecución y las herramientas que le das al modelo.",
-      "visual_cue": "Gancho cinético sobre la muerte del prompt engineering",
-      "props": {
-        "badge": "DEBATES DE INGENIERÍA",
-        "lines": [
-          {
-            "text": "EL PROMPTING",
-            "color": "#ef4444"
-          },
-          {
-            "text": "HA MUERTO",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "EL PODER ESTÁ EN EL ARNÉS DE EJECUCIÓN",
-        "icon": "agent_loop"
-      }
-    },
-    {
-      "id": "split_prompt_vs_harness",
+      "id": "harness_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "Un mal prompt en un buen arnés con tests automáticos gana siempre a un prompt perfecto sin capacidad de ejecución.",
-      "visual_cue": "Doble terminal: Vibe Prompting vs Agent Harness con bucle de verificación",
+      "duration": 6.5,
+      "voiceover": "Un prompt gigantesco no te dará software de producción. Lo que importa es el arnés de ejecución y el bucle de verificación de tests.",
+      "visual_cue": "Apertura directa con terminal comparando prompting ciego vs arnés determinista",
       "props": {
         "header": "MÉTODO DE DESARROLLO",
         "title": "PROMPT PURO VS BUCLE DE VERIFICACIÓN",
         "termA": {
           "title": "PROMPTING TRADICIONAL",
           "color": "#ef4444",
-          "cmd": "chat_gpt(\"escribe un backend completo\")",
+          "cmd": "chat_gpt(\"escribe un backend\")",
           "status": "Alucinaciones en imports y dependencias",
           "time": "Fallo silente",
           "lines": [
@@ -52,8 +30,8 @@ window.__DEFAULT_MANIFEST__ = {
           "title": "AGENT HARNESS DETERMINISTA",
           "color": "#10b981",
           "cmd": "agent run --verify --strict-sandbox",
-          "status": "Ejecuta tests, detecta errores y autocorrige",
-          "time": "✔ Verificado",
+          "status": "Ejecuta tests y autocorrige en bucle",
+          "time": "Verificado",
           "lines": [
             "Llama a servidor MCP para validar esquema de DB",
             "Corre suite de tests unitarios antes de commitear",
@@ -72,7 +50,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "CONTRATACIÓN SENIOR BACKEND",
         "title": "SISTEMAS AUTÓNOMOS Y AGENTES ROBUSTOS",
         "cta": {
-          "badge": "LEAD DEVELOPER // SEDEV",
+          "badge": "LEAD DEVELOPER (Contacto en bio)",
           "text": "Desarrollo de agentes y flujos autónomos de alta fiabilidad. Contáctame en mi biografía."
         }
       }

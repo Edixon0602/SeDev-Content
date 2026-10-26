@@ -6,12 +6,13 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_runtime_b",
+      "id": "impact_bun_hook",
       "type": "kinetic_hook",
       "duration": 4.5,
       "voiceover": "Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?",
-      "visual_cue": "Gancho cinético sobre estabilidad de producción",
+      "visual_cue": "Tipografía de impacto gigante sin iconos repetitivos",
       "props": {
+        "layout": "impact",
         "badge": "DECISIÓN DE PRODUCCIÓN",
         "lines": [
           {
@@ -23,8 +24,7 @@
             "color": "#38bdf8"
           }
         ],
-        "subtitle": "VELOCIDAD VS ESTABILIDAD DE PAQUETES NATIVOS",
-        "icon": "scale_balance"
+        "subtitle": "Velocidad bruta frente a compatibilidad de paquetes"
       }
     },
     {
@@ -36,11 +36,11 @@
       "props": {
         "header": "ESTRATEGIA DE ADOPCIÓN",
         "title": "DÓNDE USAR CADA RUNTIME",
-        "colA": "BUN (DESARROLLO & CI)",
+        "colA": "BUN (DESARROLLO Y CI)",
         "colB": "NODE 22 (PRODUCCIÓN CORE)",
         "rows": [
           {
-            "dim": "Instalación de paquetes (CI/CD)",
+            "dim": "Instalación de paquetes en CI",
             "a": "✔ 30x más rápido",
             "b": "✖ Lento en pipelines",
             "aGood": true
@@ -70,7 +70,7 @@
         "header": "MODERNIZACIÓN DE ARQUITECTURA JS/TS",
         "title": "TRANSICIÓN SEGURA Y DE ALTO RENDIMIENTO",
         "cta": {
-          "badge": "CONSULTORÍA SENIOR // SEDEV",
+          "badge": "CONSULTORÍA SENIOR (Contacto en perfil)",
           "text": "Moderniza tu stack de JavaScript sin sorpresas. Agenda una sesión técnica en mi biografía."
         }
       }

@@ -6,25 +6,25 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_mf",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Por el brutal impacto en el rendimiento.",
-      "visual_cue": "Gancho cinético sobre el colapso del rendimiento por micro-frontends",
+      "id": "vitals_hook",
+      "type": "metrics_comparison",
+      "duration": 6.5,
+      "voiceover": "¿Por qué tantas empresas están desmantelando sus micro-frontends para volver a un monorepo unificado? Porque descargar múltiples versiones de frameworks destruyó la velocidad de carga.",
+      "visual_cue": "Apertura directa con comparativa de Core Web Vitals: Micro-frontends frente a Monorepo limpio",
       "props": {
-        "badge": "ARQUITECTURA WEB 2026",
-        "lines": [
-          {
-            "text": "EL FRACASO DE LOS",
-            "color": "#ffffff"
-          },
-          {
-            "text": "MICRO-FRONTENDS",
-            "color": "#ef4444"
-          }
-        ],
-        "subtitle": "SOBRECARGA DE BUNDLE // WATERFALLS DE RED",
-        "icon": "terminal"
+        "header": "IMPACTO EN CORE WEB VITALS",
+        "metricA": {
+          "label": "MICRO-FRONTENDS FEDERATION",
+          "value": "3.4s LCP",
+          "sub": "Puntaje de Performance: 42/100",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "MONOREPO UNIFICADO",
+          "value": "0.6s LCP",
+          "sub": "Puntaje de Performance: 98/100",
+          "color": "#10b981"
+        }
       }
     },
     {
@@ -57,34 +57,12 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "app3",
             "label": "FOOTER MFE (VUE 3)",
-            "sub": "Tercer framework compitiendo por hilo principal",
+            "sub": "Tercer framework compitiendo en hilo principal",
             "y": 820,
             "color": "#38bdf8",
             "metric": "420ms"
           }
         ]
-      }
-    },
-    {
-      "id": "metrics_perf",
-      "type": "metrics_comparison",
-      "duration": 6,
-      "voiceover": "El navegador pasa más tiempo parseando JavaScript redundante que renderizando contenido, destruyendo las métricas de Core Web Vitals.",
-      "visual_cue": "Comparativa de Core Web Vitals: Micro-frontends vs Monorepo limpio",
-      "props": {
-        "header": "IMPACTO EN CORE WEB VITALS",
-        "metricA": {
-          "label": "MICRO-FRONTENDS FEDERATION",
-          "value": "3.4s LCP",
-          "sub": "Puntaje de Performance: 42/100",
-          "color": "#ef4444"
-        },
-        "metricB": {
-          "label": "MONOREPO UNIFICADO",
-          "value": "0.6s LCP",
-          "sub": "Puntaje de Performance: 98/100",
-          "color": "#10b981"
-        }
       }
     },
     {
@@ -97,7 +75,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "AUDITORÍA DE ARQUITECTURA FRONTEND",
         "title": "RECUPERA LA VELOCIDAD DE TU APLICACIÓN",
         "cta": {
-          "badge": "AUDITORÍA DE RENDIMIENTO WEB // SEDEV",
+          "badge": "AUDITORÍA DE RENDIMIENTO WEB (Link en bio)",
           "text": "¿Tu aplicación web está pesada y fragmentada? Link en mi perfil para auditarla."
         }
       }

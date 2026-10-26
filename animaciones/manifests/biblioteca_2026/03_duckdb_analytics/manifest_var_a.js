@@ -6,25 +6,17 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_duckdb",
+      "id": "stat_hook",
       "type": "kinetic_hook",
       "duration": 4.5,
-      "voiceover": "¿Cómo procesar diez millones de filas de analítica en tu laptop en medio segundo sin levantar un clúster de Spark? Con DuckDB.",
-      "visual_cue": "Gancho cinético con icono columnar",
+      "voiceover": "¿Diez millones de filas analizadas en medio segundo dentro de tu laptop? Así funciona el procesamiento columnar de DuckDB.",
+      "visual_cue": "Gancho cinético con número cuantitativo gigante",
       "props": {
-        "badge": "ANALÍTICA DE DATOS 2026",
-        "lines": [
-          {
-            "text": "DUCKDB: EL SQLITE",
-            "color": "#ffffff"
-          },
-          {
-            "text": "DE LA ANALÍTICA",
-            "color": "#fbbf24"
-          }
-        ],
-        "subtitle": "PROCESAMIENTO COLUMNAR VECTORIZADO",
-        "icon": "duckdb"
+        "layout": "stat",
+        "badge": "ANALÍTICA DE DATOS",
+        "stat": "10.000.000",
+        "statLabel": "Filas procesadas en 420ms",
+        "subtitle": "Procesamiento columnar vectorizado"
       }
     },
     {
@@ -64,7 +56,7 @@ window.__DEFAULT_MANIFEST__ = {
         "filename": "analytics/query.py",
         "codeLines": [
           "import duckdb",
-          "# Lee 50GB de logs en S3 descargando solo 40MB de metadata",
+          "# Lee 50GB en S3 descargando solo 40MB de metadata:",
           "res = duckdb.query(\"\"\"",
           "  SELECT user_country, SUM(amount_usd) ",
           "  FROM read_parquet(\"s3://logs-2026/*.parquet\")",
@@ -85,7 +77,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "AUDITORÍA DE COSTES CLOUD",
         "title": "REDUCE TU FACTURA DE ANALÍTICA",
         "cta": {
-          "badge": "AUDITORÍA DE COSTES // SEDEV",
+          "badge": "AUDITORÍA DE COSTES (Link en bio)",
           "text": "¿Gastas fortunas en Snowflake o Databricks? Link en mi perfil para auditar tus pipelines."
         }
       }

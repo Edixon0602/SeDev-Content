@@ -6,33 +6,11 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_pgvector_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Te vendieron que necesitas una base vectorial especializada como Pinecone o Qdrant para hacer IA. La verdad es que tu Postgres actual ya lo hace todo.",
-      "visual_cue": "Gancho cinético contra el exceso de herramientas",
-      "props": {
-        "badge": "SIMPLICIDAD DE ARQUITECTURA",
-        "lines": [
-          {
-            "text": "NO NECESITAS",
-            "color": "#ef4444"
-          },
-          {
-            "text": "PINECONE",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "TODO TU STACK DE IA CABE EN POSTGRES",
-        "icon": "database"
-      }
-    },
-    {
-      "id": "split_pinecone_pg",
+      "id": "sync_split_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "Mantener dos bases de datos te obliga a sincronizar IDs y transacciones. Con pgvector tienes consistencia inmediata sin pagar dos servicios.",
-      "visual_cue": "Doble terminal comparando sincronización dual vs base única",
+      "duration": 6.5,
+      "voiceover": "Te vendieron que necesitas Pinecone para hacer IA. Mantener dos bases de datos te obliga a sincronizar IDs y transacciones que siempre fallan.",
+      "visual_cue": "Apertura directa con terminal comparando sincronización dual problemática vs base única",
       "props": {
         "header": "COMPLEJIDAD OPERATIVA",
         "title": "DOS BASES DE DATOS VS UNA SOLA",
@@ -55,7 +33,7 @@
           "status": "Transacciones ACID nativas",
           "time": "$0 extra",
           "lines": [
-            "Un solo respaldo con pg_dump",
+            "Un solo respaldo con pg_dump tradicional",
             "Join directo entre tablas relacionales y embeddings",
             "Cero sincronizaciones en segundo plano"
           ]
@@ -72,7 +50,7 @@
         "header": "AUDITORÍA DE BASES DE DATOS",
         "title": "SIMPLIFICA TU CAPA DE PERSISTENCIA",
         "cta": {
-          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "badge": "AUDITORÍA DE DATOS (Link en bio)",
           "text": "Consolida tus bases de datos y ahorra costes. Link en mi perfil para agendar tu auditoría."
         }
       }

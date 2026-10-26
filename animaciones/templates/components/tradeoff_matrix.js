@@ -151,7 +151,7 @@ window.registerComponent('tradeoff_matrix', {
       ctx.fillStyle = '#38bdf8';
       ctx.font = '800 15px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText(props.cta.badge || 'AUDITORÍA TÉCNICA // SEDEV', 110, 1115);
+      ctx.fillText(props.cta.badge || 'CONSULTORÍA TÉCNICA (Link en perfil)', 110, 1115);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = '700 19px "Plus Jakarta Sans", sans-serif';

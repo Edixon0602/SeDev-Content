@@ -6,25 +6,25 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_wasm",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Cómo ejecutar código no confiable escrito por usuarios a velocidad nativa sin el peligro de comprometer tu servidor? Con WebAssembly en el backend.",
-      "visual_cue": "Gancho cinético sobre WebAssembly en el servidor",
+      "id": "wasm_speed_hook",
+      "type": "metrics_comparison",
+      "duration": 6.5,
+      "voiceover": "¿Cómo ejecutar código no confiable de usuarios a velocidad nativa sin riesgo de seguridad? Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo.",
+      "visual_cue": "Apertura directa con comparativa de cold start entre Docker y WebAssembly",
       "props": {
-        "badge": "WASM SERVERLESS 2026",
-        "lines": [
-          {
-            "text": "WEBASSEMBLY EN EL",
-            "color": "#ffffff"
-          },
-          {
-            "text": "SERVIDOR (WASMTIME)",
-            "color": "#38bdf8"
-          }
-        ],
-        "subtitle": "SANDBOXING MATEMÁTICO // ARRANQUE EN 1MS",
-        "icon": "cpu"
+        "header": "COLD START EN EDGE COMPUTING",
+        "metricA": {
+          "label": "CONTENEDOR DOCKER LIGHT",
+          "value": "450ms",
+          "sub": "Namespace init y OverlayFS mount",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "label": "WASM MICRO-RUNTIME",
+          "value": "0.8ms",
+          "sub": "Instanciación de memoria directa",
+          "color": "#10b981"
+        }
       }
     },
     {
@@ -40,7 +40,7 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "name": "ESPACIO DEL MÓDULO WASM",
             "addr": "0x0000 -> 0xFFFF",
-            "value": "Memoria lineal aislada // Cero acceso a syscalls",
+            "value": "Memoria lineal aislada sin acceso a syscalls",
             "color": "#10b981"
           },
           {
@@ -53,28 +53,6 @@ window.__DEFAULT_MANIFEST__ = {
       }
     },
     {
-      "id": "wasm_speed",
-      "type": "metrics_comparison",
-      "duration": 6,
-      "voiceover": "Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo consumiendo kilobytes.",
-      "visual_cue": "Comparación de cold start: Docker vs WebAssembly",
-      "props": {
-        "header": "COLD START EN EDGE COMPUTING",
-        "metricA": {
-          "label": "CONTENEDOR DOCKER LIGHT",
-          "value": "450ms",
-          "sub": "Namespace init + OverlayFS mount",
-          "color": "#ef4444"
-        },
-        "metricB": {
-          "label": "WASM MICRO-RUNTIME",
-          "value": "0.8ms",
-          "sub": "Instanciación de memoria directa",
-          "color": "#10b981"
-        }
-      }
-    },
-    {
       "id": "cta_wasm",
       "type": "tradeoff_matrix",
       "duration": 5,
@@ -84,7 +62,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "CONTRATACIÓN SENIOR / SISTEMAS",
         "title": "ARQUITECTURA DE RUNTIMES & EDGE COMPUTING",
         "cta": {
-          "badge": "STAFF ENGINEER // SEDEV",
+          "badge": "STAFF ENGINEER (Link en bio)",
           "text": "¿Necesitas ejecutar plugins o código aislado de forma segura? Hablemos en mi perfil."
         }
       }

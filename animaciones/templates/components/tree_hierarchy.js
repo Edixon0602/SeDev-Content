@@ -150,7 +150,7 @@ window.registerComponent('tree_hierarchy', {
       ctx.fillStyle = '#38bdf8';
       ctx.font = '700 16px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText(props.footerBadge || 'VENTAJA TÉCNICA // B-TREE EN NVMe', 120, 1070);
+      ctx.fillText(props.footerBadge || 'VENTAJA DE HARDWARE EN NVMe', 120, 1070);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = '600 22px "Plus Jakarta Sans", sans-serif';

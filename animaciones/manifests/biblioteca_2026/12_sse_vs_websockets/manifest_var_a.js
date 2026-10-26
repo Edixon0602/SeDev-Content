@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_sse",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Por qué toda la industria de IA usa Server-Sent Events en lugar de WebSockets para hacer streaming de texto? La respuesta está en HTTP/2.",
-      "visual_cue": "Gancho cinético sobre streaming SSE",
-      "props": {
-        "badge": "REDES & STREAMING 2026",
-        "lines": [
-          {
-            "text": "SERVER-SENT EVENTS",
-            "color": "#ffffff"
-          },
-          {
-            "text": "VS WEBSOCKETS",
-            "color": "#06b6d4"
-          }
-        ],
-        "subtitle": "LA SIMPLICIDAD QUE CONQUISTÓ LA IA",
-        "icon": "network_packet"
-      }
-    },
-    {
-      "id": "sse_pipe",
+      "id": "sse_stream_hook",
       "type": "network_pipeline",
       "duration": 6.5,
-      "voiceover": "WebSockets requiere un handshake especial y salirse de HTTP. SSE es una petición HTTP estándar que aprovecha compresión, proxies y multiplexación.",
-      "visual_cue": "Pipeline visual mostrando la conexión HTTP/2 multiplexando múltiples streams",
+      "voiceover": "¿Por qué toda la industria de IA usa Server-Sent Events en vez de WebSockets para streaming? Porque SSE viaja sobre HTTP estándar con multiplexación nativa.",
+      "visual_cue": "Apertura directa con conexión HTTP/2 multiplexando múltiples streams",
       "props": {
         "header": "TRANSPORTE DE PROTOCOLO",
         "title": "MULTIPLEXACIÓN HTTP/2 NATIVA",
@@ -41,7 +19,7 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "client",
             "label": "BROWSER / EVENTSOURCE",
-            "sub": "Reconexión automática nativa sin JS",
+            "sub": "Reconexión automática nativa sin código extra",
             "y": 220,
             "color": "#38bdf8",
             "metric": "Nativo"
@@ -52,7 +30,7 @@ window.__DEFAULT_MANIFEST__ = {
             "sub": "Manejo de caché y compresión estándar",
             "y": 520,
             "color": "#10b981",
-            "metric": "Zero custom rules"
+            "metric": "Zero overhead"
           },
           {
             "id": "server",
@@ -69,7 +47,7 @@ window.__DEFAULT_MANIFEST__ = {
       "id": "sse_code",
       "type": "code_terminal",
       "duration": 6,
-      "voiceover": "En el navegador no necesitas librerías pesadas. EventSource maneja reconexión automática si el usuario pierde la señal wifi.",
+      "voiceover": "En el navegador no necesitas librerías pesadas. EventSource maneja reconexión automática si el usuario pierde la señal de red.",
       "visual_cue": "Terminal mostrando código limpio de EventSource en cliente y servidor",
       "props": {
         "header": "IMPLEMENTACIÓN LIMPIA",
@@ -80,8 +58,8 @@ window.__DEFAULT_MANIFEST__ = {
           "es.onmessage = (event) => {",
           "  terminal.append(event.data);",
           "};",
-          "// Si el internet cae, el navegador reconecta solo enviando Last-Event-ID",
-          "es.onerror = () => console.log(\"Reconectando automáticamente...\");"
+          "# Reconexión automática nativa mediante cabecera Last-Event-ID",
+          "es.onerror = () => console.log(\"Reconectando...\");"
         ],
         "cursorLine": 4
       }
@@ -94,9 +72,9 @@ window.__DEFAULT_MANIFEST__ = {
       "visual_cue": "Cierre con contratación senior backend",
       "props": {
         "header": "CONTRATACIÓN SENIOR BACKEND",
-        "title": "SISTEMAS DISTRIBUIDOS & TIEMPO REAL",
+        "title": "SISTEMAS DISTRIBUIDOS Y TIEMPO REAL",
         "cta": {
-          "badge": "SENIOR BACKEND ENGINEER // SEDEV",
+          "badge": "SENIOR BACKEND ENGINEER (Link en bio)",
           "text": "¿Necesitas arquitectura de streaming robusta? Hablemos en el enlace de mi perfil."
         }
       }

@@ -11,7 +11,7 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético de apertura con engranaje de arquitectura | "¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio." | 19 |
+| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Tipografía cinética de impacto sin iconos genéricos | "¿Tu monolito se volvió un monstruo inmanejable? El error no fue el monolito: fue no definir límites de dominio." | 19 |
 | **2** | `[00:04.5 - 00:10.0]` (5.5s) | `tradeoff_matrix` | Tabla comparativa mostrando la sobrecarga de microservicios vs monolito modular | "Partir tu app en veinte microservicios solo multiplicó la latencia de red y los fallos distribuidos." | 16 |
 | **3** | `[00:10.0 - 00:16.0]` (6.0s) | `architecture_flow` | Diagrama de flujo mostrando módulos aislados: Auth, Billing y Inventory comunicándose por interfaces | "Un monolito modular vive en un solo binario, pero sus módulos están aislados como si fueran cajas negras." | 18 |
 | **4** | `[00:16.0 - 00:22.0]` (6.0s) | `code_terminal` | Terminal mostrando TypeScript / Rust haciendo cumplir límites de módulos con ESLint / ArchUnit | "En código, prohibimos las importaciones directas entre módulos. Cada dominio expone una interfaz pública estricta." | 15 |

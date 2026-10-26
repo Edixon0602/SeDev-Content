@@ -151,12 +151,12 @@ window.registerComponent('network_pipeline', {
       ctx.fillStyle = '#71717a';
       ctx.font = '700 14px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText('TELEMETRY CONSOLE // REAL-TIME KERNEL EVENTS', 110, 1000);
+      ctx.fillText(props.consoleTitle || 'REGISTRO DE TELEMETRÍA EN TIEMPO REAL', 110, 1000);
 
       const logs = props.logs || [
-        { time: '00:00.012', event: 'PACKET_INSPECT', detail: 'eBPF tail-call passed // Zero socket buffer copy', color: '#10b981' },
-        { time: '00:00.018', event: 'FLOW_ROUTED', detail: 'Direct memory mapping to backend worker thread', color: '#38bdf8' },
-        { time: '00:00.024', event: 'RESPONSE_STREAM', detail: 'HTTP/2 multiplexed frame dispatched (Chunk 64KB)', color: '#fbbf24' }
+        { time: '00:00.012', event: 'PACKET_INSPECT', detail: 'eBPF verificado sin copias a socket buffer', color: '#10b981' },
+        { time: '00:00.018', event: 'FLOW_ROUTED', detail: 'Mapeo directo de memoria al hilo de backend', color: '#38bdf8' },
+        { time: '00:00.024', event: 'RESPONSE_STREAM', detail: 'Frame HTTP/2 multiplexado despachado (64KB)', color: '#fbbf24' }
       ];
 
       logs.forEach((l, idx) => {

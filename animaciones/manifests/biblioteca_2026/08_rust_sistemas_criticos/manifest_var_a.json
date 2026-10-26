@@ -6,45 +6,23 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_rust",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Cómo garantizar que un programa nunca tendrá fugas de memoria ni condiciones de carrera sin usar un recolector de basura? Con Rust.",
-      "visual_cue": "Gancho cinético con engranaje industrial de Rust",
-      "props": {
-        "badge": "SISTEMAS CRÍTICOS 2026",
-        "lines": [
-          {
-            "text": "EL BORROW CHECKER",
-            "color": "#ffffff"
-          },
-          {
-            "text": "DE RUST EXPLICADO",
-            "color": "#f97316"
-          }
-        ],
-        "subtitle": "SEGURIDAD DE MEMORIA EN TIEMPO DE COMPILACIÓN",
-        "icon": "rust_gear"
-      }
-    },
-    {
-      "id": "memory_borrow",
+      "id": "memory_borrow_hook",
       "type": "memory_layout",
-      "duration": 6,
-      "voiceover": "En Rust, cada recurso tiene un único dueño. Cuando la variable sale de su ámbito, la memoria se libera al instante sin pausas de ejecución.",
-      "visual_cue": "Distribución de memoria Stack vs Heap y liberación sin recolector",
+      "duration": 6.5,
+      "voiceover": "¿Cómo garantizar que un programa nunca tendrá fugas de memoria sin usar un recolector de basura? El Borrow Checker de Rust libera la memoria de forma estática.",
+      "visual_cue": "Apertura directa con layout de memoria Stack vs Heap y liberación sin recolector",
       "props": {
         "header": "GESTIÓN ESTÁTICA DE MEMORIA",
         "title": "PROPIEDAD Y PRÉSTAMOS (OWNERSHIP)",
         "items": [
           {
-            "name": "STACK FRAME // SCOPE ACTIVO",
+            "name": "STACK FRAME ACTIVO",
             "addr": "0x7fff001",
-            "value": "Buffer asignado // Dueño: `data`",
+            "value": "Buffer asignado y dueño único",
             "color": "#10b981"
           },
           {
-            "name": "DROP AUTOMÁTICO AL SALIR",
+            "name": "DROP AUTOMÁTICO EN COMPILACIÓN",
             "addr": "0x7fff002",
             "value": "Cero pausas de Garbage Collector (0ns)",
             "color": "#38bdf8"
@@ -56,7 +34,7 @@
       "id": "rust_code",
       "type": "code_terminal",
       "duration": 6,
-      "voiceover": "Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero sorpresas en producción.",
+      "voiceover": "Si intentas compartir un puntero mutable entre dos hilos a la vez, el compilador se niega a generar el binario. Cero condiciones de carrera en producción.",
       "visual_cue": "Terminal mostrando error del borrow checker previniendo una condición de carrera",
       "props": {
         "header": "PREVENCIÓN EN COMPILACIÓN",
@@ -65,9 +43,9 @@
         "codeLines": [
           "fn process(shared: &mut Data) {",
           "  thread::spawn(move || {",
-          "    shared.mutate(); // ❌ ERROR E0502: Cannot borrow `shared`",
+          "    shared.mutate(); // ERROR E0502: Cannot borrow as mutable",
           "  });",
-          "  shared.read(); // as mutable more than once at a time",
+          "  shared.read();",
           "}"
         ],
         "cursorLine": 4
@@ -83,7 +61,7 @@
         "header": "CONTRATACIÓN SENIOR / STAFF ENGINEER",
         "title": "DESARROLLO DE SISTEMAS DE ALTA CONCURRENCIA",
         "cta": {
-          "badge": "STAFF BACKEND DEVELOPER // SEDEV",
+          "badge": "STAFF BACKEND DEVELOPER (Link en bio)",
           "text": "¿Necesitas desarrollo en Rust o Go para sistemas críticos? Contáctame en el link de la bio."
         }
       }

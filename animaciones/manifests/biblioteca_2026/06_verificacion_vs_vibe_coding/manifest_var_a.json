@@ -6,43 +6,21 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_testing",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Generar código con IA es instantáneo; verificar que no destruya producción a las tres de la madrugada es el verdadero reto.",
-      "visual_cue": "Gancho cinético sobre el cuello de botella del testing",
-      "props": {
-        "badge": "INGENIERÍA DE SOFTWARE 2026",
-        "lines": [
-          {
-            "text": "EL CUELLO DE BOTELLA",
-            "color": "#ffffff"
-          },
-          {
-            "text": "DE LA VERIFICACIÓN",
-            "color": "#ef4444"
-          }
-        ],
-        "subtitle": "PROPERTY-BASED & MUTATION TESTING",
-        "icon": "check_circle"
-      }
-    },
-    {
-      "id": "mutation_terminal",
+      "id": "mutation_terminal_hook",
       "type": "code_terminal",
-      "duration": 6,
-      "voiceover": "El mutation testing inyecta fallos intencionales en tu código. Si tus tests no fallan ante un mutante, tus tests son una falsa sensación de seguridad.",
-      "visual_cue": "Terminal ejecutando mutaciones sobre la suite de tests",
+      "duration": 6.5,
+      "voiceover": "Generar código con IA es instantáneo; verificar que no destruya producción a las tres de la madrugada es el verdadero reto de ingeniería.",
+      "visual_cue": "Apertura directa con terminal ejecutando mutaciones de prueba sobre el código",
       "props": {
         "header": "MUTATION TESTING EN CI",
-        "title": "STRYKER / MUTATION ENGINE",
+        "title": "STRYKER MUTATION ENGINE",
         "filename": "tests/mutation.log",
         "codeLines": [
           "stryker run --concurrency=8",
-          "Injecting mutation: replaced \">=\" with \">\" at auth.ts:42",
-          "Running test suite against mutant #104...",
-          "❌ MUTANT SURVIVED: Tests did not detect logic change!",
-          "Score de mutación: 68% // Requiere endurecer assertions"
+          "Inyectando mutación: reemplazado \">=\" por \">\" en auth.ts:42",
+          "Ejecutando suite de pruebas contra mutante #104...",
+          "FALLO: El mutante sobrevivió sin ser detectado",
+          "Score de mutación: 68% · Requiere assertions más estrictos"
         ],
         "cursorLine": 4
       }
@@ -66,9 +44,9 @@
             "aGood": true
           },
           {
-            "dim": "Edge cases ocultos",
+            "dim": "Casos límite ocultos",
             "a": "Detecta desbordamientos",
-            "b": "Ignora casos límite",
+            "b": "Ignora casos extremos",
             "aGood": true
           },
           {
@@ -87,10 +65,10 @@
       "voiceover": "Audito suites de prueba y diseño pipelines de verificación determinista para equipos de desarrollo. Link en mi perfil para agendar una sesión.",
       "visual_cue": "Cierre con auditoría de calidad de software",
       "props": {
-        "header": "AUDITORÍA DE CALIDAD & TESTING",
+        "header": "AUDITORÍA DE CALIDAD Y TESTING",
         "title": "BLINDA TU SOFTWARE EN PRODUCCIÓN",
         "cta": {
-          "badge": "AUDITORÍA DE CALIDAD // SEDEV",
+          "badge": "AUDITORÍA DE CALIDAD (Link en bio)",
           "text": "¿Dudas de la fiabilidad de tu código autogenerado? Link en bio para auditar tus suites de prueba."
         }
       }

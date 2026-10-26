@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_lsm_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Estás bombardeando PostgreSQL con cien mil eventos de analítica por segundo y tu disco entró en saturación total por culpa de los B-Trees.",
-      "visual_cue": "Gancho cinético sobre colapso en disco",
-      "props": {
-        "badge": "INCIDENTES DE PRODUCCIÓN",
-        "lines": [
-          {
-            "text": "¿TU BASE COLAPSA CON",
-            "color": "#ffffff"
-          },
-          {
-            "text": "ESCRITURAS MASIVAS?",
-            "color": "#ef4444"
-          }
-        ],
-        "subtitle": "CUANDO EL MOTOR DE PERSISTENCIA ES EL EQUIVOCADO",
-        "icon": "database"
-      }
-    },
-    {
-      "id": "iops_split",
+      "id": "iops_split_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "No intentes usar una base de datos optimizada para lecturas para ingerir telemetría masiva. Seleccionar el motor de almacenamiento correcto salva tu infraestructura.",
-      "visual_cue": "Doble terminal: IOPS saturados en Postgres vs Ingesta fluida en RocksDB/ClickHouse",
+      "duration": 6.5,
+      "voiceover": "Estás bombardeando PostgreSQL con eventos de analítica y tu disco colapsó por contención de páginas de B-Trees.",
+      "visual_cue": "Apertura directa con terminal mostrando saturación de IOPS al 100% en disco",
       "props": {
         "header": "TELEMETRÍA DE DISCO",
         "title": "SATURACIÓN DE IOPS EN NVME",
@@ -40,7 +18,7 @@ window.__DEFAULT_MANIFEST__ = {
           "title": "POSTGRESQL INSERT MASIVO",
           "color": "#ef4444",
           "cmd": "iostat -xz 1",
-          "status": "Disco al 99.8% de utilización // I/O Wait",
+          "status": "Disco al 99.8% de utilización · I/O Wait",
           "time": "Saturado",
           "lines": [
             "B-Tree lock contention en páginas de índices",
@@ -52,7 +30,7 @@ window.__DEFAULT_MANIFEST__ = {
           "title": "LSM / COLUMNAR ENGINE",
           "color": "#10b981",
           "cmd": "ingest_worker --batch=10000",
-          "status": "Escrituras secuenciales sin bloqueos de lectura",
+          "status": "Escrituras secuenciales sin bloqueos",
           "time": "Fluido",
           "lines": [
             "MemTable absorbe ráfagas de 150,000 req/s",
@@ -69,10 +47,10 @@ window.__DEFAULT_MANIFEST__ = {
       "voiceover": "Audito la arquitectura de datos de tu producto para seleccionar el motor adecuado y evitar caídas en picos de tráfico. Enlace en mi bio.",
       "visual_cue": "Cierre con auditoría de datos",
       "props": {
-        "header": "AUDITORÍA DE PERSISTENCIA & LATENCIA",
+        "header": "AUDITORÍA DE PERSISTENCIA Y LATENCIA",
         "title": "DISEÑO DE CAPA DE DATOS PARA ALTA CARGA",
         "cta": {
-          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "badge": "AUDITORÍA DE DATOS (Link en perfil)",
           "text": "Evita caídas por saturación de base de datos. Agenda tu auditoría técnica en mi perfil."
         }
       }

@@ -3,7 +3,7 @@
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
 > **Categoría:** AI ENGINEERING & AGENT PROTOCOLS  
 > **Tono:** Arquitectura de software de vanguardia, estándares abiertos, protocolos  
-> **Duración total:** 22.0s | **Palabras:** 93 palabras (~254 palabras/minuto)
+> **Duración total:** 17.5s | **Palabras:** 68 palabras (~233 palabras/minuto)
 
 ---
 
@@ -11,19 +11,16 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre el protocolo MCP | "El prompt engineering murió. La verdadera ingeniería de IA en 2026 se llama Model Context Protocol: el estándar que conecta modelos a tus sistemas." | 24 |
-| **2** | `[00:04.5 - 00:11.0]` (6.5s) | `architecture_flow` | Diagrama de arquitectura MCP: Modelo LLM <-> Cliente MCP <-> Servidores de Herramientas (Postgres, Git, Filesystem) | "En vez de escribir código ad-hoc para cada modelo, MCP crea una interfaz cliente-servidor donde la IA descubre herramientas y contexto dinámicamente." | 22 |
-| **3** | `[00:11.0 - 00:17.0]` (6.0s) | `code_terminal` | Terminal mostrando definición de herramienta en servidor MCP con TypeScript | "Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones." | 20 |
-| **4** | `[00:17.0 - 00:22.0]` (5.0s) | `tradeoff_matrix` | Cierre con contratación senior backend / IA | "Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio." | 27 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `architecture_flow` | Apertura directa con arquitectura de protocolo cliente-servidor de herramientas | "El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol." | 21 |
+| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `code_terminal` | Terminal mostrando definición de herramienta en servidor MCP con TypeScript | "Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones." | 20 |
+| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con contratación senior backend / IA | "Diseño e integro agentes autónomos y servidores MCP para flujos empresariales complejos. Si buscas un desarrollador senior para liderar tu proyecto de IA, link en mi bio." | 27 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-El prompt engineering murió. La verdadera ingeniería de IA en 2026 se llama Model Context Protocol: el estándar que conecta modelos a tus sistemas.
-
-En vez de escribir código ad-hoc para cada modelo, MCP crea una interfaz cliente-servidor donde la IA descubre herramientas y contexto dinámicamente.
+El prompt engineering murió. La verdadera ingeniería de IA conecta modelos directamente a tus bases de datos mediante Model Context Protocol.
 
 Un servidor MCP expone esquemas en JSON estricto. La IA invoca funciones con tipado seguro y maneja errores sin alucinaciones.
 

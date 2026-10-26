@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_pgb",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Por qué conectar mil usuarios directos a PostgreSQL satura tu servidor aunque no estén haciendo ninguna consulta? Por el costo de los procesos de Linux.",
-      "visual_cue": "Gancho cinético sobre saturación de procesos en Postgres",
-      "props": {
-        "badge": "POSTGRESQL INTERNALS",
-        "lines": [
-          {
-            "text": "EL COSTE DE UN FORK()",
-            "color": "#ffffff"
-          },
-          {
-            "text": "EN POSTGRESQL",
-            "color": "#38bdf8"
-          }
-        ],
-        "subtitle": "PROCESO POR CONEXIÓN // CONSUMO DE MEMORIA",
-        "icon": "database"
-      }
-    },
-    {
-      "id": "fork_arch",
+      "id": "fork_memory_hook",
       "type": "memory_layout",
-      "duration": 6,
-      "voiceover": "Postgres es multi-proceso, no multi-hilo. Cada conexión crea un proceso independiente en Linux que consume hasta diez megabytes de RAM sin hacer nada.",
-      "visual_cue": "Layout de memoria mostrando backend processes compitiendo por CPU y RAM",
+      "duration": 6.5,
+      "voiceover": "¿Por qué conectar mil clientes directos a PostgreSQL satura tu servidor aunque no hagan consultas? Porque Postgres crea un proceso independiente de diez megabytes por cada conexión.",
+      "visual_cue": "Apertura directa con layout de memoria mostrando backend processes compitiendo por CPU y RAM",
       "props": {
         "header": "ARQUITECTURA DE PROCESOS",
         "title": "POSTMASTER Y BACKEND WORKERS",
@@ -40,7 +18,7 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "name": "1000 CONEXIONES DIRECTAS",
             "addr": "1000 PROCESOS FORK()",
-            "value": "10GB RAM solo en estructuras de conexión",
+            "value": "10GB RAM consumidos solo en sockets",
             "color": "#ef4444"
           },
           {
@@ -65,7 +43,7 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "clients",
             "label": "10,000 CONEXIONES ACTIVAS",
-            "sublabel": "Servidores web / Workers concurrentes",
+            "sublabel": "Servidores web y workers concurrentes",
             "color": "#38bdf8",
             "y": 160
           },
@@ -96,7 +74,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "AUDITORÍA DE RENDIMIENTO DE BASES DE DATOS",
         "title": "OPTIMIZA TUS POOLS DE CONEXIÓN",
         "cta": {
-          "badge": "AUDITORÍA DE DATOS // SEDEV",
+          "badge": "AUDITORÍA DE DATOS (Link en bio)",
           "text": "¿Problemas con max_connections en Postgres? Link en mi bio para agendar una auditoría técnica."
         }
       }

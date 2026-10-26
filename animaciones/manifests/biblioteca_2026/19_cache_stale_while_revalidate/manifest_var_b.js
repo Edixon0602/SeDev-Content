@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_swr_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "No necesitas pagar un clúster gigante de Redis para que tu web vuele. Los encabezados HTTP correctos en el Edge hacen todo el trabajo por ti.",
-      "visual_cue": "Gancho cinético sobre respuestas ultrarrápidas con HTTP",
-      "props": {
-        "badge": "EDGE CACHING EN 2026",
-        "lines": [
-          {
-            "text": "RESPUESTAS EN 5MS",
-            "color": "#10b981"
-          },
-          {
-            "text": "SIN REDIS GIGANTE",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "EL PODER DEL ENCABEZADO STALE-WHILE-REVALIDATE",
-        "icon": "lightning"
-      }
-    },
-    {
-      "id": "metrics_swr",
+      "id": "metrics_swr_hook",
       "type": "metrics_comparison",
-      "duration": 6,
-      "voiceover": "Tus usuarios perciben una velocidad instantánea en cualquier parte del mundo mientras tu servidor de origen apenas recibe peticiones.",
-      "visual_cue": "Métricas de descarga y reducción de peticiones al origen",
+      "duration": 6.5,
+      "voiceover": "No necesitas pagar un clúster de Redis para que tu web vuele. El encabezado Stale-While-Revalidate en el Edge reduce la carga de base de datos en un noventa y ocho por ciento.",
+      "visual_cue": "Apertura directa con métricas de descarga de servidor y latencia TTFB",
       "props": {
         "header": "DESCARGA DE SERVIDOR DE ORIGEN",
         "metricA": {
@@ -56,10 +34,10 @@ window.__DEFAULT_MANIFEST__ = {
       "voiceover": "Optimizo la capa de borde y distribución de contenido para aplicaciones de alta concurrencia. Contáctame en el link de la bio.",
       "visual_cue": "Cierre con consultoría de escalabilidad",
       "props": {
-        "header": "CONSULTORÍA DE ESCALABILIDAD & EDGE",
-        "title": "MÁXIMA VELOCIDAD // MÍNIMO COSTE DE SERVIDOR",
+        "header": "CONSULTORÍA DE ESCALABILIDAD",
+        "title": "MÁXIMA VELOCIDAD Y MÍNIMO COSTE DE SERVIDOR",
         "cta": {
-          "badge": "CONSULTORÍA SENIOR // SEDEV",
+          "badge": "CONSULTORÍA DE ESCALABILIDAD (Link en perfil)",
           "text": "Haz que tu backend soporte millones de visitas sin pestañear. Hablemos en mi perfil."
         }
       }

@@ -121,7 +121,7 @@ window.registerComponent('latency_scale', {
       ctx.fillStyle = '#ef4444';
       ctx.font = '700 16px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText('LECCIÓN DE INGENIERÍA // EL COSTE DE LA RED', 120, 1040);
+      ctx.fillText(props.bannerBadge || 'ANÁLISIS DE RENDIMIENTO EN HARDWARE', 120, 1040);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = '600 22px "Plus Jakarta Sans", sans-serif';

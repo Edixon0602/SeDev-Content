@@ -1,4 +1,4 @@
-// Data definitions for Topics 11 to 15
+// Data definitions for Topics 11 to 15 (Zero // AI-slop, Zero SeDev watermarks, Varied Hooks)
 module.exports = [
   // ----------------------------------------------------
   // TEMA 11: MODELOS LOCALES VLLM
@@ -12,33 +12,17 @@ module.exports = [
       tone: 'Matemáticas de redes neuronales, cuantización AWQ/GGUF, GPU vRAM',
       scenes: [
         {
-          id: 'hook_quant',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor a cien palabras por segundo? Con cuantización a 4 bits.',
-          visual_cue: 'Gancho cinético sobre cuantización de modelos',
-          props: {
-            badge: 'MODELOS ABIERTOS 2026',
-            lines: [
-              { text: 'CUANTIZACIÓN A 4 BITS', color: '#ffffff' },
-              { text: 'SIN PERDER CALIDAD', color: '#a855f7' }
-            ],
-            subtitle: 'OPTIMIZACIÓN DE PESOS // GGUF & AWQ',
-            icon: 'cpu'
-          }
-        },
-        {
-          id: 'memory_quant',
+          id: 'quant_memory_hook',
           type: 'memory_layout',
-          duration: 6.0,
-          voiceover: 'Pasar los pesos de 16 bits flotantes a enteros de 4 bits reduce la memoria por cuatro y permite que todo el modelo quepa en la memoria VRAM de tu GPU.',
-          visual_cue: 'Layout de memoria comparando FP16 (2 bytes por peso) vs INT4 (0.5 bytes por peso)',
+          duration: 6.5,
+          voiceover: '¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor local? Pasando de coma flotante a enteros de cuatro bits con cuantización.',
+          visual_cue: 'Apertura directa con layout de memoria comparando FP16 (2 bytes) vs INT4 (0.5 bytes)',
           props: {
             header: 'REDUCCIÓN DE HUELLA EN VRAM',
             title: 'FP16 VS CUANTIZACIÓN INT4',
             items: [
-              { name: 'PESOS ORIGINALES (FP16)', addr: '16 BITS POR PESO', value: 'Requiere 32GB VRAM // Servidor caro', color: '#ef4444' },
-              { name: 'PESOS CUANTIZADOS (INT4)', addr: '4 BITS POR PESO', value: 'Solo 8GB VRAM // Corre en hardware accesible', color: '#10b981' }
+              { name: 'PESOS ORIGINALES (FP16)', addr: '16 BITS POR PESO', value: 'Requiere 32GB VRAM · Servidor de alto coste', color: '#ef4444' },
+              { name: 'PESOS CUANTIZADOS (INT4)', addr: '4 BITS POR PESO', value: 'Solo 8GB VRAM · Corre en hardware estándar', color: '#10b981' }
             ]
           }
         },
@@ -72,7 +56,7 @@ module.exports = [
             header: 'CONSULTORÍA DE IA PRIVADA',
             title: 'SOBERANÍA TOTAL DE TUS MODELOS',
             cta: {
-              badge: 'INGENIERÍA DE IA // SEDEV',
+              badge: 'INGENIERÍA DE IA (Link en bio)',
               text: '¿Quieres correr modelos locales sin pagar APIs caras? Link en mi bio para agendar una sesión.'
             }
           }
@@ -84,27 +68,11 @@ module.exports = [
       tone: 'Financiero y privacidad, liberándose de la dependencia de OpenAI',
       scenes: [
         {
-          id: 'hook_quant_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.',
-          visual_cue: 'Gancho cinético sobre soberanía y costes de API',
-          props: {
-            badge: 'SOBERANÍA DE DATOS',
-            lines: [
-              { text: 'DEJA DE PAGAR TOKENS', color: '#ef4444' },
-              { text: 'A PROVEEDORES DE IA', color: '#ffffff' }
-            ],
-            subtitle: 'INFERENCIA LOCAL A UNA FRACCIÓN DEL COSTE',
-            icon: 'server_rack'
-          }
-        },
-        {
-          id: 'split_api_vs_local',
+          id: 'api_split_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'Un solo servidor con GPUs dedicadas te da inferencia ilimitada por una tarifa fija mensual y con privacidad matemática absoluta.',
-          visual_cue: 'Doble terminal: API externa facturando por token vs Servidor propio con inferencia fija',
+          duration: 6.5,
+          voiceover: 'Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.',
+          visual_cue: 'Apertura directa con terminal comparando coste de API propietaria vs inferencia local',
           props: {
             header: 'ANÁLISIS FINANCIERO',
             title: 'APIS PROPIETARIAS VS HARDWARE PROPIO',
@@ -129,7 +97,7 @@ module.exports = [
               lines: [
                 'Inferencia ilimitada las 24 horas del día',
                 'Latencia local de 15ms sin salir de tu VPC',
-                'Cumplimiento estricto de privacidad GDPR / HIPAA'
+                'Cumplimiento estricto de privacidad GDPR y HIPAA'
               ]
             }
           }
@@ -144,7 +112,7 @@ module.exports = [
             header: 'CONSULTORÍA DE IA ON-PREMISE',
             title: 'INFRAESTRUCTURA PRIVADA DE INFERENCIA',
             cta: {
-              badge: 'CONSULTORÍA DE IA // SEDEV',
+              badge: 'CONSULTORÍA DE IA (Contacto en bio)',
               text: 'Recorta costes de API y asegura la privacidad de tus datos. Link en mi perfil.'
             }
           }
@@ -165,34 +133,18 @@ module.exports = [
       tone: 'Protocolos de red, análisis de sockets, multiplexación HTTP/2',
       scenes: [
         {
-          id: 'hook_sse',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Por qué toda la industria de IA usa Server-Sent Events en lugar de WebSockets para hacer streaming de texto? La respuesta está en HTTP/2.',
-          visual_cue: 'Gancho cinético sobre streaming SSE',
-          props: {
-            badge: 'REDES & STREAMING 2026',
-            lines: [
-              { text: 'SERVER-SENT EVENTS', color: '#ffffff' },
-              { text: 'VS WEBSOCKETS', color: '#06b6d4' }
-            ],
-            subtitle: 'LA SIMPLICIDAD QUE CONQUISTÓ LA IA',
-            icon: 'network_packet'
-          }
-        },
-        {
-          id: 'sse_pipe',
+          id: 'sse_stream_hook',
           type: 'network_pipeline',
           duration: 6.5,
-          voiceover: 'WebSockets requiere un handshake especial y salirse de HTTP. SSE es una petición HTTP estándar que aprovecha compresión, proxies y multiplexación.',
-          visual_cue: 'Pipeline visual mostrando la conexión HTTP/2 multiplexando múltiples streams',
+          voiceover: '¿Por qué toda la industria de IA usa Server-Sent Events en vez de WebSockets para streaming? Porque SSE viaja sobre HTTP estándar con multiplexación nativa.',
+          visual_cue: 'Apertura directa con conexión HTTP/2 multiplexando múltiples streams',
           props: {
             header: 'TRANSPORTE DE PROTOCOLO',
             title: 'MULTIPLEXACIÓN HTTP/2 NATIVA',
             subtitle: 'UN SOLO SOCKET TCP PARA CIENTOS DE STREAMS',
             stages: [
-              { id: 'client', label: 'BROWSER / EVENTSOURCE', sub: 'Reconexión automática nativa sin JS', y: 220, color: '#38bdf8', metric: 'Nativo' },
-              { id: 'edge', label: 'CLOUDFLARE / NGINX PROXY', sub: 'Manejo de caché y compresión estándar', y: 520, color: '#10b981', metric: 'Zero custom rules' },
+              { id: 'client', label: 'BROWSER / EVENTSOURCE', sub: 'Reconexión automática nativa sin código extra', y: 220, color: '#38bdf8', metric: 'Nativo' },
+              { id: 'edge', label: 'CLOUDFLARE / NGINX PROXY', sub: 'Manejo de caché y compresión estándar', y: 520, color: '#10b981', metric: 'Zero overhead' },
               { id: 'server', label: 'BACKEND NODE / RUST', sub: 'Content-Type: text/event-stream', y: 820, color: '#06b6d4', metric: 'Simple loop' }
             ]
           }
@@ -201,7 +153,7 @@ module.exports = [
           id: 'sse_code',
           type: 'code_terminal',
           duration: 6.0,
-          voiceover: 'En el navegador no necesitas librerías pesadas. EventSource maneja reconexión automática si el usuario pierde la señal wifi.',
+          voiceover: 'En el navegador no necesitas librerías pesadas. EventSource maneja reconexión automática si el usuario pierde la señal de red.',
           visual_cue: 'Terminal mostrando código limpio de EventSource en cliente y servidor',
           props: {
             header: 'IMPLEMENTACIÓN LIMPIA',
@@ -212,8 +164,8 @@ module.exports = [
               'es.onmessage = (event) => {',
               '  terminal.append(event.data);',
               '};',
-              '// Si el internet cae, el navegador reconecta solo enviando Last-Event-ID',
-              'es.onerror = () => console.log("Reconectando automáticamente...");'
+              '# Reconexión automática nativa mediante cabecera Last-Event-ID',
+              'es.onerror = () => console.log("Reconectando...");'
             ],
             cursorLine: 4
           }
@@ -226,9 +178,9 @@ module.exports = [
           visual_cue: 'Cierre con contratación senior backend',
           props: {
             header: 'CONTRATACIÓN SENIOR BACKEND',
-            title: 'SISTEMAS DISTRIBUIDOS & TIEMPO REAL',
+            title: 'SISTEMAS DISTRIBUIDOS Y TIEMPO REAL',
             cta: {
-              badge: 'SENIOR BACKEND ENGINEER // SEDEV',
+              badge: 'SENIOR BACKEND ENGINEER (Link en bio)',
               text: '¿Necesitas arquitectura de streaming robusta? Hablemos en el enlace de mi perfil.'
             }
           }
@@ -240,37 +192,21 @@ module.exports = [
       tone: 'Directo y simplificador, desmontando la necesidad de balanceadores complejos',
       scenes: [
         {
-          id: 'hook_sse_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Usar WebSockets solo para mostrar texto progresivo o notificaciones es matar moscas a cañonazos y complicar tus balanceadores de carga.',
-          visual_cue: 'Gancho cinético contra el uso excesivo de WebSockets',
-          props: {
-            badge: 'SIMPLICIDAD DE ARQUITECTURA',
-            lines: [
-              { text: 'DEJA DE USAR', color: '#ef4444' },
-              { text: 'WEBSOCKETS', color: '#ffffff' }
-            ],
-            subtitle: 'CUÁNDO USAR CADA PROTOCOLO',
-            icon: 'network_packet'
-          }
-        },
-        {
-          id: 'tradeoff_ws_sse',
+          id: 'ws_tradeoff_hook',
           type: 'tradeoff_matrix',
-          duration: 6.0,
-          voiceover: 'Reserva WebSockets únicamente para cuando necesitas comunicación bidireccional continua como juegos multijugador o audio en vivo.',
-          visual_cue: 'Matriz comparativa de casos de uso reales',
+          duration: 6.5,
+          voiceover: 'Usar WebSockets solo para mostrar texto progresivo o notificaciones complica tus balanceadores de carga sin ninguna necesidad técnica real.',
+          visual_cue: 'Apertura directa con tabla comparativa de Server-Sent Events frente a WebSockets',
           props: {
             header: 'CRITERIO DE SELECCIÓN',
             title: 'SERVER-SENT EVENTS VS WEBSOCKETS',
             colA: 'SERVER-SENT EVENTS (SSE)',
             colB: 'WEBSOCKETS (WS)',
             rows: [
-              { dim: 'Streaming de IA & Notificaciones', a: '✔ Perfecto y nativo', b: '✖ Sobreingeniería', aGood: true },
-              { dim: 'Reconexión automática', a: '✔ Manejada por el browser', b: '✖ Manual con código JS', aGood: true },
+              { dim: 'Streaming de IA y feeds', a: '✔ Perfecto y nativo', b: '✖ Sobreingeniería', aGood: true },
+              { dim: 'Reconexión automática', a: '✔ Manejada por browser', b: '✖ Manual con código JS', aGood: true },
               { dim: 'Compatibilidad con Proxies', a: '✔ HTTP/2 estándar', b: '✖ Requiere Upgrade HTTP', aGood: true },
-              { dim: 'Juegos online & Audio full-duplex', a: '✖ Unidireccional', b: '✔ Ideal para bidireccional', aGood: false }
+              { dim: 'Juegos online y Audio full-duplex', a: '✖ Unidireccional', b: '✔ Ideal para bidireccional', aGood: false }
             ]
           }
         },
@@ -284,7 +220,7 @@ module.exports = [
             header: 'AUDITORÍA DE ARQUITECTURA WEB',
             title: 'SIMPLIFICA TUS CONEXIONES DE RED',
             cta: {
-              badge: 'AUDITORÍA DE ARQUITECTURA // SEDEV',
+              badge: 'AUDITORÍA DE ARQUITECTURA (Link en perfil)',
               text: 'Elimina complejidad innecesaria en tu backend. Link en mi perfil para agendar tu revisión.'
             }
           }
@@ -305,27 +241,11 @@ module.exports = [
       tone: 'Motores de JS, compilación JIT, syscalls de bajo nivel',
       scenes: [
         {
-          id: 'hook_runtime',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo respondió Node.js ante la amenaza de Bun? Con soporte nativo de TypeScript y SQLite integrado en Node veintidós.',
-          visual_cue: 'Gancho cinético sobre la guerra de runtimes de JavaScript',
-          props: {
-            badge: 'RUNTIMES JS EN 2026',
-            lines: [
-              { text: 'BUN VS NODE.JS 22', color: '#ffffff' },
-              { text: 'LA GUERRA TOTAL', color: '#fbbf24' }
-            ],
-            subtitle: 'TYPESCRIPT NATIVO // V8 VS JSC',
-            icon: 'terminal'
-          }
-        },
-        {
-          id: 'runtime_split',
+          id: 'runtime_split_hook',
           type: 'terminal_split',
           duration: 6.5,
-          voiceover: 'Bun corre sobre JavaScriptCore y está escrito en Zig. Node veintidós ahora permite ejecutar archivos TypeScript sin compilar usando type-stripping nativo.',
-          visual_cue: 'Doble terminal ejecutando TypeScript en ambos entornos sin transpiladores externos',
+          voiceover: '¿Cómo respondió Node.js ante la velocidad de Bun? Con ejecución nativa de TypeScript sin transpiladores externos en Node veintidós.',
+          visual_cue: 'Apertura directa con terminal ejecutando TypeScript en ambos entornos sin dependencias',
           props: {
             header: 'EJECUCIÓN DE TYPESCRIPT SIN BUILD',
             title: 'ZERO-COMPILATION TYPESCRIPT RUNNERS',
@@ -333,7 +253,7 @@ module.exports = [
               title: 'NODE.JS 22 (--experimental-strip-types)',
               color: '#38bdf8',
               cmd: 'node --strip-types server.ts',
-              status: 'Elimina tipos en memoria y ejecuta en V8',
+              status: 'Elimina tipos en memoria y corre en V8',
               time: '0.12s cold start',
               lines: [
                 'Cero dependencias: Ni ts-node ni tsx requeridos',
@@ -345,11 +265,11 @@ module.exports = [
               title: 'BUN 1.2 (JAVASCRIPTCORE + ZIG)',
               color: '#10b981',
               cmd: 'bun server.ts',
-              status: 'Transpila y optimiza en código máquina nativo',
+              status: 'Transpila y optimiza a código máquina',
               time: '0.015s cold start',
               lines: [
                 'Arranque ultra rápido en 15 milisegundos',
-                'Empaqueta a binario ejecutable único (bun build --compile)',
+                'Empaqueta a binario ejecutable único',
                 'Syscalls de red hiperoptimizadas en Zig'
               ]
             }
@@ -362,10 +282,10 @@ module.exports = [
           voiceover: 'Audito el rendimiento y la configuración de pipelines TypeScript para reducir tiempos de build y despliegue. Link en mi perfil.',
           visual_cue: 'Cierre con auditoría de performance en TypeScript',
           props: {
-            header: 'AUDITORÍA DE TOOLING & PERFORMANCE',
+            header: 'AUDITORÍA DE TOOLING Y PERFORMANCE',
             title: 'OPTIMIZA TU ENTORNO TYPESCRIPT',
             cta: {
-              badge: 'AUDITORÍA DE TOOLING // SEDEV',
+              badge: 'AUDITORÍA DE TOOLING (Link en bio)',
               text: '¿Tus builds de TypeScript tardan demasiado? Link en mi perfil para optimizar tu stack.'
             }
           }
@@ -377,19 +297,19 @@ module.exports = [
       tone: 'Pragmático de producción, analizando estabilidad y compatibilidad de paquetes',
       scenes: [
         {
-          id: 'hook_runtime_b',
+          id: 'impact_bun_hook',
           type: 'kinetic_hook',
           duration: 4.5,
           voiceover: 'Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?',
-          visual_cue: 'Gancho cinético sobre estabilidad de producción',
+          visual_cue: 'Tipografía de impacto gigante sin iconos repetitivos',
           props: {
+            layout: 'impact',
             badge: 'DECISIÓN DE PRODUCCIÓN',
             lines: [
               { text: '¿MIGRAR A BUN O', color: '#ffffff' },
               { text: 'SEGUIR EN NODE 22?', color: '#38bdf8' }
             ],
-            subtitle: 'VELOCIDAD VS ESTABILIDAD DE PAQUETES NATIVOS',
-            icon: 'scale_balance'
+            subtitle: 'Velocidad bruta frente a compatibilidad de paquetes'
           }
         },
         {
@@ -401,10 +321,10 @@ module.exports = [
           props: {
             header: 'ESTRATEGIA DE ADOPCIÓN',
             title: 'DÓNDE USAR CADA RUNTIME',
-            colA: 'BUN (DESARROLLO & CI)',
+            colA: 'BUN (DESARROLLO Y CI)',
             colB: 'NODE 22 (PRODUCCIÓN CORE)',
             rows: [
-              { dim: 'Instalación de paquetes (CI/CD)', a: '✔ 30x más rápido', b: '✖ Lento en pipelines', aGood: true },
+              { dim: 'Instalación de paquetes en CI', a: '✔ 30x más rápido', b: '✖ Lento en pipelines', aGood: true },
               { dim: 'Ejecución de tests locales', a: '✔ Resultados instantáneos', b: '✖ Mayor consumo CPU', aGood: true },
               { dim: 'Librerías legacy en C++ (Addons)', a: '✖ Casos límite', b: '✔ 100% compatible N-API', aGood: false }
             ]
@@ -420,7 +340,7 @@ module.exports = [
             header: 'MODERNIZACIÓN DE ARQUITECTURA JS/TS',
             title: 'TRANSICIÓN SEGURA Y DE ALTO RENDIMIENTO',
             cta: {
-              badge: 'CONSULTORÍA SENIOR // SEDEV',
+              badge: 'CONSULTORÍA SENIOR (Contacto en perfil)',
               text: 'Moderniza tu stack de JavaScript sin sorpresas. Agenda una sesión técnica en mi biografía.'
             }
           }
@@ -441,33 +361,17 @@ module.exports = [
       tone: 'Ciencia del almacenamiento en disco, escrituras secuenciales vs aleatorias',
       scenes: [
         {
-          id: 'hook_lsm',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Por qué bases de datos como Cassandra y RocksDB escriben a velocidades inhumanas mientras Postgres prefiere B-Trees? La clave está en los LSM Trees.',
-          visual_cue: 'Gancho cinético sobre almacenamiento interno',
-          props: {
-            badge: 'INTERNAL STORAGE ENGINES',
-            lines: [
-              { text: 'LSM TREES VS B-TREES', color: '#ffffff' },
-              { text: 'CÓMO ESCRIBEN EN DISCO', color: '#10b981' }
-            ],
-            subtitle: 'MEMTABLE // SSTABLES // BÚSQUEDA BINARIA',
-            icon: 'tree'
-          }
-        },
-        {
-          id: 'lsm_flow',
+          id: 'lsm_flow_hook',
           type: 'architecture_flow',
           duration: 6.5,
-          voiceover: 'Un LSM Tree escribe primero en una MemTable en memoria RAM y luego vuelca bloques secuenciales inmutables en disco, logrando escrituras casi a velocidad de cable.',
-          visual_cue: 'Diagrama de flujo: MemTable en RAM -> Append-Only WAL -> Flush a SSTables en NVMe',
+          voiceover: '¿Por qué RocksDB escribe a velocidades récord mientras Postgres prefiere B-Trees? Un LSM Tree escribe en una MemTable en RAM y luego vuelca bloques secuenciales inmutables en disco.',
+          visual_cue: 'Apertura directa con arquitectura de escritura secuencial: MemTable a SSTables',
           props: {
             header: 'FLUJO DE ESCRITURA EN LSM',
             title: 'ESCRITURAS SECUENCIALES INMUTABLES',
             nodes: [
               { id: 'ram', label: 'MEMTABLE (SKIPLIST EN RAM)', sublabel: 'Escrituras directas O(1) en memoria DDR5', color: '#10b981', y: 160 },
-              { id: 'wal', label: 'APPEND-ONLY LOG EN NVMe', sublabel: 'Cero escrituras aleatorias // Máximo throughput', color: '#fbbf24', y: 520 },
+              { id: 'wal', label: 'APPEND-ONLY LOG EN NVMe', sublabel: 'Cero escrituras aleatorias · Máximo throughput', color: '#fbbf24', y: 520 },
               { id: 'sst', label: 'SSTABLES INMUTABLES EN DISCO', sublabel: 'Compactación en segundo plano por niveles', color: '#38bdf8', y: 880 }
             ]
           }
@@ -485,7 +389,7 @@ module.exports = [
             colB: 'B-TREE (POSTGRESQL)',
             rows: [
               { dim: 'Velocidad de Escritura', a: '✔ Ultra rápida (Append-only)', b: '✖ Lenta (Random page writes)', aGood: true },
-              { dim: 'Velocidad de Lectura puntual', a: '✖ Requiere mirar Bloom Filters', b: '✔ 1 solo seek O(log N)', aGood: false },
+              { dim: 'Velocidad de Lectura puntual', a: '✖ Requiere Bloom Filters', b: '✔ 1 solo seek O(log N)', aGood: false },
               { dim: 'Amplificación de Escritura', a: 'Alta (Por compactación)', b: 'Baja (Páginas directas)', aGood: false }
             ]
           }
@@ -497,10 +401,10 @@ module.exports = [
           voiceover: 'Audito motores de persistencia y diagnostico cuellos de botella de disco en sistemas con cargas masivas. Link en mi perfil.',
           visual_cue: 'Cierre con llamado a auditoría de bases de datos',
           props: {
-            header: 'AUDITORÍA DE BASES DE DATOS & I/O',
+            header: 'AUDITORÍA DE BASES DE DATOS Y I/O',
             title: 'RESOLUCIÓN DE CUELLOS DE BOTELLA',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en bio)',
               text: '¿Tu base de datos sufre por escrituras masivas? Link en mi perfil para agendar tu auditoría.'
             }
           }
@@ -512,27 +416,11 @@ module.exports = [
       tone: 'Resolutivo, enfocado en incidentes reales de saturación de disco',
       scenes: [
         {
-          id: 'hook_lsm_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'Estás bombardeando PostgreSQL con cien mil eventos de analítica por segundo y tu disco entró en saturación total por culpa de los B-Trees.',
-          visual_cue: 'Gancho cinético sobre colapso en disco',
-          props: {
-            badge: 'INCIDENTES DE PRODUCCIÓN',
-            lines: [
-              { text: '¿TU BASE COLAPSA CON', color: '#ffffff' },
-              { text: 'ESCRITURAS MASIVAS?', color: '#ef4444' }
-            ],
-            subtitle: 'CUANDO EL MOTOR DE PERSISTENCIA ES EL EQUIVOCADO',
-            icon: 'database'
-          }
-        },
-        {
-          id: 'iops_split',
+          id: 'iops_split_hook',
           type: 'terminal_split',
-          duration: 6.0,
-          voiceover: 'No intentes usar una base de datos optimizada para lecturas para ingerir telemetría masiva. Seleccionar el motor de almacenamiento correcto salva tu infraestructura.',
-          visual_cue: 'Doble terminal: IOPS saturados en Postgres vs Ingesta fluida en RocksDB/ClickHouse',
+          duration: 6.5,
+          voiceover: 'Estás bombardeando PostgreSQL con eventos de analítica y tu disco colapsó por contención de páginas de B-Trees.',
+          visual_cue: 'Apertura directa con terminal mostrando saturación de IOPS al 100% en disco',
           props: {
             header: 'TELEMETRÍA DE DISCO',
             title: 'SATURACIÓN DE IOPS EN NVME',
@@ -540,7 +428,7 @@ module.exports = [
               title: 'POSTGRESQL INSERT MASIVO',
               color: '#ef4444',
               cmd: 'iostat -xz 1',
-              status: 'Disco al 99.8% de utilización // I/O Wait',
+              status: 'Disco al 99.8% de utilización · I/O Wait',
               time: 'Saturado',
               lines: [
                 'B-Tree lock contention en páginas de índices',
@@ -552,7 +440,7 @@ module.exports = [
               title: 'LSM / COLUMNAR ENGINE',
               color: '#10b981',
               cmd: 'ingest_worker --batch=10000',
-              status: 'Escrituras secuenciales sin bloqueos de lectura',
+              status: 'Escrituras secuenciales sin bloqueos',
               time: 'Fluido',
               lines: [
                 'MemTable absorbe ráfagas de 150,000 req/s',
@@ -569,10 +457,10 @@ module.exports = [
           voiceover: 'Audito la arquitectura de datos de tu producto para seleccionar el motor adecuado y evitar caídas en picos de tráfico. Enlace en mi bio.',
           visual_cue: 'Cierre con auditoría de datos',
           props: {
-            header: 'AUDITORÍA DE PERSISTENCIA & LATENCIA',
+            header: 'AUDITORÍA DE PERSISTENCIA Y LATENCIA',
             title: 'DISEÑO DE CAPA DE DATOS PARA ALTA CARGA',
             cta: {
-              badge: 'AUDITORÍA DE DATOS // SEDEV',
+              badge: 'AUDITORÍA DE DATOS (Link en perfil)',
               text: 'Evita caídas por saturación de base de datos. Agenda tu auditoría técnica en mi perfil.'
             }
           }
@@ -593,19 +481,15 @@ module.exports = [
       tone: 'Seguridad a nivel de bytecode, modelos de componentes, microsegundos',
       scenes: [
         {
-          id: 'hook_wasm',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: '¿Cómo ejecutar código no confiable escrito por usuarios a velocidad nativa sin el peligro de comprometer tu servidor? Con WebAssembly en el backend.',
-          visual_cue: 'Gancho cinético sobre WebAssembly en el servidor',
+          id: 'wasm_speed_hook',
+          type: 'metrics_comparison',
+          duration: 6.5,
+          voiceover: '¿Cómo ejecutar código no confiable de usuarios a velocidad nativa sin riesgo de seguridad? Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo.',
+          visual_cue: 'Apertura directa con comparativa de cold start entre Docker y WebAssembly',
           props: {
-            badge: 'WASM SERVERLESS 2026',
-            lines: [
-              { text: 'WEBASSEMBLY EN EL', color: '#ffffff' },
-              { text: 'SERVIDOR (WASMTIME)', color: '#38bdf8' }
-            ],
-            subtitle: 'SANDBOXING MATEMÁTICO // ARRANQUE EN 1MS',
-            icon: 'cpu'
+            header: 'COLD START EN EDGE COMPUTING',
+            metricA: { label: 'CONTENEDOR DOCKER LIGHT', value: '450ms', sub: 'Namespace init y OverlayFS mount', color: '#ef4444' },
+            metricB: { label: 'WASM MICRO-RUNTIME', value: '0.8ms', sub: 'Instanciación de memoria directa', color: '#10b981' }
           }
         },
         {
@@ -618,21 +502,9 @@ module.exports = [
             header: 'AISLAMIENTO MATEMÁTICO',
             title: 'MEMORIA LINEAL ENCAPSULADA',
             items: [
-              { name: 'ESPACIO DEL MÓDULO WASM', addr: '0x0000 -> 0xFFFF', value: 'Memoria lineal aislada // Cero acceso a syscalls', color: '#10b981' },
+              { name: 'ESPACIO DEL MÓDULO WASM', addr: '0x0000 -> 0xFFFF', value: 'Memoria lineal aislada sin acceso a syscalls', color: '#10b981' },
               { name: 'MEMORIA DEL KERNEL HOST', addr: 'BLOQUEADA', value: 'Protegida con guard pages por hardware', color: '#ef4444' }
             ]
-          }
-        },
-        {
-          id: 'wasm_speed',
-          type: 'metrics_comparison',
-          duration: 6.0,
-          voiceover: 'Mientras un contenedor Docker tarda cientos de milisegundos en arrancar, una función WASM se inicializa en menos de un milisegundo consumiendo kilobytes.',
-          visual_cue: 'Comparación de cold start: Docker vs WebAssembly',
-          props: {
-            header: 'COLD START EN EDGE COMPUTING',
-            metricA: { label: 'CONTENEDOR DOCKER LIGHT', value: '450ms', sub: 'Namespace init + OverlayFS mount', color: '#ef4444' },
-            metricB: { label: 'WASM MICRO-RUNTIME', value: '0.8ms', sub: 'Instanciación de memoria directa', color: '#10b981' }
           }
         },
         {
@@ -645,7 +517,7 @@ module.exports = [
             header: 'CONTRATACIÓN SENIOR / SISTEMAS',
             title: 'ARQUITECTURA DE RUNTIMES & EDGE COMPUTING',
             cta: {
-              badge: 'STAFF ENGINEER // SEDEV',
+              badge: 'STAFF ENGINEER (Link en bio)',
               text: '¿Necesitas ejecutar plugins o código aislado de forma segura? Hablemos en mi perfil.'
             }
           }
@@ -657,27 +529,11 @@ module.exports = [
       tone: 'Visionario, futurista y provocador sobre el relevo generacional en la nube',
       scenes: [
         {
-          id: 'hook_wasm_b',
-          type: 'kinetic_hook',
-          duration: 4.5,
-          voiceover: 'El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. En 2026 estamos viendo esa profecía cumplirse.',
-          visual_cue: 'Gancho cinético sobre el futuro post-Docker',
-          props: {
-            badge: 'EL FUTURO DE LA NUBE',
-            lines: [
-              { text: '¿MORIRÁ DOCKER', color: '#ffffff' },
-              { text: 'EN EL EDGE?', color: '#38bdf8' }
-            ],
-            subtitle: 'EL ASCENSO DEL COMPONENT MODEL DE WASM',
-            icon: 'server_rack'
-          }
-        },
-        {
-          id: 'tradeoff_docker_wasm',
+          id: 'docker_tradeoff_hook',
           type: 'tradeoff_matrix',
-          duration: 6.0,
-          voiceover: 'WebAssembly no reemplaza a Docker para sistemas legacy completos, pero para funciones serverless y plugins de alta densidad es infinitamente superior.',
-          visual_cue: 'Matriz comparativa Docker vs WebAssembly',
+          duration: 6.5,
+          voiceover: 'El creador de Docker dijo que si WASM hubiera existido en 2008, no habrían tenido que crear Docker. Para funciones serverless en el edge, WASM es infinitamente superior.',
+          visual_cue: 'Apertura directa con matriz comparativa Docker frente a WebAssembly',
           props: {
             header: 'COMPARATIVA DE CONTENCIÓN',
             title: 'DOCKER CONTAINERS VS WEBASSEMBLY',
@@ -698,9 +554,9 @@ module.exports = [
           visual_cue: 'Cierre con consultoría de infraestructura',
           props: {
             header: 'CONSULTORÍA DE INFRAESTRUCTURA',
-            title: 'ARQUITECTURA DE SERVERLESS DE PRÓXIMA GENERACIÓN',
+            title: 'ARQUITECTURA SERVERLESS MODERNA',
             cta: {
-              badge: 'CONSULTORÍA TÉCNICA // SEDEV',
+              badge: 'CONSULTORÍA TÉCNICA (Link en perfil)',
               text: '¿Interesado en WASM o arquitecturas Edge? Link en mi perfil para agendar tu sesión.'
             }
           }

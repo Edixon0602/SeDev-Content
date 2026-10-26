@@ -6,12 +6,13 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_mf_b",
+      "id": "mfe_impact_hook",
       "type": "kinetic_hook",
       "duration": 4.5,
-      "voiceover": "Adoptaste micro-frontends porque un artículo de Medium dijo que era lo moderno y ahora tienes un infierno de estilos rotos y dependencias cruzadas.",
-      "visual_cue": "Gancho cinético sobre el arrepentimiento de micro-frontends",
+      "voiceover": "Adoptaste micro-frontends porque estaba de moda y ahora tienes un infierno de estilos rotos, dependencias cruzadas y aplicaciones lentas.",
+      "visual_cue": "Tipografía de impacto gigante sin iconos genéricos",
       "props": {
+        "layout": "impact",
         "badge": "LECCIONES DE INDUSTRIA",
         "lines": [
           {
@@ -23,8 +24,7 @@ window.__DEFAULT_MANIFEST__ = {
             "color": "#ffffff"
           }
         ],
-        "subtitle": "EL REGRESO AL MONOREPO LIMPIO CON ISLANDS",
-        "icon": "terminal"
+        "subtitle": "El regreso al monorepo limpio con arquitectura de islas"
       }
     },
     {
@@ -70,7 +70,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "CONSOLIDACIÓN DE CODEBASE FRONTEND",
         "title": "SIMPLIFICA TUS PROCESOS DE ENTREGA",
         "cta": {
-          "badge": "CONSULTORÍA FRONTEND // SEDEV",
+          "badge": "CONSULTORÍA FRONTEND (Contacto en perfil)",
           "text": "Consolida tus micro-frontends en un monorepo limpio. Link en mi perfil."
         }
       }

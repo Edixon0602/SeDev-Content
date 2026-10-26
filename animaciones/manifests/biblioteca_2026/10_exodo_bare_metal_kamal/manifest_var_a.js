@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_kamal",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Cómo desplegar aplicaciones en contenedores con cero tiempo de inactividad sin la pesadilla de mantener un clúster de Kubernetes? Con Kamal.",
-      "visual_cue": "Gancho cinético sobre Kamal y bare metal",
-      "props": {
-        "badge": "DEVOPS EN 2026",
-        "lines": [
-          {
-            "text": "KAMAL: ADIÓS A",
-            "color": "#ffffff"
-          },
-          {
-            "text": "KUBERNETES",
-            "color": "#38bdf8"
-          }
-        ],
-        "subtitle": "ZERO-DOWNTIME DEPLOYS EN SERVIDORES SIMPLES",
-        "icon": "server_rack"
-      }
-    },
-    {
-      "id": "kamal_flow",
+      "id": "kamal_flow_hook",
       "type": "architecture_flow",
       "duration": 6.5,
-      "voiceover": "Kamal levanta el nuevo contenedor, verifica el health check, cambia el tráfico a nivel de proxy Traefik y destruye el contenedor viejo sin perder una petición.",
-      "visual_cue": "Diagrama de despliegue blue/green con proxy de balanceo",
+      "voiceover": "¿Cómo desplegar con cero tiempo de inactividad sin la pesadilla de Kubernetes? Kamal levanta el nuevo contenedor, valida la salud y conmuta el tráfico en milisegundos.",
+      "visual_cue": "Apertura directa con arquitectura de conmutación de tráfico con proxy",
       "props": {
         "header": "MECANISMO DE DESPLIEGUE",
         "title": "ROLLING RESTART CON TRAEFIK",
@@ -73,11 +51,11 @@ window.__DEFAULT_MANIFEST__ = {
         "filename": "config/deploy.yml",
         "codeLines": [
           "service: api-core",
-          "image: registry.gitlab.com/sedev/api",
+          "image: registry.gitlab.com/app/api",
           "servers:",
           "  web:",
           "    - 159.69.10.42 # Servidor Hetzner $40/mo",
-          "kamal deploy # ✔ Completado en 24 segundos con 0s downtime"
+          "kamal deploy # Completado en 24 segundos con 0s downtime"
         ],
         "cursorLine": 5
       }
@@ -92,7 +70,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "MIGRACIÓN & AUDITORÍA CLOUD",
         "title": "REDUCE FACTURA HASTA UN 80%",
         "cta": {
-          "badge": "AUDITORÍA CLOUD // SEDEV",
+          "badge": "AUDITORÍA CLOUD (Link en bio)",
           "text": "¿Facturas absurdas en AWS o GCP? Agenda una sesión de migración en mi perfil."
         }
       }

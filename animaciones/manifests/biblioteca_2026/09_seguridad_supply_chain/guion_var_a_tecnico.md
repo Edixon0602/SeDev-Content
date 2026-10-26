@@ -3,7 +3,7 @@
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
 > **Categoría:** CIBERSEGURIDAD & SUPPLY CHAIN  
 > **Tono:** Seguridad ofensiva, análisis forense de paquetes, código malicioso  
-> **Duración total:** 22.0s | **Palabras:** 88 palabras (~240 palabras/minuto)
+> **Duración total:** 17.5s | **Palabras:** 64 palabras (~219 palabras/minuto)
 
 ---
 
@@ -11,19 +11,16 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre malware en dependencias | "¿Sabías que ejecutar npm install puede darle acceso total a tu computadora a un hacker? Así funciona un ataque de supply chain en 2026." | 24 |
-| **2** | `[00:04.5 - 00:11.0]` (6.5s) | `code_terminal` | Terminal mostrando el payload malicioso oculto en package.json | "El paquete parece una utilidad inofensiva, pero su script postinstall lee tus variables de entorno y las envía codificadas a un servidor externo." | 23 |
-| **3** | `[00:11.0 - 00:17.0]` (6.0s) | `network_pipeline` | Pipeline visual mostrando la exfiltración silenciosa hacia el servidor de comando y control | "El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red." | 21 |
-| **4** | `[00:17.0 - 00:22.0]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de seguridad de dependencias | "Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía." | 20 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `code_terminal` | Apertura directa con terminal mostrando el payload malicioso oculto en package.json | "Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno." | 23 |
+| **2** | `[00:06.5 - 00:12.5]` (6.0s) | `network_pipeline` | Pipeline visual mostrando la exfiltración silenciosa hacia el servidor de comando y control | "El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red." | 21 |
+| **3** | `[00:12.5 - 00:17.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de seguridad de dependencias | "Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía." | 20 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Sabías que ejecutar npm install puede darle acceso total a tu computadora a un hacker? Así funciona un ataque de supply chain en 2026.
-
-El paquete parece una utilidad inofensiva, pero su script postinstall lee tus variables de entorno y las envía codificadas a un servidor externo.
+Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno.
 
 El desarrollador ni siquiera se da cuenta porque el comando npm install termina exitosamente mientras sus credenciales viajan por la red.
 

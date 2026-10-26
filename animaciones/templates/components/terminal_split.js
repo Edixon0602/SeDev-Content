@@ -190,7 +190,7 @@ window.registerComponent('terminal_split', {
       ctx.fillStyle = '#10b981';
       ctx.font = '700 16px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText(props.summaryBadge || 'FACTOR DE VELOCIDAD // 80X MÁS RÁPIDO', 100, 910);
+      ctx.fillText(props.summaryBadge || 'FACTOR DE RENDIMIENTO: 80X', 100, 910);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = '700 24px "Plus Jakarta Sans", sans-serif';
@@ -216,7 +216,7 @@ window.registerComponent('terminal_split', {
       ctx.fillStyle = '#38bdf8';
       ctx.font = '800 15px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText(props.cta.badge || 'AUDITORÍA DE RENDIMIENTO // SEDEV', 100, 1090);
+      ctx.fillText(props.cta.badge || 'AUDITORÍA DE RENDIMIENTO (Link en bio)', 100, 1090);
 
       ctx.fillStyle = '#ffffff';
       ctx.font = '700 20px "Plus Jakarta Sans", sans-serif';

@@ -6,12 +6,13 @@
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_security_b",
+      "id": "zerotrust_hook",
       "type": "kinetic_hook",
       "duration": 4.5,
       "voiceover": "GitHub y la industria están desactivando los scripts postinstall por defecto. Es momento de blindar tus dependencias con Zero-Trust.",
-      "visual_cue": "Gancho cinético sobre blindaje Zero-Trust",
+      "visual_cue": "Tipografía cinética de impacto para ciberseguridad",
       "props": {
+        "layout": "impact",
         "badge": "DEFENSA EN CI/CD",
         "lines": [
           {
@@ -23,8 +24,7 @@
             "color": "#10b981"
           }
         ],
-        "subtitle": "BLOQUEO ESTRICTO DE SCRIPTS NO AUTORIZADOS",
-        "icon": "zero_trust_lock"
+        "subtitle": "Bloqueo estricto de scripts no autorizados"
       }
     },
     {
@@ -38,7 +38,7 @@
         "title": "POLÍTICAS DE INSTALACIÓN SEGURA",
         "filename": ".npmrc",
         "codeLines": [
-          "# Desactiva ejecución arbitraria de scripts en dependencias",
+          "# Desactiva ejecución arbitraria de scripts en dependencias:",
           "ignore-scripts=true",
           "audit=true",
           "engine-strict=true",
@@ -57,7 +57,7 @@
         "header": "AUDITORÍA DE CIBERSEGURIDAD",
         "title": "ZERO-TRUST EN TUS PIPELINES DE DESPLIEGUE",
         "cta": {
-          "badge": "AUDITORÍA DE SEGURIDAD // SEDEV",
+          "badge": "AUDITORÍA DE SEGURIDAD (Link en perfil)",
           "text": "Protege tus credenciales y entorno productivo. Link directo en mi perfil."
         }
       }

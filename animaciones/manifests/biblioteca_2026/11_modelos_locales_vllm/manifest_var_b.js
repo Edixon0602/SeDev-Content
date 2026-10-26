@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_quant_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.",
-      "visual_cue": "Gancho cinético sobre soberanía y costes de API",
-      "props": {
-        "badge": "SOBERANÍA DE DATOS",
-        "lines": [
-          {
-            "text": "DEJA DE PAGAR TOKENS",
-            "color": "#ef4444"
-          },
-          {
-            "text": "A PROVEEDORES DE IA",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "INFERENCIA LOCAL A UNA FRACCIÓN DEL COSTE",
-        "icon": "server_rack"
-      }
-    },
-    {
-      "id": "split_api_vs_local",
+      "id": "api_split_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "Un solo servidor con GPUs dedicadas te da inferencia ilimitada por una tarifa fija mensual y con privacidad matemática absoluta.",
-      "visual_cue": "Doble terminal: API externa facturando por token vs Servidor propio con inferencia fija",
+      "duration": 6.5,
+      "voiceover": "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.",
+      "visual_cue": "Apertura directa con terminal comparando coste de API propietaria vs inferencia local",
       "props": {
         "header": "ANÁLISIS FINANCIERO",
         "title": "APIS PROPIETARIAS VS HARDWARE PROPIO",
@@ -57,7 +35,7 @@ window.__DEFAULT_MANIFEST__ = {
           "lines": [
             "Inferencia ilimitada las 24 horas del día",
             "Latencia local de 15ms sin salir de tu VPC",
-            "Cumplimiento estricto de privacidad GDPR / HIPAA"
+            "Cumplimiento estricto de privacidad GDPR y HIPAA"
           ]
         }
       }
@@ -72,7 +50,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "CONSULTORÍA DE IA ON-PREMISE",
         "title": "INFRAESTRUCTURA PRIVADA DE INFERENCIA",
         "cta": {
-          "badge": "CONSULTORÍA DE IA // SEDEV",
+          "badge": "CONSULTORÍA DE IA (Contacto en bio)",
           "text": "Recorta costes de API y asegura la privacidad de tus datos. Link en mi perfil."
         }
       }

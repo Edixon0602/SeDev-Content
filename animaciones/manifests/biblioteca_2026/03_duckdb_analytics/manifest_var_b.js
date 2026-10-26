@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_duckdb_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.",
-      "visual_cue": "Gancho cinético sobre costes en analítica",
-      "props": {
-        "badge": "DESTRUYENDO COSTES CLOUD",
-        "lines": [
-          {
-            "text": "DEJA DE PAGAR",
-            "color": "#ef4444"
-          },
-          {
-            "text": "SNOWFLAKE",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "EL DESPILFARRO DE LOS DATA WAREHOUSES",
-        "icon": "duckdb"
-      }
-    },
-    {
-      "id": "cost_split",
+      "id": "cost_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "El noventa por ciento de las empresas no tienen big data: tienen medium data que cabe perfectamente en la memoria de un solo servidor.",
-      "visual_cue": "Doble terminal comparando factura mensual y tiempos de query",
+      "duration": 6.5,
+      "voiceover": "Las empresas queman cinco mil dólares al mes en Snowflake para correr reportes que una máquina de diez dólares procesa en segundos con DuckDB.",
+      "visual_cue": "Apertura directa con comparativa de costes de Snowflake vs DuckDB",
       "props": {
         "header": "COMPARATIVA DE FACTURACIÓN",
         "title": "CLOUD DATA WAREHOUSE VS IN-PROCESS",
@@ -57,7 +35,7 @@ window.__DEFAULT_MANIFEST__ = {
           "lines": [
             "Almacenamiento en S3 estándar: $45",
             "Instancia Hetzner 64GB RAM: $35",
-            "Formato abierto Parquet / Apache Iceberg"
+            "Formato abierto Parquet y Apache Iceberg"
           ]
         }
       }
@@ -72,7 +50,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "AUDITORÍA DE INFRAESTRUCTURA",
         "title": "OPTIMIZACIÓN DE PIPELINES DE DATOS",
         "cta": {
-          "badge": "AUDITORÍA DE COSTES // SEDEV",
+          "badge": "AUDITORÍA DE COSTES (Link en perfil)",
           "text": "Recorta hasta un 80% en tu infraestructura de analítica. Enlace directo en mi perfil."
         }
       }

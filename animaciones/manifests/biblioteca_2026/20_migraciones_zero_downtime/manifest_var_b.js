@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_migration_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Hiciste un ALTER TABLE agregando un valor por defecto en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos.",
-      "visual_cue": "Gancho cinético sobre el terror del bloqueo de tabla",
-      "props": {
-        "badge": "ERRORES FATALES EN DB",
-        "lines": [
-          {
-            "text": "NUNCA HAGAS ALTER TABLE",
-            "color": "#ef4444"
-          },
-          {
-            "text": "A CIEGAS EN PRODUCCIÓN",
-            "color": "#ffffff"
-          }
-        ],
-        "subtitle": "BLOQUEOS EXCLUSIVOS // HORRORES DE BASE DE DATOS",
-        "icon": "database"
-      }
-    },
-    {
-      "id": "lock_split",
+      "id": "lock_split_hook",
       "type": "terminal_split",
-      "duration": 6,
-      "voiceover": "Postgres adquiere un bloqueo ACCESS EXCLUSIVE que frena cada petición detrás de él. Usa lock_timeout para que tu base de datos nunca se congele.",
-      "visual_cue": "Doble terminal: Bloqueo infinito de tabla vs Migración segura con lock_timeout",
+      "duration": 6.5,
+      "voiceover": "Hiciste un ALTER TABLE en producción y bloqueaste todas las lecturas y escrituras durante cuarenta minutos. Postgres adquiere un ACCESS EXCLUSIVE lock que frena cada petición.",
+      "visual_cue": "Apertura directa con terminal mostrando bloqueo infinito de tabla frente a migración segura con lock_timeout",
       "props": {
         "header": "MECANISMO DE BLOQUEO DE POSTGRES",
         "title": "ACCESS EXCLUSIVE LOCK VS LOCK TIMEOUT",
@@ -72,7 +50,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "CONSULTORÍA DE MIGRACIONES SEGURAS",
         "title": "PROTEGE TU DISPONIBILIDAD EN PRODUCCIÓN",
         "cta": {
-          "badge": "AUDITORÍA DE MIGRACIONES // SEDEV",
+          "badge": "AUDITORÍA DE MIGRACIONES (Link en bio)",
           "text": "Evita caídas en tus cambios de esquema. Hablemos en el enlace de mi perfil."
         }
       }

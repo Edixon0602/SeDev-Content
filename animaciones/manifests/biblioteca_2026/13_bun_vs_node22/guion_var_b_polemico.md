@@ -11,7 +11,7 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre estabilidad de producción | "Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?" | 20 |
+| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Tipografía de impacto gigante sin iconos repetitivos | "Bun es increíblemente rápido en tu máquina de desarrollo, pero ¿es seguro migrar toda tu infraestructura de producción hoy mismo?" | 20 |
 | **2** | `[00:04.5 - 00:10.5]` (6.0s) | `tradeoff_matrix` | Matriz de compatibilidad y recomendación de adopción gradual | "Usa Bun como gestor de paquetes y ejecutor de tests para ganar diez veces más velocidad en CI/CD; evalúa con cuidado las librerías C++ nativas en el servidor." | 28 |
 | **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de modernización | "Ayudo a equipos de ingeniería a modernizar sus proyectos TypeScript sin romper producción. Contáctame en el enlace de mi perfil." | 20 |
 

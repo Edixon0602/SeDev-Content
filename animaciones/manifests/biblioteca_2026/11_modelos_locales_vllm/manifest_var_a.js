@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_quant",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor a cien palabras por segundo? Con cuantización a 4 bits.",
-      "visual_cue": "Gancho cinético sobre cuantización de modelos",
-      "props": {
-        "badge": "MODELOS ABIERTOS 2026",
-        "lines": [
-          {
-            "text": "CUANTIZACIÓN A 4 BITS",
-            "color": "#ffffff"
-          },
-          {
-            "text": "SIN PERDER CALIDAD",
-            "color": "#a855f7"
-          }
-        ],
-        "subtitle": "OPTIMIZACIÓN DE PESOS // GGUF & AWQ",
-        "icon": "cpu"
-      }
-    },
-    {
-      "id": "memory_quant",
+      "id": "quant_memory_hook",
       "type": "memory_layout",
-      "duration": 6,
-      "voiceover": "Pasar los pesos de 16 bits flotantes a enteros de 4 bits reduce la memoria por cuatro y permite que todo el modelo quepa en la memoria VRAM de tu GPU.",
-      "visual_cue": "Layout de memoria comparando FP16 (2 bytes por peso) vs INT4 (0.5 bytes por peso)",
+      "duration": 6.5,
+      "voiceover": "¿Cómo comprimir un modelo de inteligencia artificial de treinta gigabytes para que corra en tu servidor local? Pasando de coma flotante a enteros de cuatro bits con cuantización.",
+      "visual_cue": "Apertura directa con layout de memoria comparando FP16 (2 bytes) vs INT4 (0.5 bytes)",
       "props": {
         "header": "REDUCCIÓN DE HUELLA EN VRAM",
         "title": "FP16 VS CUANTIZACIÓN INT4",
@@ -40,13 +18,13 @@ window.__DEFAULT_MANIFEST__ = {
           {
             "name": "PESOS ORIGINALES (FP16)",
             "addr": "16 BITS POR PESO",
-            "value": "Requiere 32GB VRAM // Servidor caro",
+            "value": "Requiere 32GB VRAM · Servidor de alto coste",
             "color": "#ef4444"
           },
           {
             "name": "PESOS CUANTIZADOS (INT4)",
             "addr": "4 BITS POR PESO",
-            "value": "Solo 8GB VRAM // Corre en hardware accesible",
+            "value": "Solo 8GB VRAM · Corre en hardware estándar",
             "color": "#10b981"
           }
         ]
@@ -82,7 +60,7 @@ window.__DEFAULT_MANIFEST__ = {
         "header": "CONSULTORÍA DE IA PRIVADA",
         "title": "SOBERANÍA TOTAL DE TUS MODELOS",
         "cta": {
-          "badge": "INGENIERÍA DE IA // SEDEV",
+          "badge": "INGENIERÍA DE IA (Link en bio)",
           "text": "¿Quieres correr modelos locales sin pagar APIs caras? Link en mi bio para agendar una sesión."
         }
       }

@@ -3,7 +3,7 @@
 > **Variación A (TÉCNICO / ARQUITECTURA)**  
 > **Categoría:** JAVASCRIPT RUNTIMES & HERRAMIENTAS  
 > **Tono:** Motores de JS, compilación JIT, syscalls de bajo nivel  
-> **Duración total:** 16.0s | **Palabras:** 60 palabras (~225 palabras/minuto)
+> **Duración total:** 11.5s | **Palabras:** 39 palabras (~203 palabras/minuto)
 
 ---
 
@@ -11,18 +11,15 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre la guerra de runtimes de JavaScript | "¿Cómo respondió Node.js ante la amenaza de Bun? Con soporte nativo de TypeScript y SQLite integrado en Node veintidós." | 19 |
-| **2** | `[00:04.5 - 00:11.0]` (6.5s) | `terminal_split` | Doble terminal ejecutando TypeScript en ambos entornos sin transpiladores externos | "Bun corre sobre JavaScriptCore y está escrito en Zig. Node veintidós ahora permite ejecutar archivos TypeScript sin compilar usando type-stripping nativo." | 21 |
-| **3** | `[00:11.0 - 00:16.0]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de performance en TypeScript | "Audito el rendimiento y la configuración de pipelines TypeScript para reducir tiempos de build y despliegue. Link en mi perfil." | 20 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal ejecutando TypeScript en ambos entornos sin dependencias | "¿Cómo respondió Node.js ante la velocidad de Bun? Con ejecución nativa de TypeScript sin transpiladores externos en Node veintidós." | 19 |
+| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con auditoría de performance en TypeScript | "Audito el rendimiento y la configuración de pipelines TypeScript para reducir tiempos de build y despliegue. Link en mi perfil." | 20 |
 
 ---
 
 ## 2. Texto Continuo para Teleprónter (Lectura Fluida)
 
 ```text
-¿Cómo respondió Node.js ante la amenaza de Bun? Con soporte nativo de TypeScript y SQLite integrado en Node veintidós.
-
-Bun corre sobre JavaScriptCore y está escrito en Zig. Node veintidós ahora permite ejecutar archivos TypeScript sin compilar usando type-stripping nativo.
+¿Cómo respondió Node.js ante la velocidad de Bun? Con ejecución nativa de TypeScript sin transpiladores externos en Node veintidós.
 
 Audito el rendimiento y la configuración de pipelines TypeScript para reducir tiempos de build y despliegue. Link en mi perfil.
 ```

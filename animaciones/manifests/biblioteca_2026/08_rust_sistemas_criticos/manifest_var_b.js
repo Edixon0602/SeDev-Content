@@ -6,33 +6,11 @@ window.__DEFAULT_MANIFEST__ = {
   "fps": 30,
   "scenes": [
     {
-      "id": "hook_rust_b",
-      "type": "kinetic_hook",
-      "duration": 4.5,
-      "voiceover": "Discord tenía millones de usuarios activos y su servicio en Go se congelaba cada dos minutos por culpa de las pausas del Garbage Collector.",
-      "visual_cue": "Gancho cinético sobre el caso de estudio de Discord",
-      "props": {
-        "badge": "CASOS REALES DE INGENIERÍA",
-        "lines": [
-          {
-            "text": "POR QUÉ DISCORD",
-            "color": "#ffffff"
-          },
-          {
-            "text": "MATÓ GO POR RUST",
-            "color": "#f97316"
-          }
-        ],
-        "subtitle": "ELIMINANDO LOS PICOS DE LATENCIA P99",
-        "icon": "rust_gear"
-      }
-    },
-    {
-      "id": "latency_gc",
+      "id": "metric_spike_hook",
       "type": "metrics_comparison",
-      "duration": 6,
-      "voiceover": "Reescribieron el servicio en Rust. La latencia p99 pasó de cientos de milisegundos a una línea plana estable por debajo de un milisegundo.",
-      "visual_cue": "Comparativa gráfica de p99 latency con Garbage Collection vs Rust",
+      "duration": 6.5,
+      "voiceover": "Discord tenía millones de usuarios y su servicio en Go se congelaba cada dos minutos por culpa del Garbage Collector. Reescribir en Rust eliminó los picos de latencia.",
+      "visual_cue": "Apertura directa con comparativa gráfica de p99 latency con Garbage Collection vs Rust",
       "props": {
         "header": "MÉTRICAS DE RENDIMIENTO REAL",
         "metricA": {
@@ -44,7 +22,7 @@ window.__DEFAULT_MANIFEST__ = {
         "metricB": {
           "label": "RUST (DETERMINISTIC)",
           "value": "0.8ms p99",
-          "sub": "Línea completamente plana 24/7",
+          "sub": "Línea completamente plana las 24 horas",
           "color": "#10b981"
         }
       }
@@ -57,9 +35,9 @@ window.__DEFAULT_MANIFEST__ = {
       "visual_cue": "Cierre con contratación senior",
       "props": {
         "header": "CONTRATACIÓN SENIOR BACKEND",
-        "title": "SISTEMAS DE BAJA LATENCIA & ALTO RENDIMIENTO",
+        "title": "SISTEMAS DE BAJA LATENCIA Y ALTO RENDIMIENTO",
         "cta": {
-          "badge": "LEAD ENGINEER // SEDEV",
+          "badge": "LEAD ENGINEER (Contacto en bio)",
           "text": "Desarrollo de servicios backend de misión crítica. Hablemos en el enlace de mi perfil."
         }
       }

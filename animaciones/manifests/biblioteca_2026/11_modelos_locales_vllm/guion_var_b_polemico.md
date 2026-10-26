@@ -3,7 +3,7 @@
 > **Variación B (POLÉMICO / PRAGMATISMO)**  
 > **Categoría:** AI INFRASTRUCTURE & OPEN WEIGHTS  
 > **Tono:** Financiero y privacidad, liberándose de la dependencia de OpenAI  
-> **Duración total:** 15.5s | **Palabras:** 57 palabras (~221 palabras/minuto)
+> **Duración total:** 11.5s | **Palabras:** 37 palabras (~193 palabras/minuto)
 
 ---
 
@@ -11,9 +11,8 @@
 
 | # | Tiempo | Componente Visual | Visual Cue (Acción en Pantalla) | Locución del Teleprónter | Palabras |
 |---|---|---|---|---|---|
-| **1** | `[00:00.0 - 00:04.5]` (4.5s) | `kinetic_hook` | Gancho cinético sobre soberanía y costes de API | "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes." | 19 |
-| **2** | `[00:04.5 - 00:10.5]` (6.0s) | `terminal_split` | Doble terminal: API externa facturando por token vs Servidor propio con inferencia fija | "Un solo servidor con GPUs dedicadas te da inferencia ilimitada por una tarifa fija mensual y con privacidad matemática absoluta." | 20 |
-| **3** | `[00:10.5 - 00:15.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de IA privada | "Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil." | 18 |
+| **1** | `[00:00.0 - 00:06.5]` (6.5s) | `terminal_split` | Apertura directa con terminal comparando coste de API propietaria vs inferencia local | "Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes." | 19 |
+| **2** | `[00:06.5 - 00:11.5]` (5.0s) | `tradeoff_matrix` | Cierre con consultoría de IA privada | "Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil." | 18 |
 
 ---
 
@@ -21,8 +20,6 @@
 
 ```text
 Pagar tokens por cada petición a OpenAI está arruinando tus márgenes y exponiendo los datos privados de tus clientes.
-
-Un solo servidor con GPUs dedicadas te da inferencia ilimitada por una tarifa fija mensual y con privacidad matemática absoluta.
 
 Diseño e implemento infraestructura de IA on-premise y clústeres vLLM para empresas. Agenda tu diagnóstico en mi perfil.
 ```
