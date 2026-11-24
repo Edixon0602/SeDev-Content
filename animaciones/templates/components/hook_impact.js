@@ -62,7 +62,7 @@ window.registerComponent('hook_impact', {
     ctx.textAlign = 'left';
     ctx.fillStyle = accent;
     ctx.font = '700 16px "JetBrains Mono", monospace';
-    mu.fitText(ctx, (props.badge || 'SEÑAL DETECTADA').toUpperCase(), 40, 42, 660, 16, 11, '"JetBrains Mono", monospace', '700');
+    mu.fitText(ctx, (props.badge || 'TELEMETRÍA // SEDEV').toUpperCase(), 40, 42, 660, 16, 11, '"JetBrains Mono", monospace', '700');
 
     ctx.textAlign = 'right';
     ctx.fillStyle = '#52525b';
@@ -92,7 +92,7 @@ window.registerComponent('hook_impact', {
     }
 
     // --- Kicker wipe ------------------------------------------------------
-    const kicker = String(props.kicker || 'EL COSTO OCULTO').toUpperCase();
+    const kicker = String(props.kicker || props.subtitle || 'IMPACTO DIRECTO').toUpperCase();
     const barP = MC ? MC.progress(t, 0.03, 0.22, 'outExpo') : 1;
     if (barP > 0) {
       ctx.fillStyle = accent;

@@ -1,6 +1,11 @@
 # Dependencies
 node_modules/
 
+# Environment secrets
+.env
+.env.*
+!.env.example
+
 # Generated video renders & temporary frames
 animaciones/output_clips/*.mov
 animaciones/output_clips/*.mp4
@@ -23,5 +28,6 @@ desktop.ini
 animaciones/editor/.venv/
 animaciones/editor/.models/
 animaciones/editor/.cache/
+animaciones/editor/.state/
 animaciones/editor_runs/
 animaciones/output_clips/cache/editor/

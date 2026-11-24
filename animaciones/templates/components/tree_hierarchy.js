@@ -126,7 +126,7 @@ window.registerComponent('tree_hierarchy', {
     ctx.textAlign = 'left';
     ctx.fillStyle = '#10b981';
     ctx.font = '800 16px "JetBrains Mono", monospace';
-    ctx.fillText('SALTO DIRECTO POR ÍNDICE', 70, 838);
+    ctx.fillText(props.conclusionBadge || 'DIAGNÓSTICO ESTRUCTURAL', 70, 838);
 
     ctx.fillStyle = '#ffffff';
     ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';

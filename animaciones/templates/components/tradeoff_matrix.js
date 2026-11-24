@@ -162,7 +162,7 @@ window.registerComponent('tradeoff_matrix', {
 
     ctx.textAlign = 'left';
     ctx.font = '800 16px "JetBrains Mono", monospace';
-    const ctaBadge = (props.cta && props.cta.badge) || 'VEREDICTO DE INGENIERÍA BASADO EN DATOS';
+    const ctaBadge = props.conclusionBadge || (props.cta && props.cta.badge) || 'CONCLUSIÓN OPERATIVA';
     ctx.fillText(ctaBadge, 70, 828);
 
     ctx.fillStyle = '#ffffff';
@@ -174,7 +174,7 @@ window.registerComponent('tradeoff_matrix', {
 
     ctx.fillStyle = '#10b981';
     ctx.font = '700 17px "JetBrains Mono", monospace';
-    ctx.fillText(props.takeaway || '✔ RESULTADO: 0 FRICCIÓN DE RED · 100% TRAZABILIDAD', 70, 962);
+    ctx.fillText(props.takeaway || '✔ CRITERIO VALIDADO EN PRODUCCIÓN', 70, 962);
 
     // 4. Synchronized Word-by-Word Caption Bar
     if (mu && mu.drawSyncCaption) {

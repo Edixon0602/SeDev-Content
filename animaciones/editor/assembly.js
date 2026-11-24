@@ -92,12 +92,23 @@ function buildAssemblyGraph({
   assPath = null,
   voiceInput = 0
 }) {
+  const mode = (plan && plan.mode) || 'talking_head';
   const timeline = buildTimeline({
     duration,
     brolls: plan.brolls || [],
-    cameras: plan.cameras || []
+    cameras: mode === 'motion' ? [] : (plan.cameras || []),
+    mode
   });
-  const base = buildBaseVideoGraph({ segments: timeline, brollInputIndex, fps, width, height });
+  const base = buildBaseVideoGraph({
+    segments: timeline,
+    brollInputIndex,
+    fps,
+    width,
+    height,
+    mode,
+    style: plan ? plan.style : null,
+    duration
+  });
   const lines = base.lines.slice();
   let videoLabel = base.output;
 

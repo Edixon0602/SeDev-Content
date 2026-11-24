@@ -402,6 +402,7 @@ function validateHeadline(text, transcriptText = '', options = {}) {
 
 function hasOverlayVisual(overlay) {
   if (!overlay || !isPlainObject(overlay)) return false;
+  if (overlay.style === 'hud_frame') return true;
   const hasIcon = Boolean(overlay.icon && overlay.icon !== 'none');
   return Boolean(
     hasIcon ||
@@ -423,7 +424,8 @@ function hasBrollVisual(props) {
     hasRightIcon ||
     (Array.isArray(props.logos) && props.logos.length) ||
     props.image ||
-    props.imageQuery
+    props.imageQuery ||
+    props.videoQuery
   );
 }
 
@@ -493,7 +495,11 @@ function validateCopy(plan, options = {}) {
     const props = broll && broll.props;
     if (!isPlainObject(props)) return;
     const comp = broll && broll.component;
-    const usesTitle = comp === 'code_terminal' || comp === 'terminal_split' || comp === 'metrics_comparison' || comp === 'versus_race';
+    const usesTitle = [
+      'code_terminal', 'terminal_split', 'metrics_comparison', 'versus_race',
+      'cost_ticker', 'disaster_monitor', 'latency_scale', 'network_pipeline',
+      'tradeoff_matrix', 'tree_hierarchy'
+    ].includes(comp);
     if (strict) {
       for (const forbidden of ['kicker', 'support', 'badge', 'subtext']) {
         if (props[forbidden] !== undefined && String(props[forbidden]).trim() !== '') {
@@ -516,6 +522,11 @@ function validateCopy(plan, options = {}) {
     if (usesTitle) {
       const hasPayload = Boolean(
         (Array.isArray(props.codeLines) && props.codeLines.length) ||
+        (Array.isArray(props.tiers) && props.tiers.length) ||
+        (Array.isArray(props.stages) && props.stages.length) ||
+        (Array.isArray(props.rows) && props.rows.length) ||
+        (Array.isArray(props.nodes) && props.nodes.length) ||
+        props.cloudCost !== undefined || props.latencyCrash !== undefined ||
         props.leftCode || props.rightCode || props.metricA || props.metricB || props.laneA || props.laneB
       );
       if (props.title) {
@@ -529,16 +540,20 @@ function validateCopy(plan, options = {}) {
       } else if (!hasPayload && !hasBrollVisual(props)) {
         errors.push(`${label}: falta title o payload visual`);
       }
-      for (const side of ['leftTitle', 'rightTitle', 'subtitle']) {
+      for (const side of ['leftTitle', 'rightTitle', 'subtitle', 'takeaway']) {
         if (props[side]) {
           const slop = hasBannedSlop(props[side], { checkStandalone: true });
           if (slop) errors.push(`${label}.${side} contiene slop ("${slop}")`);
         }
       }
-    } else if (comp === 'architecture_flow' || comp === 'kinetic_hook') {
+    } else if (comp === 'architecture_flow' || comp === 'kinetic_hook' || comp === 'hook_impact') {
       const titleText = props.header || (Array.isArray(props.lines) && props.lines.map((l) => typeof l === 'string' ? l : l && l.text).filter(Boolean).join(' '));
       if (!titleText && !hasBrollVisual(props)) {
         errors.push(`${label}: falta contenido visual`);
+      }
+      if (titleText) {
+        const slop = hasBannedSlop(titleText, { checkStandalone: true });
+        if (slop) errors.push(`${label}: contiene slop prohibido ("${slop}")`);
       }
     } else {
       const res = validateHeadline(props.headline, transcriptText, {

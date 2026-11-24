@@ -7,6 +7,8 @@ const { isPlainObject, roundTime, clamp, stableStringify } = require('./utils');
 const { validateCopy, hasOverlayVisual, hasBrollVisual } = require('./copywriter');
 
 const PLAN_VERSION = '1';
+const MODES = ['talking_head', 'motion'];
+const TRANSITIONS = ['cut', 'whip', 'flash'];
 
 const LIMITS = Object.freeze({
   maxBrolls: 6,
@@ -28,6 +30,24 @@ const LIMITS = Object.freeze({
   minSfxGap: 0.35,
   overlayReadingCharsPerSec: 22,
   minCaptionDuration: 0.45
+});
+
+const MOTION_LIMITS = Object.freeze({
+  maxBrolls: 24,
+  maxOverlays: 24,
+  maxCameras: 0,
+  maxSfx: 32,
+  minBrollDuration: 0.8,
+  maxBrollDuration: 6.0,
+  minOverlayDuration: 0.8,
+  maxOverlayDuration: 5.0,
+  maxCameraCoverage: 0,
+  maxBrollCoverage: 1.0,
+  maxStockCoverage: 0.32,
+  minBrollGap: 0,
+  minOverlayGap: 0.1,
+  minSfxGap: 0.35,
+  minCaptionDuration: 0.35
 });
 
 const COMPONENTS = Object.freeze({
@@ -77,15 +97,30 @@ const COMPONENTS = Object.freeze({
       title: { type: 'string', max: 64, required: true },
       subtitle: { type: 'string', max: 64 },
       laneA: { type: 'object' },
-      laneB: { type: 'object' }
+      laneB: { type: 'object' },
+      winnerBadge: { type: 'string', max: 48 },
+      loserBadge: { type: 'string', max: 48 },
+      leftMetricLabel: { type: 'string', max: 32 },
+      rightMetricLabel: { type: 'string', max: 32 },
+      footerLeft: { type: 'string', max: 72 },
+      footerRight: { type: 'string', max: 72 }
     }
   },
   kinetic_hook: {
     props: {
       badge: { type: 'string', max: 48 },
+      header: { type: 'string', max: 48 },
       lines: { type: 'array', maxItems: 4, required: true },
       subtitle: { type: 'string', max: 80 },
-      icon: { type: 'string', max: 40 }
+      icon: { type: 'string', max: 40 },
+      accent: { type: 'hex' },
+      boxBadge: { type: 'string', max: 48 },
+      boxTag: { type: 'string', max: 32 },
+      detail: { type: 'string', max: 180 },
+      footerText: { type: 'string', max: 64 },
+      statusText: { type: 'string', max: 32 },
+      ctaKeyword: { type: 'string', max: 32 },
+      ctaNote: { type: 'string', max: 160 }
     }
   },
   code_terminal: {
@@ -104,13 +139,134 @@ const COMPONENTS = Object.freeze({
       leftTitle: { type: 'string', max: 48 },
       rightTitle: { type: 'string', max: 48 },
       leftCode: { type: 'string', max: 600 },
-      rightCode: { type: 'string', max: 600 }
+      rightCode: { type: 'string', max: 600 },
+      leftStatus: { type: 'string', max: 48 },
+      rightStatus: { type: 'string', max: 48 },
+      leftFooter: { type: 'string', max: 96 },
+      rightFooter: { type: 'string', max: 96 },
+      diffNote: { type: 'string', max: 96 },
+      leftColor: { type: 'hex' },
+      rightColor: { type: 'hex' }
+    }
+  },
+  stock_video: {
+    props: {
+      videoQuery: { type: 'string', max: 160, required: true },
+      sourcePreference: { type: 'enum', values: ['auto', 'pexels', 'pixabay'] },
+      tone: { type: 'enum', values: ['natural', 'dim', 'moody'] },
+      headline: { type: 'string', max: 64 }
+    }
+  },
+  hook_impact: {
+    props: {
+      badge: { type: 'string', max: 48 },
+      indexLabel: { type: 'string', max: 32 },
+      kicker: { type: 'string', max: 48 },
+      subtitle: { type: 'string', max: 48 },
+      lines: { type: 'array', maxItems: 5, required: true },
+      icon: { type: 'string', max: 40 },
+      iconColor: { type: 'hex' },
+      iconMode: { type: 'enum', values: ['auto', 'draw', 'assemble', 'pulse', 'orbit'] },
+      accent: { type: 'hex' },
+      danger: { type: 'hex' },
+      metric: { type: 'object' },
+      note: { type: 'string', max: 140 },
+      tags: { type: 'stringArray', maxItems: 8, itemMax: 32 },
+      beats: { type: 'stringArray', maxItems: 6, itemMax: 24 },
+      beatTimes: { type: 'array', maxItems: 6 },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
+    }
+  },
+  cost_ticker: {
+    props: {
+      title: { type: 'string', max: 64, required: true },
+      subtitle: { type: 'string', max: 80 },
+      cloudCost: { type: 'number', min: 0, max: 100000000 },
+      initialCost: { type: 'number', min: 0, max: 100000000 },
+      breakdown: { type: 'array', maxItems: 4 },
+      bareMetalCost: { type: 'string', max: 32 },
+      takeaway: { type: 'string', max: 96 },
+      accent: { type: 'hex' },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
+    }
+  },
+  disaster_monitor: {
+    props: {
+      title: { type: 'string', max: 64, required: true },
+      subtitle: { type: 'string', max: 80 },
+      crashTime: { type: 'number', min: 0, max: 60 },
+      crashedStatus: { type: 'string', max: 80 },
+      healthyStatus: { type: 'string', max: 80 },
+      latencyNormal: { type: 'number', min: 0, max: 1000000 },
+      latencyCrash: { type: 'number', min: 0, max: 10000000 },
+      logs: { type: 'array', maxItems: 4 },
+      takeaway: { type: 'string', max: 96 },
+      accent: { type: 'hex' },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
+    }
+  },
+  latency_scale: {
+    props: {
+      title: { type: 'string', max: 64, required: true },
+      subtitle: { type: 'string', max: 80 },
+      tiers: { type: 'array', maxItems: 5 },
+      bannerBadge: { type: 'string', max: 64 },
+      conclusion: { type: 'string', max: 160 },
+      conclusionSub: { type: 'string', max: 96 },
+      accent: { type: 'hex' },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
+    }
+  },
+  network_pipeline: {
+    props: {
+      title: { type: 'string', max: 64, required: true },
+      subtitle: { type: 'string', max: 80 },
+      stages: { type: 'array', maxItems: 4 },
+      conclusion: { type: 'string', max: 160 },
+      takeaway: { type: 'string', max: 96 },
+      accent: { type: 'hex' },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
+    }
+  },
+  tradeoff_matrix: {
+    props: {
+      title: { type: 'string', max: 64, required: true },
+      subtitle: { type: 'string', max: 80 },
+      colA: { type: 'string', max: 32 },
+      colB: { type: 'string', max: 32 },
+      rows: { type: 'array', maxItems: 4 },
+      cta: { type: 'object' },
+      conclusionBadge: { type: 'string', max: 64 },
+      conclusion: { type: 'string', max: 160 },
+      takeaway: { type: 'string', max: 96 },
+      accent: { type: 'hex' },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
+    }
+  },
+  tree_hierarchy: {
+    props: {
+      title: { type: 'string', max: 64, required: true },
+      complexity: { type: 'string', max: 80 },
+      subtitle: { type: 'string', max: 80 },
+      nodes: { type: 'array', maxItems: 8 },
+      conclusionBadge: { type: 'string', max: 64 },
+      conclusion: { type: 'string', max: 160 },
+      takeaway: { type: 'string', max: 96 },
+      accent: { type: 'hex' },
+      cameraMode: { type: 'string', max: 24 },
+      voiceover: { type: 'string', max: 400 }
     }
   }
 });
 
 const OVERLAY_POSITIONS = ['top', 'middle', 'bottom', 'top-right', 'top-left'];
-const OVERLAY_STYLES = ['editorial', 'hook_kinetic', 'image_card', 'logo_grid', 'icon_pop', 'split_card', 'cta_debate', 'minimal_banner', 'stat_callout'];
+const OVERLAY_STYLES = ['editorial', 'hook_kinetic', 'image_card', 'logo_grid', 'icon_pop', 'split_card', 'cta_debate', 'minimal_banner', 'stat_callout', 'hud_frame'];
 const CUT_STYLES = ['hard', 'j-cut', 'l-cut', 'jl-cut'];
 const CAMERA_TYPES = ['push', 'pull', 'pan', 'punch'];
 const ID_PATTERN = /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$/;
@@ -299,11 +455,20 @@ function validatePlan(plan, options = {}) {
   if (!Number.isFinite(duration) || duration <= 0) {
     throw new PlanValidationError(['falta una duración de fuente válida']);
   }
-  const limits = { ...LIMITS, ...(options.limits || {}) };
+  const rawMode = plan.mode !== undefined ? plan.mode : (options.mode || 'talking_head');
+  if (typeof rawMode !== 'string' || !MODES.includes(rawMode)) {
+    errors.push(`mode inválido: ${rawMode} (esperado ${MODES.join(' o ')})`);
+  }
+  const isMotion = rawMode === 'motion';
+  const limits = isMotion
+    ? { ...LIMITS, ...MOTION_LIMITS, ...(options.limits || {}) }
+    : { ...LIMITS, ...(options.limits || {}) };
   const sfxIds = options.sfxIds ? new Set(options.sfxIds) : null;
 
   const normalized = {
     version: String(plan.version || PLAN_VERSION),
+    ...(isMotion || plan.mode !== undefined ? { mode: isMotion ? 'motion' : 'talking_head' } : {}),
+    ...(isPlainObject(plan.style) ? { style: { ...plan.style } } : {}),
     source: isPlainObject(plan.source) ? { ...plan.source } : {},
     transcript: isPlainObject(plan.transcript) ? { ...plan.transcript } : {},
     captions: {},
@@ -312,6 +477,10 @@ function validatePlan(plan, options = {}) {
     cameras: [],
     sfx: []
   };
+  if (plan.style !== undefined) {
+    if (!isPlainObject(plan.style)) errors.push('style debe ser un objeto');
+    else checkSerializable(plan.style, 'style', errors, 4096);
+  }
 
   if (plan.version !== undefined && String(plan.version) !== PLAN_VERSION) {
     errors.push(`version de plan no soportada: ${plan.version} (esperado ${PLAN_VERSION})`);
@@ -372,6 +541,9 @@ function validatePlan(plan, options = {}) {
     if (event.cutStyle !== undefined && (typeof event.cutStyle !== 'string' || !CUT_STYLES.includes(event.cutStyle))) {
       errors.push(`${label}.cutStyle debe ser uno de: ${CUT_STYLES.join(', ')}`);
     }
+    if (event.transition !== undefined && (typeof event.transition !== 'string' || !TRANSITIONS.includes(event.transition))) {
+      errors.push(`${label}.transition debe ser uno de: ${TRANSITIONS.join(', ')}`);
+    }
     for (const previous of brollIntervals) {
       if (intervalsOverlap(start, end, previous.start, previous.end)) {
         errors.push(`${label} se solapa con otro B-roll`);
@@ -382,9 +554,16 @@ function validatePlan(plan, options = {}) {
   });
 
   let brollTotal = 0;
-  for (const b of normalized.brolls) brollTotal += b.end - b.start;
+  let stockTotal = 0;
+  for (const b of normalized.brolls) {
+    brollTotal += b.end - b.start;
+    if (b.component === 'stock_video') stockTotal += b.end - b.start;
+  }
   if (duration > 0 && brollTotal / duration > limits.maxBrollCoverage) {
     errors.push(`cobertura de B-roll ${(brollTotal / duration * 100).toFixed(0)}% > ${(limits.maxBrollCoverage * 100)}%`);
+  }
+  if (isMotion && duration > 0 && limits.maxStockCoverage && stockTotal / duration > limits.maxStockCoverage) {
+    errors.push(`cobertura de stock_video en modo motion ${(stockTotal / duration * 100).toFixed(0)}% > ${(limits.maxStockCoverage * 100).toFixed(0)}%`);
   }
 
   const overlayIntervals = [];
@@ -542,6 +721,9 @@ function validatePlan(plan, options = {}) {
     }
     if (captions.overBroll !== undefined && typeof captions.overBroll !== 'boolean') errors.push('captions.overBroll debe ser booleano');
     if (captions.dynamic !== undefined && typeof captions.dynamic !== 'boolean') errors.push('captions.dynamic debe ser booleano');
+    if (captions.marginV !== undefined && (!isStrictNumber(captions.marginV) || captions.marginV < 80 || captions.marginV > 700)) {
+      errors.push('captions.marginV debe ser un número entre 80 y 700');
+    }
     if (captions.accentColor !== undefined && (typeof captions.accentColor !== 'string' || !/^#[0-9a-f]{6}$/i.test(captions.accentColor))) {
       errors.push('captions.accentColor debe ser #rrggbb');
     }
@@ -557,6 +739,7 @@ function validatePlan(plan, options = {}) {
       minDuration,
       overBroll: captions.overBroll === true,
       ...(captions.dynamic !== undefined ? { dynamic: captions.dynamic === true } : {}),
+      ...(captions.marginV !== undefined ? { marginV: captions.marginV } : {}),
       ...(captions.accentColor ? { accentColor: captions.accentColor } : {}),
       highlightWords: Array.isArray(captions.highlightWords) ? captions.highlightWords.map(String) : []
     };
@@ -608,16 +791,19 @@ function planFingerprint(plan) {
 
 function planStats(plan) {
   const brollSeconds = (plan.brolls || []).reduce((sum, e) => sum + (e.end - e.start), 0);
+  const stockSeconds = (plan.brolls || []).filter((e) => e.component === 'stock_video').reduce((sum, e) => sum + (e.end - e.start), 0);
   const overlaySeconds = (plan.overlays || []).reduce((sum, e) => sum + (e.end - e.start), 0);
   const cameraSeconds = (plan.cameras || []).reduce((sum, e) => sum + (e.end - e.start), 0);
   const duration = Number(plan.source && plan.source.duration) || 1;
   return {
+    mode: plan.mode || 'talking_head',
     duration: roundTime(duration),
     brolls: (plan.brolls || []).length,
     overlays: (plan.overlays || []).length,
     cameras: (plan.cameras || []).length,
     sfx: (plan.sfx || []).length,
     brollCoverage: roundTime(brollSeconds / duration),
+    stockCoverage: roundTime(stockSeconds / duration),
     overlayCoverage: roundTime(overlaySeconds / duration),
     cameraCoverage: roundTime(cameraSeconds / duration),
     captions: !!(plan.captions && plan.captions.enabled)
@@ -626,7 +812,10 @@ function planStats(plan) {
 
 module.exports = {
   PLAN_VERSION,
+  MODES,
+  TRANSITIONS,
   LIMITS,
+  MOTION_LIMITS,
   COMPONENTS,
   OVERLAY_POSITIONS,
   OVERLAY_STYLES,

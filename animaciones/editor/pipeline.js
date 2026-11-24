@@ -38,6 +38,7 @@ const { ensureSfxCatalogAssets } = require('./auto_sfx_fetcher');
 const { resolvePlanMediaAssets } = require('./auto_image_fetcher');
 const { validatePlan, planFingerprint, planStats } = require('./plan_schema');
 const { planWithLocal } = require('./planner');
+const { planMotionWithLocal } = require('./motion_planner');
 const { planWithLlm, resolvePlannerMode } = require('./llm_planner');
 const { renderAssets } = require('./assets');
 const { buildAss } = require('./subtitles');
@@ -50,6 +51,8 @@ const STAGE_TOTAL = 6;
 
 function settingsFingerprint(options, fps) {
   return sha256(stableStringify({
+    mode: options.mode || 'talking_head',
+    seed: options.seed !== undefined && options.seed !== null ? String(options.seed) : null,
     noSfx: !!options.noSfx,
     noCamera: !!options.noCamera,
     noCaptions: !!options.noCaptions,
@@ -65,6 +68,7 @@ function settingsFingerprint(options, fps) {
 
 function applyControls(plan, options) {
   const copy = JSON.parse(JSON.stringify(plan));
+  if (options.mode === 'motion' && !copy.mode) copy.mode = 'motion';
   if (!Array.isArray(copy.brolls)) copy.brolls = [];
   if (!Array.isArray(copy.overlays)) copy.overlays = [];
   if (!Array.isArray(copy.cameras)) copy.cameras = [];
@@ -72,12 +76,13 @@ function applyControls(plan, options) {
   if (!copy.captions || typeof copy.captions !== 'object') {
     copy.captions = { enabled: true, maxCharsPerLine: 32, maxLines: 2, minDuration: 0.8, overBroll: false, highlightWords: [] };
   }
+  const forceNoCamera = options.noCamera || copy.mode === 'motion' || options.mode === 'motion';
   const removedBrolls = options.noBrolls ? copy.brolls.map((b) => ({ id: b.id, start: b.start, end: b.end })) : [];
   const removedOverlays = options.noOverlays ? copy.overlays.map((o) => ({ id: o.id, start: o.start, end: o.end })) : [];
-  const removedCameras = options.noCamera ? copy.cameras.map((c) => c.id) : [];
+  const removedCameras = forceNoCamera ? copy.cameras.map((c) => c.id) : [];
   if (options.noBrolls) copy.brolls = [];
   if (options.noOverlays) copy.overlays = [];
-  if (options.noCamera) copy.cameras = [];
+  if (forceNoCamera) copy.cameras = [];
   if (options.noSfx) {
     copy.sfx = [];
   } else {
@@ -97,17 +102,24 @@ function applyControls(plan, options) {
 }
 
 function inspectInput(videoPath, options = {}) {
-  if (!fs.existsSync(videoPath)) throw new Error(`No existe el vídeo de entrada: ${videoPath}`);
+  if (!fs.existsSync(videoPath)) throw new Error(`No existe la entrada: ${videoPath}`);
   const probe = probeMedia(videoPath);
-  if (!probe.hasVideo) throw new Error('La entrada no tiene pista de vídeo.');
-  if (!probe.hasAudio) throw new Error('La entrada no tiene pista de audio; el editor necesita la voz del talking head.');
-  if (!Number.isFinite(probe.duration) || probe.duration < 2) {
-    throw new Error(`Duración inválida (${probe.duration}s); se espera un talking head de al menos 2s.`);
+  const isMotion = options.mode === 'motion';
+  if (!isMotion && !probe.hasVideo) throw new Error('La entrada no tiene pista de vídeo.');
+  if (!probe.hasAudio) {
+    throw new Error(isMotion
+      ? 'La entrada no tiene pista de audio; el modo motion necesita un voice-over.'
+      : 'La entrada no tiene pista de audio; el editor necesita la voz del talking head.');
   }
-  if (!probe.width || !probe.height) throw new Error('Resolución de entrada inválida.');
-  const fps = Number(options.fps || probe.fps || 30);
+  if (!Number.isFinite(probe.duration) || probe.duration < 2) {
+    throw new Error(`Duración inválida (${probe.duration}s); se espera una entrada de al menos 2s.`);
+  }
+  if (!isMotion && (!probe.width || !probe.height)) throw new Error('Resolución de entrada inválida.');
+  const width = probe.hasVideo && probe.width ? probe.width : 1080;
+  const height = probe.hasVideo && probe.height ? probe.height : 1920;
+  const fps = Number(options.fps || (probe.hasVideo && probe.fps) || 30);
   if (!Number.isFinite(fps) || fps < 12 || fps > 60) throw new Error(`FPS inválido: ${fps}`);
-  return { ...probe, outputFps: fps };
+  return { ...probe, width, height, outputFps: fps };
 }
 
 function loadState(run) {
@@ -190,6 +202,8 @@ function stageTranscript({ videoPath, probe, run, options, logger, state }) {
 
 function planInputKey(transcript, planOptions, config) {
   return sha256(stableStringify({
+    mode: planOptions.mode || 'talking_head',
+    seed: planOptions.seed !== undefined && planOptions.seed !== null ? String(planOptions.seed) : null,
     transcript: transcriptFingerprint(transcript),
     duration: transcript.meta && transcript.meta.duration,
     controls: {
@@ -206,6 +220,7 @@ function planInputKey(transcript, planOptions, config) {
 
 async function stagePlan({ transcript, probe, run, options, logger, state, catalog }) {
   logger.stage(3, STAGE_TOTAL, 'Plan editorial');
+  const requestedMode = options.mode || 'talking_head';
   const source = {
     video: path.resolve(options.video),
     duration: probe.duration,
@@ -234,11 +249,13 @@ async function stagePlan({ transcript, probe, run, options, logger, state, catal
         throw new Error('source.hash del plan no coincide con la entrada actual. Vuelve a planificar o usa --allow-fixture-plan solo para fixtures/tests.');
       }
     }
-    const controlled = applyControls(raw, options);
+    const effectiveMode = raw.mode || requestedMode;
+    const controlled = applyControls(raw, { ...options, mode: effectiveMode });
     const plan = validatePlan(controlled, {
       duration: probe.duration,
       sfxIds,
       videoPath: options.video,
+      mode: effectiveMode,
       allowLegacyCopy: !!options.allowFixturePlan
     });
     // The measured input is authoritative even for a hand-reviewed plan.
@@ -264,7 +281,7 @@ async function stagePlan({ transcript, probe, run, options, logger, state, catal
   if (options.resume && fs.existsSync(run.plan) && state.plan && state.plan.inputKey === key) {
     try {
       const existing = applyControls(readJson(run.plan), options);
-      const plan = validatePlan(existing, { duration: probe.duration, sfxIds, videoPath: options.video });
+      const plan = validatePlan(existing, { duration: probe.duration, sfxIds, videoPath: options.video, mode: requestedMode });
       logger.info(`Plan reutilizado (resume): ${run.plan}`);
       state.plan = { ...state.plan, hash: sha256(planFingerprint(plan)) };
       saveState(run, state);
@@ -275,8 +292,13 @@ async function stagePlan({ transcript, probe, run, options, logger, state, catal
   }
 
   const planOptions = {
+    mode: requestedMode,
+    seed: options.seed,
+    audioHash: state.video.hash,
+    recordStyleHistory: options.recordStyleHistory !== false,
+    styleHistoryPath: options.styleHistoryPath,
     noSfx: !!options.noSfx,
-    noCamera: !!options.noCamera,
+    noCamera: requestedMode === 'motion' ? true : !!options.noCamera,
     noCaptions: !!options.noCaptions,
     noOverlays: !!options.noOverlays,
     noBrolls: !!options.noBrolls,
@@ -289,7 +311,18 @@ async function stagePlan({ transcript, probe, run, options, logger, state, catal
   let plan;
   if (typeof options.planFn === 'function') {
     plan = options.planFn(transcript, source, { ...planOptions, config: resolved.config });
-    plan = validatePlan(applyControls(plan, options), { duration: probe.duration, sfxIds, videoPath: options.video });
+    plan = validatePlan(applyControls(plan, options), { duration: probe.duration, sfxIds, videoPath: options.video, mode: requestedMode });
+  } else if (requestedMode === 'motion') {
+    logger.info(`Planificando en modo motion (seed=${options.seed || state.video.hash.slice(0, 16)})...`);
+    plan = planMotionWithLocal(transcript, source, planOptions);
+    plan = validatePlan(applyControls(plan, options), {
+      duration: probe.duration,
+      sfxIds,
+      videoPath: options.video,
+      mode: 'motion',
+      strictCopy: true,
+      transcriptText: transcript.text
+    });
   } else if (resolved.mode === 'llm') {
     logger.info(`Planificando con LLM (${resolved.config.model}) en ${resolved.config.baseUrl}`);
     plan = await planWithLlm({
@@ -386,7 +419,9 @@ async function runEditorPipeline(options = {}) {
   logger.stage(1, STAGE_TOTAL, 'Inspección de entrada');
   assertMediaTools();
   const probe = inspectInput(videoPath, options);
-  if (probe.width > probe.height) logger.warn('La entrada es horizontal; se recortará a 1080x1920.');
+  if (probe.hasVideo && probe.width > probe.height && options.mode !== 'motion') {
+    logger.warn('La entrada es horizontal; se recortará a 1080x1920.');
+  }
   const run = runPaths(videoPath, {
     runDir: options.runDir,
     final: options.out,
@@ -398,7 +433,7 @@ async function runEditorPipeline(options = {}) {
   const sourceHash = sha256File(videoPath);
   const stat = fs.statSync(videoPath);
   logger.info(`Entrada: ${videoPath}`);
-  logger.info(`${probe.width}x${probe.height} · ${probe.fps.toFixed(2)} fps · ${probe.duration.toFixed(2)}s · video=${probe.videoCodec} audio=${probe.audioCodec}`);
+  logger.info(`${probe.width}x${probe.height} · ${probe.outputFps.toFixed(2)} fps · ${probe.duration.toFixed(2)}s · video=${probe.videoCodec || 'bed-motion'} audio=${probe.audioCodec}`);
   logger.info(`Run: ${run.runDir}`);
   logger.info(`Salida: ${run.final}`);
 

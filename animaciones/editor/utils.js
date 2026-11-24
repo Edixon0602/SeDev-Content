@@ -171,10 +171,34 @@ function loggerFrom(prefix) {
 
 const EDITOR_HASH_FILES = [
   'utils.js', 'cli.js', 'pipeline.js', 'planner.js', 'llm_planner.js', 'plan_schema.js',
+  'style_director.js', 'motion_planner.js', 'copywriter.js',
   'assets.js', 'scene_renderer.js', 'camera.js', 'subtitles.js', 'assembly.js',
   'qa.js', 'sfx_catalog.js', 'ffmpeg.js', 'transcript.js', 'whisper.js',
-  'auto_image_fetcher.js', 'auto_sfx_fetcher.js'
+  'auto_image_fetcher.js', 'auto_sfx_fetcher.js', 'auto_video_fetcher.js'
 ];
+
+// Lightweight .env loader (no external dependencies). Never overrides existing env vars.
+function loadEnvFile(root = PROJECT_ROOT) {
+  const envPath = path.join(root, '.env');
+  if (!fs.existsSync(envPath)) return false;
+  const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line || line.startsWith('#')) continue;
+    const eq = line.indexOf('=');
+    if (eq <= 0) continue;
+    const key = line.slice(0, eq).trim();
+    if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) continue;
+    let val = line.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    if (process.env[key] === undefined || process.env[key] === '') {
+      process.env[key] = val;
+    }
+  }
+  return true;
+}
 
 // Behavioural fingerprint for asset/resume caches. Any change to the editor
 // render/assembly code invalidates cached assets and stale resumes, even when
@@ -214,5 +238,6 @@ module.exports = {
   stripJsonFences,
   clamp,
   loggerFrom,
+  loadEnvFile,
   editorCodeFingerprint
 };

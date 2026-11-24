@@ -5,12 +5,15 @@ const { runEditorPipeline } = require('./pipeline');
 const { PlanValidationError } = require('./plan_schema');
 
 const USAGE = `
-Editor automático SeDev · talking head vertical
+Editor automático SeDev · talking head y motion graphics vertical
 
 Uso:
-  npm run edit:auto -- <ruta_video> [opciones]
+  npm run edit:auto -- <ruta_video_o_audio> [opciones]
 
 Opciones:
+  --mode <talking_head|motion>  Modo de edición (default: talking_head).
+                                motion: sin talking head, 100% motion graphics + Pixabay + voice-over.
+  --seed <valor>           Semilla determinista para variación de estilo en --mode motion.
   --plan-only              Transcribe y genera/valida edit_plan.json sin renderizar.
   --resume                 Reutiliza transcript, plan y assets válidos del run.
   --plan <ruta.json>       Monta un plan revisado sin volver a planificar.
@@ -21,7 +24,7 @@ Opciones:
   --no-captions            No quema subtítulos ASS.
   --no-overlays            No genera overlays transparentes.
   --no-brolls              No genera B-rolls (solo talking head + resto de capas).
-  --fps <n>                FPS de salida (default: FPS de entrada, 12-60).
+  --fps <n>                FPS de salida (default: FPS de entrada o 30, 12-60).
   --crf <n>                Calidad H.264 (default: 18).
   --out <ruta.mp4>         Salida final (default: <run>/final.mp4).
   --run-dir <dir>          Directorio de trabajo alternativo.
@@ -45,7 +48,7 @@ Entorno ASR aislado:
 function parseArgs(argv) {
   const options = { video: null, whisper: {} };
   const valueFlags = new Set([
-    '--plan', '--transcript', '--planner', '--fps', '--crf', '--out', '--run-dir',
+    '--mode', '--seed', '--plan', '--transcript', '--planner', '--fps', '--crf', '--out', '--run-dir',
     '--whisper-model', '--whisper-language', '--sfx-catalog'
   ]);
   const booleanFlags = new Set([
@@ -58,7 +61,9 @@ function parseArgs(argv) {
       const value = argv[i + 1];
       if (value === undefined || value.startsWith('--')) throw new Error(`Falta el valor de ${arg}`);
       i++;
-      if (arg === '--plan') options.planPath = value;
+      if (arg === '--mode') options.mode = value;
+      else if (arg === '--seed') options.seed = value;
+      else if (arg === '--plan') options.planPath = value;
       else if (arg === '--transcript') options.transcriptPath = value;
       else if (arg === '--planner') options.plannerMode = value;
       else if (arg === '--fps') options.fps = Number(value);
@@ -118,6 +123,10 @@ async function main() {
   }
   if (options.plannerMode && !['auto', 'local', 'llm'].includes(options.plannerMode)) {
     console.error('Error: --planner debe ser local, llm o auto.');
+    process.exit(1);
+  }
+  if (options.mode && !['talking_head', 'motion'].includes(options.mode)) {
+    console.error('Error: --mode debe ser talking_head o motion.');
     process.exit(1);
   }
 

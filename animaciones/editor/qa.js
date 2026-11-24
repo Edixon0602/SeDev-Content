@@ -142,6 +142,51 @@ function sourceChanged(sourceFrame, finalFrame) {
   return similarity !== null && similarity < 0.985;
 }
 
+function computeMotionPacing(plan, duration) {
+  const events = [...(plan.brolls || []), ...(plan.overlays || [])]
+    .map((e) => ({ start: Number(e.start), end: Number(e.end) }))
+    .filter((e) => Number.isFinite(e.start) && Number.isFinite(e.end) && e.end > e.start)
+    .sort((a, b) => a.start - b.start);
+
+  // 1. Max uncovered gap in [0, duration]
+  let maxUncoveredGapSec = 0;
+  let cursor = 0;
+  for (const ev of events) {
+    if (ev.start > cursor) {
+      maxUncoveredGapSec = Math.max(maxUncoveredGapSec, ev.start - cursor);
+    }
+    cursor = Math.max(cursor, ev.end);
+  }
+  if (duration > cursor) {
+    maxUncoveredGapSec = Math.max(maxUncoveredGapSec, duration - cursor);
+  }
+
+  // 2. Max interval between visual event starts (cuts / overlays)
+  const starts = [0, ...events.map((e) => e.start), duration]
+    .map((t) => Math.max(0, Math.min(duration, t)))
+    .sort((a, b) => a - b);
+  let maxEventIntervalSec = 0;
+  for (let i = 1; i < starts.length; i++) {
+    maxEventIntervalSec = Math.max(maxEventIntervalSec, starts[i] - starts[i - 1]);
+  }
+
+  const stockBrolls = (plan.brolls || []).filter((b) => b.component === 'stock_video');
+  const stockSeconds = stockBrolls.reduce((sum, b) => sum + (b.end - b.start), 0);
+  const stockCoverage = duration > 0 ? Number((stockSeconds / duration).toFixed(3)) : 0;
+  const hudOverlays = (plan.overlays || []).filter((o) => o.style === 'hud_frame');
+  const hudOverStockOk = stockBrolls.every((b) =>
+    hudOverlays.some((o) => o.start <= b.start + 0.2 && o.end >= b.end - 0.2)
+  );
+
+  return {
+    maxUncoveredGapSec: Number(maxUncoveredGapSec.toFixed(3)),
+    maxEventIntervalSec: Number(maxEventIntervalSec.toFixed(3)),
+    stockCount: stockBrolls.length,
+    stockCoverage,
+    hudOverStockOk
+  };
+}
+
 function qaFinal({
   finalPath,
   plan,
@@ -156,8 +201,18 @@ function qaFinal({
   logger = console
 }) {
   const duration = Number(plan.source && plan.source.duration);
+  const isMotion = Boolean(plan && plan.mode === 'motion');
+  let sourceHasVideo = false;
+  if (videoPath && fs.existsSync(videoPath)) {
+    try {
+      sourceHasVideo = probeMedia(videoPath).hasVideo === true;
+    } catch (err) {
+      sourceHasVideo = false;
+    }
+  }
   const report = {
     version: 2,
+    mode: isMotion ? 'motion' : 'talking_head',
     ok: false,
     final: path.resolve(finalPath),
     plan: {
@@ -332,11 +387,15 @@ function qaFinal({
         const before = frameByLabel.get(`before_${broll.id}`);
         const during = frameByLabel.get(`during_${broll.id}`);
         const after = frameByLabel.get(`after_${broll.id}`);
-        const changedBefore = framesDiffer(before, during);
-        const changedAfter = framesDiffer(during, after);
+        const rawChangedBefore = framesDiffer(before, during);
+        const rawChangedAfter = framesDiffer(during, after);
+        const duringVar = during ? frameVariance(during) : null;
+        const hasVisualTexture = duringVar !== null && duringVar > 0.0008;
+        const changedBefore = (isMotion && broll.start <= 0.05) ? (rawChangedBefore || hasVisualTexture) : rawChangedBefore;
+        const changedAfter = (isMotion && broll.end >= duration - 0.1) ? (rawChangedAfter || hasVisualTexture) : rawChangedAfter;
         let sourceDuring = null;
         let sourceDiff = null;
-        if (videoPath && fs.existsSync(videoPath) && during) {
+        if (sourceHasVideo && during) {
           try {
             sourceDuring = path.join(run.qaFrames, `source_broll_${broll.id}.png`);
             extractFrame(videoPath, (broll.start + broll.end) / 2, sourceDuring);
@@ -344,6 +403,8 @@ function qaFinal({
           } catch (err) {
             sourceDiff = null;
           }
+        } else if (isMotion && !sourceHasVideo && during) {
+          sourceDiff = hasVisualTexture;
         }
         if (sourceDiff !== true) report.unverified.push(`broll:${broll.id}: no se pudo comparar contra la fuente en el mismo tiempo`);
         report.layering.brolls.push({
@@ -397,7 +458,7 @@ function qaFinal({
         if (!alignment || !alignment.ok) {
           report.unverified.push(`overlay:${overlay.id}: texto no alineado con su idea/ventana hablada`);
         }
-        if (videoPath && fs.existsSync(videoPath) && during) {
+        if (sourceHasVideo && during) {
           try {
             const sourceFrame = path.join(run.qaFrames, `source_overlay_${overlay.id}.png`);
             extractFrame(videoPath, (overlay.start + overlay.end) / 2, sourceFrame);
@@ -405,6 +466,9 @@ function qaFinal({
           } catch (err) {
             sourceDiff = null;
           }
+        } else if (isMotion && !sourceHasVideo && during) {
+          const ovVar = frameVariance(during);
+          sourceDiff = ovVar !== null && ovVar > 0.0008;
         }
         const asset = report.overlayAlpha.find((item) => item.id === overlay.id);
         if (sourceDiff !== true) report.unverified.push(`overlay:${overlay.id}: no se pudo comparar contra la fuente en el mismo tiempo`);
@@ -490,22 +554,41 @@ function qaFinal({
       report.checks.cameras = report.layering.cameras.every((item) => item.verified);
     }
 
-    // Captions: applicable only when enabled and there are words outside B-roll.
+    // Captions: applicable when enabled and there are words to subtitle.
     const captionsEnabled = !plan.captions || plan.captions.enabled !== false;
     if (!captionsEnabled) {
       markNotApplicable('captions');
     } else if (!transcript || !Array.isArray(transcript.words)) {
       report.checks.captions = false;
-      report.unverified.push('captions: falta el transcript para saber si hay talking-head hablado');
+      report.unverified.push('captions: falta el transcript para saber si hay palabras habladas');
     } else {
       const brolls = plan.brolls || [];
+      const overBroll = plan.captions && plan.captions.overBroll === true;
       const talkWords = transcript.words.filter((word) => !inAnyInterval((word.start + word.end) / 2, brolls));
+      const checkWords = (overBroll || isMotion) ? transcript.words : talkWords;
       const dialogueCount = assDialogueCount(run.subtitles);
-      report.captions = { enabled: true, dialogueCount, talkWordCount: talkWords.length };
-      if (talkWords.length === 0) {
+      report.captions = { enabled: true, dialogueCount, talkWordCount: checkWords.length };
+      if (checkWords.length === 0) {
         markNotApplicable('captions');
       } else {
         report.checks.captions = dialogueCount > 0;
+      }
+    }
+
+    if (isMotion) {
+      const motionMetrics = computeMotionPacing(plan, duration);
+      report.motion = motionMetrics;
+      report.checks.noLongVisualGaps = motionMetrics.maxUncoveredGapSec <= 3.55 && motionMetrics.maxEventIntervalSec <= 3.55;
+      if (!report.checks.noLongVisualGaps) {
+        report.errors.push(`modo motion tiene hueco visual > 3.5s (uncovered=${motionMetrics.maxUncoveredGapSec}s, interval=${motionMetrics.maxEventIntervalSec}s)`);
+      }
+      if (motionMetrics.stockCount > 0) {
+        report.checks.stockHud = motionMetrics.stockCoverage <= 0.35 && motionMetrics.hudOverStockOk;
+        if (!report.checks.stockHud) {
+          report.errors.push(`stock_video en modo motion inválido (coverage=${motionMetrics.stockCoverage}, hud=${motionMetrics.hudOverStockOk})`);
+        }
+      } else {
+        markNotApplicable('stockHud');
       }
     }
 
@@ -531,5 +614,6 @@ module.exports = {
   collectFrameTimes,
   assDialogueCount,
   framesDiffer,
+  computeMotionPacing,
   qaFinal
 };

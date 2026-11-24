@@ -2,10 +2,12 @@
 // Manifests are written per asset so an edit can be reviewed or re-rendered
 // with the existing engine without re-running transcription/planning.
 
+const fs = require('fs');
 const path = require('path');
 const { atomicWriteJson, ensureDir, roundTime } = require('./utils');
 const { probeMedia } = require('./ffmpeg');
 const { resolvePlanMediaAssets } = require('./auto_image_fetcher');
+const { resolveStockVideoAsset } = require('./auto_video_fetcher');
 
 function sanitizeId(value) {
   return String(value || 'asset').replace(/[^a-zA-Z0-9_-]+/g, '_').slice(0, 64) || 'asset';
@@ -13,17 +15,18 @@ function sanitizeId(value) {
 
 function brollScene(event, fps, resolved = {}) {
   const duration = roundTime(event.end - event.start);
+  const component = event.component || 'editorial_explainer';
   const props = {
     ...(event.props || {}),
-    cameraMode: 'steady'
+    cameraMode: (event.props && event.props.cameraMode) || 'steady'
   };
   if (resolved.image) props._resolvedImage = resolved.image;
   if (resolved.logos) props._resolvedLogos = resolved.logos;
   return {
     id: sanitizeId(event.id),
-    type: event.component || 'editorial_explainer',
+    type: component,
     duration,
-    theme: event.props && event.props.ground === 'ivory' ? 'light' : 'dark',
+    theme: component === 'editorial_explainer' && event.props && event.props.ground === 'ivory' ? 'light' : 'dark',
     props
   };
 }
@@ -133,7 +136,54 @@ async function renderAssets(plan, run, options = {}) {
       : `Overlay ${i + 1}/${entries.length} · ${entry.scene.id}`;
     logger.info(`${label} (${entry.scene.duration}s)`);
     let result;
-    if (entry.kind === 'broll') {
+    if (entry.kind === 'broll' && entry.event.component === 'stock_video') {
+      const stock = await resolveStockVideoAsset(entry.event, {
+        logger,
+        noCache: !!options.noCache,
+        forceOffline: options.forceOffline !== undefined ? options.forceOffline : process.env.SEDEV_FORCE_OFFLINE === '1',
+        fps
+      });
+      if (stock.ok && stock.file) {
+        ensureDir(path.dirname(entry.output));
+        fs.copyFileSync(stock.file, entry.output);
+        result = { file: entry.output, cached: stock.cached, provider: stock.provider, stock: true };
+      } else {
+        logger.warn(`Stock B-roll fallback (${stock.reason}) para ${entry.scene.id}; usando editorial_explainer.`);
+        const fallbackAccent = (plan.style && plan.style.accent && plan.style.accent.hex) || '#d08a5a';
+        const fallbackGround = (plan.style && plan.style.ground === 'ivory') ? 'ivory' : 'graphite';
+        const fallbackScene = {
+          ...entry.scene,
+          type: 'editorial_explainer',
+          theme: fallbackGround === 'ivory' ? 'light' : 'dark',
+          props: {
+            variant: 'detail',
+            ground: fallbackGround,
+            accent: fallbackAccent,
+            icon: 'server_rack',
+            headline: (entry.event.props && entry.event.props.headline) || 'SISTEMA EN OPERACIÓN',
+            cameraMode: 'steady'
+          }
+        };
+        result = await renderer.renderSceneToMp4(fallbackScene, entry.output, {
+          fps,
+          cacheManager,
+          noCache: options.noCache,
+          crf: options.crf,
+          captureDir: options.captureDir,
+          captureTimes: [
+            { time: Math.min(0.15, entry.scene.duration * 0.1), label: 'start' },
+            { time: entry.scene.duration * 0.55, label: 'settle' },
+            { time: Math.max(0, entry.scene.duration - 0.1), label: 'close' }
+          ],
+          meta: {
+            slug: run.slug,
+            title: `SeDev editorial · ${entry.scene.id}`,
+            category: 'EDITORIAL',
+            theme: fallbackScene.theme
+          }
+        });
+      }
+    } else if (entry.kind === 'broll') {
       result = await renderer.renderSceneToMp4(entry.scene, entry.output, {
         fps,
         cacheManager,

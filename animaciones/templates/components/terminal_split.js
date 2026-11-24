@@ -63,7 +63,7 @@ window.registerComponent('terminal_split', {
     const rightTitle = (props.rightTitle || 'SOLUCIÓN DE INGENIERÍA').toUpperCase();
 
     // Helper for syntax-colored code lines with live typing progression
-    const drawTerminalWindow = (y, h, winTitle, lines, accentColor, statusLabel, revealProgress, isErrorWin) => {
+    const drawTerminalWindow = (y, h, winTitle, lines, accentColor, statusLabel, revealProgress, isErrorWin, customFooter) => {
       ctx.fillStyle = '#09090c';
       ctx.strokeStyle = accentColor;
       ctx.lineWidth = 1.5;
@@ -161,9 +161,9 @@ window.registerComponent('terminal_split', {
       ctx.textAlign = 'left';
       ctx.fillStyle = accentColor;
       ctx.font = '700 16px "JetBrains Mono", monospace';
-      const bottomMsg = isErrorWin
-        ? (props.leftFooter || `✖ STATUS: CUELLO DE BOTELLA ACTIVO · CONEXIONES RETENIDAS`)
-        : (revealProgress >= 0.85 ? `✔ STATUS: EJECUCIÓN VERIFICADA · ${props.diffNote || 'LATENCIA MÍNIMA'}` : (props.rightFooter || `▶ COMPILANDO Y APLICANDO PARCHE...`));
+      const bottomMsg = customFooter || (isErrorWin
+        ? '✖ STATUS: CUELLO DE BOTELLA ACTIVO · CONEXIONES RETENIDAS'
+        : (revealProgress >= 0.85 ? `✔ STATUS: EJECUCIÓN VERIFICADA · ${props.diffNote || 'LATENCIA MÍNIMA'}` : '▶ COMPILANDO Y APLICANDO PARCHE...'));
       ctx.fillText(bottomMsg, boxX + 24, barY + 28);
     };
 
@@ -172,18 +172,23 @@ window.registerComponent('terminal_split', {
     const termAH = 405;
     const progA = clamp(t / (duration * 0.22), 0, 1);
     const liveBlockedMs = Math.min(30000, Math.round(t * 2800));
+    const leftColor = props.leftColor || '#ef4444';
+    const rightColor = props.rightColor || '#10b981';
+    const rightIsDanger = rightColor === '#ef4444' || rightColor === '#f97316' || rightColor === '#fb6f54' || props.rightIsDanger === true;
+
     drawTerminalWindow(
       termAY,
       termAH,
       leftTitle,
       leftLines,
-      '#ef4444',
+      leftColor,
       props.leftStatus || `BLOQUEO: ${liveBlockedMs}ms`,
       progA,
-      true
+      true,
+      props.leftFooter
     );
 
-    // 3. Lower Window (Solution - starts typing at 18% -> 62% of scene)
+    // 3. Lower Window (Solution or Risk Window - starts typing at 18% -> 62% of scene)
     const termBY = 585;
     const termBH = 405;
     const progB = clamp((t - duration * 0.18) / (duration * 0.44), 0, 1);
@@ -199,10 +204,11 @@ window.registerComponent('terminal_split', {
       termBH,
       rightTitle,
       rightLines,
-      '#10b981',
+      rightColor,
       props.rightStatus || (progB >= 0.85 ? 'PASS · 3.4ms' : 'TYPING FIX...'),
       progB,
-      false
+      rightIsDanger,
+      props.rightFooter
     );
     ctx.restore();
 

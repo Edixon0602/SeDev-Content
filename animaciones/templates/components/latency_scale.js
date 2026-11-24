@@ -145,7 +145,7 @@ window.registerComponent('latency_scale', {
 
     ctx.fillStyle = '#10b981';
     ctx.font = '700 16px "JetBrains Mono", monospace';
-    ctx.fillText(props.conclusionSub || '✔ CERO LATENCIA CON ARQUITECTURA ORIENTADA A EVENTOS', 70, 960);
+    ctx.fillText(props.conclusionSub || '✔ DIFERENCIA MEDIDA EN PRODUCCIÓN', 70, 960);
 
     // Synchronized Word-by-Word Caption Bar
     if (mu && mu.drawSyncCaption) {

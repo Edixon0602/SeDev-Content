@@ -788,6 +788,134 @@
         ctx.restore();
       }
 
+      function formatHudTimecode(sec) {
+        const s = Math.max(0, Number(sec) || 0);
+        const mins = Math.floor(s / 60);
+        const rem = s - mins * 60;
+        const whole = Math.floor(rem);
+        const cs = Math.floor((rem - whole) * 100);
+        return `${String(mins).padStart(2, '0')}:${String(whole).padStart(2, '0')}.${String(cs).padStart(2, '0')}`;
+      }
+
+      function renderHudFrame(props, t, duration, alpha, enter, exit) {
+        const accent = validHex(props.accent, '#10b981');
+        const tag = String(props.highlight || 'LIVE // FEED').toUpperCase().trim().slice(0, 24);
+        const labelText = String(props.text || '').toUpperCase().trim();
+        const subText = String(props.subtext || 'TELEMETRÍA // MOODY GRADE').toUpperCase().trim().slice(0, 40);
+        const left = 48;
+        const right = 1032;
+        const top = 80;
+        const bottom = 1460;
+        const arm = Math.round(52 * enter);
+        const lift = (1 - enter) * 10 - exit * 8;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        // 4 crisp corner brackets with 0px hard shadow keyline (zero blur halo)
+        const drawCorner = (cx, cy, dx, dy) => {
+          ctx.lineWidth = 3.5;
+          ctx.lineCap = 'square';
+          ctx.strokeStyle = '#09090b';
+          ctx.beginPath();
+          ctx.moveTo(cx, cy + dy * arm + 3);
+          ctx.lineTo(cx, cy + 3);
+          ctx.lineTo(cx + dx * arm, cy + 3);
+          ctx.stroke();
+
+          ctx.strokeStyle = accent;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy + dy * arm);
+          ctx.lineTo(cx, cy);
+          ctx.lineTo(cx + dx * arm, cy);
+          ctx.stroke();
+        };
+        drawCorner(left, top, 1, 1);
+        drawCorner(right, top, -1, 1);
+        drawCorner(left, bottom, 1, -1);
+        drawCorner(right, bottom, -1, -1);
+
+        // Edge midpoint ticks (leave center clear for stock footage)
+        const midY = Math.round((top + bottom) / 2);
+        ctx.fillStyle = accent;
+        ctx.fillRect(left, midY - 1.5, 16 * enter, 3);
+        ctx.fillRect(right - 16 * enter, midY - 1.5, 16 * enter, 3);
+
+        // Top-left live/status card
+        drawHardCard(left + 20, top + 20, 268, 56, {
+          radius: 10,
+          bg: '#0d0d11',
+          border: accent,
+          shadowOffset: 4,
+          borderWidth: 2
+        });
+        const pulseOn = Math.floor(t * 2.5) % 2 === 0;
+        ctx.fillStyle = pulseOn ? accent : '#3f3f46';
+        ctx.fillRect(left + 38, top + 41, 12, 12);
+        ctx.font = '800 18px "JetBrains Mono", monospace';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        drawHardText(tag, left + 62, top + 48, '#f2ede4', '#09090b', 2);
+
+        // Top-right timecode readout
+        const tcW = 248;
+        drawHardCard(right - tcW - 20, top + 20, tcW, 56, {
+          radius: 10,
+          bg: '#0d0d11',
+          border: '#27272a',
+          shadowOffset: 4,
+          borderWidth: 2
+        });
+        ctx.font = '800 20px "JetBrains Mono", monospace';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        drawHardText(`TC ${formatHudTimecode(t)}`, right - 38, top + 48, accent, '#09090b', 2);
+
+        // Bottom HUD telemetry bar (above centered dynamic captions)
+        const barH = labelText ? 112 : 68;
+        const barY = bottom - barH - 22;
+        const barW = right - left - 40;
+        const barX = left + 20;
+        drawHardCard(barX, barY, barW, barH, {
+          radius: 14,
+          bg: '#0d0d11',
+          border: '#27272a',
+          shadowOffset: 5,
+          borderWidth: 2
+        });
+        ctx.fillStyle = accent;
+        ctx.fillRect(barX + 14, barY + 14, 6, barH - 28);
+
+        if (labelText) {
+          const { lines, size } = fit(labelText, 38, 24, barW - 210);
+          ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'alphabetic';
+          drawHardText(lines[0] || labelText, barX + 36, barY + 52, '#f2ede4', '#09090b', 3);
+          ctx.font = '700 16px "JetBrains Mono", monospace';
+          ctx.fillStyle = accent;
+          ctx.fillText(subText, barX + 36, barY + 86);
+        } else {
+          ctx.font = '700 18px "JetBrains Mono", monospace';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          drawHardText(subText, barX + 36, barY + barH / 2, '#d4d4d8', '#09090b', 2);
+        }
+
+        // 5 discrete telemetry signal bars on bottom-right
+        const sigBaseX = barX + barW - 126;
+        const sigBottom = barY + barH - 18;
+        const activeBars = 3 + (Math.floor(t * 3) % 3);
+        for (let i = 0; i < 5; i++) {
+          const bh = 12 + i * 7;
+          ctx.fillStyle = i < activeBars ? accent : '#27272a';
+          ctx.fillRect(sigBaseX + i * 20, sigBottom - bh, 12, bh);
+        }
+
+        ctx.restore();
+      }
+
       window.setupOverlay = async function (incoming) {
         scene = incoming || {};
         const props = scene.props || {};
@@ -842,6 +970,7 @@
         if (style === 'cta_debate') return renderCtaDebate(props, t, duration, alpha, enter, exit);
         if (style === 'minimal_banner') return renderMinimalBanner(props, t, duration, alpha, enter, exit);
         if (style === 'stat_callout') return renderStatCallout(props, t, duration, alpha, enter, exit);
+        if (style === 'hud_frame') return renderHudFrame(props, t, duration, alpha, enter, exit);
         return renderEditorial(props, t, duration, alpha, enter, exit);
       };
 

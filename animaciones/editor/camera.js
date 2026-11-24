@@ -21,14 +21,16 @@ function findCameraAt(time, cameras) {
   return cameras.find((event) => time >= event.start && time < event.end) || null;
 }
 
-function buildTimeline({ duration, brolls = [], cameras = [] }) {
+function buildTimeline({ duration, brolls = [], cameras = [], mode = 'talking_head' }) {
   const safeDuration = Number(duration);
   if (!Number.isFinite(safeDuration) || safeDuration <= 0) throw new Error('buildTimeline requiere duración válida.');
+  const isMotion = mode === 'motion';
+  const effectiveCameras = isMotion ? [] : cameras;
   const cuts = [0, safeDuration];
   for (const event of brolls) {
     cuts.push(clamp(event.start, 0, safeDuration), clamp(event.end, 0, safeDuration));
   }
-  for (const event of cameras) {
+  for (const event of effectiveCameras) {
     cuts.push(clamp(event.start, 0, safeDuration), clamp(event.end, 0, safeDuration));
   }
   const points = uniqueSorted(cuts).filter((p) => p >= 0 && p <= safeDuration);
@@ -39,12 +41,12 @@ function buildTimeline({ duration, brolls = [], cameras = [] }) {
     if (end - start < 0.002) continue;
     const mid = (start + end) / 2;
     const broll = findBrollAt(mid, brolls);
-    const camera = broll ? null : findCameraAt(mid, cameras);
+    const camera = broll ? null : findCameraAt(mid, effectiveCameras);
     segments.push({
       start: roundTime(start),
       end: roundTime(end),
       duration: roundTime(end - start),
-      kind: broll ? 'broll' : 'talk',
+      kind: broll ? 'broll' : (isMotion ? 'bed' : 'talk'),
       broll: broll ? broll.id : null,
       camera: camera ? camera.id : null,
       cameraEvent: camera,
@@ -96,21 +98,46 @@ function talkFilter(segment, fps, width, height) {
   return parts.join(',');
 }
 
+function transitionFilter(transition, width = 1080, height = 1920) {
+  if (transition === 'flash') {
+    return `eq=brightness='if(lt(t,0.08),0.26*(1-t/0.08),0)':eval=frame`;
+  }
+  if (transition === 'whip') {
+    return `crop=w=iw*0.94:h=ih*0.94:x='(iw-ow)*(1-max(0,min(1,t/0.12)))':y='(ih-oh)/2',scale=${width}:${height}:flags=bilinear`;
+  }
+  return null;
+}
+
 function brollFilter(segment, fps, width, height) {
-  return [
+  const parts = [
     `trim=start=0:end=${segment.duration}`,
     'setpts=PTS-STARTPTS',
     scaleFilter(width, height, fps)
-  ].join(',');
+  ];
+  const tr = segment.brollEvent && segment.brollEvent.transition;
+  const tf = transitionFilter(tr, width, height);
+  if (tf) {
+    parts.push(tf, 'setsar=1', 'format=yuv420p');
+  }
+  return parts.join(',');
+}
+
+function buildMotionBedFilter({ duration, fps = 30, width = 1080, height = 1920, style = null }) {
+  const bg = (style && style.groundPalette && style.groundPalette.bgHex) || '#050505';
+  const colorArg = `0x${bg.replace(/^#/, '')}`;
+  const gridColor = (style && style.groundPalette && style.groundPalette.gridRgba) || '0x27272a@0.28';
+  return `color=c=${colorArg}:s=${width}x${height}:r=${fps}:d=${roundTime(duration, 3)},drawgrid=width=72:height=72:thickness=1:color=${gridColor},noise=alls=4:allf=t+u,setsar=1,format=yuv420p`;
 }
 
 // Builds the concat base graph. `brollInputIndex` maps event id -> ffmpeg input
-// number (input 0 is always the talking head).
-function buildBaseVideoGraph({ segments, brollInputIndex, fps = 30, width = 1080, height = 1920 }) {
+// number (input 0 is talking head in talking_head mode, or audio-only in motion mode).
+function buildBaseVideoGraph({ segments, brollInputIndex, fps = 30, width = 1080, height = 1920, mode = 'talking_head', style = null, duration = null }) {
+  const isMotion = mode === 'motion';
   const talk = segments.filter((s) => s.kind === 'talk');
+  const bed = segments.filter((s) => s.kind === 'bed');
   const lines = [];
   const chainLabels = [];
-  if (talk.length) {
+  if (!isMotion && talk.length) {
     if (talk.length > 1) {
       const labels = talk.map((_, i) => `[tksrc${i}]`).join('');
       lines.push(`[0:v]split=${talk.length}${labels}`);
@@ -125,6 +152,24 @@ function buildBaseVideoGraph({ segments, brollInputIndex, fps = 30, width = 1080
       chainLabels.push({ label: out, segment: talk[0] });
     }
   }
+  if (isMotion && bed.length) {
+    const totalDur = duration || segments.reduce((max, s) => Math.max(max, s.end), 0.5);
+    const bedSrc = buildMotionBedFilter({ duration: totalDur, fps, width, height, style });
+    if (bed.length > 1) {
+      const labels = bed.map((_, i) => `[bdsrc${i}]`).join('');
+      lines.push(`${bedSrc},split=${bed.length}${labels}`);
+      bed.forEach((segment, i) => {
+        const out = `[bd${i}]`;
+        lines.push(`[bdsrc${i}]trim=start=${segment.start}:end=${segment.end},setpts=PTS-STARTPTS,fps=${fps},setsar=1,format=yuv420p${out}`);
+        chainLabels.push({ label: out, segment });
+      });
+    } else {
+      const out = '[bd0]';
+      lines.push(`${bedSrc}[bdfull]`);
+      lines.push(`[bdfull]trim=start=${bed[0].start}:end=${bed[0].end},setpts=PTS-STARTPTS,fps=${fps},setsar=1,format=yuv420p${out}`);
+      chainLabels.push({ label: out, segment: bed[0] });
+    }
+  }
   let brollCount = 0;
   for (const segment of segments) {
     if (segment.kind !== 'broll') continue;
@@ -133,6 +178,11 @@ function buildBaseVideoGraph({ segments, brollInputIndex, fps = 30, width = 1080
     const out = `[br${brollCount++}]`;
     lines.push(`[${input}:v]${brollFilter(segment, fps, width, height)}${out}`);
     chainLabels.push({ label: out, segment });
+  }
+  if (!chainLabels.length && isMotion) {
+    const totalDur = duration || 1;
+    lines.push(`${buildMotionBedFilter({ duration: totalDur, fps, width, height, style })}[basev]`);
+    return { lines, output: '[basev]', segmentCount: 1, order: [{ start: 0, end: totalDur, duration: totalDur, kind: 'bed' }] };
   }
   // Restore chronological order.
   chainLabels.sort((a, b) => a.segment.start - b.segment.start);
@@ -149,7 +199,9 @@ module.exports = {
   buildTimeline,
   cameraZoomPan,
   scaleFilter,
+  transitionFilter,
   talkFilter,
   brollFilter,
+  buildMotionBedFilter,
   buildBaseVideoGraph
 };

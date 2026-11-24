@@ -73,20 +73,38 @@ window.registerComponent('versus_race', {
       bottleneck: 'TIMEOUT / BLOQUEO'
     };
 
-    const fastDuration = Math.max(1.4, duration * 0.26);
+    const hasLegacyTiming = Number.isFinite(Number(sideA.targetMs)) || Number.isFinite(Number(sideB.targetMs));
+    const speedA = Number(sideA.speed) || 1.0;
+    const speedB = Number(sideB.speed) || 0.36;
+    const fastDuration = Math.max(1.2, duration * (0.26 / Math.max(0.4, speedA)));
     const progressA = isRacing ? clamp(raceElapsed / fastDuration, 0, 1) : 0;
     const finishedA = progressA >= 1;
 
     const slowDuration = Math.max(3.8, duration - 0.8);
-    const progressB = isRacing ? clamp(raceElapsed / slowDuration, 0, 0.36) : 0; // Stalls around 36%!
+    const progressB = isRacing ? clamp(raceElapsed / slowDuration, 0, clamp(speedB, 0.18, 0.45)) : 0;
 
     const laneX = 40;
     const laneW = 880;
 
+    const parseMetricClock = (side) => {
+      if (Number.isFinite(Number(side.targetMs))) {
+        return { kind: 'ms', value: Number(side.targetMs), suffix: 'ms', decimals: Number(side.targetMs) < 100 ? 1 : 0, display: side.displayTime || `${side.targetMs}ms` };
+      }
+      const raw = String(side.displayTime || side.metric || '').trim();
+      const m = raw.match(/^(\d+(?:[.,]\d+)?)\s*(ms|s|min|h|%|x)?$/i);
+      if (m) {
+        const num = Number(m[1].replace(',', '.'));
+        const unit = m[2] || '';
+        const decimals = m[1].includes('.') || m[1].includes(',') ? 1 : 0;
+        return { kind: 'unit', value: num, suffix: unit, decimals, display: raw };
+      }
+      return { kind: 'label', display: raw || 'ACTIVO' };
+    };
+
     const drawRaceLane = (y, h, side, progress, isWinnerLane, finished) => {
-      const accent = isWinnerLane ? '#10b981' : '#ef4444';
+      const accent = side.color || (isWinnerLane ? '#10b981' : '#ef4444');
       ctx.fillStyle = '#09090c';
-      ctx.strokeStyle = finished ? accent : (isWinnerLane ? '#27272a' : '#ef4444');
+      ctx.strokeStyle = finished ? accent : (isWinnerLane ? '#27272a' : accent);
       ctx.lineWidth = 1.5;
       ctx.fillRect(laneX, y, laneW, h);
       ctx.strokeRect(laneX, y, laneW, h);
@@ -99,8 +117,11 @@ window.registerComponent('versus_race', {
       ctx.textAlign = 'left';
       ctx.fillStyle = accent;
       ctx.font = '800 16px "JetBrains Mono", monospace';
+      const defaultBadge = hasLegacyTiming
+        ? (isWinnerLane ? 'ARQUITECTURA OPTIMIZADA' : 'ENFOQUE TRADICIONAL')
+        : (isWinnerLane ? 'CARRIL A · PRIORIDAD' : 'CARRIL B · LATENCIA');
       ctx.fillText(
-        isWinnerLane ? 'ARQUITECTURA OPTIMIZADA' : 'ENFOQUE TRADICIONAL',
+        String(side.badge || (isWinnerLane ? props.winnerBadge : props.loserBadge) || defaultBadge).toUpperCase(),
         laneX + 28,
         y + 38
       );
@@ -108,24 +129,36 @@ window.registerComponent('versus_race', {
       // Name & Tag
       ctx.fillStyle = '#ffffff';
       if (mu) {
-        mu.fitText(ctx, side.name, laneX + 28, y + 84, laneW - 320, 36, 22, '"Plus Jakarta Sans", sans-serif', '900');
+        mu.fitText(ctx, String(side.name || '').toUpperCase(), laneX + 28, y + 84, laneW - 320, 36, 22, '"Plus Jakarta Sans", sans-serif', '900');
       }
       ctx.fillStyle = '#a1a1aa';
       ctx.font = '600 18px "JetBrains Mono", monospace';
-      ctx.fillText(side.tag || '', laneX + 28, y + 114);
+      ctx.fillText(String(side.tag || '').toUpperCase(), laneX + 28, y + 114);
 
-      // Stopwatch on right
+      // Stopwatch on right (never NaN)
       ctx.textAlign = 'right';
       ctx.fillStyle = accent;
       ctx.font = '900 54px "JetBrains Mono", monospace';
-      let clockStr = '0.0ms';
+      const parsedClock = parseMetricClock(side);
+      let clockStr = parsedClock.kind === 'label' ? parsedClock.display : `0${parsedClock.decimals ? '.0' : ''}${parsedClock.suffix}`;
       if (isRacing) {
-        if (isWinnerLane) {
-          const val = finished ? side.targetMs : (side.targetMs * progress);
-          clockStr = finished ? side.displayTime : `${val.toFixed(1)}ms`;
+        if (parsedClock.kind === 'ms') {
+          if (isWinnerLane) {
+            const val = finished ? parsedClock.value : (parsedClock.value * progress);
+            clockStr = finished ? parsedClock.display : `${val.toFixed(1)}ms`;
+          } else {
+            const val = Math.min(parsedClock.value || 15000, Math.round(raceElapsed * 3800));
+            clockStr = `${val.toLocaleString()}ms`;
+          }
+        } else if (parsedClock.kind === 'unit') {
+          const val = isWinnerLane
+            ? (finished ? parsedClock.value : parsedClock.value * progress)
+            : (parsedClock.value * clamp(progress * 2.4, 0, 1));
+          clockStr = (isWinnerLane && finished)
+            ? parsedClock.display
+            : `${val.toFixed(parsedClock.decimals)}${parsedClock.suffix}`;
         } else {
-          const val = Math.min(side.targetMs || 15000, Math.round(raceElapsed * 3800));
-          clockStr = `${val.toLocaleString()}ms`;
+          clockStr = parsedClock.display;
         }
       }
       ctx.fillText(clockStr, laneX + laneW - 28, y + 88);
@@ -155,7 +188,7 @@ window.registerComponent('versus_race', {
         } else if (!isWinnerLane && i === activeSlots && isRacing) {
           // Stalled blinking block in loser lane
           const blink = Math.floor(t * 6) % 2 === 0;
-          ctx.fillStyle = blink ? '#ef4444' : '#3f1111';
+          ctx.fillStyle = blink ? accent : '#3f1111';
           ctx.fillRect(sx + 3, slotY + 3, slotW - 6, slotH - 6);
         }
       }
@@ -169,24 +202,29 @@ window.registerComponent('versus_race', {
       ctx.fillRect(trackX, specY, trackW, specH);
       ctx.strokeRect(trackX, specY, trackW, specH);
 
+      const leftMetricLabel = side.memoryLabel || props.leftMetricLabel || (side.memory ? 'RECURSOS / RAM' : 'TIEMPO MEDIDO');
+      const leftMetricVal = side.memory || side.metric || '4 MB';
+      const rightMetricLabel = side.stateLabel || props.rightMetricLabel || (side.cacheMisses ? 'ESTADO EN PRODUCCIÓN' : 'IMPACTO');
+      const rightMetricVal = side.stateValue || side.cacheMisses || (isWinnerLane ? 'EJECUCIÓN DIRECTA' : 'FUERA DE TIEMPO');
+
       ctx.textAlign = 'left';
       ctx.fillStyle = '#71717a';
       ctx.font = '700 15px "JetBrains Mono", monospace';
-      ctx.fillText('RECURSOS / RAM', trackX + 24, specY + 36);
+      ctx.fillText(String(leftMetricLabel).toUpperCase(), trackX + 24, specY + 36);
       ctx.fillStyle = '#ffffff';
       ctx.font = '800 26px "JetBrains Mono", monospace';
-      ctx.fillText(side.memory || '4 MB', trackX + 24, specY + 78);
+      ctx.fillText(String(leftMetricVal).toUpperCase(), trackX + 24, specY + 78);
 
       ctx.fillStyle = '#71717a';
       ctx.font = '700 15px "JetBrains Mono", monospace';
-      ctx.fillText('ESTADO EN PRODUCCIÓN', trackX + 235, specY + 36);
+      ctx.fillText(String(rightMetricLabel).toUpperCase(), trackX + 255, specY + 36);
       ctx.fillStyle = accent;
-      ctx.font = '800 26px "JetBrains Mono", monospace';
-      ctx.fillText(side.cacheMisses || 'OK', trackX + 235, specY + 78);
+      ctx.font = '800 24px "JetBrains Mono", monospace';
+      ctx.fillText(String(rightMetricVal).toUpperCase(), trackX + 255, specY + 78);
 
       // Stamp on Right
       if (finishedA) {
-        const stampW = 320;
+        const stampW = 300;
         const stampH = 60;
         const stampX = trackX + trackW - stampW - 20;
         const stampY = specY + 26;
@@ -195,11 +233,11 @@ window.registerComponent('versus_race', {
         ctx.fillRect(stampX, stampY, stampW, stampH);
 
         ctx.fillStyle = '#050505';
-        ctx.font = '900 19px "JetBrains Mono", monospace';
+        ctx.font = '900 18px "JetBrains Mono", monospace';
         ctx.textAlign = 'center';
         const stampTxt = isWinnerLane
-          ? `✔ ${side.speedup || 'ÓPTIMO'}`
-          : `✖ ${side.bottleneck || 'BLOQUEADO'}`;
+          ? String(side.speedup || '✔ COMPLETADO').toUpperCase()
+          : String(side.bottleneck || '✖ TARDE').toUpperCase();
         ctx.fillText(stampTxt, stampX + stampW / 2, stampY + 37);
       }
     };
@@ -218,14 +256,21 @@ window.registerComponent('versus_race', {
     ctx.strokeRect(laneX, 922, laneW, 74);
 
     const opsCompleted = Math.min(500, Math.floor(t * 145));
+    const footerLeft = props.footerLeft !== undefined
+      ? props.footerLeft
+      : (hasLegacyTiming ? `OPERACIONES PROCESADAS EN VIVO: ${opsCompleted} / 500` : `${sideA.name} vs ${sideB.name}`.toUpperCase());
+    const footerRight = props.footerRight !== undefined
+      ? props.footerRight
+      : (hasLegacyTiming ? '0 ERRORES · 0 FILAS BLOQUEADAS' : (sideB.bottleneck || 'BRECHA CRÍTICA'));
+
     ctx.textAlign = 'left';
     ctx.fillStyle = '#a1a1aa';
     ctx.font = '700 18px "JetBrains Mono", monospace';
-    ctx.fillText(`OPERACIONES PROCESADAS EN VIVO: ${opsCompleted} / 500`, laneX + 28, 966);
+    ctx.fillText(String(footerLeft).toUpperCase(), laneX + 28, 966);
 
     ctx.textAlign = 'right';
-    ctx.fillStyle = '#10b981';
-    ctx.fillText(`0 ERRORES · 0 FILAS BLOQUEADAS`, laneX + laneW - 28, 966);
+    ctx.fillStyle = hasLegacyTiming ? '#10b981' : (sideB.color || '#ef4444');
+    ctx.fillText(String(footerRight).toUpperCase(), laneX + laneW - 28, 966);
 
     // 5. Synchronized Word-by-Word Caption Bar
     const vo = props.voiceover || props.takeaway || '';

@@ -253,7 +253,7 @@ window.registerComponent('editorial_explainer', {
     const MC = window.MotionCore;
     const items = Array.isArray(props.items) && props.items.length
       ? props.items.slice(0, 3)
-      : [props.leftLabel || 'ENTRADA', 'PROCESO', props.rightLabel || 'SALIDA'];
+      : (props.leftLabel ? [props.leftLabel] : ['ESTADO ANTERIOR']);
     const pEnter = MC ? MC.progress(t, duration * 0.06, duration * 0.42, 'outCubic') : this.clamp01(t / (duration * 0.42));
     const pConverge = MC ? MC.progress(t, duration * 0.46, duration * 0.44, 'inOutCubic') : this.clamp01((t - duration * 0.46) / (duration * 0.44));
 
@@ -261,12 +261,13 @@ window.registerComponent('editorial_explainer', {
     const rightX = 564;
     const cardW = 420;
 
-    // Left stack: discrete manual steps
+    // Left stack: discrete steps (vertically balanced for 1, 2, or 3 items)
     const hasLeftIcon = !!(this.assets && this.assets.leftIcon);
+    const leftBaseY = items.length === 1 ? 929 : items.length === 2 ? 854 : 780;
     items.forEach((label, i) => {
       const itemP = MC ? MC.progress(t, 0.06 + i * 0.08, duration * 0.28, 'outCubic') : pEnter;
       if (itemP <= 0) return;
-      const y = 780 + i * 150 + (1 - itemP) * 24;
+      const y = leftBaseY + i * 150 + (1 - itemP) * 24;
       ctx.save();
       ctx.globalAlpha = itemP * (1 - pConverge * 0.25);
       this.drawCard(ctx, palette, leftX, y, cardW, 122, { radius: 16 });
@@ -635,9 +636,10 @@ window.registerComponent('editorial_explainer', {
 
   drawDetail(ctx, palette, props, t, duration) {
     const MC = window.MotionCore;
+    const labelFallback = [props.leftLabel, props.rightLabel].filter(Boolean);
     const items = Array.isArray(props.items) && props.items.length
       ? props.items.slice(0, 3)
-      : [props.leftLabel || 'INTERFAZ', 'LÓGICA CENTRAL', props.rightLabel || 'DATOS'];
+      : (labelFallback.length ? labelFallback : ['INTERFAZ', 'FLUJO ACTIVO', 'DATOS']);
     const p = MC ? MC.progress(t, 0.06, duration * 0.48, 'outCubic') : this.clamp01(t / (duration * 0.48));
     const settle = this.smooth(0.60, 0.95, t / Math.max(0.001, duration));
 

@@ -164,9 +164,10 @@ function buildAss(transcript, plan, options = {}) {
   if (captions.enabled === false || options.enabled === false) return '';
   const duration = Number(options.duration || (plan.source && plan.source.duration) || 0);
   if (!transcript || !Array.isArray(transcript.words)) throw new Error('buildAss requiere palabras del transcript.');
-  const isDynamic = captions.dynamic === true || options.dynamic === true;
+  const isMotion = Boolean(plan && plan.mode === 'motion');
+  const isDynamic = captions.dynamic === true || options.dynamic === true || (isMotion && captions.dynamic !== false);
   const brolls = Array.isArray(plan.brolls) ? plan.brolls : [];
-  const overBroll = captions.overBroll === true;
+  const overBroll = captions.overBroll !== undefined ? captions.overBroll === true : isMotion;
   const words = transcript.words.filter((word) => overBroll || !wordInsideIntervals(word, brolls));
   const highlightWords = new Set((captions.highlightWords || []).map(normalizeWord).filter(Boolean));
   const cues = groupWordsIntoCues(words, {
@@ -191,17 +192,20 @@ function buildAss(transcript, plan, options = {}) {
       if (end - start >= 0.2 && end > start) filteredCues.push({ ...cue, start, end });
     }
   }
+  const motionMarginV = Number.isFinite(Number(captions.marginV))
+    ? Number(captions.marginV)
+    : (plan && plan.style && plan.style.subtitlePosition && Number(plan.style.subtitlePosition.marginV)) || 210;
   const style = {
     ...DEFAULT_STYLE,
     ...(isDynamic ? {
-      fontSize: 66,
+      fontSize: isMotion ? 62 : 66,
       primary: '#ffffff',
-      accent: captions.accentColor || '#10b981',
+      accent: captions.accentColor || (plan && plan.style && plan.style.accent && plan.style.accent.hex) || '#10b981',
       outline: '#09090b',
       back: '#09090b',
       outlineWidth: 6,
       shadow: 2.5,
-      marginV: 350
+      marginV: isMotion ? motionMarginV : (Number.isFinite(Number(captions.marginV)) ? Number(captions.marginV) : 350)
     } : {}),
     ...(options.style || {})
   };
