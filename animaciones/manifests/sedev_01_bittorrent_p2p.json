@@ -1,0 +1,43 @@
+{
+  "title": "[01] La genialidad invisible detrás de BitTorrent (P2P)",
+  "slug": "sedev_01_bittorrent_p2p",
+  "category": "REDES & SISTEMAS DISTRIBUIDOS",
+  "tagline": "Cómo un archivo de 50GB se descargaba sin un solo servidor central",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_01_bittorrent_p2p",
+  "script": {
+    "hook": "Estoy seguro de que eres una persona de bien y nunca usaste esto en tu vida... pero la tecnología detrás de los torrents es una obra de arte de la ingeniería.",
+    "broll1_lead": "En una descarga normal, si el servidor se satura o se cae, todo muere. BitTorrent hace lo contrario: parte cualquier archivo en miles de pequeños bloques de doscientos cincuenta kilobytes, y cada uno lleva una firma criptográfica SHA-1.",
+    "camera_pivot": "Aquí viene lo brillante: tú no descargas el archivo de un servidor central. Lo descargas de otras personas que a su vez lo están descargando contigo.",
+    "broll2_lead": "Usa un algoritmo llamado Tit-For-Tat: si tú compartes bloques rápido con la red, la red te premia dándote prioridad de descarga. Mientras más personas bajan el archivo, más ancho de banda global existe y más rápido va para todos.",
+    "outro": "Una arquitectura imposible de tumbar que cambió la historia de internet. Si te fascinan estas curiosidades de sistemas y arquitectura real, sígueme para más."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_chunks_sha1",
+      "purpose": "Partición del archivo en bloques verificados con SHA-1 y detector de checksum",
+      "type": "bittorrent_file_slicer_viz",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "DESPIECE CRIPTOGRÁFICO DE ARCHIVO",
+        "subtitle": "SHARDING SHA-1: 50 GB -> 200,000 BLOQUES DE 256 KB"
+      },
+      "voiceover": "En una descarga normal, si el servidor se satura o se cae, todo muere. BitTorrent hace lo contrario: parte cualquier archivo en miles de pequeños bloques de doscientos cincuenta kilobytes, y cada uno lleva una firma criptográfica SHA-1.",
+      "visual_cue": "Partición del archivo en bloques verificados con SHA-1 y detector de checksum"
+    },
+    {
+      "id": "broll_02_mesh_titfortat",
+      "purpose": "Enjambre P2P y algoritmo Tit-for-Tat premiando ancho de banda",
+      "type": "bittorrent_swarm_viz",
+      "duration": 9.5,
+      "props": {
+        "theme": "dark",
+        "title": "ENJAMBRE P2P Y ALGORITMO TIT-FOR-TAT",
+        "subtitle": "TOPOLOGÍA DESCENTRALIZADA SIN SERVIDOR CENTRAL"
+      },
+      "voiceover": "Usa un algoritmo llamado Tit-For-Tat: si tú compartes bloques rápido con la red, la red te premia dándote prioridad de descarga. Mientras más personas bajan el archivo, más ancho de banda global existe y más rápido va para todos.",
+      "visual_cue": "Enjambre P2P y algoritmo Tit-for-Tat premiando ancho de banda"
+    }
+  ]
+}

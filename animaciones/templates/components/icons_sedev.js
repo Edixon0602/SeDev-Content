@@ -426,6 +426,59 @@
       <line x1="36" y1="60" x2="38" y2="72" stroke="${color}" stroke-width="2"/>
       <line x1="64" y1="60" x2="62" y2="72" stroke="${color}" stroke-width="2"/>
       <line x1="72" y1="60" x2="74" y2="72" stroke="${color}" stroke-width="2"/>
+    `,
+
+    // 8. SaaS, AI Agents & Business Editorial Icons
+    saas_cloud: (color = '#38bdf8') => `
+      <path d="M28 68 H74 C82 68 86 62 86 54 C86 46 80 41 72 41 C70 29 60 22 48 22 C35 22 25 31 24 43 C17 44 13 50 13 56 C13 63 19 68 28 68 Z" fill="#18181b" stroke="${color}" stroke-width="3.5" stroke-linejoin="round"/>
+      <line x1="34" y1="48" x2="66" y2="48" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
+      <line x1="34" y1="57" x2="54" y2="57" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="63" cy="57" r="2.5" fill="#10b981"/>
+    `,
+    cloud_slash: (color = '#ef4444') => `
+      <path d="M28 68 H74 C82 68 86 62 86 54 C86 46 80 41 72 41 C70 29 60 22 48 22 C35 22 25 31 24 43 C17 44 13 50 13 56 C13 63 19 68 28 68 Z" fill="#18181b" stroke="#71717a" stroke-width="3" stroke-linejoin="round"/>
+      <line x1="20" y1="78" x2="80" y2="20" stroke="${color}" stroke-width="5" stroke-linecap="round"/>
+    `,
+    ai_agent: (color = '#10b981') => `
+      <circle cx="50" cy="50" r="30" fill="none" stroke="${color}" stroke-width="2.5" stroke-dasharray="10 6"/>
+      <rect x="34" y="34" width="32" height="32" rx="8" fill="#18181b" stroke="${color}" stroke-width="3"/>
+      <circle cx="44" cy="48" r="3.5" fill="${color}"/>
+      <circle cx="56" cy="48" r="3.5" fill="${color}"/>
+      <line x1="43" y1="57" x2="57" y2="57" stroke="${color}" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="50" cy="18" r="4" fill="${color}"/>
+      <circle cx="82" cy="50" r="4" fill="${color}"/>
+      <circle cx="18" cy="50" r="4" fill="${color}"/>
+    `,
+    custom_code: (color = '#fbbf24') => `
+      <rect x="18" y="22" width="64" height="56" rx="8" fill="#18181b" stroke="${color}" stroke-width="3"/>
+      <line x1="18" y1="34" x2="82" y2="34" stroke="#27272a" stroke-width="2"/>
+      <polyline points="38,46 28,56 38,66" fill="none" stroke="${color}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="62,46 72,56 62,66" fill="none" stroke="${color}" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="54" y1="43" x2="46" y2="69" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+    `,
+    market_trend_down: (color = '#ef4444') => `
+      <rect x="16" y="20" width="68" height="60" rx="6" fill="#18181b" stroke="#27272a" stroke-width="2.5"/>
+      <line x1="24" y1="70" x2="76" y2="70" stroke="#52525b" stroke-width="2"/>
+      <polyline points="24,34 40,42 52,38 72,62" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <polyline points="62,62 73,63 72,52" fill="none" stroke="${color}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    `,
+    enterprise_building: (color = '#38bdf8') => `
+      <rect x="24" y="18" width="32" height="62" rx="3" fill="#18181b" stroke="${color}" stroke-width="3"/>
+      <rect x="56" y="34" width="22" height="46" rx="3" fill="#18181b" stroke="${color}" stroke-width="2.5"/>
+      <rect x="32" y="28" width="6" height="6" fill="${color}"/>
+      <rect x="42" y="28" width="6" height="6" fill="${color}"/>
+      <rect x="32" y="40" width="6" height="6" fill="${color}"/>
+      <rect x="42" y="40" width="6" height="6" fill="${color}"/>
+      <rect x="32" y="52" width="6" height="6" fill="${color}"/>
+      <rect x="42" y="52" width="6" height="6" fill="${color}"/>
+      <rect x="63" y="44" width="6" height="6" fill="${color}"/>
+      <rect x="63" y="56" width="6" height="6" fill="${color}"/>
+    `,
+    comment_debate: (color = '#fbbf24') => `
+      <path d="M18 24 H66 C71 24 74 27 74 32 V54 C74 59 71 62 66 62 H38 L24 74 V62 H18 C13 62 10 59 10 54 V32 C10 27 13 24 18 24 Z" fill="#18181b" stroke="${color}" stroke-width="3" stroke-linejoin="round"/>
+      <line x1="24" y1="38" x2="58" y2="38" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
+      <line x1="24" y1="49" x2="46" y2="49" stroke="#f2ede4" stroke-width="3" stroke-linecap="round"/>
+      <path d="M58 46 H82 C86 46 89 49 89 53 V69 C89 73 86 76 82 76 H76 V84 L66 76 H58 C54 76 51 73 51 69 V53 C51 49 54 46 58 46 Z" fill="#18181b" stroke="#10b981" stroke-width="2.5" stroke-linejoin="round"/>
     `
   };
 

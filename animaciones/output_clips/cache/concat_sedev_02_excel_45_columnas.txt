@@ -1,0 +1,7 @@
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s01_hook_68087d5f569d.mp4'
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s02_disaster_a36dcd4bcf96.mp4'
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s03_code_a76d1a741f97.mp4'
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s04_arch_bfaebc6492e9.mp4'
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s05_race_a591a9364741.mp4'
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s06_cost_352955bb58fc.mp4'
+file 'C:/Users/Edixon/Desktop/Trabajo/SeDev/animaciones/output_clips/cache/s07_cta_bdcbbe3baae3.mp4'

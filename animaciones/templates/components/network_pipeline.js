@@ -1,13 +1,13 @@
 // Component: network_pipeline
-// Visualizes multi-hop network stages, packets in transit, and protocol telemetry.
-// Fully normalized for stage names/labels/tags, dynamic coordinates, and zero NaN/undefined bugs.
+// Multi-hop Network & Event Stream Pipeline Visualizer.
+// Features orthogonal data conduits, discrete square packets in transit,
+// per-stage latency telemetry, and word-by-word synchronized captions.
 
 window.registerComponent('network_pipeline', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-network-pipeline">
-        ${props.header ? `<div class="scene-category" id="pipeHeader">${props.header}</div>` : ''}
-        <canvas id="pipelineCanvas" width="960" height="1300"></canvas>
+        <canvas id="pipelineCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#pipelineCanvas');
@@ -18,176 +18,160 @@ window.registerComponent('network_pipeline', {
     const { spring, clamp, lerp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
-    // Hard-cut exit
-    const exitT = duration - 0.3;
+    const exitT = duration - 0.25;
     let exitAlpha = 1;
-    let exitY = 0;
     if (t > exitT) {
-      const p = (t - exitT) / 0.3;
-      exitY = -p * p * 60;
-      exitAlpha = clamp(1 - p * 1.3, 0, 1);
-    }
-
-    const headerEl = container.querySelector('#pipeHeader');
-    if (headerEl) {
-      const s = spring(Math.max(0, t - 0.05), 24, 0.7);
-      headerEl.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
-      headerEl.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
+      exitAlpha = clamp(1 - ((t - exitT) / 0.25) * 1.4, 0, 1);
     }
 
     ctx.save();
     ctx.globalAlpha = exitAlpha;
-    ctx.translate(0, exitY);
 
-    const title = props.title || 'TUBERÍA DE RED DE ALTA VELOCIDAD';
-    const subtitle = props.subtitle || 'PROCESAMIENTO DE PAQUETES SIN BLOQUEOS';
+    const title = (props.title || 'TUBERÍA DE EVENTOS EN TIEMPO REAL').toUpperCase();
+    const subtitle = (props.subtitle || 'TRANSMISIÓN SIN BLOQUEOS EXTREMO A EXTREMO').toUpperCase();
+
+    // 1. Clean Header
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#06b6d4';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 40, 42);
 
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
     if (mu) {
-      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
-    } else {
-      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(title, 480, 65);
+      mu.fitText(ctx, title, 40, 92, 880, 40, 24, '"Plus Jakarta Sans", sans-serif', '900');
     }
 
-    ctx.fillStyle = '#06b6d4';
-    ctx.font = '700 17px "JetBrains Mono", monospace';
-    ctx.fillText(subtitle, 480, 102);
+    ctx.strokeStyle = '#27272a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(40, 118);
+    ctx.lineTo(920, 118);
+    ctx.stroke();
 
-    // Normalize Stages (handle name, label, tag, sub, auto y-coordinates)
     const rawStages = props.stages || [
-      { name: 'CLIENT REQUEST', tag: 'HTTP/2 Conexión multiplexada', color: '#38bdf8' },
-      { name: 'EDGE PROXY / KERNEL', tag: 'Filtrado eBPF en memoria', color: '#fbbf24' },
-      { name: 'BACKEND APPLICATION', tag: 'Zero-copy socket read', color: '#10b981' }
+      { name: 'WEBHOOK / STREAM ENTRADA', tag: 'Recepción no bloqueante + firma HMAC', metric: '0.8 ms', color: '#38bdf8' },
+      { name: 'VALIDADOR / FILTRO ESQUEMA', tag: 'Contrato tipado en memoria sin I/O', metric: '1.4 ms', color: '#fbbf24' },
+      { name: 'DESPACHO TRANSACCIONAL', tag: 'Confirmación atómica e idempotente', metric: '2.9 ms', color: '#10b981' }
     ];
 
     const defaultColors = ['#38bdf8', '#fbbf24', '#10b981', '#a855f7'];
-    const totalStages = rawStages.length;
-    const startY = 220;
-    const totalSpan = 600;
+    const totalStages = Math.min(4, rawStages.length);
+    const startY = 225;
+    const totalSpan = 480;
 
-    const stages = rawStages.map((st, i) => ({
-      label: st.label || st.name || `ETAPA #${i + 1}`,
-      sub: st.sub || st.tag || 'Transmisión activa',
-      metric: st.metric || `${(1.2 + i * 0.8).toFixed(1)} ms`,
+    const stages = rawStages.slice(0, 4).map((st, i) => ({
+      label: (st.label || st.name || `ETAPA 0${i + 1}`).toUpperCase(),
+      sub: st.sub || st.tag || 'Canal activo',
+      metric: st.metric || `${(1.1 + i * 0.9).toFixed(1)} ms`,
       color: st.color || defaultColors[i % defaultColors.length],
-      y: st.y !== undefined ? st.y : (startY + i * Math.floor(totalSpan / Math.max(1, totalStages - 1)))
+      y: startY + i * Math.floor(totalSpan / Math.max(1, totalStages - 1))
     }));
 
-    // 1. Draw Connecting Data Pipes with Traveling Packets
+    // 2. Orthogonal Data Pipes with Traveling Square Frames
     for (let i = 0; i < stages.length - 1; i++) {
-      const yStart = stages[i].y + 52;
-      const yEnd = stages[i + 1].y - 52;
+      const yStart = stages[i].y + 54;
+      const yEnd = stages[i + 1].y - 54;
       const pipeH = yEnd - yStart;
 
-      // Pipe background
-      ctx.fillStyle = '#101014';
+      ctx.fillStyle = '#09090c';
       ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(430, yStart, 100, pipeH, 8);
-      ctx.fill();
-      ctx.stroke();
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(420, yStart, 120, pipeH);
+      ctx.strokeRect(420, yStart, 120, pipeH);
 
-      // Moving packets inside pipe
-      const numPackets = 3;
+      const numPackets = 2;
       for (let p = 0; p < numPackets; p++) {
-        const pProgress = ((t * 1.6 + (p / numPackets)) % 1);
-        const py = lerp(yStart + 8, yEnd - 24, pProgress);
+        const pProgress = ((t * 1.8 + (p / numPackets)) % 1);
+        const py = lerp(yStart + 10, yEnd - 28, pProgress);
 
         ctx.fillStyle = stages[i].color;
-        ctx.beginPath();
-        ctx.roundRect(442, py, 76, 18, 5);
-        ctx.fill();
+        ctx.fillRect(434, py, 92, 20);
 
-        ctx.fillStyle = '#09090b';
-        ctx.font = '800 11px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#050505';
+        ctx.font = '900 11px "JetBrains Mono", monospace';
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('STREAM', 480, py + 9);
+        ctx.fillText(`FRAME_0${p + 1}`, 480, py + 14);
       }
     }
 
-    // 2. Draw Stage Cards
+    // 3. Stage Mechanical Cards
     stages.forEach((stage, i) => {
-      const s = spring(Math.max(0, t - i * 0.12), 22, 0.72);
+      const s = spring(Math.max(0, t - i * 0.12), 24, 0.74);
       ctx.save();
       ctx.translate(480, stage.y);
       ctx.scale(s, s);
 
-      // Card Background
-      ctx.fillStyle = '#121216';
+      ctx.fillStyle = '#09090c';
       ctx.strokeStyle = stage.color;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(-390, -46, 780, 92, 14);
-      ctx.fill();
-      ctx.stroke();
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(-440, -54, 880, 108);
+      ctx.strokeRect(-440, -54, 880, 108);
 
-      // Stage Number Pill
+      // Left stage index block
       ctx.fillStyle = stage.color;
-      ctx.beginPath();
-      ctx.arc(-340, 0, 15, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillRect(-440, -54, 72, 108);
 
-      ctx.fillStyle = '#09090b';
-      ctx.font = '900 13px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#050505';
+      ctx.font = '900 24px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(`${i + 1}`, -340, 0);
+      ctx.fillText(`0${i + 1}`, -404, 8);
 
-      // Label & Sublabel (Safe Auto-fitting)
+      // Stage Title & Subtitle
       ctx.textAlign = 'left';
       ctx.fillStyle = '#ffffff';
-      ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(stage.label, -305, -7);
+      if (mu) {
+        mu.fitText(ctx, stage.label, -342, -8, 560, 22, 16, '"Plus Jakarta Sans", sans-serif', '800');
+      }
 
       ctx.fillStyle = '#a1a1aa';
-      ctx.font = '600 14px "JetBrains Mono", monospace';
-      ctx.fillText(stage.sub, -305, 20);
+      ctx.font = '600 15px "JetBrains Mono", monospace';
+      ctx.fillText(stage.sub, -342, 24);
 
-      // Metric Badge (Right)
-      ctx.textAlign = 'right';
+      // Right Metric Box
+      ctx.fillStyle = '#111116';
+      ctx.strokeStyle = stage.color;
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(250, -30, 164, 60);
+      ctx.strokeRect(250, -30, 164, 60);
+
+      ctx.textAlign = 'center';
       ctx.fillStyle = stage.color;
-      ctx.font = '700 16px "JetBrains Mono", monospace';
-      ctx.fillText(stage.metric, 355, 6);
+      ctx.font = '900 20px "JetBrains Mono", monospace';
+      ctx.fillText(stage.metric, 332, 8);
 
       ctx.restore();
     });
 
-    // 3. Bottom Telemetry Summary Box
-    const bAlpha = clamp((t - 0.4) / 0.3, 0, 1);
-    if (bAlpha > 0) {
-      ctx.globalAlpha = bAlpha * exitAlpha;
-      ctx.fillStyle = '#10141a';
-      ctx.strokeStyle = '#06b6d4';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.roundRect(60, 890, 840, 180, 16);
-      ctx.fill();
-      ctx.stroke();
+    // 4. Bottom Telemetry Summary Box (y = 795..995)
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = '#06b6d4';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(40, 795, 880, 200);
+    ctx.strokeRect(40, 795, 880, 200);
+    ctx.fillStyle = '#06b6d4';
+    ctx.fillRect(40, 795, 8, 200);
 
-      ctx.fillStyle = '#06b6d4';
-      ctx.font = '800 14px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText('REGISTRO DE TELEMETRÍA EN TIEMPO REAL', 95, 935);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#06b6d4';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.fillText('FLUJO SIN BLOQUEOS', 70, 838);
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
-      const log1 = props.conclusion || 'Latencia extremo a extremo neutralizada por bypass de capas.';
-      if (mu) {
-        mu.wrapText(ctx, log1, 95, 975, 760, 28, 2);
-      } else {
-        ctx.fillText(log1, 95, 975);
-      }
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+    const log1 = props.conclusion || 'Cada etapa procesa y libera el evento en milisegundos sin retener sockets abiertos.';
+    if (mu) {
+      mu.wrapText(ctx, log1, 70, 882, 820, 30, 2);
+    }
 
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '500 15px "JetBrains Mono", monospace';
-      ctx.fillText('Throughput: 100% no-blocking · Zero frame drops', 95, 1035);
+    ctx.fillStyle = '#10b981';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(props.takeaway || '✔ THROUGHPUT SOSTENIDO · 0 PÉRDIDA DE PAQUETES', 70, 964);
+
+    // 5. Synchronized Word-by-Word Caption Bar
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#06b6d4' });
     }
 
     ctx.restore();

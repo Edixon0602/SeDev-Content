@@ -1,0 +1,195 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[17] Por qué poner 'responde solo en JSON' en el prompt va a tumbar tu backend",
+  "category": "INGENIERÍA DE IA EN PRODUCCIÓN",
+  "pilar": "Automatizaciones de Alto Impacto / IA Real",
+  "slug": "sedev_17_structured_outputs_zod_ia",
+  "introType": "TERMINAL SPLIT",
+  "ctaKeyword": "SCHEMA",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_17_structured_outputs_zod_ia.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "terminal_split",
+      "duration": 13.7,
+      "voiceover": "Si tu sistema confía en que la inteligencia artificial se va a portar bien porque le pusiste en el prompt 'responde solo en JSON', tienes una bomba de tiempo.",
+      "visual_cue": "Prompt ingenuo rompiendo JSON.parse() con texto conversacional vs Schema estricto con Zod",
+      "props": {
+        "voiceover": "Si tu sistema confía en que la inteligencia artificial se va a portar bien porque le pusiste en el prompt 'responde solo en JSON', tienes una bomba de tiempo.",
+        "title": "EL ERROR #1 AL CONECTAR IA AL BACKEND",
+        "subtitle": "PROMPTS DE RUEGO VS CONTRATOS DE DATOS ESTRICTOS",
+        "leftTitle": "PROMPT INGENUO (SE ROMPE EN PRODUCCIÓN)",
+        "leftCode": "const prompt = 'Extrae la factura y por favor responde SOLO en JSON';\n// El modelo responde un martes:\n// '¡Claro! Aquí tienes el JSON:\\n { \"total\": \"$120\" }'\nJSON.parse(res); // -> SyntaxError: Unexpected token '¡'",
+        "rightTitle": "STRUCTURED OUTPUTS CON SCHEMA (ZOD / PYDANTIC)",
+        "rightCode": "const InvoiceSchema = z.object({\n  invoiceId: z.string(),\n  totalCents: z.number().int(),\n  isPaid: z.boolean()\n}); // Forzado a nivel de gramática de tokens: 100% válido",
+        "diffNote": "0% JSON roto · Tipos de datos garantizados"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 13.2,
+      "voiceover": "Funciona diez veces en tus pruebas, y en el cliente número once el modelo agrega un saludo amable antes de la llave y te rompe todo el flujo.",
+      "visual_cue": "Monitor de fallos intermitentes en pipelines de IA por respuestas mal formateadas",
+      "props": {
+        "voiceover": "Funciona diez veces en tus pruebas, y en el cliente número once el modelo agrega un saludo amable antes de la llave y te rompe todo el flujo.",
+        "title": "FALLOS INTERMITENTES EN FLUJOS CON IA",
+        "subtitle": "CUANDO EL MODELO CAMBIA UN CAMPO O METE TEXTO EXTRA",
+        "crashedStatus": "ERR 500: UNEXPECTED TOKEN EN PIPELINE DE DOCUMENTOS",
+        "latencyNormal": 850,
+        "latencyCrash": 12000,
+        "logs": [
+          {
+            "time": "DOC_08",
+            "level": "INFO",
+            "text": "Factura procesada: {\"total\": 450}",
+            "color": "#10b981"
+          },
+          {
+            "time": "DOC_09",
+            "level": "WARN",
+            "text": "El modelo devolvió 'total': 'Cuatrocientos cincuenta'",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "DOC_10",
+            "level": "CRIT",
+            "text": "Inserción en base de datos falló por tipo inválido",
+            "color": "#ef4444"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_arch",
+      "type": "architecture_flow",
+      "duration": 11.1,
+      "voiceover": "En ingeniería de software tratamos al modelo como una entrada no confiable: primero obligamos la estructura por gramática y después validamos cada campo.",
+      "visual_cue": "Flujo de validación de IA en producción: Input -> Constrained Decoding -> Validador -> DB",
+      "props": {
+        "voiceover": "En ingeniería de software tratamos al modelo como una entrada no confiable: primero obligamos la estructura por gramática y después validamos cada campo.",
+        "title": "PIPELINE DETERMINISTA PARA MODELOS DE IA",
+        "subtitle": "CÓMO HACER CONFIABLE UN COMPONENTE PROBABILÍSTICO",
+        "nodes": [
+          {
+            "id": "in",
+            "label": "DOCUMENTO / PDF / MENSAJE DESORDENADO",
+            "sublabel": "CONTEXTO LIMPIO Y RECORTADO AL MÍNIMO",
+            "color": "#ffffff"
+          },
+          {
+            "id": "dec",
+            "label": "CONSTRAINED DECODING (JSON SCHEMA)",
+            "sublabel": "BLOQUEA TOKENS QUE VIOLEN EL FORMATO",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "val",
+            "label": "VALIDADOR DE REGLAS + SUITE DE EVALS",
+            "sublabel": "SI CUMPLE EL 100% DEL CONTRATO -> PASA A LA DB",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04_race",
+      "type": "versus_race",
+      "duration": 10.9,
+      "voiceover": "Además acompañamos cada flujo con una batería de cincuenta casos reales de prueba para saber al instante si un cambio empeoró la precisión.",
+      "visual_cue": "Comparativa de estabilidad en 1,000 ejecuciones: Ingeniería con Schemas+Evals vs Prompt suelto",
+      "props": {
+        "voiceover": "Además acompañamos cada flujo con una batería de cincuenta casos reales de prueba para saber al instante si un cambio empeoró la precisión.",
+        "title": "ESTABILIDAD EN 1,000 EJECUCIONES REALES",
+        "subtitle": "INGENIERÍA DE IA VS 'VIBE PROMPTING'",
+        "sideA": {
+          "name": "SCHEMAS + EVALS + RETRY",
+          "tag": "CONTRATO ESTRICTO DE SALIDA",
+          "targetMs": 680,
+          "displayTime": "99.9% PASS",
+          "memory": "TIPOS EXACTOS",
+          "cacheMisses": "0 CAÍDAS DE API",
+          "speedup": "PRODUCCIÓN SÓLIDA"
+        },
+        "sideB": {
+          "name": "SOLO UN PROMPT LARGO",
+          "tag": "REZAR PARA QUE RESPONDA BIEN",
+          "targetMs": 4800,
+          "displayTime": "FALLA AL AZAR",
+          "memory": "CAMPOS ROTOS",
+          "cacheMisses": "ALUCINACIONES",
+          "bottleneck": "SOPORTE QUEMADO"
+        }
+      }
+    },
+    {
+      "id": "s05_mem",
+      "type": "memory_layout",
+      "duration": 12,
+      "voiceover": "Y en lugar de mandarle diez páginas de basura al modelo, filtramos solo los tres párrafos exactos que necesita leer para bajar costos y latencia.",
+      "visual_cue": "Los 3 pilares de IA en producción: Contexto quirúrgico, Schema forzado y Evals",
+      "props": {
+        "voiceover": "Y en lugar de mandarle diez páginas de basura al modelo, filtramos solo los tres párrafos exactos que necesita leer para bajar costos y latencia.",
+        "badge": "ESTÁNDAR DE PRODUCCIÓN SEDEV",
+        "title": "LOS 3 PILARES DE IA QUE NO SE ROMPE",
+        "items": [
+          {
+            "addr": "01_SCHEMA",
+            "name": "Salidas tipadas con Zod / Pydantic",
+            "value": "El backend recibe el objeto exacto o reintenta limpio"
+          },
+          {
+            "addr": "02_CONTEXT",
+            "name": "Ingeniería de contexto quirúrgica",
+            "value": "80% menos costo de tokens y el doble de velocidad"
+          },
+          {
+            "addr": "03_EVALS",
+            "name": "Pruebas automatizadas antes de subir",
+            "value": "Medimos precisión real con casos difíciles de tu negocio"
+          }
+        ],
+        "resolutionTitle": "DE DEMO BONITA A SISTEMA DE PRODUCCIÓN",
+        "resolutionSub": "Flujos con IA que procesan miles de documentos sin romperse"
+      }
+    },
+    {
+      "id": "s06_cost",
+      "type": "quantization_weights_viz",
+      "duration": 10.3,
+      "voiceover": "Recortar el contexto y tipar la salida no solo evita caídas; también reduce a una fracción tu factura mensual de tokens.",
+      "visual_cue": "Optimización de pesos y contexto reduciendo el consumo de memoria y tokens en 74%",
+      "props": {
+        "voiceover": "Recortar el contexto y tipar la salida no solo evita caídas; también reduce a una fracción tu factura mensual de tokens.",
+        "mode": "quant",
+        "badge": "EFICIENCIA DE MODELOS E INFERENCIA",
+        "title": "REDUCCIÓN DEL 75% EN COSTO Y LATENCIA DE IA",
+        "subtitle": "CONTEXTO QUIRÚRGICO + MODELOS OPTIMIZADOS"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 9.9,
+      "voiceover": "Si tienes un flujo con inteligencia artificial que falla al azar o sale demasiado caro, escríbeme SCHEMA y lo blindamos.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave SCHEMA",
+      "props": {
+        "voiceover": "Si tienes un flujo con inteligencia artificial que falla al azar o sale demasiado caro, escríbeme SCHEMA y lo blindamos.",
+        "badge": "ARQUITECTURA DE IA EN PRODUCCIÓN",
+        "lines": [
+          {
+            "text": "DOMA LA IA CON",
+            "color": "#ffffff"
+          },
+          {
+            "text": "INGENIERÍA DE SOFTWARE",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "STRUCTURED OUTPUTS · EVALS · EXTRACCIÓN DOCUMENTAL",
+        "ctaKeyword": "SCHEMA",
+        "ctaNote": "Revisamos tus flujos de IA actuales para llevarlos a precisión y costo de producción."
+      }
+    }
+  ]
+};

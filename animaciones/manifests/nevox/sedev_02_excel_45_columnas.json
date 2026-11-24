@@ -1,0 +1,190 @@
+{
+  "title": "[02] El Excel de 45 columnas donde 4 empleados pisan los mismos datos",
+  "category": "SISTEMAS INTERNOS & DATOS",
+  "pilar": "Proof of Work & Casos Reales",
+  "slug": "sedev_02_excel_45_columnas",
+  "introType": "KINETIC SLAM",
+  "ctaKeyword": "SISTEMA",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_02_excel_45_columnas.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "kinetic_slam",
+      "duration": 9.9,
+      "voiceover": "Si la operación diaria de tu empresa vive en un Excel compartido, estás a un Control-Z de perder la semana.",
+      "visual_cue": "Golpe tipográfico tachando el Excel compartido como base de datos",
+      "props": {
+        "voiceover": "Si la operación diaria de tu empresa vive en un Excel compartido, estás a un Control-Z de perder la semana.",
+        "badge": "RIESGO OPERATIVO CRÍTICO",
+        "lines": [
+          {
+            "text": "TU EXCEL DE 45 COLUMNAS",
+            "color": "#ffffff"
+          },
+          {
+            "text": "NO ES UN SISTEMA",
+            "color": "#ef4444",
+            "strike": true
+          },
+          {
+            "text": "ES UNA BOMBA DE TIEMPO",
+            "highlight": "#fbbf24",
+            "textColor": "#050505"
+          }
+        ],
+        "stat": "1 FILA BORRADA = INVENTARIO Y CAJA ROTOS",
+        "subtitle": "4 EMPLEADOS PISÁNDOSE LOS DATOS EN VIVO"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 9.5,
+      "voiceover": "Cuatro personas metiendo pedidos a mano en la misma hoja: alguien mueve una columna y descuadra toda la facturación.",
+      "visual_cue": "Monitor de corrupción de celdas y conflictos de guardado simultáneo",
+      "props": {
+        "voiceover": "Cuatro personas metiendo pedidos a mano en la misma hoja: alguien mueve una columna y descuadra toda la facturación.",
+        "title": "COLISIÓN EN HOJA COMPARTIDA",
+        "subtitle": "CORRUPCIÓN SILENCIOSA DE FÓRMULAS",
+        "crashedStatus": "ERR #REF!: FÓRMULA DE MARGEN DESTRUIDA EN FILA 412",
+        "latencyNormal": 2,
+        "latencyCrash": 4500,
+        "logs": [
+          {
+            "time": "10:14",
+            "level": "WARN",
+            "text": "Usuario_2 sobrescribió celda F412 sin bloqueo",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "10:19",
+            "level": "ERR",
+            "text": "Filtro mal aplicado desordenó 1,200 clientes",
+            "color": "#ef4444"
+          },
+          {
+            "time": "11:05",
+            "level": "CRIT",
+            "text": "Descuadre de $3,800 en cierre de caja semanal",
+            "color": "#f87171"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_code",
+      "type": "terminal_split",
+      "duration": 9,
+      "voiceover": "El problema no es tu equipo; es usar una calculadora como si fuera una base de datos multiusuario.",
+      "visual_cue": "Transformación de celdas sueltas sin ley a esquema PostgreSQL estricto",
+      "props": {
+        "voiceover": "El problema no es tu equipo; es usar una calculadora como si fuera una base de datos multiusuario.",
+        "title": "DE CELDAS FRÁGILES A POSTGRESQL",
+        "subtitle": "INTEGRIDAD REFERENCIAL Y ROLES",
+        "leftTitle": "HOJA DE CÁLCULO (CERO REGLAS)",
+        "leftCode": "// Cualquiera edita o borra cualquier celda\nCelda_G14 = 'PAGADO_AYER' // Texto libre\nCelda_H14 = '=SUMA(A1:F99)' // Rota\n// Sin historial real de quién tocó qué",
+        "rightTitle": "ESQUEMA RELACIONAL BLINDADO",
+        "rightCode": "CREATE TABLE orders (\n  id SERIAL PRIMARY KEY,\n  amount NUMERIC(10,2) NOT NULL CHECK (amount > 0),\n  updated_by UUID REFERENCES users(id)\n); // + Audit Log inmutable por cambio",
+        "diffNote": "Validación estricta + Permisos por rol"
+      }
+    },
+    {
+      "id": "s04_arch",
+      "type": "migration_stepper_viz",
+      "duration": 10.1,
+      "voiceover": "En siete días migramos ese monstruo a un panel web privado con roles por empleado y registro exacto de cada cambio.",
+      "visual_cue": "Stepper de migración: De Excel caótico a PostgreSQL con roles sin parar la operación",
+      "props": {
+        "voiceover": "En siete días migramos ese monstruo a un panel web privado con roles por empleado y registro exacto de cada cambio.",
+        "badge": "MIGRACIÓN EN 7 DÍAS SIN FRENAR VENTAS",
+        "title": "DE EXCEL ROTO A SISTEMA WEB BLINDADO",
+        "subtitle": "TRANSICIÓN PASO A PASO CON CERO PÉRDIDA DE DATOS"
+      }
+    },
+    {
+      "id": "s05_race",
+      "type": "versus_race",
+      "duration": 10.3,
+      "voiceover": "Ahora cada vendedor ve solo lo que le toca, nadie puede borrar pagos históricos y el cierre sale en un clic.",
+      "visual_cue": "Comparativa de cierre operativo: Panel web (1.2s) vs Conciliar Excel a mano (4 horas)",
+      "props": {
+        "voiceover": "Ahora cada vendedor ve solo lo que le toca, nadie puede borrar pagos históricos y el cierre sale en un clic.",
+        "title": "TIEMPO DE CIERRE Y REPORTE",
+        "subtitle": "OPERACIÓN SEMANAL CON 2,500 REGISTROS",
+        "sideA": {
+          "name": "PANEL WEB + POSTGRES",
+          "tag": "DASHBOARD EN TIEMPO REAL",
+          "targetMs": 18,
+          "displayTime": "18ms",
+          "memory": "0 ERRORES HUMANOS",
+          "cacheMisses": "AUDITADO 100%",
+          "speedup": "CIERRE INSTANTÁNEO"
+        },
+        "sideB": {
+          "name": "EXCEL COMPARTIDO (45 COLS)",
+          "tag": "CONCILIACIÓN MANUAL",
+          "targetMs": 14400,
+          "displayTime": "4 HORAS",
+          "memory": "ARCHIVO PESADO",
+          "cacheMisses": "CELDAS ROTAS",
+          "bottleneck": "CAOS OPERATIVO"
+        }
+      }
+    },
+    {
+      "id": "s06_cost",
+      "type": "cost_ticker",
+      "duration": 7.1,
+      "voiceover": "Recuperaron quince horas semanales de administración y eliminaron de raíz los errores de cobro.",
+      "visual_cue": "Ahorro de horas hombre y eliminación de pérdidas por errores de dedo",
+      "props": {
+        "voiceover": "Recuperaron quince horas semanales de administración y eliminaron de raíz los errores de cobro.",
+        "title": "IMPACTO EN CAJA Y TIEMPO",
+        "subtitle": "COSTO DEL CAOS MANUAL VS SISTEMA PROPIO",
+        "cloudCost": 2400,
+        "initialCost": 300,
+        "breakdown": [
+          {
+            "name": "Errores de cobro y stock mal anotado",
+            "cost": "$1,600/mes",
+            "sub": "Fugas silenciosas por filas pisadas",
+            "color": "#ef4444"
+          },
+          {
+            "name": "60 horas/mes arreglando hojas rotas",
+            "cost": "$800/mes",
+            "sub": "Tiempo de gerencia perdido",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "$0 Fugas",
+        "takeaway": "SISTEMA PRIVADO ENTREGADO EN 7 A 14 DÍAS"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 10.3,
+      "voiceover": "Si en tu negocio ya tienen un Excel que da miedo abrir, escríbeme y vemos cómo pasarlo a un sistema limpio.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave SISTEMA",
+      "props": {
+        "voiceover": "Si en tu negocio ya tienen un Excel que da miedo abrir, escríbeme y vemos cómo pasarlo a un sistema limpio.",
+        "badge": "TRANSFORMACIÓN DE OPERACIONES",
+        "lines": [
+          {
+            "text": "JUBILA ESE EXCEL",
+            "color": "#ffffff"
+          },
+          {
+            "text": "ANTES DE QUE FALLE",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "PANELES INTERNOS · BASES DE DATOS · ROLES",
+        "ctaKeyword": "SISTEMA",
+        "ctaNote": "Analizamos tu hoja actual y diseñamos la migración sin frenar a tu equipo."
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[09] La trampa del Año 2038: el reloj que desbordará a 1901",
+  "slug": "sedev_09_y2038_unix_epoch_overflow",
+  "category": "KERNEL & ARQUITECTURA DE SISTEMAS",
+  "tagline": "El desbordamiento del entero de 32 bits en el tiempo UNIX",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_09_y2038_unix_epoch_overflow",
+  "script": {
+    "hook": "El diecinueve de enero de dos mil treinta y ocho a las tres de la mañana, miles de computadoras en todo el mundo van a viajar en el tiempo al año mil novecientos uno.",
+    "broll1_lead": "Muchos sistemas operativos antiguos miden el tiempo contando los segundos transcurridos desde el primero de enero de mil novecientos setenta en un número entero con signo de treinta y dos bits.",
+    "camera_pivot": "El problema es que un entero de treinta y dos bits tiene un tope máximo de dos mil ciento cuarenta y siete millones de segundos.",
+    "broll2_lead": "En ese segundo exacto de dos mil treinta y ocho, el número superará su límite, se desbordará al negativo y los sistemas creerán que es el trece de diciembre de mil novecientos uno, rompiendo bases de datos y equipos embebidos.",
+    "outro": "El verdadero efecto dos mil que nadie vio venir. Si trabajas con sistemas industriales o código heredado, revisa tus tipos. Sígueme para más."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_y2038_bit_overflow",
+      "purpose": "Contador de 32 bits llegando a 0x7FFFFFFF y desbordando a negativo",
+      "type": "terminal_split",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "DESBORDAMIENTO TIME_T (32 BITS)",
+        "subtitle": "EL LÍMITE FÍSICO DEL ENTERO SIGNADO",
+        "leftTitle": "19 ENERO 2038 · 03:14:07 UTC",
+        "leftCode": "time_t = 2,147,483,647\nHex: 0x7FFFFFFF\nBin: 01111111 11111111 11111111 11111111\n// Bit de signo en 0 (Positivo)",
+        "rightTitle": "1 SEGUNDO DESPUÉS (DESBORDE)",
+        "rightCode": "time_t = -2,147,483,648\nHex: 0x80000000\nBin: 10000000 00000000 00000000 00000000\n// AÑO REPORTE: 13 DICIEMBRE 1901!",
+        "diffNote": "Colapso de certificados TLS, hipotecas y sistemas embebidos"
+      },
+      "voiceover": "Muchos sistemas operativos antiguos miden el tiempo contando los segundos transcurridos desde el primero de enero de mil novecientos setenta en un número entero con signo de treinta y dos bits.",
+      "visual_cue": "Contador de 32 bits llegando a 0x7FFFFFFF y desbordando a negativo"
+    },
+    {
+      "id": "broll_02_y2038_infrastructure_monitor",
+      "purpose": "Monitor de fallos en infraestructura embebida vieja",
+      "type": "disaster_monitor",
+      "duration": 8.5,
+      "props": {
+        "theme": "dark",
+        "title": "MONITOR DE IMPACTO INFRAESTRUCTURA",
+        "subtitle": "DISPOSITIVOS LEGACY SIN PARCHE A 64 BITS",
+        "crashedStatus": "SYSTEM CRASH: TIMESTAMP SIGN INVERSION",
+        "latencyNormal": 1,
+        "latencyCrash": 999,
+        "logs": [
+          {
+            "time": "03:14:07",
+            "level": "INFO",
+            "text": "time_t alcanza su valor máximo positivo",
+            "color": "#10b981"
+          },
+          {
+            "time": "03:14:08",
+            "level": "CRIT",
+            "text": "Overflow a negativo: fecha interpretada como 1901",
+            "color": "#ef4444"
+          },
+          {
+            "time": "03:14:09",
+            "level": "FATAL",
+            "text": "Certificados SSL vencidos instantáneamente; aborto de red",
+            "color": "#f87171"
+          }
+        ]
+      },
+      "voiceover": "En ese segundo exacto de dos mil treinta y ocho, el número superará su límite, se desbordará al negativo y los sistemas creerán que es el trece de diciembre de mil novecientos uno, rompiendo bases de datos y equipos embebidos.",
+      "visual_cue": "Monitor de fallos en infraestructura embebida vieja"
+    }
+  ]
+};

@@ -1,0 +1,6 @@
+# Isolated ASR environment for animaciones/editor/.venv
+# Install from the repository root with: npm run edit:setup
+faster-whisper>=1.1.0,<2.0.0
+# faster-whisper 1.2.x still calls av.open(..., metadata_errors=...), which
+# was removed in PyAV 16+. Keep the decoder on a compatible major.
+av>=11,<16

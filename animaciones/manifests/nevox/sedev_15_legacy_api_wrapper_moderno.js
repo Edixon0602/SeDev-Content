@@ -1,0 +1,212 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[15] Cómo conectar un ERP de hace 15 años con WhatsApp e IA sin romperlo",
+  "category": "SISTEMAS LEGACY & INTEGRACIÓN",
+  "pilar": "Proof of Work & Casos Reales",
+  "slug": "sedev_15_legacy_api_wrapper_moderno",
+  "introType": "ARCHITECTURE FLOW",
+  "ctaKeyword": "PUENTE",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_15_legacy_api_wrapper_moderno.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "architecture_flow",
+      "duration": 12.5,
+      "voiceover": "El miedo número uno de toda empresa consolidada es tocar su sistema viejo y romper la facturación. La buena noticia es que no hace falta tocarlo.",
+      "visual_cue": "Arquitectura de puente horizontal envolviendo el ERP antiguo sin modificarlo",
+      "props": {
+        "voiceover": "El miedo número uno de toda empresa consolidada es tocar su sistema viejo y romper la facturación. La buena noticia es que no hace falta tocarlo.",
+        "layout": "horizontal",
+        "title": "PATRÓN PUENTE PARA SISTEMAS ANTIGUOS",
+        "subtitle": "MODERNIZAR SIN REESCRIBIR EL CORE QUE FACTURA",
+        "nodes": [
+          {
+            "id": "leg",
+            "label": "ERP / SISTEMA ANTIGUO (INTACTO)",
+            "sublabel": "SQL SERVER / SOAP / ARCHIVOS LOCALES",
+            "color": "#ffffff"
+          },
+          {
+            "id": "br",
+            "label": "ADAPTADOR SEGURO + CACHÉ (SEDEV)",
+            "sublabel": "SINCRONIZA Y EXPONE API REST/JSON MODERNA",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "mod",
+            "label": "WHATSAPP BOTS + PANEL MÓVIL + IA",
+            "sublabel": "RESPUESTA EN 15ms SIN RECARGAR EL ERP",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 11.6,
+      "voiceover": "Muchas empresas viven atrapadas: su software contable o de planta tiene quince años, nadie quiere migrarlo, pero no se conecta con nada moderno.",
+      "visual_cue": "Monitor de operaciones aisladas por software antiguo sin API REST",
+      "props": {
+        "voiceover": "Muchas empresas viven atrapadas: su software contable o de planta tiene quince años, nadie quiere migrarlo, pero no se conecta con nada moderno.",
+        "title": "EL DILEMA DEL SOFTWARE HEREDADO",
+        "subtitle": "FUNCIONA PARA CONTABILIDAD PERO FRENA AL RESTO",
+        "crashedStatus": "SISTEMA CERRADO: 0 ENDPOINTS REST · SOLO RED LOCAL",
+        "latencyNormal": 15,
+        "latencyCrash": 8500,
+        "logs": [
+          {
+            "time": "PROBLEMA",
+            "level": "WARN",
+            "text": "Vendedores en la calle no pueden ver stock en vivo",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "RIESGO",
+            "level": "ERR",
+            "text": "Exponer la base de datos vieja directo a internet es suicida",
+            "color": "#ef4444"
+          },
+          {
+            "time": "SOLUCIÓN",
+            "level": "INFO",
+            "text": "Agente puente intermedio con caché y cola segura",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_code",
+      "type": "terminal_split",
+      "duration": 12.8,
+      "voiceover": "En lugar de meterle mano al sistema viejo, colocamos un adaptador ligero al lado que lee los cambios y los publica en una API moderna y blindada.",
+      "visual_cue": "Traducción limpia de tablas/XML heredados a JSON moderno con caché en Redis",
+      "props": {
+        "voiceover": "En lugar de meterle mano al sistema viejo, colocamos un adaptador ligero al lado que lee los cambios y los publica en una API moderna y blindada.",
+        "title": "ENVOLTURA MODERNA (ANTI-CORRUPTION LAYER)",
+        "subtitle": "TRADUCCIÓN Y PROTECCIÓN DEL SISTEMA BASE",
+        "leftTitle": "FORMATO VIEJO DEL ERP (LENTO Y CRÍPTICO)",
+        "leftCode": "// Tabla T_INV_99 con nombres ilegibles\n// Tarda 4 segundos por consulta si entran varios\nSELECT C_COD_ART, N_EXIS_ACT, F_ULT_MOV\nFROM dbo.T_INV_99 WHERE C_SUC = '01';",
+        "rightTitle": "API MODERNA EXPUESTA POR EL PUENTE (12ms)",
+        "rightCode": "// El puente sincroniza deltas y sirve desde caché\nGET /v1/inventory/sku-402\n-> { \"sku\": \"402\", \"available\": 48, \"branch\": \"Norte\" }\n// El ERP viejo ni siente el tráfico de WhatsApp/Web",
+        "diffNote": "Cero carga extra sobre la base de datos antigua"
+      }
+    },
+    {
+      "id": "s04_race",
+      "type": "versus_race",
+      "duration": 11.6,
+      "voiceover": "Así tus clientes y vendedores consultan pedidos por WhatsApp o desde el celular en milisegundos, sin que el servidor viejo sienta siquiera la carga.",
+      "visual_cue": "Carrera: Construir adaptador puente (10 días) vs Migrar todo el ERP de la empresa (14 meses)",
+      "props": {
+        "voiceover": "Así tus clientes y vendedores consultan pedidos por WhatsApp o desde el celular en milisegundos, sin que el servidor viejo sienta siquiera la carga.",
+        "title": "CAMINO A LA MODERNIZACIÓN",
+        "subtitle": "ADAPTADOR PUENTE VS MIGRACIÓN TRAUMÁTICA DE ERP",
+        "sideA": {
+          "name": "PUENTE API + CACHÉ (10 DÍAS)",
+          "tag": "CERO RIESGO OPERATIVO",
+          "targetMs": 12,
+          "displayTime": "10 DÍAS",
+          "memory": "ERP INTACTO",
+          "cacheMisses": "0 INTERRUPCIÓN",
+          "speedup": "EN PRODUCCIÓN YA"
+        },
+        "sideB": {
+          "name": "CAMBIAR TODO EL ERP (14 MESES)",
+          "tag": "REENTRENAR A TODA LA EMPRESA",
+          "targetMs": 42000,
+          "displayTime": "14 MESES",
+          "memory": "CAOS INTERNO",
+          "cacheMisses": "ALTO COSTO",
+          "bottleneck": "OPERACIÓN FRENADA"
+        }
+      }
+    },
+    {
+      "id": "s05_mem",
+      "type": "memory_layout",
+      "duration": 11.1,
+      "voiceover": "Y cuando algún día decidas cambiar el sistema viejo, el resto de tus canales ni se entera porque todos hablan con el puente.",
+      "visual_cue": "Ventajas arquitectónicas de la capa de aislamiento (Strangler Pattern)",
+      "props": {
+        "voiceover": "Y cuando algún día decidas cambiar el sistema viejo, el resto de tus canales ni se entera porque todos hablan con el puente.",
+        "badge": "STRANGLER FIG PATTERN",
+        "title": "MODERNIZACIÓN SIN DOLOR",
+        "items": [
+          {
+            "addr": "SEGURIDAD",
+            "name": "El ERP viejo sigue aislado",
+            "value": "Jamás se expone directo a internet público"
+          },
+          {
+            "addr": "VELOCIDAD",
+            "name": "Caché inteligente intermedio",
+            "value": "Absorbe miles de consultas desde móviles y bots"
+          },
+          {
+            "addr": "FUTURO",
+            "name": "Desacoplamiento limpio",
+            "value": "Te permite jubilar módulos viejos paso a paso"
+          }
+        ],
+        "resolutionTitle": "CONECTA EL PASADO CON EL PRESENTE",
+        "resolutionSub": "WhatsApp, Web e IA sobre tu infraestructura actual"
+      }
+    },
+    {
+      "id": "s06_cost",
+      "type": "cost_ticker",
+      "duration": 10.1,
+      "voiceover": "Obtienes toda la velocidad de un software moderno en dos semanas por una fracción de lo que costaría una migración completa.",
+      "visual_cue": "Comparativa financiera entre un proyecto de reemplazo de ERP y una capa de integración",
+      "props": {
+        "voiceover": "Obtienes toda la velocidad de un software moderno en dos semanas por una fracción de lo que costaría una migración completa.",
+        "title": "PRESUPUESTO Y RIESGO DE EJECUCIÓN",
+        "subtitle": "MIGRACIÓN TOTAL VS CAPA DE INTEGRACIÓN SEDEV",
+        "cloudCost": 15000,
+        "initialCost": 0,
+        "breakdown": [
+          {
+            "name": "Licencias e implementación de ERP nuevo",
+            "cost": "$15,000+",
+            "sub": "Meses de consultoría y resistencia del personal",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Riesgo de parar facturación en el cambio",
+            "cost": "CRÍTICO",
+            "sub": "El 60% de las migraciones grandes se atrasan",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "2 Semanas",
+        "takeaway": "MODERNIZA LA EXPERIENCIA SIN ARRIESGAR EL CORE"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 10.5,
+      "voiceover": "Si tienes un sistema antiguo que sostiene tu negocio pero necesitas conectarlo con WhatsApp, web o IA, escríbeme la palabra PUENTE.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave PUENTE",
+      "props": {
+        "voiceover": "Si tienes un sistema antiguo que sostiene tu negocio pero necesitas conectarlo con WhatsApp, web o IA, escríbeme la palabra PUENTE.",
+        "badge": "INTEGRACIÓN DE SISTEMAS HEREDADOS",
+        "lines": [
+          {
+            "text": "MODERNIZA TU OPERACIÓN",
+            "color": "#ffffff"
+          },
+          {
+            "text": "SIN ROMPER TU ERP",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "WRAPPERS API · SQL SERVER / LEGACY · SINCRONIZACIÓN",
+        "ctaKeyword": "PUENTE",
+        "ctaNote": "Revisamos cómo lee y guarda datos tu sistema actual para armar el conector seguro."
+      }
+    }
+  ]
+};

@@ -1,0 +1,85 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[08] El truco de magia de Quake III: 0x5f3759df",
+  "slug": "sedev_08_quake3_fast_inv_sqrt",
+  "category": "MATEMÁTICAS APLICADAS & GAME ENGINES",
+  "tagline": "Cómo John Carmack calculó 1 sobre raíz de x manipulando bits flotantes",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_08_quake3_fast_inv_sqrt",
+  "script": {
+    "hook": "En 1999 alguien escribió esta constante matemática misteriosa en el código fuente de Quake III y aceleró los videojuegos tres de para siempre.",
+    "broll1_lead": "Para iluminar gráficos tres de en tiempo real, tienes que calcular el inverso de la raíz cuadrada millones de veces por segundo. En los años noventa, hacer una división de punto flotante en hardware era lentísimo.",
+    "camera_pivot": "En vez de pedirle al procesador que calculara la raíz, tomaron el número flotante, lo reinterpretaron como un entero en memoria y le hicieron un desplazamiento de bits restándolo de esta constante mágica.",
+    "broll2_lead": "Con una sola pasada del método de Newton-Raphson, obtuvieron una aproximación con menos del uno por ciento de error cuatro veces más rápido que cualquier función estándar de la época.",
+    "outro": "Un truco sucio que desafió las reglas y definió una generación de motores gráficos. Sígueme para más joyas ocultas de la historia de la computación."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_quake_bit_hack",
+      "purpose": "Manipulación de bits flotantes y constante mágica hexadecimal",
+      "type": "memory_layout",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "FAST INVERSE SQUARE ROOT (QUAKE III)",
+        "subtitle": "MANIPULACIÓN DE BITS IEEE-754",
+        "items": [
+          {
+            "addr": "float x2, y = number",
+            "name": "VALOR ORIGINAL ENTRADA",
+            "value": "Coordenada normalizada en 3D"
+          },
+          {
+            "addr": "i = * ( long * ) &y",
+            "name": "EVIL FLOATING POINT BIT HACK",
+            "value": "Puntero reinterpretado como entero"
+          },
+          {
+            "addr": "i = 0x5f3759df - ( i >> 1 )",
+            "name": "CONSTANTE MÁGICA CARMACK",
+            "value": "Aproximación logarítmica de 1/sqrt(x)"
+          },
+          {
+            "addr": "y = y * ( 1.5F - ( x2 * y * y ) )",
+            "name": "NEWTON-RAPHSON (1 ITERACIÓN)",
+            "value": "Error residual menor a 0.175%"
+          }
+        ]
+      },
+      "voiceover": "Para iluminar gráficos tres de en tiempo real, tienes que calcular el inverso de la raíz cuadrada millones de veces por segundo. En los años noventa, hacer una división de punto flotante en hardware era lentísimo.",
+      "visual_cue": "Manipulación de bits flotantes y constante mágica hexadecimal"
+    },
+    {
+      "id": "broll_02_quake_cycles_comparison",
+      "purpose": "Comparativa de ciclos de CPU: División estándar 45 ciclos vs Carmack 4 ciclos",
+      "type": "metrics_comparison",
+      "duration": 8.5,
+      "props": {
+        "theme": "dark",
+        "title": "COSTO COMPUTACIONAL EN CPU DE 1999",
+        "subtitle": "CÁLCULO DE 1 MILLÓN DE VECTORES DE LUZ",
+        "metrics": [
+          {
+            "label": "Hardware FPU Division (1/sqrt)",
+            "val1": "45 ciclos CPU",
+            "val2": "4.8 FPS",
+            "good": false
+          },
+          {
+            "label": "Fast Inv Sqrt (0x5f3759df)",
+            "val1": "4 ciclos CPU",
+            "val2": "62.4 FPS",
+            "good": true
+          },
+          {
+            "label": "Precisión Gráfica",
+            "val1": "99.825% idéntica",
+            "val2": "Sin impacto visual",
+            "good": true
+          }
+        ]
+      },
+      "voiceover": "Con una sola pasada del método de Newton-Raphson, obtuvieron una aproximación con menos del uno por ciento de error cuatro veces más rápido que cualquier función estándar de la época.",
+      "visual_cue": "Comparativa de ciclos de CPU: División estándar 45 ciclos vs Carmack 4 ciclos"
+    }
+  ]
+};

@@ -1,0 +1,49 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[06] Por qué la NASA prohíbe 'while(true)' y memoria dinámica",
+  "slug": "sedev_06_nasa_misra_c_rules",
+  "category": "INGENIERÍA AEROESPACIAL & KERNEL",
+  "tagline": "Las 10 reglas de código de JPL para llegar a Marte sin crasheos",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_06_nasa_misra_c_rules",
+  "script": {
+    "hook": "Si tu servidor se cae en la web, reinicias el contenedor y nadie se entera. Si el código del rover de Marte crashea a mitad de camino, perdiste dos mil millones de dólares.",
+    "broll1_lead": "Por eso el Laboratorio de Propulsión de la NASA tiene diez reglas sagradas de código C. La primera: jamás se permite memoria dinámica después del arranque; la función malloc está completamente prohibida en vuelo.",
+    "camera_pivot": "La segunda: todos los bucles deben tener un límite superior fijo demostrable matemáticamente. Nada de bucles infinitos ni esperas indefinidas.",
+    "broll2_lead": "Cero recursividad, cero punteros a funciones descontrolados y verificación estática en cada commit. Parece código primitivo, pero tiene cero fugas de memoria y jamás se cuelga.",
+    "outro": "La verdadera alta ingeniería no es meter la librería de moda, es garantizar que el sistema nunca muera. Sígueme para elevar tu nivel de desarrollo."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_nasa_jpl_rules",
+      "purpose": "Reglas de oro de código aeroespacial JPL MISRA-C",
+      "type": "code_terminal",
+      "duration": 9,
+      "props": {
+        "theme": "light",
+        "title": "REGLAS DE CÓDIGO CRÍTICO NASA JPL",
+        "subtitle": "MISRA C / CERO CRASHES EN VUELO",
+        "code": "// REGLA 1: NO MEMORIA DINÁMICA POST-BOOT\n// malloc() PROHIBIDO TERMINANTEMENTE\nstatic TelemetryBuffer g_buffer[MAX_TELEMETRY];\n\n// REGLA 2: LÍMITE SUPERIOR ESTRICTO EN BUCLES\n#define MAX_SENSOR_RETRIES 32\nfor (uint32_t i = 0; i < MAX_SENSOR_RETRIES; i++) {\n    if (read_radiation_sensor(&sample)) break;\n}\n\n// REGLA 3: PROHIBIDA LA RECURSIVIDAD\n// Garantiza cota fija de memoria en Stack"
+      },
+      "voiceover": "Por eso el Laboratorio de Propulsión de la NASA tiene diez reglas sagradas de código C. La primera: jamás se permite memoria dinámica después del arranque; la función malloc está completamente prohibida en vuelo.",
+      "visual_cue": "Reglas de oro de código aeroespacial JPL MISRA-C"
+    },
+    {
+      "id": "broll_02_nasa_vs_web_memory",
+      "purpose": "Comparativa de estabilidad: Web Dev con leaks vs NASA Memoria Estática",
+      "type": "terminal_split",
+      "duration": 8.5,
+      "props": {
+        "theme": "light",
+        "title": "VERIFICACIÓN FORMAL DE MEMORIA",
+        "subtitle": "HEAP DINÁMICO VS BUFFER ESTÁTICO",
+        "leftTitle": "CÓDIGO COMÚN (RIESGO DE FUGAS)",
+        "leftCode": "while (true) {\n  let req = await fetch();\n  let mem = malloc(1024);\n  // Si falla el free(), OOM Killer mata el pod\n}",
+        "rightTitle": "ESTÁNDAR NASA JPL (DETERMINISTA)",
+        "rightCode": "for (int i = 0; i < 100; i++) {\n  static SensorPacket pkt;\n  process_packet_in_place(&pkt);\n  // 100% Memoria acotada en tiempo de compilación\n}",
+        "diffNote": "Cero fugas de memoria garantizadas matemáticamente"
+      },
+      "voiceover": "Cero recursividad, cero punteros a funciones descontrolados y verificación estática en cada commit. Parece código primitivo, pero tiene cero fugas de memoria y jamás se cuelga.",
+      "visual_cue": "Comparativa de estabilidad: Web Dev con leaks vs NASA Memoria Estática"
+    }
+  ]
+};

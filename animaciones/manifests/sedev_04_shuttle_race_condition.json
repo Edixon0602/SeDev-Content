@@ -1,0 +1,67 @@
+{
+  "title": "[04] La condición de carrera que canceló el Transbordador Columbia",
+  "slug": "sedev_04_shuttle_race_condition",
+  "category": "CONCURRENCIA & SISTEMAS CRÍTICOS",
+  "tagline": "5 computadoras redundantes trabadas por 80 milisegundos de desfase",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_04_shuttle_race_condition",
+  "script": {
+    "hook": "En 1981, el primer vuelo del transbordador espacial Columbia se canceló a veinte minutos del despegue por un bug que cualquier programador comete.",
+    "broll1_lead": "La NASA usaba cinco computadoras idénticas: cuatro corrían el software primario y una quinta corría un software de respaldo totalmente independiente escrito por otro equipo.",
+    "camera_pivot": "Para evitar fallos, las computadoras debían sincronizarse milisegundo a milisegundo intercambiando mensajes antes del encendido de motores.",
+    "broll2_lead": "Durante el arranque, la computadora de respaldo arrancó con un desfase de un solo ciclo de bus de ochenta milisegundos. Cuando intentó sincronizarse, el cerrojo ya estaba puesto y el sistema se congeló por seguridad.",
+    "outro": "El hardware más avanzado del mundo detenido por una condición de carrera. Sígueme si quieres dominar concurrencia real sin que te explote en producción."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_shuttle_computers_race",
+      "purpose": "Arquitectura redundante de 5 computadoras AP-101 con gap de 80ms",
+      "type": "versus_race",
+      "duration": 9,
+      "props": {
+        "theme": "blueprint",
+        "title": "SINCRONIZACIÓN DE AVIONICA COLUMBIA STS-1",
+        "subtitle": "4 COMPUTADORAS PASS VS 1 BACKUP (BFS)",
+        "sideA": {
+          "name": "COMPUTADORAS PRIMARIAS (PASS)",
+          "tag": "4x IBM AP-101 SINCRONIZADAS",
+          "targetMs": 0,
+          "displayTime": "0.0ms",
+          "memory": "64 KB CORONA",
+          "cacheMisses": "PASS VOTING: 4/4 OK",
+          "speedup": "ESTADO: ESPERANDO BFS"
+        },
+        "sideB": {
+          "name": "COMPUTADORA DE RESPALDO (BFS)",
+          "tag": "INICIALIZACIÓN ASÍNCRONA",
+          "targetMs": 80,
+          "displayTime": "+80ms GAP",
+          "memory": "64 KB CORONA",
+          "cacheMisses": "TIME SKEW DETECTADO",
+          "bottleneck": "MUTEX DESYNC: ABORT DESPEGUE"
+        }
+      },
+      "voiceover": "La NASA usaba cinco computadoras idénticas: cuatro corrían el software primario y una quinta corría un software de respaldo totalmente independiente escrito por otro equipo.",
+      "visual_cue": "Arquitectura redundante de 5 computadoras AP-101 con gap de 80ms"
+    },
+    {
+      "id": "broll_02_shuttle_deadlock_monitor",
+      "purpose": "Monitor de interbloqueo de bus deteniendo el lanzamiento en T-20min",
+      "type": "connection_pool_viz",
+      "duration": 8.5,
+      "props": {
+        "theme": "blueprint",
+        "title": "DEADLOCK EN BUS DE DATOS DE VUELO",
+        "subtitle": "BLOQUEO CRÍTICO EN T-20 MINUTOS",
+        "stats": {
+          "activeConnections": 0,
+          "maxConnections": 5,
+          "queuedRequests": 1,
+          "avgWaitMs": "DEADLOCK"
+        }
+      },
+      "voiceover": "Durante el arranque, la computadora de respaldo arrancó con un desfase de un solo ciclo de bus de ochenta milisegundos. Cuando intentó sincronizarse, el cerrojo ya estaba puesto y el sistema se congeló por seguridad.",
+      "visual_cue": "Monitor de interbloqueo de bus deteniendo el lanzamiento en T-20min"
+    }
+  ]
+}

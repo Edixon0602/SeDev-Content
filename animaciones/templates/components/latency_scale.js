@@ -1,13 +1,12 @@
 // Component: latency_scale
-// Visualizes hardware logarithmic latency tiers (CPU vs RAM vs NVMe vs Network).
-// Zero text overflow, safe vertical spacing, animated particle tips.
+// Logarithmic Hardware & System Latency Scale Visualizer (CPU -> RAM -> NVMe -> Network -> SaaS/Polling).
+// Features progressive bar fills, mechanical playhead markers, and real-time synchronized captions.
 
 window.registerComponent('latency_scale', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-lat-scale">
-        ${props.header ? `<div class="scene-category" id="latHeader">${props.header}</div>` : ''}
-        <canvas id="latCanvas" width="960" height="1300"></canvas>
+        <canvas id="latCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#latCanvas');
@@ -15,146 +14,142 @@ window.registerComponent('latency_scale', {
   },
 
   render(container, t, duration, props, utils) {
-    const { spring, clamp, lerp } = utils;
+    const { spring, clamp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
-    // Hard cut exit
-    const exitT = duration - 0.3;
+    const exitT = duration - 0.25;
     let exitAlpha = 1;
-    let exitY = 0;
     if (t > exitT) {
-      const p = (t - exitT) / 0.3;
-      exitY = -p * p * 60;
-      exitAlpha = clamp(1 - p * 1.3, 0, 1);
-    }
-
-    const headerEl = container.querySelector('#latHeader');
-    if (headerEl) {
-      const s = spring(Math.max(0, t - 0.05), 24, 0.7);
-      headerEl.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
-      headerEl.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
+      exitAlpha = clamp(1 - ((t - exitT) / 0.25) * 1.4, 0, 1);
     }
 
     ctx.save();
     ctx.globalAlpha = exitAlpha;
-    ctx.translate(0, exitY);
 
-    const title = props.title || 'ESCALA DE LATENCIA DE HARDWARE';
-    const subtitle = props.subtitle || 'EL COSTE OCULTO DEL SALTO DE RED';
+    const title = (props.title || 'ESCALA REAL DE LATENCIA DE SISTEMAS').toUpperCase();
+    const subtitle = (props.subtitle || 'COMPARATIVA DE VELOCIDAD POR ORDEN DE MAGNITUD').toUpperCase();
 
-    // Auto-fit Title and Subtitle
+    // 1. Clean Header
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 40, 42);
+
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
     if (mu) {
-      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
-    } else {
-      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(title, 480, 65);
+      mu.fitText(ctx, title, 40, 92, 880, 40, 24, '"Plus Jakarta Sans", sans-serif', '900');
     }
 
-    ctx.fillStyle = '#f59e0b';
-    ctx.font = '700 17px "JetBrains Mono", monospace';
-    ctx.fillText(subtitle, 480, 102);
+    ctx.strokeStyle = '#27272a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(40, 118);
+    ctx.lineTo(920, 118);
+    ctx.stroke();
 
     const tiers = props.tiers || [
-      { name: 'CPU L1 CACHE', latency: '0.5 ns', ratio: 0.04, color: '#38bdf8', human: '1 segundo en escala humana' },
-      { name: 'MEMORIA RAM (DDR5)', latency: '80 ns', ratio: 0.14, color: '#10b981', human: '3.3 minutos humanos' },
-      { name: 'DISCO SSD NVMe', latency: '50 µs', ratio: 0.38, color: '#a855f7', human: '2.3 días de espera' },
-      { name: 'SQLITE LOCAL EMBEBIDO', latency: '0.02 ms', ratio: 0.52, color: '#fbbf24', human: '4.6 días humanos' },
-      { name: 'SALTO DE RED (CLOUD / RDS)', latency: '15 ms', ratio: 1.0, color: '#ef4444', human: '11.8 meses (!)' }
+      { name: 'MEMORIA RAM / ÍNDICE B-TREE', latency: '0.08 ms', ratio: 0.06, color: '#10b981', human: 'Lectura directa por puntero sin bloqueo' },
+      { name: 'WEBSOCKET PUSH EN VIVO', latency: '2.4 ms', ratio: 0.16, color: '#38bdf8', human: 'Evento entregado en el mismo milisegundo' },
+      { name: 'WORKER ASÍNCRONO EN VPS', latency: '12.0 ms', ratio: 0.30, color: '#a855f7', human: 'Procesamiento en segundo plano con cola' },
+      { name: 'HTTP POLLING / N+1 QUERIES', latency: '1,850 ms', ratio: 0.68, color: '#f59e0b', human: 'Saturación de sockets y espera acumulada' },
+      { name: 'FULL TABLE SCAN / BLOQUEO', latency: '14,200 ms', ratio: 1.0, color: '#ef4444', human: 'Timeout en cascada y caída de checkout' }
     ];
 
-    const startY = 175;
-    const gap = 120;
+    const startY = 155;
+    const rowH = 122;
 
-    tiers.forEach((tier, i) => {
-      const ty = startY + i * gap;
-      const s = spring(Math.max(0, t - i * 0.1), 20, 0.75);
+    tiers.slice(0, 5).forEach((tier, i) => {
+      const ty = startY + i * rowH;
+      const s = spring(Math.max(0, t - i * 0.09), 22, 0.76);
 
       ctx.save();
-      ctx.translate(80, ty);
+      ctx.translate(480, ty + 48);
       ctx.scale(s, s);
+      ctx.translate(-480, -(ty + 48));
 
-      // Label & Time
+      ctx.fillStyle = '#09090c';
+      ctx.strokeStyle = '#27272a';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(40, ty, 880, 106);
+      ctx.strokeRect(40, ty, 880, 106);
+
+      // Left color marker
+      ctx.fillStyle = tier.color;
+      ctx.fillRect(40, ty, 6, 106);
+
+      // Tier Name & Latency Value
       ctx.textAlign = 'left';
       ctx.fillStyle = '#ffffff';
       ctx.font = '800 18px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(tier.name, 0, 0);
+      ctx.fillText(tier.name, 66, ty + 32);
 
       ctx.textAlign = 'right';
       ctx.fillStyle = tier.color;
-      ctx.font = '700 18px "JetBrains Mono", monospace';
-      ctx.fillText(tier.latency, 800, 0);
+      ctx.font = '900 22px "JetBrains Mono", monospace';
+      ctx.fillText(tier.latency, 896, ty + 32);
 
-      // Bar container
-      ctx.fillStyle = '#16161b';
-      ctx.beginPath();
-      ctx.roundRect(0, 14, 800, 32, 6);
-      ctx.fill();
+      // Bar Track
+      const trackX = 66;
+      const trackY = ty + 44;
+      const trackW = 830;
+      const trackH = 24;
+      ctx.fillStyle = '#121217';
+      ctx.strokeStyle = '#27272a';
+      ctx.lineWidth = 1;
+      ctx.fillRect(trackX, trackY, trackW, trackH);
+      ctx.strokeRect(trackX, trackY, trackW, trackH);
 
-      // Filled active bar with cubic easing
-      const barProg = clamp(t / (0.35 + i * 0.12), 0, 1);
+      // Progressive Bar Fill
+      const barProg = clamp((t - i * 0.15) / (duration * 0.55), 0, 1);
       const easeBar = 1 - Math.pow(1 - barProg, 3);
-      const barW = Math.max(25, 800 * tier.ratio * easeBar);
+      const fillW = Math.max(18, trackW * tier.ratio * easeBar);
 
       ctx.fillStyle = tier.color;
-      ctx.beginPath();
-      ctx.roundRect(0, 14, barW, 32, 6);
-      ctx.fill();
+      ctx.fillRect(trackX + 2, trackY + 2, fillW - 4, trackH - 4);
 
-      // Animated tip spark
-      if (barProg < 1.0) {
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.arc(barW, 30, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      // Mechanical square marker at tip
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(trackX + fillW - 6, trackY - 2, 8, trackH + 4);
 
-      // Human analogy label
+      // Explanation Subtext
       ctx.textAlign = 'left';
-      ctx.fillStyle = '#71717a';
+      ctx.fillStyle = '#a1a1aa';
       ctx.font = '600 13px "JetBrains Mono", monospace';
-      ctx.fillText(tier.human, 0, 68);
+      ctx.fillText(tier.human, 66, ty + 90);
 
       ctx.restore();
     });
 
-    // Bottom Conclusion Card (Positioned safely at Y = 820 to 1030)
-    const cAlpha = clamp((t - 0.45) / 0.3, 0, 1);
-    if (cAlpha > 0) {
-      ctx.globalAlpha = cAlpha * exitAlpha;
-      ctx.fillStyle = '#111116';
-      ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.roundRect(70, 800, 820, 210, 16);
-      ctx.fill();
-      ctx.stroke();
+    // Bottom Conclusion Box (y = 785..995)
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(40, 785, 880, 210);
+    ctx.strokeRect(40, 785, 880, 210);
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(40, 785, 8, 210);
 
-      ctx.fillStyle = '#f59e0b';
-      ctx.font = '800 14px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText(props.bannerBadge || 'CONCLUSIÓN DE ARQUITECTURA', 105, 845);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.fillText(props.bannerBadge || 'DIAGNÓSTICO DE ÓRDENES DE MAGNITUD', 70, 828);
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
-      const conclusion = props.conclusion || 'Hacer una query por red es 150.000 veces más lento que acceder a memoria RAM.';
-      if (mu) {
-        mu.wrapText(ctx, conclusion, 105, 885, 750, 30, 2);
-      } else {
-        ctx.fillText(conclusion, 105, 885);
-      }
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+    const conclusion = props.conclusion || 'La diferencia entre leer un índice en memoria y escanear disco bajo bloqueo es de 10,000x.';
+    if (mu) {
+      mu.wrapText(ctx, conclusion, 70, 872, 820, 30, 2);
+    }
 
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '500 15px "Plus Jakarta Sans", sans-serif';
-      const sub = props.conclusionSub || 'Mantener datos calientes en el mismo proceso elimina los cuellos de botella de red.';
-      if (mu) {
-        mu.wrapText(ctx, sub, 105, 955, 750, 24, 2);
-      } else {
-        ctx.fillText(sub, 105, 955);
-      }
+    ctx.fillStyle = '#10b981';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(props.conclusionSub || '✔ CERO LATENCIA CON ARQUITECTURA ORIENTADA A EVENTOS', 70, 960);
+
+    // Synchronized Word-by-Word Caption Bar
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#f59e0b' });
     }
 
     ctx.restore();

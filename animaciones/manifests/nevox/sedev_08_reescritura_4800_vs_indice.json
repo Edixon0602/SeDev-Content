@@ -1,0 +1,192 @@
+{
+  "title": "[08] Le cotizaron $4,800 por 'reescribir el sistema'... y era un solo índice",
+  "category": "AUDITORÍA SQL & CONSULTORÍA",
+  "pilar": "Proof of Work & Casos Reales",
+  "slug": "sedev_08_reescritura_4800_vs_indice",
+  "introType": "COST TICKER",
+  "ctaKeyword": "AUDITORÍA",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_08_reescritura_4800_vs_indice.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "cost_ticker",
+      "duration": 10.5,
+      "voiceover": "Una agencia les quería cobrar cuatro mil ochocientos dólares y siete semanas por rehacer su sistema porque tardaba dieciocho segundos en abrir.",
+      "visual_cue": "Presupuesto de reescritura de $4,800 frente a auditoría puntual de base de datos",
+      "props": {
+        "voiceover": "Una agencia les quería cobrar cuatro mil ochocientos dólares y siete semanas por rehacer su sistema porque tardaba dieciocho segundos en abrir.",
+        "title": "EL MITO DE 'HAY QUE REHACER TODO'",
+        "subtitle": "COTIZACIÓN DE AGENCIA VS DIAGNÓSTICO DE INGENIERÍA",
+        "cloudCost": 4800,
+        "initialCost": 0,
+        "breakdown": [
+          {
+            "name": "Presupuesto por reescribir desde cero",
+            "cost": "$4,800",
+            "sub": "7 semanas con el negocio frenado esperando",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Riesgo de introducir bugs nuevos",
+            "cost": "ALTO",
+            "sub": "Tirar años de reglas de negocio probadas",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "20 Minutos",
+        "takeaway": "EL 70% DE LAS REESCRITURAS SON CONSULTAS SIN MEDIR"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 9,
+      "voiceover": "Antes de firmar ese cheque, me pidieron una segunda opinión para ver qué estaba matando realmente al servidor.",
+      "visual_cue": "Monitor mostrando CPU de base de datos al 100% por lecturas secuenciales de disco",
+      "props": {
+        "voiceover": "Antes de firmar ese cheque, me pidieron una segunda opinión para ver qué estaba matando realmente al servidor.",
+        "title": "RADIOGRAFÍA DEL SERVIDOR EN VIVO",
+        "subtitle": "DISCO SATURADO POR ESCANEO SECUENCIAL",
+        "crashedStatus": "ALERTA DB: 18.4s POR APERTURA DE PANEL · IOPS AL 100%",
+        "latencyNormal": 14,
+        "latencyCrash": 18400,
+        "logs": [
+          {
+            "time": "AUDIT",
+            "level": "WARN",
+            "text": "Panel principal dispara query sobre 420,000 envíos",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "AUDIT",
+            "level": "ERR",
+            "text": "Seq Scan detectado: leyendo tabla entera en cada clic",
+            "color": "#ef4444"
+          },
+          {
+            "time": "AUDIT",
+            "level": "CRIT",
+            "text": "Cero índices compuestos en columnas de filtro y orden",
+            "color": "#f87171"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_code",
+      "type": "terminal_split",
+      "duration": 12,
+      "voiceover": "Abrimos el analizador de consultas y en cinco minutos apareció el culpable: la base de datos recorría cuatrocientas mil filas a pie en cada clic.",
+      "visual_cue": "EXPLAIN ANALYZE mostrando Seq Scan (18.4s) vs CREATE INDEX CONCURRENTLY (14ms)",
+      "props": {
+        "voiceover": "Abrimos el analizador de consultas y en cinco minutos apareció el culpable: la base de datos recorría cuatrocientas mil filas a pie en cada clic.",
+        "title": "AUDITORÍA CON EXPLAIN ANALYZE",
+        "subtitle": "DE ESCANEO CIEGO A PUNTERO B-TREE",
+        "leftTitle": "SIN ÍNDICE (LEE 420,000 FILAS EN DISCO)",
+        "leftCode": "EXPLAIN ANALYZE\nSELECT * FROM shipments\nWHERE company_id = 912 AND status = 'ACTIVE'\nORDER BY created_at DESC LIMIT 50;\n-- Seq Scan: Execution Time: 18412.6 ms",
+        "rightTitle": "1 LÍNEA DE SOLUCIÓN (SIN APAGAR EL SISTEMA)",
+        "rightCode": "CREATE INDEX CONCURRENTLY idx_shipments_lookup\nON shipments (company_id, status, created_at DESC);\n-- Index Scan: 3 saltos en memoria\n-- Execution Time: 14.2 ms",
+        "diffNote": "De 18.4 segundos a 14 milisegundos en vivo"
+      }
+    },
+    {
+      "id": "s04_storage",
+      "type": "tree_hierarchy",
+      "duration": 7.4,
+      "voiceover": "Agregamos un índice compuesto en caliente, sin apagar la plataforma ni un solo minuto.",
+      "visual_cue": "Árbol B-Tree saltando directo al bloque exacto en 3 saltos O(log N) en vez de leer 420k filas",
+      "props": {
+        "voiceover": "Agregamos un índice compuesto en caliente, sin apagar la plataforma ni un solo minuto.",
+        "title": "3 SALTOS EN MEMORIA VS 420,000 LECTURAS",
+        "subtitle": "ACCESO LOGARÍTMICO O(LOG N) EN ÍNDICE COMPUESTO",
+        "conclusion": "El índice B-Tree descarta el 99.9% de la tabla en el primer salto y aterriza directo en la fila."
+      }
+    },
+    {
+      "id": "s05_race",
+      "type": "versus_race",
+      "duration": 8.2,
+      "voiceover": "En veinte minutos, el mismo panel que tardaba dieciocho segundos empezó a cargar en catorce milisegundos.",
+      "visual_cue": "Carrera real: 14 milisegundos con índice vs 18.4 segundos sin índice",
+      "props": {
+        "voiceover": "En veinte minutos, el mismo panel que tardaba dieciocho segundos empezó a cargar en catorce milisegundos.",
+        "title": "RESULTADO DESPUÉS DE 20 MINUTOS",
+        "subtitle": "MISMO SERVIDOR · MISMO CÓDIGO · 1 ÍNDICE",
+        "sideA": {
+          "name": "CON ÍNDICE COMPUESTO",
+          "tag": "INDEX SCAN EN B-TREE",
+          "targetMs": 14,
+          "displayTime": "14ms",
+          "memory": "CPU AL 4%",
+          "cacheMisses": "3 PÁGINAS RAM",
+          "speedup": "1,314x MÁS RÁPIDO"
+        },
+        "sideB": {
+          "name": "ANTES DE LA AUDITORÍA",
+          "tag": "FULL TABLE SEQ SCAN",
+          "targetMs": 18400,
+          "displayTime": "18,400ms",
+          "memory": "CPU AL 100%",
+          "cacheMisses": "420K FILAS",
+          "bottleneck": "18s DE ESPERA"
+        }
+      }
+    },
+    {
+      "id": "s06_mem",
+      "type": "memory_layout",
+      "duration": 8,
+      "voiceover": "Se ahorraron casi cinco mil dólares y dos meses de parálisis simplemente midiendo antes de romper.",
+      "visual_cue": "Resumen de la auditoría: $4,800 ahorrados, 0 tiempo de caída, 1,300x velocidad",
+      "props": {
+        "voiceover": "Se ahorraron casi cinco mil dólares y dos meses de parálisis simplemente midiendo antes de romper.",
+        "badge": "INGENIERÍA PRAGMÁTICA",
+        "title": "POR QUÉ MEDIR ANTES DE REESCRIBIR",
+        "items": [
+          {
+            "addr": "COSTO",
+            "name": "$4,800 USD ahorrados en caja",
+            "value": "No hacía falta tocar el código de la app"
+          },
+          {
+            "addr": "TIEMPO",
+            "name": "7 semanas salvadas",
+            "value": "Resuelto en una tarde sin interrumpir usuarios"
+          },
+          {
+            "addr": "CARGA",
+            "name": "CPU cayó del 100% al 4%",
+            "value": "El servidor actual aguanta 10x más clientes"
+          }
+        ],
+        "resolutionTitle": "NO TIRES TU SOFTWARE SIN MEDIRLO ANTES",
+        "resolutionSub": "La lentitud casi siempre tiene nombre y apellido en la base de datos"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 10.7,
+      "voiceover": "Si te dijeron que hay que rehacer tu sistema porque va lento, escríbeme antes de aprobar ese gasto y lo medimos juntos.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave AUDITORÍA",
+      "props": {
+        "voiceover": "Si te dijeron que hay que rehacer tu sistema porque va lento, escríbeme antes de aprobar ese gasto y lo medimos juntos.",
+        "badge": "SEGUNDA OPINIÓN TÉCNICA",
+        "lines": [
+          {
+            "text": "MIDE PRIMERO",
+            "color": "#ffffff"
+          },
+          {
+            "text": "NO REESCRIBAS A CIEGAS",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "AUDITORÍA DE RENDIMIENTO · POSTGRESQL · BACKEND",
+        "ctaKeyword": "AUDITORÍA",
+        "ctaNote": "Le pasamos rayos X a tu base de datos y encontramos qué la está frenando realmente."
+      }
+    }
+  ]
+}

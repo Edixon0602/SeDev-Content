@@ -1,0 +1,96 @@
+{
+  "provider": "fixture-synthetic",
+  "language": "es",
+  "text": "Automatizar la factura ahorra tiempo. El sistema recibe el pago y emite la factura.",
+  "segments": [
+    {
+      "id": 0,
+      "text": "Automatizar la factura ahorra tiempo.",
+      "start": 0.15,
+      "end": 2.269
+    },
+    {
+      "id": 1,
+      "text": "El sistema recibe el pago y emite la factura.",
+      "start": 2.719,
+      "end": 6.13
+    }
+  ],
+  "words": [
+    {
+      "word": "Automatizar",
+      "start": 0.15,
+      "end": 0.608
+    },
+    {
+      "word": "la",
+      "start": 0.653,
+      "end": 0.949
+    },
+    {
+      "word": "factura",
+      "start": 0.994,
+      "end": 1.38
+    },
+    {
+      "word": "ahorra",
+      "start": 1.425,
+      "end": 1.793
+    },
+    {
+      "word": "tiempo.",
+      "start": 1.838,
+      "end": 2.224
+    },
+    {
+      "word": "El",
+      "start": 2.719,
+      "end": 3.015
+    },
+    {
+      "word": "sistema",
+      "start": 3.06,
+      "end": 3.446
+    },
+    {
+      "word": "recibe",
+      "start": 3.491,
+      "end": 3.859
+    },
+    {
+      "word": "el",
+      "start": 3.904,
+      "end": 4.2
+    },
+    {
+      "word": "pago",
+      "start": 4.245,
+      "end": 4.577
+    },
+    {
+      "word": "y",
+      "start": 4.622,
+      "end": 4.9
+    },
+    {
+      "word": "emite",
+      "start": 4.945,
+      "end": 5.295
+    },
+    {
+      "word": "la",
+      "start": 5.34,
+      "end": 5.636
+    },
+    {
+      "word": "factura.",
+      "start": 5.681,
+      "end": 6.085
+    }
+  ],
+  "meta": {
+    "duration": 6.2,
+    "fixture": true,
+    "note": "Transcripción sintética para integración offline."
+  }
+}

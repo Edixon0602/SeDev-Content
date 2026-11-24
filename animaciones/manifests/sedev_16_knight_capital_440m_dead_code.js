@@ -1,0 +1,69 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[16] Perder $440M en 45 minutos por no borrar código muerto",
+  "slug": "sedev_16_knight_capital_440m_dead_code",
+  "category": "HISTORIA TECH & DEVOPS FAILURES",
+  "tagline": "El día que un servidor desactualizado quebró una firma de Wall Street",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_16_knight_capital_440m_dead_code",
+  "script": {
+    "hook": "El día que un desarrollador olvidó actualizar un solo servidor y quebró una firma gigante de Wall Street en menos de cuarenta y cinco minutos.",
+    "broll1_lead": "Knight Capital procesaba millones de operaciones de bolsa por segundo. En agosto de dos mil doce lanzaron una actualización de software en ocho servidores de alta frecuencia, pero olvidaron desplegar el código en el octavo equipo.",
+    "camera_pivot": "En ese servidor olvidado quedó activa una bandera de código muerto de hacía ocho años que originalmente servía para pruebas de estrés.",
+    "broll2_lead": "El algoritmo entró en un bucle infinito comprando acciones al precio más alto del mercado y vendiéndolas al más bajo. En cuarenta y cinco minutos enviaron cuatro millones de órdenes erróneas y perdieron cuatrocientos cuarenta millones de dólares.",
+    "outro": "El código muerto no es inofensivo; es una bomba de tiempo en producción. Sígueme si quieres buenas prácticas de despliegue que salvan empresas."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_knight_capital_loss_ticker",
+      "purpose": "Ticker financiero drenando millones en tiempo real hasta $440,000,000",
+      "type": "cost_ticker",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "COLAPSO FINANCIERO KNIGHT CAPITAL",
+        "subtitle": "4 MILLONES DE ÓRDENES EN BUCLE DE MERCADO",
+        "amount": "$440,000,000",
+        "speedLabel": "PÉRDIDA: $9,770,000 POR MINUTO",
+        "deltaType": "danger"
+      },
+      "voiceover": "Knight Capital procesaba millones de operaciones de bolsa por segundo. En agosto de dos mil doce lanzaron una actualización de software en ocho servidores de alta frecuencia, pero olvidaron desplegar el código en el octavo equipo.",
+      "visual_cue": "Ticker financiero drenando millones en tiempo real hasta $440,000,000"
+    },
+    {
+      "id": "broll_02_dead_code_flag_crash",
+      "purpose": "Monitor de despliegue: 7 servidores OK vs 1 servidor con código muerto activo",
+      "type": "disaster_monitor",
+      "duration": 8.5,
+      "props": {
+        "theme": "dark",
+        "title": "DESPLIEGUE ASIMÉTRICO (SERVIDOR #8)",
+        "subtitle": "REUTILIZACIÓN ACCIDENTAL DE FLAG DE PRUEBAS",
+        "crashedStatus": "CÓDIGO MUERTO SMARS DISPARADO EN LIVE MARKET",
+        "latencyNormal": 1,
+        "latencyCrash": 440,
+        "logs": [
+          {
+            "time": "09:30:00",
+            "level": "INFO",
+            "text": "Apertura mercado NYSE; 7 servidores ejecutan versión nueva",
+            "color": "#10b981"
+          },
+          {
+            "time": "09:30:01",
+            "level": "WARN",
+            "text": "Servidor #8 no actualizado activa flag 'Power Peg'",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "09:30:15",
+            "level": "FATAL",
+            "text": "Bucle descontrolado compra 4M acciones al máximo precio",
+            "color": "#ef4444"
+          }
+        ]
+      },
+      "voiceover": "El algoritmo entró en un bucle infinito comprando acciones al precio más alto del mercado y vendiéndolas al más bajo. En cuarenta y cinco minutos enviaron cuatro millones de órdenes erróneas y perdieron cuatrocientos cuarenta millones de dólares.",
+      "visual_cue": "Monitor de despliegue: 7 servidores OK vs 1 servidor con código muerto activo"
+    }
+  ]
+};

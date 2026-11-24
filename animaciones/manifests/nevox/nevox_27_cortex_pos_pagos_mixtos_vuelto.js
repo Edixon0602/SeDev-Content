@@ -1,0 +1,226 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[27] Cobranza mixta en caja: efectivo, divisas y vuelto digital sin descuadres",
+  "category": "CORTEX · MULTI-MONEDA & CAJA",
+  "pilar": "Punto de Venta & Cobranza Mixta",
+  "slug": "nevox_27_cortex_pos_pagos_mixtos_vuelto",
+  "introType": "VERSUS RACE",
+  "ctaKeyword": "CAJA",
+  "fps": 30,
+  "output": "animaciones/output_clips/nevox_27_cortex_pos_pagos_mixtos_vuelto.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "versus_race",
+      "duration": 5.5,
+      "voiceover": "El cliente te paga con un billete de diez dólares en efectivo, pasa una tarjeta y te pide el vuelto por pago móvil.",
+      "visual_cue": "Simulación en caja: Transacción fragmentada en 3 métodos de pago simultáneos con cambio en moneda local",
+      "props": {
+        "voiceover": "El cliente te paga con un billete de diez dólares en efectivo, pasa una tarjeta y te pide el vuelto por pago móvil.",
+        "title": "LA REALIDAD DEL PUNTO DE VENTA ACTUAL",
+        "runnerA": {
+          "name": "Pago Mixto Combinado",
+          "time": "$10 USD Efectivo + Débito Tarjeta",
+          "rate": "Vuelto solicitado en Pago Móvil",
+          "color": "#fbbf24"
+        },
+        "runnerB": {
+          "name": "Sistema Tradicional de Caja",
+          "time": "BLOQUEADO",
+          "rate": "No permite registrar vueltos cruzados",
+          "color": "#ef4444"
+        },
+        "winnerDiff": "EL 65% DE LAS VENTAS EN MOSTRADOR SON COMBINADAS"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 5.6,
+      "voiceover": "El cajero saca la calculadora del teléfono, se equivoca en la conversión y al cierre de la noche faltan quince dólares en la caja.",
+      "visual_cue": "Descuadre nocturno: Tres cajeros contando billetes y recibos durante 2 horas tras bajar la santamaría",
+      "props": {
+        "voiceover": "El cajero saca la calculadora del teléfono, se equivoca en la conversión y al cierre de la noche faltan quince dólares en la caja.",
+        "title": "DESCUADRE CRÓNICO DE CIERRE DE CAJA",
+        "subtitle": "PÉRDIDA DE HORAS Y FALTANTES INEXPLICABLES",
+        "crashedStatus": "ARQUEO FALLIDO: FALTANTE DE DINERO AL CERRAR TURNO",
+        "latencyNormal": 15,
+        "latencyCrash": 120,
+        "logs": [
+          {
+            "time": "20:00",
+            "level": "WARN",
+            "text": "Inicio de arqueo manual en 3 cajas registradoras",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "20:45",
+            "level": "CRIT",
+            "text": "Caja 2 presenta diferencia de -$15.40 USD en conversiones",
+            "color": "#ef4444"
+          },
+          {
+            "time": "21:30",
+            "level": "FATAL",
+            "text": "Comprobantes físicos no coinciden con libro de banco",
+            "color": "#ef4444"
+          }
+        ],
+        "impactMetric": "$350/MES",
+        "impactSub": "Pérdidas acumuladas por errores de redondeo y vueltos mal dados"
+      }
+    },
+    {
+      "id": "s03_architecture",
+      "type": "architecture_flow",
+      "duration": 5.8,
+      "voiceover": "Un punto de venta moderno resuelve esto en una sola pantalla: registra cada método de pago y calcula el vuelto exacto al instante.",
+      "visual_cue": "Pantalla partida de cobranza multi-moneda: Desglose claro de divisas en efectivo, transferencias y vuelto exacto",
+      "props": {
+        "voiceover": "Un punto de venta moderno resuelve esto en una sola pantalla: registra cada método de pago y calcula el vuelto exacto al instante.",
+        "title": "COBRANZA MULTI-MONEDA INTEGRADA",
+        "subtitle": "CONCILIACIÓN MATEMÁTICA EN LA MISMA FACTURA",
+        "nodes": [
+          {
+            "id": "cart",
+            "label": "Total Venta",
+            "sub": "$28.50 USD (o equivalente)",
+            "status": "TOTAL",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "m1",
+            "label": "Efectivo USD",
+            "sub": "Recibido $20.00 billlete",
+            "status": "CASH",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "m2",
+            "label": "Punto de Venta",
+            "sub": "Tarjeta cobrada en moneda local",
+            "status": "CARD",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "change",
+            "label": "Vuelto Digital",
+            "sub": "Pago Móvil calculado al centavo",
+            "status": "EXACT",
+            "color": "#fbbf24"
+          }
+        ],
+        "pipelineStats": "SALDO FINAL: $0.00 DIFERENCIA · CERO ERRORES"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 5.6,
+      "voiceover": "Cada centavo queda asentado con la tasa exacta de ese minuto, auditando el origen de los fondos y emitiendo el comprobante.",
+      "visual_cue": "Asiento contable automático: Auditoría por método de pago con arqueo en tiempo real",
+      "props": {
+        "voiceover": "Cada centavo queda asentado con la tasa exacta de ese minuto, auditando el origen de los fondos y emitiendo el comprobante.",
+        "title": "AUDITORÍA DEL TICKET EN VIVO",
+        "fileLeft": "recibo_manual_papel.txt",
+        "codeLeft": "Ticket #412\nTotal: 1,280 Bs\nCliente dio $20 billete arrugado\nSe dio vuelto por pago móvil 380 Bs\n[Nota cajero]: Revisar si la tasa era la de la mañana",
+        "fileRight": "cortex_ticket_auditado.json",
+        "codeRight": "{\n  \"ticket_id\": \"POS-9921\",\n  \"total_usd\": 28.50,\n  \"tasa_aplicada\": 45.10,\n  \"pagos\": [\n    { \"metodo\": \"efectivo_usd\", \"monto\": 20.00 },\n    { \"metodo\": \"tarjeta_debito\", \"monto_bs\": 383.35, \"usd_eq\": 8.50 }\n  ],\n  \"vuelto_entregado\": 0.00,\n  \"balance\": \"CUADRADO_EXACTO\"\n}",
+        "analysis": "TRAZABILIDAD TOTAL DE CADA MOVIMIENTO EN CAJA"
+      }
+    },
+    {
+      "id": "s05_latency",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "La fila en caja pasa de demorarse cuatro minutos por cliente a menos de cuarenta segundos sin fricción.",
+      "visual_cue": "Velocidad de despacho en cola: De 240 segundos de espera por cliente a 35 segundos",
+      "props": {
+        "voiceover": "La fila en caja pasa de demorarse cuatro minutos por cliente a menos de cuarenta segundos sin fricción.",
+        "title": "TIEMPO DE ESPERA EN MOSTRADOR",
+        "subtitle": "ATENCIÓN ÁGIL QUE MULTIPLICA LAS VENTAS",
+        "markers": [
+          {
+            "label": "Cálculo manual con teléfono",
+            "latency": 240,
+            "color": "#ef4444",
+            "note": "Fila larga, clientes abandonan compras"
+          },
+          {
+            "label": "Punto de venta clásico desactualizado",
+            "latency": 150,
+            "color": "#fbbf24",
+            "note": "Demoras al cambiar de pantalla"
+          },
+          {
+            "label": "Cortex POS Multi-Moneda",
+            "latency": 35,
+            "color": "#00e5a0",
+            "note": "Cobro fluido y salida inmediata"
+          }
+        ],
+        "takeaway": "REDUCES LA COLA EN UN 85% EN HORAS PICO"
+      }
+    },
+    {
+      "id": "s06_matrix",
+      "type": "tradeoff_matrix",
+      "duration": 5.6,
+      "voiceover": "Al final del día el cierre de caja es automático: sabes exactamente cuánto hay en efectivo, cuánto en banco y cuánto en digital.",
+      "visual_cue": "Arqueo de caja instantáneo: Conciliación en 30 segundos con cero faltantes por monedas",
+      "props": {
+        "voiceover": "Al final del día el cierre de caja es automático: sabes exactamente cuánto hay en efectivo, cuánto en banco y cuánto en digital.",
+        "title": "CONCILIACIÓN AL CIERRE DE TURNO",
+        "dimX": "Tiempo de Arqueo",
+        "dimY": "Precisión de Fondos",
+        "quadrants": [
+          {
+            "name": "Cierre Manual en Papel",
+            "value": "2 horas de conteo / Errores casi seguros",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Software No Adaptado",
+            "value": "Todo mezclado en una sola cuenta ficticia",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "Cortex POS",
+            "value": "Cierre en 30 segundos desglosado por cada moneda",
+            "color": "#00e5a0"
+          }
+        ],
+        "verdict": "TUS CAJEROS ENTREGAN CUENTAS CLARAS SIN ESTRÉS"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "Si tus cajeros sufren con los pagos combinados y los vueltos complicados, comenta CAJA y te mostramos la solución.",
+      "visual_cue": "Diagnóstico operativo de cobranza y arqueo con palabra clave CAJA",
+      "props": {
+        "voiceover": "Si tus cajeros sufren con los pagos combinados y los vueltos complicados, comenta CAJA y te mostramos la solución.",
+        "title": "DIAGNÓSTICO DE COBRANZA EN CAJA",
+        "subtitle": "ELIMINA LOS DESCUADRES DE DINERO EN TU NEGOCIO",
+        "cloudCost": 2200,
+        "initialCost": 80,
+        "breakdown": [
+          {
+            "name": "Pérdidas mensuales por redondeos y descuadres",
+            "cost": "$1,200/mes",
+            "sub": "Diferencias acumuladas no recuperadas",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Horas extras de personal cerrando caja",
+            "cost": "$1,000/mes",
+            "sub": "Tiempo perdido después del cierre de tienda",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "POS MULTI-MONEDA",
+        "takeaway": "ESCRIBE 'CAJA' PARA VER EL PUNTO DE VENTA EN ACCIÓN"
+      }
+    }
+  ]
+};

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SeDev Editorial Overlay</title>
+  <style>
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 200 800;
+      font-display: block;
+      src: url('../assets/fonts/plus-jakarta-sans-variable.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: block;
+      src: url('../assets/fonts/jetbrains-mono-variable.woff2') format('woff2');
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      width: 1080px;
+      height: 1920px;
+      background: transparent;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    canvas { display: block; width: 1080px; height: 1920px; }
+  </style>
+</head>
+<body>
+  <canvas id="overlayCanvas" width="1080" height="1920"></canvas>
+  <script src="components/motion_core.js"></script>
+  <script src="components/qa_instrument.js"></script>
+  <script src="components/icons_sedev.js"></script>
+  <script src="components/icons_animated.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById('overlayCanvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      let scene = null;
+      let loadedAssets = { image: null, icon: null, logos: [], itemIcons: [] };
+
+      const POSITIONS = {
+        top: { baseline: 300, cardTop: 88, max: 2 },
+        'top-right': { baseline: 280, cardTop: 92, max: 2 },
+        'top-left': { baseline: 280, cardTop: 92, max: 2 },
+        middle: { baseline: 930, cardTop: 1050, max: 2 },
+        bottom: { baseline: 1210, cardTop: 1065, max: 2 }
+      };
+
+      function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+      function smooth(a, b, v) { const p = clamp01((v - a) / Math.max(0.0001, b - a)); return p * p * (3 - 2 * p); }
+      function easeOut(p) { return p >= 1 ? 1 : 1 - Math.pow(1 - p, 3); }
+      function outBack(p) {
+        const x = clamp01(p);
+        const c1 = 1.45;
+        const c3 = c1 + 1;
+        return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+      }
+      function validHex(c, fallback) {
+        return /^#[0-9a-f]{6}$/i.test(String(c || '')) ? String(c) : fallback;
+      }
+
+      function loadImageSrc(src) {
+        return new Promise((resolve) => {
+          if (!src) return resolve(null);
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => resolve(null);
+          img.src = src;
+        });
+      }
+
+      function iconDataUri(name, color) {
+        if (!name || name === 'none') return null;
+        if (typeof window.getSeDevIcon !== 'function') return null;
+        let svg = window.getSeDevIcon(name, 140, color || '#fbbf24', 'raw');
+        if (!/xmlns=/.test(svg)) {
+          svg = svg.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ');
+        }
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      }
+
+      function roundRectPath(x, y, w, h, r) {
+        const rad = Math.max(0, Math.min(r, w / 2, h / 2));
+        ctx.beginPath();
+        ctx.moveTo(x + rad, y);
+        ctx.arcTo(x + w, y, x + w, y + h, rad);
+        ctx.arcTo(x + w, y + h, x, y + h, rad);
+        ctx.arcTo(x, y + h, x, y, rad);
+        ctx.arcTo(x, y, x + w, y, rad);
+        ctx.closePath();
+      }
+
+      // 0px-blur hard shadow card (qtrle alpha safe: zero gray halos).
+      function drawHardCard(x, y, w, h, opts = {}) {
+        const r = opts.radius !== undefined ? opts.radius : 18;
+        const bg = opts.bg || '#111115';
+        const border = opts.border || '#27272a';
+        const shadowOffset = opts.shadowOffset !== undefined ? opts.shadowOffset : 6;
+        const borderW = opts.borderWidth !== undefined ? opts.borderWidth : 2.5;
+
+        if (shadowOffset > 0) {
+          ctx.save();
+          ctx.fillStyle = '#09090b';
+          roundRectPath(x, y + shadowOffset, w, h, r);
+          ctx.fill();
+          ctx.restore();
+        }
+        ctx.save();
+        ctx.fillStyle = bg;
+        roundRectPath(x, y, w, h, r);
+        ctx.fill();
+        ctx.lineWidth = borderW;
+        ctx.strokeStyle = border;
+        roundRectPath(x, y, w, h, r);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function drawHardText(text, x, y, fill, shadowColor = '#09090b', shadowY = 5) {
+        ctx.save();
+        ctx.fillStyle = shadowColor;
+        ctx.fillText(text, x, y + shadowY);
+        ctx.fillStyle = fill;
+        ctx.fillText(text, x, y);
+        ctx.restore();
+      }
+
+      function drawImageCover(img, x, y, w, h, r) {
+        if (!img || !img.width || !img.height) return;
+        ctx.save();
+        roundRectPath(x, y, w, h, r);
+        ctx.clip();
+        const imgAspect = img.width / img.height;
+        const boxAspect = w / h;
+        let dw = w;
+        let dh = h;
+        let dx = x;
+        let dy = y;
+        if (imgAspect > boxAspect) {
+          dw = h * imgAspect;
+          dx = x - (dw - w) / 2;
+        } else {
+          dh = w / imgAspect;
+          dy = y - (dh - h) / 2;
+        }
+        ctx.drawImage(img, dx, dy, dw, dh);
+        ctx.restore();
+      }
+
+      function layout(text, fontSize, maxWidth = 824) {
+        ctx.font = `700 ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+        const MC = window.MotionCore;
+        let lines = MC ? MC.splitTextToWidth(ctx, text, maxWidth) : [text];
+        const maxLines = 2;
+        if (lines.length > maxLines) {
+          const rest = lines.slice(maxLines - 1).join(' ');
+          lines = lines.slice(0, maxLines);
+          lines[maxLines - 1] = MC ? MC.ellipsizeText(ctx, rest, maxWidth) : rest;
+        }
+        return lines;
+      }
+
+      function fit(text, maxFont = 88, minFont = 42, maxWidth = 824) {
+        let size = maxFont;
+        let lines = [];
+        while (size >= minFont) {
+          lines = layout(text, size, maxWidth);
+          const height = lines.length * size * 1.02;
+          const widest = lines.reduce((max, line) => {
+            ctx.font = `700 ${size}px "Plus Jakarta Sans", sans-serif`;
+            return Math.max(max, ctx.measureText(line).width);
+          }, 0);
+          if (lines.length <= 2 && widest <= maxWidth && height <= 210) return { lines, size };
+          size -= 4;
+        }
+        return { lines: layout(text, minFont, maxWidth), size: minFont };
+      }
+
+      function drawAnimatedIcon(img, cx, cy, size, p, t, rotAmp = 4) {
+        if (!img) return;
+        const s = size * outBack(p);
+        const bob = Math.sin(t * 4.2) * 3 * p;
+        const rot = Math.sin(t * 2.5) * (rotAmp * Math.PI / 180) * p;
+        ctx.save();
+        ctx.translate(cx, cy + bob);
+        ctx.rotate(rot);
+        ctx.drawImage(img, -s / 2, -s / 2, s, s);
+        ctx.restore();
+      }
+
+      function renderEditorial(props, t, duration, alpha, enter, exit) {
+        const text = String(props.text || '').toUpperCase().trim();
+        if (!text) return;
+        const accent = validHex(props.accent, '#d08a5a');
+        const position = POSITIONS[props.position] ? props.position : 'middle';
+        const anchor = POSITIONS[position];
+        const lift = (1 - enter) * 18 - exit * 12;
+
+        const { lines, size } = fit(text, 92, 46, 824);
+        const lineH = size * 0.98;
+        const first = anchor.baseline - ((lines.length - 1) * lineH) / 2;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        ctx.font = `700 ${size}px "Plus Jakarta Sans", sans-serif`;
+        for (let i = 0; i < lines.length; i++) {
+          drawHardText(lines[i], 96, first + i * lineH + lift, '#f2ede4', '#09090b', 5);
+        }
+        ctx.restore();
+
+        const wipe = window.MotionCore
+          ? window.MotionCore.progress(t, 0.10, 0.34, 'outCubic')
+          : clamp01((t - 0.1) / 0.34);
+        if (wipe > 0) {
+          ctx.save();
+          ctx.globalAlpha = alpha * 0.95;
+          ctx.fillStyle = accent;
+          ctx.fillRect(96, first + (lines.length - 1) * lineH + 34 + lift, 86 * wipe, 4);
+          ctx.restore();
+        }
+      }
+
+      function renderHookKinetic(props, t, duration, alpha, enter, exit) {
+        const text = String(props.text || '').toUpperCase().trim();
+        const hasIcon = !!loadedAssets.icon;
+        if (!text && !hasIcon) return;
+        const accent = validHex(props.accent, '#10b981');
+        const lift = (1 - enter) * 20 - exit * 12;
+        const topY = props.position === 'bottom' ? 1055 : 86;
+        const cardX = 64;
+        const cardW = 952;
+        const textMaxW = hasIcon ? 740 : 880;
+        const { lines, size } = text ? fit(text, 64, 38, textMaxW) : { lines: [], size: 52 };
+        const lineH = size * 1.12;
+        const cardH = Math.max(168, 60 + lines.length * lineH);
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        drawHardCard(cardX, topY, cardW, cardH, {
+          radius: 22,
+          bg: '#111115',
+          border: accent,
+          shadowOffset: 7,
+          borderWidth: 3
+        });
+
+        // Accent left bar
+        ctx.fillStyle = accent;
+        roundRectPath(cardX + 12, topY + 18, 8, cardH - 36, 4);
+        ctx.fill();
+
+        const contentX = cardX + 38;
+        const totalTextH = lines.length * lineH;
+        const textTop = topY + (cardH - totalTextH) / 2;
+
+        const highlight = String(props.highlight || '').toUpperCase().trim();
+        ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+
+        const popP = clamp01(t / 0.28);
+        lines.forEach((line, idx) => {
+          const ly = textTop + (idx + 0.80) * lineH;
+          if (highlight && line.includes(highlight)) {
+            const pre = line.slice(0, line.indexOf(highlight));
+            const rest = line.slice(line.indexOf(highlight) + highlight.length);
+            const preW = ctx.measureText(pre).width;
+            const hiW = ctx.measureText(highlight).width;
+            const padX = 12;
+            const boxX = contentX + preW - 4;
+            const boxY = ly - size * 0.82;
+            const boxH = size * 1.04;
+            const fullBoxW = hiW + padX * 2;
+            const wipeP = clamp01((t - 0.03) / 0.16);
+            const boxW = fullBoxW * wipeP;
+            if (boxW > 4) {
+              drawHardCard(boxX, boxY, boxW, boxH, {
+                radius: 10,
+                bg: accent,
+                border: '#09090b',
+                shadowOffset: 4,
+                borderWidth: 2
+              });
+            }
+            if (pre) drawHardText(pre, contentX, ly, '#f2ede4', '#09090b', 4);
+            // Draw white highlight text first, then clip dark text to the active accent box width
+            // so uncovered glyphs are never dark-on-dark during the wipe.
+            drawHardText(highlight, contentX + preW + padX - 4, ly, '#f2ede4', '#09090b', 4);
+            if (boxW > 2) {
+              ctx.save();
+              ctx.beginPath();
+              ctx.rect(boxX, boxY - 4, boxW, boxH + 8);
+              ctx.clip();
+              ctx.fillStyle = '#09090b';
+              ctx.fillText(highlight, contentX + preW + padX - 4, ly);
+              ctx.restore();
+            }
+            if (rest) drawHardText(rest, contentX + preW + hiW + padX * 2 - 4, ly, '#f2ede4', '#09090b', 4);
+          } else {
+            drawHardText(line, contentX, ly, idx === lines.length - 1 && !highlight ? accent : '#f2ede4', '#09090b', 4);
+          }
+        });
+
+        if (hasIcon) {
+          const iconCx = cardX + cardW - 94;
+          const iconCy = topY + cardH / 2;
+          drawHardCard(iconCx - 58, iconCy - 58, 116, 116, {
+            radius: 20,
+            bg: '#18181b',
+            border: '#27272a',
+            shadowOffset: 4,
+            borderWidth: 2
+          });
+          drawAnimatedIcon(loadedAssets.icon, iconCx, iconCy, 86, popP, t, 5);
+        }
+
+        ctx.restore();
+      }
+
+      function renderImageCard(props, t, duration, alpha, enter, exit) {
+        const accent = validHex(props.accent, '#38bdf8');
+        const lift = (1 - enter) * 18 - exit * 12;
+        const pos = POSITIONS[props.position] ? props.position : 'top';
+        const cardY = pos === 'bottom' ? 1065 : 88;
+        const text = String(props.text || '').toUpperCase().trim();
+        const cardX = text ? 64 : 340;
+        const cardW = text ? 952 : 400;
+        const cardH = 224;
+        const tilt = (1 - enter) * (-0.025);
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(540, cardY + cardH / 2 + lift);
+        ctx.rotate(tilt);
+        ctx.translate(-540, -(cardY + cardH / 2));
+
+        drawHardCard(cardX, cardY, cardW, cardH, {
+          radius: 20,
+          bg: '#111115',
+          border: accent,
+          shadowOffset: 7,
+          borderWidth: 2.5
+        });
+
+        const imgW = text ? 300 : cardW - 36;
+        const imgH = cardH - 36;
+        const imgX = text ? (cardX + cardW - imgW - 18) : (cardX + 18);
+        const imgY = cardY + 18;
+        drawHardCard(imgX, imgY, imgW, imgH, { radius: 14, bg: '#09090b', border: '#27272a', shadowOffset: 0, borderWidth: 2 });
+        if (loadedAssets.image) {
+          drawImageCover(loadedAssets.image, imgX + 2, imgY + 2, imgW - 4, imgH - 4, 12);
+        } else if (loadedAssets.icon) {
+          drawAnimatedIcon(loadedAssets.icon, imgX + imgW / 2, imgY + imgH / 2, 108, clamp01(t / 0.3), t, 3);
+        }
+
+        if (text) {
+          const textW = cardW - imgW - 72;
+          const { lines, size } = fit(text, 50, 32, textW);
+          const lineH = size * 1.12;
+          const totalH = lines.length * lineH;
+          const baseTextY = cardY + (cardH - totalH) / 2 + size * 0.84;
+          ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'alphabetic';
+          lines.forEach((line, idx) => {
+            drawHardText(line, cardX + 32, baseTextY + idx * lineH, '#f2ede4', '#09090b', 3);
+          });
+        }
+
+        ctx.restore();
+      }
+
+      function renderLogoGrid(props, t, duration, alpha, enter, exit) {
+        const accent = validHex(props.accent, '#d08a5a');
+        const lift = (1 - enter) * 18 - exit * 12;
+        const pos = POSITIONS[props.position] ? props.position : 'top';
+        const cardY = pos === 'bottom' ? 1055 : 88;
+        const cardX = 64;
+        const cardW = 952;
+        const logos = loadedAssets.logos.length
+          ? loadedAssets.logos.slice(0, 6)
+          : (Array.isArray(props.logos) ? props.logos.slice(0, 6).map((s) => ({ name: s, slug: s, img: null })) : []);
+        const count = Math.max(1, logos.length);
+        const text = String(props.text || '').toUpperCase().trim();
+        const cardH = text ? 248 : 204;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        drawHardCard(cardX, cardY, cardW, cardH, {
+          radius: 22,
+          bg: '#111115',
+          border: '#27272a',
+          shadowOffset: 7,
+          borderWidth: 2.5
+        });
+
+        if (text) {
+          const { lines, size } = fit(text, 38, 24, cardW - 64);
+          ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          drawHardText(lines[0] || text, cardX + cardW / 2, cardY + 42, '#f2ede4', '#09090b', 3);
+        }
+
+        // Logo tiles
+        const innerW = cardW - 52;
+        const gap = 16;
+        const tileW = Math.min(204, (innerW - gap * (count - 1)) / count);
+        const totalRowW = count * tileW + (count - 1) * gap;
+        const startX = cardX + (cardW - totalRowW) / 2;
+        const tileY = text ? (cardY + 76) : (cardY + 28);
+        const tileH = 148;
+
+        logos.forEach((logo, idx) => {
+          const itemP = clamp01((t - idx * 0.055) / 0.24);
+          if (itemP <= 0) return;
+          const sc = outBack(itemP);
+          const tx = startX + idx * (tileW + gap);
+          const cx = tx + tileW / 2;
+          const cy = tileY + tileH / 2;
+          ctx.save();
+          ctx.globalAlpha = alpha * itemP;
+          ctx.translate(cx, cy);
+          ctx.scale(sc, sc);
+          ctx.translate(-cx, -cy);
+
+          drawHardCard(tx, tileY, tileW, tileH, {
+            radius: 16,
+            bg: '#18181d',
+            border: logo.color || accent,
+            shadowOffset: 4,
+            borderWidth: 2
+          });
+
+          if (logo.img) {
+            const iconSize = Math.min(68, tileW * 0.48);
+            ctx.drawImage(logo.img, cx - iconSize / 2, tileY + 20, iconSize, iconSize);
+          } else {
+            ctx.fillStyle = logo.color || accent;
+            ctx.font = '800 30px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(String(logo.name || logo.slug || '?').slice(0, 2).toUpperCase(), cx, tileY + 54);
+          }
+
+          ctx.fillStyle = '#e4e4e7';
+          ctx.font = '700 18px "JetBrains Mono", monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'alphabetic';
+          ctx.fillText(String(logo.name || logo.slug || '').slice(0, 12), cx, tileY + tileH - 18);
+          ctx.restore();
+        });
+
+        ctx.restore();
+      }
+
+      function renderIconPop(props, t, duration, alpha, enter, exit) {
+        const accent = validHex(props.accent, '#38bdf8');
+        const lift = (1 - enter) * 18 - exit * 12;
+        const pos = POSITIONS[props.position] ? props.position : 'top';
+        const cardY = pos === 'bottom' ? 1085 : 104;
+        const text = String(props.text || '').toUpperCase().trim();
+        const hasIcon = !!loadedAssets.icon;
+        if (!text && !hasIcon) return;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        if (!text) {
+          const boxSize = 184;
+          const bx = (1080 - boxSize) / 2;
+          drawHardCard(bx, cardY, boxSize, boxSize, {
+            radius: 26,
+            bg: '#111115',
+            border: accent,
+            shadowOffset: 6,
+            borderWidth: 2.5
+          });
+          drawAnimatedIcon(loadedAssets.icon, bx + boxSize / 2, cardY + boxSize / 2, 112, clamp01(t / 0.25), t, 4);
+          ctx.restore();
+          return;
+        }
+
+        const cardX = 88;
+        const cardW = 904;
+        const cardH = 172;
+
+        drawHardCard(cardX, cardY, cardW, cardH, {
+          radius: 22,
+          bg: '#111115',
+          border: accent,
+          shadowOffset: 6,
+          borderWidth: 2.5
+        });
+
+        if (hasIcon) {
+          const iconCx = cardX + 90;
+          const iconCy = cardY + cardH / 2;
+          drawHardCard(iconCx - 54, iconCy - 54, 108, 108, {
+            radius: 18,
+            bg: '#18181b',
+            border: '#27272a',
+            shadowOffset: 3,
+            borderWidth: 2
+          });
+          drawAnimatedIcon(loadedAssets.icon, iconCx, iconCy, 82, clamp01(t / 0.25), t, 4);
+        }
+
+        const textX = hasIcon ? (cardX + 178) : (cardX + cardW / 2);
+        const textW = hasIcon ? (cardW - 210) : (cardW - 84);
+        const { lines, size } = fit(text, 50, 32, textW);
+        const lineH = size * 1.1;
+        const totalTextH = lines.length * lineH;
+        const baseTextY = cardY + (cardH - totalTextH) / 2 + size * 0.84;
+        ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+        ctx.textAlign = hasIcon ? 'left' : 'center';
+        ctx.textBaseline = 'alphabetic';
+        lines.forEach((line, idx) => {
+          drawHardText(line, textX, baseTextY + idx * lineH, '#f2ede4', '#09090b', 3);
+        });
+
+        ctx.restore();
+      }
+
+      function renderSplitCard(props, t, duration, alpha, enter, exit) {
+        const accent = validHex(props.accent, '#10b981');
+        const lift = (1 - enter) * 18 - exit * 12;
+        const pos = POSITIONS[props.position] ? props.position : 'bottom';
+        const cardY = pos === 'top' ? 92 : 1065;
+        const hasExplicitItems = Array.isArray(props.items) && props.items.length >= 2;
+        const items = hasExplicitItems
+          ? props.items.slice(0, 2)
+          : [
+              { label: 'ANTES' },
+              { label: String(props.text || 'DESPUÉS') }
+            ];
+
+        const normalized = items.map((item, idx) => {
+          if (typeof item === 'string') return { label: item, accent: idx === 1 ? accent : '#38bdf8', iconName: '' };
+          return {
+            label: item.label || `ITEM ${idx + 1}`,
+            accent: validHex(item.accent, idx === 0 ? '#38bdf8' : accent),
+            iconName: item.icon ? String(item.icon) : ''
+          };
+        });
+
+        const hasAnyIcon = normalized.some((item, idx) => {
+          if (item.iconName === 'none') return false;
+          if (hasExplicitItems) return !!loadedAssets.itemIcons[idx];
+          return !!loadedAssets.icon;
+        });
+
+        const cardW = 446;
+        const gap = 28;
+        const leftX = (1080 - (cardW * 2 + gap)) / 2;
+        const cardH = hasAnyIcon ? 212 : 168;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        normalized.forEach((item, idx) => {
+          const delay = idx === 0 ? 0.04 : Math.min(0.85, duration * 0.36);
+          const p = clamp01((t - delay) / 0.24);
+          if (p <= 0) return;
+          const sc = outBack(p);
+          const x = leftX + idx * (cardW + gap);
+          const cx = x + cardW / 2;
+          const cy = cardY + cardH / 2;
+
+          ctx.save();
+          ctx.globalAlpha = alpha * p;
+          ctx.translate(cx, cy);
+          ctx.scale(sc, sc);
+          ctx.translate(-cx, -cy);
+
+          drawHardCard(x, cardY, cardW, cardH, {
+            radius: 20,
+            bg: '#111115',
+            border: item.accent,
+            shadowOffset: 6,
+            borderWidth: 2.5
+          });
+
+          const itemImg = item.iconName === 'none'
+            ? null
+            : (hasExplicitItems ? loadedAssets.itemIcons[idx] : (idx === 1 ? loadedAssets.icon : null));
+
+          if (itemImg) {
+            drawAnimatedIcon(itemImg, cx, cardY + 62, 76, p, t, 3);
+          }
+
+          const { lines, size } = fit(String(item.label).toUpperCase(), 38, 24, cardW - 44);
+          const lineH = size * 1.12;
+          ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'alphabetic';
+          const baseTextY = itemImg
+            ? cardY + 142
+            : cardY + (cardH - lines.length * lineH) / 2 + size * 0.84;
+          lines.forEach((line, li) => {
+            drawHardText(line, cx, baseTextY + li * lineH, '#f2ede4', '#09090b', 3);
+          });
+
+          ctx.restore();
+        });
+
+        ctx.restore();
+      }
+
+      function renderCtaDebate(props, t, duration, alpha, enter, exit) {
+        const accent = validHex(props.accent, '#fbbf24');
+        const lift = (1 - enter) * 20 - exit * 12;
+        const cardY = props.position === 'top' ? 96 : 1085;
+        const cardX = 76;
+        const cardW = 928;
+        const cardH = 176;
+        const hasIcon = !!loadedAssets.icon;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        drawHardCard(cardX, cardY, cardW, cardH, {
+          radius: 24,
+          bg: '#111115',
+          border: accent,
+          shadowOffset: 7,
+          borderWidth: 3
+        });
+
+        ctx.fillStyle = accent;
+        roundRectPath(cardX + 14, cardY + 22, 8, cardH - 44, 4);
+        ctx.fill();
+
+        if (hasIcon) {
+          const iconCx = cardX + 98;
+          const iconCy = cardY + cardH / 2;
+          drawAnimatedIcon(loadedAssets.icon, iconCx, iconCy, 92, clamp01(t / 0.25), t, 6);
+        }
+
+        const textX = hasIcon ? (cardX + 174) : (cardX + cardW / 2);
+        const textW = hasIcon ? (cardW - 204) : (cardW - 96);
+        const { lines, size } = fit(String(props.text || '¿TÚ QUÉ OPINAS?').toUpperCase(), 52, 32, textW);
+        const lineH = size * 1.08;
+        const totalH = lines.length * lineH;
+        const baseTextY = cardY + (cardH - totalH) / 2 + size * 0.84;
+        ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+        ctx.textAlign = hasIcon ? 'left' : 'center';
+        ctx.textBaseline = 'alphabetic';
+        lines.forEach((line, idx) => {
+          drawHardText(line, textX, baseTextY + idx * lineH, '#f2ede4', '#09090b', 4);
+        });
+
+        ctx.restore();
+      }
+
+      function renderMinimalBanner(props, t, duration, alpha, enter, exit) {
+        const text = String(props.text || '').toUpperCase().trim();
+        if (!text) return;
+        const accent = validHex(props.accent, '#38bdf8');
+        const isLight = props.ground === 'ivory' || props.theme === 'light';
+        const bg = isLight ? '#f4f0e8' : '#111115';
+        const border = isLight ? '#cfc7b8' : '#27272a';
+        const ink = isLight ? '#141416' : '#f2ede4';
+        const shadowInk = isLight ? '#d8d0c1' : '#09090b';
+        const lift = (1 - enter) * 16 - exit * 10;
+        const pos = POSITIONS[props.position] ? props.position : 'top';
+        const cardY = pos === 'bottom' ? 1090 : pos === 'middle' ? 860 : 96;
+        const cardX = 76;
+        const cardW = 928;
+        const subtext = String(props.subtext || '').toUpperCase().trim();
+        const { lines, size } = fit(text, 50, 28, cardW - 84);
+        const lineH = size * 1.12;
+        const subH = subtext ? 44 : 0;
+        const cardH = Math.max(116, 54 + lines.length * lineH + subH);
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(0, lift);
+
+        drawHardCard(cardX, cardY, cardW, cardH, {
+          radius: 12,
+          bg,
+          border,
+          shadowOffset: 5,
+          borderWidth: 2
+        });
+
+        // 6px accent sidebar with clean vertical reveal
+        const barP = clamp01(t / 0.20);
+        const barMaxH = cardH - 32;
+        ctx.fillStyle = accent;
+        ctx.fillRect(cardX + 16, cardY + 16, 6, Math.max(6, barMaxH * barP));
+
+        const totalContentH = lines.length * lineH + (subtext ? 34 : 0);
+        const startY = cardY + (cardH - totalContentH) / 2 + size * 0.80;
+        ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'alphabetic';
+        lines.forEach((line, idx) => {
+          drawHardText(line, cardX + 42, startY + idx * lineH, ink, shadowInk, isLight ? 0 : 3);
+        });
+
+        if (subtext) {
+          ctx.font = '700 20px "JetBrains Mono", monospace';
+          ctx.fillStyle = accent;
+          ctx.fillText(subtext.slice(0, 48), cardX + 42, startY + (lines.length - 1) * lineH + 34);
+        }
+
+        ctx.restore();
+      }
+
+      function renderStatCallout(props, t, duration, alpha, enter, exit) {
+        const rawHighlight = String(props.highlight || '').toUpperCase().trim();
+        const rawText = String(props.text || '').toUpperCase().trim();
+        const mainStat = rawHighlight || rawText;
+        if (!mainStat) return;
+        const labelText = String(props.subtext || (rawHighlight && rawText !== rawHighlight ? rawText : '')).toUpperCase().trim();
+        const accent = validHex(props.accent, '#f59e0b');
+        const lift = (1 - enter) * 20 - exit * 12;
+        const pos = POSITIONS[props.position] ? props.position : 'top';
+        const baseY = pos === 'bottom' ? 1140 : pos === 'middle' ? 880 : 186;
+        const sc = 0.92 + 0.08 * outBack(clamp01(t / 0.24));
+
+        const { lines, size } = fit(mainStat, 118, 56, 900);
+        const lineH = size * 1.0;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(540, baseY + lift);
+        ctx.scale(sc, sc);
+        ctx.translate(-540, -baseY);
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'alphabetic';
+        ctx.font = `800 ${size}px "Plus Jakarta Sans", sans-serif`;
+        ctx.lineJoin = 'round';
+        ctx.miterLimit = 2;
+
+        lines.forEach((line, idx) => {
+          const ly = baseY + idx * lineH;
+          ctx.fillStyle = '#09090b';
+          ctx.fillText(line, 540, ly + 6);
+          ctx.lineWidth = 10;
+          ctx.strokeStyle = '#09090b';
+          ctx.strokeText(line, 540, ly);
+          ctx.fillStyle = accent;
+          ctx.fillText(line, 540, ly);
+        });
+
+        const ruleY = baseY + (lines.length - 1) * lineH + 24;
+        const wipe = clamp01((t - 0.06) / 0.22);
+        if (wipe > 0) {
+          const rw = 88 * wipe;
+          ctx.fillStyle = '#09090b';
+          ctx.fillRect(540 - rw / 2, ruleY + 3, rw, 5);
+          ctx.fillStyle = accent;
+          ctx.fillRect(540 - rw / 2, ruleY, rw, 5);
+        }
+
+        if (labelText) {
+          const sub = fit(labelText, 34, 22, 860);
+          ctx.font = `800 ${sub.size}px "Plus Jakarta Sans", sans-serif`;
+          sub.lines.forEach((line, idx) => {
+            const sy = ruleY + 48 + idx * (sub.size * 1.12);
+            ctx.fillStyle = '#09090b';
+            ctx.fillText(line, 540, sy + 4);
+            ctx.lineWidth = 7;
+            ctx.strokeStyle = '#09090b';
+            ctx.strokeText(line, 540, sy);
+            ctx.fillStyle = '#f2ede4';
+            ctx.fillText(line, 540, sy);
+          });
+        }
+
+        ctx.restore();
+      }
+
+      window.setupOverlay = async function (incoming) {
+        scene = incoming || {};
+        const props = scene.props || {};
+        const accent = validHex(props.accent, '#d08a5a');
+
+        const imagePromise = loadImageSrc(props._resolvedImage || props.imageDataUri || '');
+        const iconName = props.icon && props.icon !== 'none' ? String(props.icon) : '';
+        const iconPromise = iconName ? loadImageSrc(iconDataUri(iconName, accent)) : Promise.resolve(null);
+
+        const rawLogos = Array.isArray(props._resolvedLogos) ? props._resolvedLogos : [];
+        const logosPromise = Promise.all(rawLogos.map(async (l) => ({
+          ...l,
+          img: await loadImageSrc(l.dataUri)
+        })));
+
+        const rawItems = Array.isArray(props.items) ? props.items : [];
+        const itemIconsPromise = Promise.all(rawItems.map((it, idx) => {
+          const rawName = typeof it === 'object' && it && it.icon ? String(it.icon) : '';
+          if (!rawName || rawName === 'none') return Promise.resolve(null);
+          const color = typeof it === 'object' && it && it.accent ? validHex(it.accent, accent) : (idx === 0 ? '#38bdf8' : accent);
+          return loadImageSrc(iconDataUri(rawName, color));
+        }));
+
+        const [image, icon, logos, itemIcons] = await Promise.all([imagePromise, iconPromise, logosPromise, itemIconsPromise]);
+        loadedAssets = { image, icon, logos, itemIcons };
+
+        if (window.MotionCore && typeof window.MotionCore.ensureFonts === 'function') {
+          return window.MotionCore.ensureFonts();
+        }
+        return { ok: true, missing: [] };
+      };
+
+      window.renderFrame = function (timeInSeconds) {
+        const duration = Math.max(0.2, Number(scene && scene.duration) || 1.5);
+        const t = Math.max(0, Math.min(duration, Number(timeInSeconds) || 0));
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.clearRect(0, 0, 1080, 1920);
+        if (!scene || !scene.props) return;
+        const props = scene.props;
+
+        const enter = easeOut(clamp01(t / 0.22));
+        const exit = smooth(duration - 0.44, duration - 0.16, t);
+        const alpha = Math.min(enter, 1 - exit);
+        if (alpha <= 0.001) return;
+
+        const style = String(props.style || 'editorial');
+        if (style === 'hook_kinetic') return renderHookKinetic(props, t, duration, alpha, enter, exit);
+        if (style === 'image_card') return renderImageCard(props, t, duration, alpha, enter, exit);
+        if (style === 'logo_grid') return renderLogoGrid(props, t, duration, alpha, enter, exit);
+        if (style === 'icon_pop') return renderIconPop(props, t, duration, alpha, enter, exit);
+        if (style === 'split_card') return renderSplitCard(props, t, duration, alpha, enter, exit);
+        if (style === 'cta_debate') return renderCtaDebate(props, t, duration, alpha, enter, exit);
+        if (style === 'minimal_banner') return renderMinimalBanner(props, t, duration, alpha, enter, exit);
+        if (style === 'stat_callout') return renderStatCallout(props, t, duration, alpha, enter, exit);
+        return renderEditorial(props, t, duration, alpha, enter, exit);
+      };
+
+      if (!window.__PUPPETEER_CAPTURE__) {
+        window.setupOverlay({
+          duration: 2.6,
+          props: {
+            style: 'hook_kinetic',
+            text: '¿EL FIN DEL SAAS?',
+            highlight: 'EL SAAS',
+            icon: 'cloud_slash',
+            accent: '#10b981',
+            position: 'top'
+          }
+        }).then(() => {
+          window.renderFrame(1.2);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

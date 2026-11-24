@@ -1,0 +1,226 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[22] Cero bloqueos: por qué las extensiones no oficiales de WhatsApp destruyen tu empresa",
+  "category": "FLOWBOT · SEGURIDAD & ANTI-BAN",
+  "pilar": "Riesgo de Baneo & Conexión Oficial",
+  "slug": "nevox_22_flowbot_antibaneos_meta_api",
+  "introType": "DISASTER MONITOR",
+  "ctaKeyword": "BLINDAJE",
+  "fps": 30,
+  "output": "animaciones/output_clips/nevox_22_flowbot_antibaneos_meta_api.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "disaster_monitor",
+      "duration": 5.5,
+      "voiceover": "La peor pesadilla de un negocio es despertarse un lunes y ver que WhatsApp suspendió el número de ventas de toda la vida.",
+      "visual_cue": "Alerta en pantalla roja: Número comercial suspendido por infracción de términos, 14,000 contactos inaccesibles",
+      "props": {
+        "voiceover": "La peor pesadilla de un negocio es despertarse un lunes y ver que WhatsApp suspendió el número de ventas de toda la vida.",
+        "title": "SUSPENSIÓN DEFINITIVA DE NÚMERO COMERCIAL",
+        "subtitle": "PÉRDIDA TOTAL DEL CANAL DE VENTAS",
+        "crashedStatus": "NÚMERO BLOQUEADO: VIOLACIÓN DE TÉRMINOS DETECTADA",
+        "latencyNormal": 1,
+        "latencyCrash": 99999,
+        "logs": [
+          {
+            "time": "07:30",
+            "level": "WARN",
+            "text": "WhatsApp Web desconectado en navegador",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "07:31",
+            "level": "CRIT",
+            "text": "Alerta de sistema: 'Esta cuenta no tiene permiso para usar WhatsApp'",
+            "color": "#ef4444"
+          },
+          {
+            "time": "07:32",
+            "level": "FATAL",
+            "text": "14,200 conversaciones y seguimientos bloqueados sin acceso",
+            "color": "#ef4444"
+          }
+        ],
+        "impactMetric": "$0 VENTAS",
+        "impactSub": "Canal principal de facturación destruido en 1 segundo"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "latency_scale",
+      "duration": 5.6,
+      "voiceover": "Pasa todos los días cuando conectas extensiones de navegador o herramientas piratas que emulan WhatsApp Web para mandar mensajes masivos.",
+      "visual_cue": "Escala de detección de emuladores no oficiales: baneo garantizado en menos de 72 horas",
+      "props": {
+        "voiceover": "Pasa todos los días cuando conectas extensiones de navegador o herramientas piratas que emulan WhatsApp Web para mandar mensajes masivos.",
+        "title": "DETECCIÓN DE PATRONES DE EMULACIÓN",
+        "subtitle": "CÓMO LOS ALGORITMOS CAZAN BOTS PIRATAS",
+        "markers": [
+          {
+            "label": "Día 1: Envío masivo con extensión de Chrome",
+            "latency": 24,
+            "color": "#fbbf24",
+            "note": "Patrón no humano registrado"
+          },
+          {
+            "label": "Día 2: Alertas de desconexión frecuente",
+            "latency": 48,
+            "color": "#fbbf24",
+            "note": "Huella digital de navegador flagged"
+          },
+          {
+            "label": "Día 3: Bloqueo permanente de la línea",
+            "latency": 72,
+            "color": "#ef4444",
+            "note": "Baneo irrevocable por emulación"
+          }
+        ],
+        "takeaway": "NINGÚN BOT BASADO EN QR ES SEGURO PARA UNA EMPRESA FORMAL"
+      }
+    },
+    {
+      "id": "s03_architecture",
+      "type": "architecture_flow",
+      "duration": 5.8,
+      "voiceover": "La única vía segura para tu empresa es la conexión oficial directa en la nube, donde cada mensaje viaja encriptado y autorizado.",
+      "visual_cue": "Arquitectura oficial autorizada: Servidor con conexión certificada y webhooks directos",
+      "props": {
+        "voiceover": "La única vía segura para tu empresa es la conexión oficial directa en la nube, donde cada mensaje viaja encriptado y autorizado.",
+        "title": "INFRAESTRUCTURA OFICIAL CERTIFICADA",
+        "subtitle": "CANAL ENCRIPTADO DE ALTA REPUTACIÓN",
+        "nodes": [
+          {
+            "id": "meta",
+            "label": "Servidores Oficiales",
+            "sub": "Nube de mensajería",
+            "status": "AUTH",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "token",
+            "label": "Credenciales Seguras",
+            "sub": "Handshake criptográfico",
+            "status": "SECURE",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "flowbot",
+            "label": "FlowBot Core",
+            "sub": "Procesador de eventos",
+            "status": "ACTIVE",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "business",
+            "label": "Tu Base de Clientes",
+            "sub": "Contactos 100% protegidos",
+            "status": "SAFE",
+            "color": "#00e5a0"
+          }
+        ],
+        "pipelineStats": "RIESGO DE BLOQUEO: 0% · LÍMITES DE ENVÍO OFICIALES"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 5.6,
+      "voiceover": "Sin códigos QR que se desconectan al apagar la laptop y sin el terror constante de perder tu canal principal de ingresos.",
+      "visual_cue": "Comparativa técnica: Script no oficial de scraping con caídas vs Conexión persistente 24/7",
+      "props": {
+        "voiceover": "Sin códigos QR que se desconectan al apagar la laptop y sin el terror constante de perder tu canal principal de ingresos.",
+        "title": "ESTABILIDAD OPERATIVA COMPARADA",
+        "fileLeft": "scraper_no_oficial.log",
+        "codeLeft": "[11:15] Puppeteer headless session timeout\n[11:16] QR code regeneration required\n[11:18] Phone battery low -> Connection drop\n[11:20] ERR_RATE_LIMIT: Account flagged by server\n[ALERTA]: 85 mensajes en cola perdidos",
+        "fileRight": "flowbot_conexion_oficial.log",
+        "codeRight": "[11:15] Webhook 200 OK · latency 42ms\n[11:16] Token authorization: VALID (Cloud)\n[11:18] Delivery status: READ by 1,200 users\n[11:20] 0 errors · 99.99% uptime\n[ESTADO]: Canal empresarial verificado",
+        "analysis": "DISPONIBILIDAD TOTAL SIN DEPENDER DE UN TELÉFONO ENCENDIDO"
+      }
+    },
+    {
+      "id": "s05_versus",
+      "type": "versus_race",
+      "duration": 5.5,
+      "voiceover": "Un sistema pirata acumula reportes de bloqueo hasta el cierre definitivo; una conexión oficial escala a miles de mensajes sin riesgo.",
+      "visual_cue": "Carrera de supervivencia: Bot pirata (3 días de vida útil) vs Conexión oficial (99.99% permanente)",
+      "props": {
+        "voiceover": "Un sistema pirata acumula reportes de bloqueo hasta el cierre definitivo; una conexión oficial escala a miles de mensajes sin riesgo.",
+        "title": "SUPERVIVENCIA DEL NÚMERO EMPRESARIAL",
+        "runnerA": {
+          "name": "Extensiones de Chrome / Emuladores",
+          "time": "3 días",
+          "rate": "Baneo inminente",
+          "color": "#ef4444"
+        },
+        "runnerB": {
+          "name": "FlowBot Conexión Oficial",
+          "time": "Permanente",
+          "rate": "99.99% Uptime garantizado",
+          "color": "#00e5a0"
+        },
+        "winnerDiff": "TRANQUILIDAD ABSOLUTA PARA TU NEGOCIO"
+      }
+    },
+    {
+      "id": "s06_matrix",
+      "type": "tradeoff_matrix",
+      "duration": 5.6,
+      "voiceover": "Ahorrarte un software formal usando extensiones baratas te puede costar la reputación y la cartera completa de clientes.",
+      "visual_cue": "Matriz de riesgo: Extensión de $15 vs Costo patrimonial de perder el número ($40,000)",
+      "props": {
+        "voiceover": "Ahorrarte un software formal usando extensiones baratas te puede costar la reputación y la cartera completa de clientes.",
+        "title": "COSTO REAL DEL SOFTWARE PIRATA",
+        "dimX": "Inversión Inicial",
+        "dimY": "Riesgo Patrimonial",
+        "quadrants": [
+          {
+            "name": "Extensiones Baratas",
+            "value": "$15/mes pero arriesgas $40,000 en clientes perdidos",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Atención Manual Pura",
+            "value": "Cero tecnología pero pierdes el 60% por lentitud",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "FlowBot Oficial",
+            "value": "Canal seguro, escalable y propiedad de tu empresa",
+            "color": "#00e5a0"
+          }
+        ],
+        "verdict": "EL ACTIVO MÁS VALIOSO DE TU EMPRESA ES SU LÍNEA DE CONTACTO"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "Si quieres proteger tu número comercial y automatizar WhatsApp con conexión oficial, comenta BLINDAJE y te enviamos la guía.",
+      "visual_cue": "Diagnóstico de seguridad y migración a canal oficial con palabra clave BLINDAJE",
+      "props": {
+        "voiceover": "Si quieres proteger tu número comercial y automatizar WhatsApp con conexión oficial, comenta BLINDAJE y te enviamos la guía.",
+        "title": "BLINDAJE DE CANALES DE MENSAJERÍA",
+        "subtitle": "MIGRACIÓN TRANSPARENTE SIN PERDER CONTACTOS",
+        "cloudCost": 15000,
+        "initialCost": 0,
+        "breakdown": [
+          {
+            "name": "Costo de recuperar clientes tras un baneo",
+            "cost": "$8,500",
+            "sub": "Inversión publicitaria requerida desde cero",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Pérdida por inactividad comercial de 1 mes",
+            "cost": "$6,500",
+            "sub": "Ventas caídas durante la suspensión",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "MIGRACIÓN SEGURA",
+        "takeaway": "ESCRIBE 'BLINDAJE' PARA MIGRAR A LA CONEXIÓN OFICIAL"
+      }
+    }
+  ]
+};

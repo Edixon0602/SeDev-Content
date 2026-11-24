@@ -7,7 +7,7 @@ window.registerComponent('quantization_weights_viz', {
     container.innerHTML = `
       <div class="comp-quant-weights">
         ${props.badge ? `<div class="scene-category" id="qwBadge">${props.badge}</div>` : ''}
-        <canvas id="quantCanvas" width="960" height="1300"></canvas>
+        <canvas id="quantCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#quantCanvas');
@@ -18,7 +18,7 @@ window.registerComponent('quantization_weights_viz', {
     const { spring, clamp, lerp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
     // Hard-cut exit in last 0.3s
     const exitT = duration - 0.3;
@@ -63,6 +63,10 @@ window.registerComponent('quantization_weights_viz', {
       this.renderMCP(ctx, t, duration, props, utils);
     } else {
       this.renderQuant(ctx, t, duration, props, utils);
+    }
+
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#a855f7' });
     }
 
     ctx.restore();

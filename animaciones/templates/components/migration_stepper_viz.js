@@ -7,7 +7,7 @@ window.registerComponent('migration_stepper_viz', {
     container.innerHTML = `
       <div class="comp-migration-stepper">
         ${props.badge ? `<div class="scene-category" id="msBadge">${props.badge}</div>` : ''}
-        <canvas id="migrationCanvas" width="960" height="1300"></canvas>
+        <canvas id="migrationCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#migrationCanvas');
@@ -18,7 +18,7 @@ window.registerComponent('migration_stepper_viz', {
     const { spring, clamp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
     // Hard-cut exit in last 0.3s
     const exitT = duration - 0.3;
@@ -58,12 +58,12 @@ window.registerComponent('migration_stepper_viz', {
     ctx.font = '700 17px "JetBrains Mono", monospace';
     ctx.fillText(subtitle, 480, 102);
 
-    // 4 Progressive Step Cards
+    // 4 Progressive Step Cards proportional to scene duration
     const steps = [
-      { num: '01', name: 'EXPAND', line1: 'ALTER TABLE ADD', line2: 'Columna nullable', color: '#38bdf8', activeT: 0.1 },
-      { num: '02', name: 'DUAL WRITE', line1: 'App escribe en', line2: 'Vieja y nueva', color: '#fbbf24', activeT: 1.0 },
-      { num: '03', name: 'BACKFILL', line1: 'Worker por lotes', line2: 'Migra histórico', color: '#a855f7', activeT: 2.0 },
-      { num: '04', name: 'CONTRACT', line1: 'Drop columna vieja', line2: '0s de bloqueo', color: '#10b981', activeT: 3.0 }
+      { num: '01', name: 'EXPAND', line1: 'ALTER TABLE ADD', line2: 'Columna nullable', color: '#38bdf8', activeT: duration * 0.04 },
+      { num: '02', name: 'DUAL WRITE', line1: 'App escribe en', line2: 'Vieja y nueva', color: '#fbbf24', activeT: duration * 0.24 },
+      { num: '03', name: 'BACKFILL', line1: 'Worker por lotes', line2: 'Migra histórico', color: '#a855f7', activeT: duration * 0.48 },
+      { num: '04', name: 'CONTRACT', line1: 'Drop columna vieja', line2: '0s de bloqueo', color: '#10b981', activeT: duration * 0.70 }
     ];
 
     const stepW = 190;
@@ -173,6 +173,10 @@ window.registerComponent('migration_stepper_viz', {
       mu.wrapText(ctx, sumMig2, 105, 925, 750, 24, 2);
     } else {
       ctx.fillText(sumMig2, 105, 925);
+    }
+
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#10b981' });
     }
 
     ctx.restore();

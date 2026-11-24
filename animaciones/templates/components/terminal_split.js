@@ -1,13 +1,14 @@
 // Component: terminal_split
-// Dual terminal split executing parallel commands, benchmarks, or side-by-side event logs.
-// Fully normalized for leftTitle/leftText/rightTitle/rightText and termA/termB, with zero overflow.
+// Live Code Surgery & Side-by-Side Execution Diff.
+// Act 1: Upper window executes bottleneck code & triggers red lock/latency counter.
+// Act 2: Lower window actively types/reveals the engineering fix with a mechanical cursor
+// and stamps real-time execution pass metrics.
 
 window.registerComponent('terminal_split', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-term-split">
-        ${props.header ? `<div class="scene-category" id="termSplitHeader">${props.header}</div>` : ''}
-        <canvas id="splitCanvas" width="960" height="1300"></canvas>
+        <canvas id="splitCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#splitCanvas');
@@ -15,224 +16,200 @@ window.registerComponent('terminal_split', {
   },
 
   render(container, t, duration, props, utils) {
-    const { spring, clamp, lerp } = utils;
+    const { spring, clamp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
-    // Hard cut exit
-    const exitT = duration - 0.3;
+    const exitT = duration - 0.25;
     let exitAlpha = 1;
-    let exitY = 0;
     if (t > exitT) {
-      const p = (t - exitT) / 0.3;
-      exitY = -p * p * 60;
-      exitAlpha = clamp(1 - p * 1.3, 0, 1);
-    }
-
-    const headerEl = container.querySelector('#termSplitHeader');
-    if (headerEl) {
-      const s = spring(Math.max(0, t - 0.05), 24, 0.7);
-      headerEl.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
-      headerEl.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
+      exitAlpha = clamp(1 - ((t - exitT) / 0.25) * 1.4, 0, 1);
     }
 
     ctx.save();
     ctx.globalAlpha = exitAlpha;
-    ctx.translate(0, exitY);
 
-    const title = props.title || 'PARALLEL EXECUTION';
-    const subtitle = props.subtitle || 'INSPECCIÓN EN TIEMPO REAL';
+    const title = (props.title || 'CIRUGÍA DE CÓDIGO EN PRODUCCIÓN').toUpperCase();
+    const subtitle = (props.subtitle || 'COMPARATIVA DE EJECUCIÓN EN VIVO').toUpperCase();
 
-    // Auto-fit Title and Subtitle
+    // 1. Clean Header
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 40, 42);
+
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
     if (mu) {
-      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
-    } else {
-      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(title, 480, 65);
+      mu.fitText(ctx, title, 40, 92, 880, 42, 26, '"Plus Jakarta Sans", sans-serif', '900');
     }
 
-    ctx.fillStyle = '#38bdf8';
-    ctx.font = '700 17px "JetBrains Mono", monospace';
-    ctx.fillText(subtitle, 480, 102);
-
-    // Normalize Terminal Data (support both termA/termB and leftTitle/leftText/rightTitle/rightText)
-    const termA = props.termA || {
-      title: props.leftTitle || 'TERMINAL A',
-      color: '#38bdf8',
-      cmd: props.leftCmd || (props.leftText ? props.leftText.split('\n')[0] : 'npx audit'),
-      time: props.leftTime || '0.04s',
-      lines: props.leftText ? props.leftText.split('\n').slice(1) : ['Procesando tarea...', 'Estado verificado']
-    };
-
-    const termB = props.termB || {
-      title: props.rightTitle || 'TERMINAL B',
-      color: '#10b981',
-      cmd: props.rightCmd || (props.rightText ? props.rightText.split('\n')[0] : 'cargo check'),
-      time: props.rightTime || '0.01s',
-      lines: props.rightText ? props.rightText.split('\n').slice(1) : ['Compilación nativa', '0 advertencias']
-    };
-
-    // Helper for terminal line syntax coloring
-    const drawTerminalLines = (lines, startX, startY, maxW) => {
-      lines.forEach((line, i) => {
-        const clean = String(line).trim();
-        if (clean.startsWith('$') || clean.startsWith('>')) {
-          ctx.fillStyle = '#38bdf8';
-          ctx.font = '700 15px "JetBrains Mono", monospace';
-        } else if (clean.startsWith('✔')) {
-          ctx.fillStyle = '#10b981';
-          ctx.font = '700 15px "JetBrains Mono", monospace';
-        } else if (clean.startsWith('✖') || clean.toLowerCase().includes('error')) {
-          ctx.fillStyle = '#ef4444';
-          ctx.font = '700 15px "JetBrains Mono", monospace';
-        } else if (clean.startsWith('•')) {
-          ctx.fillStyle = '#06b6d4';
-          ctx.font = '600 15px "JetBrains Mono", monospace';
-        } else {
-          ctx.fillStyle = '#a1a1aa';
-          ctx.font = '500 14px "JetBrains Mono", monospace';
-        }
-
-        // Truncate if line exceeds terminal width
-        let txt = clean;
-        while (ctx.measureText(txt).width > maxW && txt.length > 0) {
-          txt = txt.substring(0, txt.length - 1);
-        }
-        ctx.fillText(txt, startX, startY + i * 32);
-      });
-    };
-
-    // 1. Draw Terminal A (Top)
-    const sA = spring(Math.max(0, t - 0.08), 22, 0.75);
-    ctx.save();
-    ctx.translate(480, 270);
-    ctx.scale(sA, sA);
-
-    ctx.fillStyle = '#0d0d10';
     ctx.strokeStyle = '#27272a';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(-420, -110, 840, 230, 14);
-    ctx.fill();
+    ctx.moveTo(40, 118);
+    ctx.lineTo(920, 118);
     ctx.stroke();
 
-    // Shimmer sweep across Terminal A
-    if (mu) mu.drawShimmer(ctx, -420, -110, 840, 230, t, 'rgba(56, 189, 248, 0.04)');
+    const boxX = 40;
+    const boxW = 880;
 
-    // Header A
-    ctx.fillStyle = '#16161b';
-    ctx.beginPath();
-    ctx.roundRect(-420, -110, 840, 42, [14, 14, 0, 0]);
-    ctx.fill();
+    const leftRaw = props.leftCode || props.leftText || '';
+    const leftLines = leftRaw ? leftRaw.split('\n').filter(Boolean) : ['SELECT * FROM orders FOR UPDATE;'];
+    const leftTitle = (props.leftTitle || 'IMPLEMENTACIÓN ROTA / LENTA').toUpperCase();
 
-    // Window controls
-    ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(-395, -89, 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(-377, -89, 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#10b981'; ctx.beginPath(); ctx.arc(-359, -89, 5, 0, Math.PI * 2); ctx.fill();
+    const rightRaw = props.rightCode || props.rightText || '';
+    const rightLines = rightRaw ? rightRaw.split('\n').filter(Boolean) : ['UPDATE orders SET status = 1 WHERE id = $1;'];
+    const rightTitle = (props.rightTitle || 'SOLUCIÓN DE INGENIERÍA').toUpperCase();
 
-    ctx.fillStyle = termA.color;
-    ctx.font = '700 15px "JetBrains Mono", monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText(termA.title, -335, -84);
-
-    ctx.fillStyle = '#71717a';
-    ctx.textAlign = 'right';
-    ctx.fillText(termA.time || 'ACTIVE', 395, -84);
-
-    // Terminal A Body
-    ctx.textAlign = 'left';
-    const cursorA = (Math.floor(t * 3) % 2 === 0) ? '_' : ' ';
-    ctx.fillStyle = '#38bdf8';
-    ctx.font = '700 15px "JetBrains Mono", monospace';
-    ctx.fillText(termA.cmd.startsWith('$') ? `${termA.cmd} ${cursorA}` : `$ ${termA.cmd} ${cursorA}`, -390, -42);
-
-    drawTerminalLines(termA.lines, -390, -8, 770);
-    ctx.restore();
-
-    // 2. Draw Terminal B (Bottom)
-    const sB = spring(Math.max(0, t - 0.22), 22, 0.75);
-    ctx.save();
-    ctx.translate(480, 560);
-    ctx.scale(sB, sB);
-
-    ctx.fillStyle = '#0d0d10';
-    ctx.strokeStyle = '#27272a';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(-420, -110, 840, 230, 14);
-    ctx.fill();
-    ctx.stroke();
-
-    // Shimmer sweep across Terminal B
-    if (mu) mu.drawShimmer(ctx, -420, -110, 840, 230, t + 0.5, 'rgba(16, 185, 129, 0.04)');
-
-    // Header B
-    ctx.fillStyle = '#16161b';
-    ctx.beginPath();
-    ctx.roundRect(-420, -110, 840, 42, [14, 14, 0, 0]);
-    ctx.fill();
-
-    ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.arc(-395, -89, 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(-377, -89, 5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = '#10b981'; ctx.beginPath(); ctx.arc(-359, -89, 5, 0, Math.PI * 2); ctx.fill();
-
-    ctx.fillStyle = termB.color;
-    ctx.font = '700 15px "JetBrains Mono", monospace';
-    ctx.textAlign = 'left';
-    ctx.fillText(termB.title, -335, -84);
-
-    ctx.fillStyle = '#10b981';
-    ctx.textAlign = 'right';
-    ctx.fillText(termB.time || 'COMPLETED', 395, -84);
-
-    // Terminal B Body
-    ctx.textAlign = 'left';
-    const cursorB = (Math.floor(t * 3.5) % 2 === 0) ? '_' : ' ';
-    ctx.fillStyle = '#10b981';
-    ctx.font = '700 15px "JetBrains Mono", monospace';
-    ctx.fillText(termB.cmd.startsWith('$') ? `${termB.cmd} ${cursorB}` : `$ ${termB.cmd} ${cursorB}`, -390, -42);
-
-    drawTerminalLines(termB.lines, -390, -8, 770);
-    ctx.restore();
-
-    // 3. Bottom Summary / CTA Card (Positioned safely at Y = 730 to 1100)
-    const cardAlpha = clamp((t - 0.4) / 0.3, 0, 1);
-    if (cardAlpha > 0) {
-      ctx.globalAlpha = cardAlpha * exitAlpha;
-      ctx.fillStyle = '#111116';
-      ctx.strokeStyle = '#27272a';
+    // Helper for syntax-colored code lines with live typing progression
+    const drawTerminalWindow = (y, h, winTitle, lines, accentColor, statusLabel, revealProgress, isErrorWin) => {
+      ctx.fillStyle = '#09090c';
+      ctx.strokeStyle = accentColor;
       ctx.lineWidth = 1.5;
+      ctx.fillRect(boxX, y, boxW, h);
+      ctx.strokeRect(boxX, y, boxW, h);
+
+      // Top title bar
+      ctx.fillStyle = '#111116';
+      ctx.fillRect(boxX, y, boxW, 50);
+      ctx.strokeStyle = '#27272a';
       ctx.beginPath();
-      ctx.roundRect(60, 720, 840, 240, 16);
-      ctx.fill();
+      ctx.moveTo(boxX, y + 50);
+      ctx.lineTo(boxX + boxW, y + 50);
       ctx.stroke();
 
-      const badge = props.header || props.summaryBadge || 'RESULTADO VERIFICADO';
-      ctx.fillStyle = '#10b981';
-      ctx.font = '800 14px "JetBrains Mono", monospace';
+      // Left accent square
+      ctx.fillStyle = accentColor;
+      ctx.fillRect(boxX + 20, y + 17, 16, 16);
+
       ctx.textAlign = 'left';
-      ctx.fillText(badge, 95, 765);
-
-      const sumTitle = props.summaryText || props.title || 'OPTIMIZACIÓN Y ARQUITECTURA LIMPIA';
       ctx.fillStyle = '#ffffff';
-      ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
-      if (mu) {
-        mu.wrapText(ctx, sumTitle, 95, 805, 760, 30, 2);
-      } else {
-        ctx.fillText(sumTitle, 95, 805);
-      }
+      ctx.font = '800 18px "JetBrains Mono", monospace';
+      ctx.fillText(winTitle, boxX + 50, y + 32);
 
-      const sumSub = props.summarySub || '• Soluciones de alto rendimiento diseñadas para durar en producción.\n• Enlace en el perfil para agendar sesión o auditoría técnica.';
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '500 15px "Plus Jakarta Sans", sans-serif';
-      if (mu) {
-        mu.wrapText(ctx, sumSub, 95, 875, 760, 24, 3);
-      } else {
-        ctx.fillText(sumSub, 95, 875);
-      }
+      ctx.textAlign = 'right';
+      ctx.fillStyle = accentColor;
+      ctx.font = '800 18px "JetBrains Mono", monospace';
+      ctx.fillText(statusLabel, boxX + boxW - 24, y + 32);
+
+      // Code lines area
+      const maxLines = Math.min(5, lines.length);
+      const totalChars = lines.slice(0, maxLines).reduce((acc, l) => acc + l.length, 0);
+      let remainingChars = Math.floor(totalChars * clamp(revealProgress, 0, 1));
+
+      lines.slice(0, maxLines).forEach((rawLine, idx) => {
+        const lineY = y + 98 + idx * 52;
+        const clean = String(rawLine).trim();
+
+        // Line number
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#3f3f46';
+        ctx.font = '600 18px "JetBrains Mono", monospace';
+        ctx.fillText(String(idx + 1).padStart(2, '0'), boxX + 24, lineY);
+
+        if (remainingChars <= 0) return;
+        const visibleCount = Math.min(clean.length, remainingChars);
+        remainingChars -= clean.length;
+        let visibleStr = clean.substring(0, visibleCount);
+
+        // Highlight background bar for key lines
+        const isComment = clean.startsWith('--') || clean.startsWith('//') || clean.startsWith('#');
+        if (!isComment && idx === maxLines - 2) {
+          ctx.fillStyle = isErrorWin ? 'rgba(239, 68, 68, 0.10)' : 'rgba(16, 185, 129, 0.10)';
+          ctx.fillRect(boxX + 64, lineY - 28, boxW - 88, 40);
+          ctx.fillStyle = accentColor;
+          ctx.fillRect(boxX + 64, lineY - 28, 4, 40);
+        }
+
+        // Choose syntax color
+        let color = '#e4e4e7';
+        if (isComment) {
+          color = isErrorWin ? '#fca5a5' : '#6ee7b7';
+        } else if (/^(SELECT|UPDATE|CREATE|INSERT|EXPLAIN|WHERE|SET|ON|FROM)/i.test(clean)) {
+          color = '#38bdf8';
+        } else if (/^(const|let|async|await|function|return|if|for)/i.test(clean)) {
+          color = '#fbbf24';
+        }
+
+        ctx.fillStyle = color;
+        ctx.font = '600 22px "JetBrains Mono", monospace';
+        const maxCodeW = boxW - 104;
+        while (ctx.measureText(visibleStr).width > maxCodeW && visibleStr.length > 0) {
+          visibleStr = visibleStr.substring(0, visibleStr.length - 1);
+        }
+        ctx.fillText(visibleStr, boxX + 78, lineY);
+
+        // Mechanical block cursor on the currently typing character
+        if (visibleCount < clean.length || (remainingChars === 0 && revealProgress < 0.99)) {
+          const curX = boxX + 78 + ctx.measureText(visibleStr).width + 4;
+          ctx.fillStyle = accentColor;
+          ctx.fillRect(curX, lineY - 22, 12, 26);
+        }
+      });
+
+      // Bottom execution telemetry bar inside terminal
+      const barY = y + h - 46;
+      ctx.fillStyle = '#0d0d12';
+      ctx.fillRect(boxX + 2, barY, boxW - 4, 44);
+      ctx.strokeStyle = '#27272a';
+      ctx.beginPath();
+      ctx.moveTo(boxX, barY);
+      ctx.lineTo(boxX + boxW, barY);
+      ctx.stroke();
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = accentColor;
+      ctx.font = '700 16px "JetBrains Mono", monospace';
+      const bottomMsg = isErrorWin
+        ? (props.leftFooter || `✖ STATUS: CUELLO DE BOTELLA ACTIVO · CONEXIONES RETENIDAS`)
+        : (revealProgress >= 0.85 ? `✔ STATUS: EJECUCIÓN VERIFICADA · ${props.diffNote || 'LATENCIA MÍNIMA'}` : (props.rightFooter || `▶ COMPILANDO Y APLICANDO PARCHE...`));
+      ctx.fillText(bottomMsg, boxX + 24, barY + 28);
+    };
+
+    // 2. Upper Window (Problem - reveals across first 20% of scene, timer ticks up)
+    const termAY = 148;
+    const termAH = 405;
+    const progA = clamp(t / (duration * 0.22), 0, 1);
+    const liveBlockedMs = Math.min(30000, Math.round(t * 2800));
+    drawTerminalWindow(
+      termAY,
+      termAH,
+      leftTitle,
+      leftLines,
+      '#ef4444',
+      props.leftStatus || `BLOQUEO: ${liveBlockedMs}ms`,
+      progA,
+      true
+    );
+
+    // 3. Lower Window (Solution - starts typing at 18% -> 62% of scene)
+    const termBY = 585;
+    const termBH = 405;
+    const progB = clamp((t - duration * 0.18) / (duration * 0.44), 0, 1);
+    const sB = spring(Math.max(0, t - 0.35), 24, 0.75);
+
+    ctx.save();
+    ctx.translate(480, termBY + termBH / 2);
+    ctx.scale(sB, sB);
+    ctx.translate(-480, -(termBY + termBH / 2));
+
+    drawTerminalWindow(
+      termBY,
+      termBH,
+      rightTitle,
+      rightLines,
+      '#10b981',
+      props.rightStatus || (progB >= 0.85 ? 'PASS · 3.4ms' : 'TYPING FIX...'),
+      progB,
+      false
+    );
+    ctx.restore();
+
+    // 4. Synchronized Word-by-Word Caption Bar
+    const vo = props.voiceover || props.diffNote || '';
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, vo, t, duration, { accent: progB >= 0.8 ? '#10b981' : '#fbbf24' });
     }
 
     ctx.restore();

@@ -1,0 +1,124 @@
+{
+  "version": "1",
+  "source": {
+    "video": "fixtures/synthetic_talking_head.mp4",
+    "duration": 24.499,
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "hash": "fixture-sha"
+  },
+  "transcript": {
+    "language": "es",
+    "text": "Cuando automatizas la facturación, tres pasos manuales desaparecen. El sistema recibe el pago, verifica los datos y emite la factura en segundos."
+  },
+  "captions": {
+    "enabled": true,
+    "maxCharsPerLine": 32,
+    "maxLines": 2,
+    "minDuration": 0.8,
+    "overBroll": false,
+    "highlightWords": [
+      "facturación",
+      "flujo",
+      "pasos"
+    ]
+  },
+  "brolls": [
+    {
+      "id": "broll_1",
+      "start": 2,
+      "end": 5.2,
+      "concept": "transformación: tres pasos manuales",
+      "narrative": "Mostrar tres pasos que se convierten en una sola línea.",
+      "component": "editorial_explainer",
+      "props": {
+        "variant": "transform",
+        "kicker": "TRANSFORMACIÓN",
+        "headline": "TRES PASOS MANUALES",
+        "support": "Se convierten en una sola línea.",
+        "accent": "#d08a5a",
+        "ground": "graphite"
+      }
+    },
+    {
+      "id": "broll_2",
+      "start": 12,
+      "end": 15.2,
+      "concept": "flujo: el trabajo no se atasca",
+      "narrative": "Mostrar un flujo que encuentra su paso sin dashboards.",
+      "component": "editorial_explainer",
+      "props": {
+        "variant": "flow",
+        "kicker": "FLUJO",
+        "headline": "NO SE ATASCA",
+        "support": "Entra, encuentra su paso y sale.",
+        "accent": "#d08a5a",
+        "ground": "ivory"
+      }
+    }
+  ],
+  "overlays": [
+    {
+      "id": "overlay_1",
+      "start": 1.9,
+      "end": 3.6,
+      "text": "TRES PASOS",
+      "accent": "#d08a5a",
+      "position": "top",
+      "semanticStart": 1.928,
+      "semanticEnd": 2.655,
+      "allowOverBroll": true
+    },
+    {
+      "id": "overlay_2",
+      "start": 6,
+      "end": 7.7,
+      "text": "VERIFICA LOS DATOS",
+      "accent": "#d08a5a",
+      "position": "middle",
+      "semanticStart": 6.041,
+      "semanticEnd": 7.199
+    }
+  ],
+  "cameras": [
+    {
+      "id": "camera_1",
+      "start": 9,
+      "end": 10.8,
+      "type": "push",
+      "intensity": 0.55
+    },
+    {
+      "id": "camera_2",
+      "start": 19.5,
+      "end": 21.3,
+      "type": "pan",
+      "intensity": 0.5,
+      "focusX": 0.4
+    }
+  ],
+  "sfx": [
+    {
+      "id": "sfx_1",
+      "at": 2.02,
+      "sound": "soft_whoosh",
+      "gainDb": -18,
+      "reason": "Entrada del B-roll de transformación"
+    },
+    {
+      "id": "sfx_2",
+      "at": 12.02,
+      "sound": "soft_whoosh",
+      "gainDb": -18,
+      "reason": "Entrada del B-roll de flujo"
+    },
+    {
+      "id": "sfx_3",
+      "at": 7.01,
+      "sound": "ui_tick",
+      "gainDb": -18,
+      "reason": "Aparición del overlay «tres pasos»"
+    }
+  ]
+}

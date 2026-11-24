@@ -3,8 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>SeDev Scene Runner</title>
+  <link rel="stylesheet" href="components/components_b2b.css?v=20261026_b2b">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap');
+    /* Self-hosted variable fonts: no network, no fallback first frame.
+       Verified fvar axes: Plus Jakarta wght 200–800, JetBrains wght 400–800.
+       Requests above the max (e.g. canvas weight 900) are synthesized by the
+       browser; no duplicate per-weight files are kept. */
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      font-style: normal;
+      font-weight: 200 800;
+      font-display: block;
+      src: url('../assets/fonts/plus-jakarta-sans-variable.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'JetBrains Mono';
+      font-style: normal;
+      font-weight: 400 800;
+      font-display: block;
+      src: url('../assets/fonts/jetbrains-mono-variable.woff2') format('woff2');
+    }
 
     * {
       margin: 0;
@@ -448,6 +466,20 @@
       display: block;
       max-width: 960px;
     }
+    .comp-stage-scene {
+      width: 1080px !important;
+      height: 1920px !important;
+      max-width: none !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .comp-stage-scene canvas {
+      width: 1080px !important;
+      height: 1920px !important;
+      max-width: none !important;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -465,12 +497,23 @@
     };
   </script>
 
-  <!-- Motion Graphics Utilities & Atmospheric Background -->
+  <!-- Three.js + GLTF + DRACO 3D Engine -->
+  <script src="lib/three_bundle.js"></script>
+
+  <!-- Motion Graphics Core, Utilities & Atmospheric Background -->
+  <script src="components/motion_core.js"></script>
+  <script src="components/qa_instrument.js"></script>
   <script src="components/motion_utils.js"></script>
 
   <!-- Component Scripts & Icons -->
   <script src="components/icons_sedev.js"></script>
+  <script src="components/icons_animated.js"></script>
   <script src="components/kinetic_hook.js"></script>
+  <script src="components/kinetic_slam.js"></script>
+  <script src="components/hook_impact.js"></script>
+  <script src="components/disaster_monitor.js"></script>
+  <script src="components/cost_ticker.js"></script>
+  <script src="components/versus_race.js"></script>
   <script src="components/architecture_flow.js"></script>
   <script src="components/code_terminal.js"></script>
   <script src="components/metrics_comparison.js"></script>
@@ -486,9 +529,33 @@
   <script src="components/cache_flow_viz.js"></script>
   <script src="components/migration_stepper_viz.js"></script>
   <script src="components/quantization_weights_viz.js"></script>
+  <script src="components/talking_head_cue.js"></script>
+  <script src="components/bittorrent_file_slicer_viz.js"></script>
+  <script src="components/bittorrent_swarm_viz.js"></script>
+  <script src="components/lava_entropy_viz.js"></script>
+
+  <!-- Character Rig & Editorial Stage Engine (Zero AI-Slop, 100% Vector) -->
+  <script src="rig/rng.js"></script>
+  <script src="rig/timeline.js"></script>
+  <script src="rig/skeleton.js"></script>
+  <script src="rig/face.js"></script>
+  <script src="rig/character_def.js"></script>
+  <script src="rig/props.js"></script>
+  <script src="rig/clips.js"></script>
+  <script src="rig/sets.js"></script>
+  <script src="rig/captions.js"></script>
+  <script src="components/stage_scene.js"></script>
+  <script src="components/stage_3d_scene.js"></script>
+
+  <!-- Editorial film: one ceramic loop, no dashboard language -->
+  <script src="components/premium_film.js"></script>
+
+  <!-- Editorial explainer: one idea, one metaphor, no telemetry -->
+  <script src="components/editorial_explainer.js"></script>
 
   <script>
     // Math Utilities
+    const _MC = window.MotionCore;
     const utils = {
       spring(dt, omega = 24, zeta = 0.65) {
         if (dt <= 0) return 0;
@@ -501,6 +568,10 @@
       },
       lerp(a, b, t) {
         return a + (b - a) * t;
+      },
+      ease: _MC ? _MC.ease : { outCubic: (x) => 1 - Math.pow(1 - x, 3) },
+      progress: _MC ? _MC.progress.bind(_MC) : function (t, start, dur) {
+        return Math.max(0, Math.min(1, (t - start) / Math.max(0.0001, dur)));
       }
     };
 
@@ -516,34 +587,63 @@
       const compDef = window.__COMPONENTS__[sceneData.type];
       if (!compDef) {
         stageContent.innerHTML = `<div style="color:red; font-size:32px;">Component not found: ${sceneData.type}</div>`;
-        return;
+        return Promise.resolve();
       }
       currentComponent = compDef;
+      const mergedProps = Object.assign({ voiceover: sceneData.voiceover || '' }, sceneData.props || {});
+      sceneData._mergedProps = mergedProps;
       if (typeof compDef.init === 'function') {
-        compDef.init(stageContent, sceneData.props || {});
+        const res = compDef.init(stageContent, mergedProps);
+        if (res && typeof res.then === 'function') return res;
+        if (compDef.loadingPromise && typeof compDef.loadingPromise.then === 'function') return compDef.loadingPromise;
       }
+      return Promise.resolve();
     };
 
     window.renderFrame = function(timeInSeconds) {
       if (!currentScene || !currentComponent) return;
       const duration = currentScene.duration || 5.0;
       const t = utils.clamp(timeInSeconds, 0, duration);
+      const activeProps = currentScene._mergedProps || Object.assign({ voiceover: currentScene.voiceover || '' }, currentScene.props || {});
+
+      const activeTheme = (activeProps && activeProps.theme) || (currentScene && currentScene.theme) || 'dark';
+      document.body.className = `theme-${activeTheme}`;
+      document.body.style.background = (activeTheme === 'light') ? '#f8fafc' : (activeTheme === 'blueprint' ? '#07111e' : '#050505');
 
       // Render dynamic ambient lighting & telemetry background
       if (bgCtx && window.motionUtils && typeof window.motionUtils.renderBackdrop === 'function') {
         const meta = {
-          category: (window.__SCENE_META__ && window.__SCENE_META__.category) || (currentScene.props && currentScene.props.badge) || 'SYSTEMS',
+          category: (window.__SCENE_META__ && window.__SCENE_META__.category) || (activeProps && activeProps.badge) || 'SYSTEMS',
           slug: (window.__SCENE_META__ && window.__SCENE_META__.slug) || '',
-          title: (window.__SCENE_META__ && window.__SCENE_META__.title) || ''
+          title: (window.__SCENE_META__ && window.__SCENE_META__.title) || '',
+          theme: activeTheme
         };
         window.motionUtils.renderBackdrop(bgCtx, 1080, 1920, t, meta);
       }
 
-      // Subtle dynamic camera push-in so the screen is never dead/frozen
-      const camPush = 1.0 + (t / duration) * 0.035;
-      stageContent.style.transform = `scale(${camPush.toFixed(4)})`;
+      // Context-Aware Camera Director (Zero repetitive in-and-out pulsing)
+      let cam = { x: 0, y: 0, rot: 0, scale: 1.0 };
+      if (window.motionUtils && typeof window.motionUtils.calculateCamera === 'function') {
+        cam = window.motionUtils.calculateCamera(t, duration, activeProps, currentScene.type);
+      } else {
+        cam.scale = 1.0;
+      }
+      stageContent.style.transform = `translate(${cam.x.toFixed(1)}px, ${cam.y.toFixed(1)}px) rotate(${cam.rot.toFixed(2)}deg) scale(${cam.scale.toFixed(4)})`;
 
-      currentComponent.render(stageContent, t, duration, currentScene.props || {}, utils);
+      if (window.__QA_INSTRUMENT__) {
+        window.__QA_RESET__();
+        window.__QA_SET_COMPONENT__(currentScene.type);
+      }
+      currentComponent.render(stageContent, t, duration, activeProps, utils);
+      if (window.__QA_INSTRUMENT__) {
+        window.__QA_LAST_BOUNDS__ = (window.__QA_BOUNDS__ || []).slice();
+        window.__QA_LAST_SCENE__ = {
+          id: currentScene.id,
+          type: currentScene.type,
+          duration,
+          time: t
+        };
+      }
     };
 
     // URL Query Parameter bootstrap (for direct testing in browser)
@@ -552,38 +652,54 @@
     const duration = parseFloat(urlParams.get('duration') || '5.0');
 
     // Default test scene if not injected by Puppeteer or Player
-    if (!window.__SCENE_DATA__) {
-      window.loadScene({
-        id: 'test_scene',
-        type: sceneType,
-        duration: duration,
-        props: {
-          badge: 'SYSTEM ARCHITECTURE',
-          lines: [
-            { text: '¿POR QUÉ REDIS', color: '#ffffff' },
-            { text: 'ES TAN RÁPIDO?', color: '#fbbf24' }
-          ],
-          subtitle: 'ANÁLISIS DE RENDIMIENTO INTERNO // 100K REQ/S',
-          icon: 'lightning'
+    async function bootstrap() {
+      const fontStatus = window.MotionCore
+        ? await window.MotionCore.ensureFonts()
+        : { ok: false, missing: ['MotionCore'] };
+      window.__FONTS_READY__ = fontStatus;
+      if (!fontStatus.ok) {
+        console.error('Fuentes locales no disponibles:', JSON.stringify(fontStatus));
+      }
+
+      if (!window.__SCENE_DATA__) {
+        await window.loadScene({
+          id: 'test_scene',
+          type: sceneType,
+          duration: duration,
+          props: {
+            badge: 'SYSTEM ARCHITECTURE',
+            lines: [
+              { text: '¿POR QUÉ REDIS', color: '#ffffff' },
+              { text: 'ES TAN RÁPIDO?', color: '#fbbf24' }
+            ],
+            subtitle: 'ANÁLISIS DE RENDIMIENTO INTERNO // 100K REQ/S',
+            icon: 'lightning'
+          }
+        });
+      } else {
+        await window.loadScene(window.__SCENE_DATA__);
+      }
+
+      if (urlParams.get('preview') === '1') {
+        let start = null;
+        function previewLoop(now) {
+          if (!start) start = now;
+          const elapsed = (now - start) / 1000;
+          window.renderFrame(elapsed % (currentScene.duration || 5.0));
+          requestAnimationFrame(previewLoop);
         }
-      });
-    } else {
-      window.loadScene(window.__SCENE_DATA__);
+        requestAnimationFrame(previewLoop);
+      } else {
+        window.renderFrame(Math.min(2.0, (currentScene?.duration || 5.0) - 0.5));
+      }
     }
 
-    // Interactive Loop when previewing directly in Chrome
-    if (!window.__PUPPETEER_CAPTURE__ && urlParams.get('preview') === '1') {
-      let start = null;
-      function previewLoop(now) {
-        if (!start) start = now;
-        const elapsed = (now - start) / 1000;
-        window.renderFrame(elapsed % (currentScene.duration || 5.0));
-        requestAnimationFrame(previewLoop);
-      }
-      requestAnimationFrame(previewLoop);
-    } else if (!window.__PUPPETEER_CAPTURE__) {
-      // Default to settled frame 2.0s
-      window.renderFrame(Math.min(2.0, (currentScene?.duration || 5.0) - 0.5));
+    if (!window.__PUPPETEER_CAPTURE__) {
+      bootstrap();
+    } else {
+      window.__FONTS_READY__ = window.MotionCore
+        ? window.MotionCore.ensureFonts()
+        : Promise.resolve({ ok: false, missing: ['MotionCore'] });
     }
   </script>
 </body>

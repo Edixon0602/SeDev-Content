@@ -1,0 +1,192 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[12] Le hice ingeniería inversa a Resident Evil 3 de 1999 sin código fuente",
+  "category": "HARDCORE ENGINEERING & MEMORIA",
+  "pilar": "Proof of Work & Casos Reales",
+  "slug": "sedev_12_re3_ingenieria_inversa_memoria",
+  "introType": "MEMORY LAYOUT",
+  "ctaKeyword": "HARDCORE",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_12_re3_ingenieria_inversa_memoria.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "memory_layout",
+      "duration": 11.1,
+      "voiceover": "No existía documentación oficial ni código fuente público de Resident Evil 3 de 1999, así que abrí la memoria del juego en crudo.",
+      "visual_cue": "Inspección de punteros hexadecimales reales (0x004A1F00) y tablas binarias .DAT",
+      "props": {
+        "voiceover": "No existía documentación oficial ni código fuente público de Resident Evil 3 de 1999, así que abrí la memoria del juego en crudo.",
+        "badge": "INGENIERÍA INVERSA // BYTES Y PUNTEROS",
+        "title": "RESIDENT EVIL 3 (1999) · MEMORIA EN CRUDO",
+        "items": [
+          {
+            "addr": "0x004A1F00",
+            "name": "Tabla de cámaras y salas (.RDT)",
+            "value": "Offsets binarios sin documentación pública"
+          },
+          {
+            "addr": "0x004B8210",
+            "name": "Punteros de inventario y armas",
+            "value": "Estructuras en C empaquetadas al byte"
+          },
+          {
+            "addr": "0x0051C040",
+            "name": "Bytecode de eventos del motor",
+            "value": "Instrucciones de máquina decodificadas a mano"
+          }
+        ],
+        "resolutionTitle": "CUANDO NO HAY API, LEES LOS BYTES",
+        "resolutionSub": "Ingeniería de bajo nivel aplicada a resolver lo imposible"
+      }
+    },
+    {
+      "id": "s02_code",
+      "type": "terminal_split",
+      "duration": 10.3,
+      "voiceover": "Quería construir una herramienta moderna para modificar escenarios y tablas internas, pero para la computadora todo era un bloque binario ilegible.",
+      "visual_cue": "Hex dump crudo vs Decodificador de estructuras binarias escrito a medida",
+      "props": {
+        "voiceover": "Quería construir una herramienta moderna para modificar escenarios y tablas internas, pero para la computadora todo era un bloque binario ilegible.",
+        "title": "DE BYTES CRUDOS A ESTRUCTURAS DE DATOS",
+        "subtitle": "DESENSAMBLADO Y MAPEO DE OFFSETS",
+        "leftTitle": "ARCHIVO BINARIO CRUDO (.RDT / .BIN)",
+        "leftCode": "00000000: 4A 1F 00 00 80 02 E0 01  04 00 FF 7F 12 08 00 00\n00000010: C0 24 01 00 00 00 00 00  3B 00 1A 00 09 00 00 00\n// Sin nombres de campos, sin JSON, sin ayuda",
+        "rightTitle": "PARSER BINARIO CONSTRUIDO A MEDIDA",
+        "rightCode": "struct RoomHeader {\n  uint32_t cameraTableOffset; // 0x00\n  uint16_t triggerZoneCount;  // 0x04\n  ItemSlot inventoryTable[16]; // 0x08\n}; // Interfaz gráfica conectada en tiempo real",
+        "diffNote": "Lectura y edición en memoria en tiempo real"
+      }
+    },
+    {
+      "id": "s03_arch",
+      "type": "kernel_sandbox_viz",
+      "duration": 9.2,
+      "voiceover": "Rastreando punteros en el depurador mapeé byte por byte dónde vivía cada objeto y construí una interfaz visual encima.",
+      "visual_cue": "Inspección de bajo nivel entre memoria de proceso, tabla de punteros y editor visual",
+      "props": {
+        "voiceover": "Rastreando punteros en el depurador mapeé byte por byte dónde vivía cada objeto y construí una interfaz visual encima.",
+        "badge": "INGENIERÍA DE BAJO NIVEL",
+        "title": "INTERCEPCIÓN DE MEMORIA Y PROTOCOLOS BINARIOS",
+        "subtitle": "LECTURA DIRECTA DE ESTRUCTURAS SIN CÓDIGO FUENTE"
+      }
+    },
+    {
+      "id": "s04_race",
+      "type": "versus_race",
+      "duration": 12.1,
+      "voiceover": "¿Y qué tiene que ver esto con tu empresa? Que hoy el noventa por ciento de los programadores solo sabe pegar librerías hechas por otros.",
+      "visual_cue": "Contraste de resolución: Ingeniero de sistemas (resuelve causas raíz) vs Pegador de librerías",
+      "props": {
+        "voiceover": "¿Y qué tiene que ver esto con tu empresa? Que hoy el noventa por ciento de los programadores solo sabe pegar librerías hechas por otros.",
+        "title": "CUANDO ALGO SE ROMPE FUERA DEL TUTORIAL",
+        "subtitle": "INGENIERÍA DE SISTEMAS VS PEGAR LIBRERÍAS",
+        "sideA": {
+          "name": "ENTENDER MEMORIA Y PROTOCOLOS",
+          "tag": "AUDITORÍA A NIVEL DE BYTES Y RED",
+          "targetMs": 1,
+          "displayTime": "RESUELTO",
+          "memory": "CAUSA RAÍZ",
+          "cacheMisses": "0 EXCUSAS",
+          "speedup": "SOLUCIÓN REAL"
+        },
+        "sideB": {
+          "name": "DEPENDER DE LIBRERÍAS DE MODA",
+          "tag": "SI NO HAY PLUGIN, SE BLOQUEAN",
+          "targetMs": 9999,
+          "displayTime": "BLOQUEADO",
+          "memory": "SIN IDEA",
+          "cacheMisses": "'NO SE PUEDE'",
+          "bottleneck": "PROYECTO PARADO"
+        }
+      }
+    },
+    {
+      "id": "s05_disaster",
+      "type": "disaster_monitor",
+      "duration": 12.2,
+      "voiceover": "Por eso cuando les toca conectar un software viejo de fábrica, un protocolo binario o un bug profundo, te dicen que no se puede hacer.",
+      "visual_cue": "Monitor de proyectos empresariales trabados porque 'el sistema viejo no tiene API'",
+      "props": {
+        "voiceover": "Por eso cuando les toca conectar un software viejo de fábrica, un protocolo binario o un bug profundo, te dicen que no se puede hacer.",
+        "title": "LA EXCUSA DE 'NO TIENE DOCUMENTACIÓN'",
+        "subtitle": "SISTEMAS INDUSTRIALES, ERPS Y PROTOCOLOS PROPIETARIOS",
+        "crashedStatus": "PROYECTO FRENADO: 'LA AGENCIA DICE QUE NO HAY PLUGIN'",
+        "latencyNormal": 10,
+        "latencyCrash": 9999,
+        "logs": [
+          {
+            "time": "CASO_1",
+            "level": "WARN",
+            "text": "Báscula / lector industrial enviando tramas TCP crudas",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "CASO_2",
+            "level": "ERR",
+            "text": "ERP contable antiguo sin endpoints REST modernos",
+            "color": "#ef4444"
+          },
+          {
+            "time": "SEDEV",
+            "level": "INFO",
+            "text": "Protocolo decodificado e integrado en 4 días",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s06_cost",
+      "type": "cost_ticker",
+      "duration": 9,
+      "voiceover": "Cuando entiendes cómo funcionan la memoria y los bytes por debajo, destrabar cualquier sistema empresarial es pan comido.",
+      "visual_cue": "Valor de destrabar una integración crítica sin reemplazar toda la maquinaria",
+      "props": {
+        "voiceover": "Cuando entiendes cómo funcionan la memoria y los bytes por debajo, destrabar cualquier sistema empresarial es pan comido.",
+        "title": "DESTRABAR LO QUE OTROS DAN POR PERDIDO",
+        "subtitle": "INTEGRACIÓN DE BAJO NIVEL PARA NEGOCIOS",
+        "cloudCost": 8500,
+        "initialCost": 0,
+        "breakdown": [
+          {
+            "name": "Cambiar maquinaria o ERP entero",
+            "cost": "$8,500+",
+            "sub": "Gasto innecesario por no saber leer el protocolo",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Meses de operación desconectada",
+            "cost": "CRÍTICO",
+            "sub": "Datos atrapados en cajas negras",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "1 Conector",
+        "takeaway": "TODO SOFTWARE HABLA EN BYTES SI SABES ESCUCHARLO"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 10.3,
+      "voiceover": "Si tienes un problema técnico complejo o un sistema donde otros te dijeron que no se podía integrar, escríbeme por privado.",
+      "visual_cue": "Cierre de autoridad con palabra clave HARDCORE",
+      "props": {
+        "voiceover": "Si tienes un problema técnico complejo o un sistema donde otros te dijeron que no se podía integrar, escríbeme por privado.",
+        "badge": "INGENIERÍA DE BAJO NIVEL & SISTEMAS",
+        "lines": [
+          {
+            "text": "SI TIENE BYTES",
+            "color": "#ffffff"
+          },
+          {
+            "text": "SE PUEDE CONECTAR",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "PROTOCOLOS · SISTEMAS LEGACY · OPTIMIZACIÓN EXTREMA",
+        "ctaKeyword": "HARDCORE",
+        "ctaNote": "Cuéntame qué sistema o cuello de botella te dijeron que 'no se puede tocar'."
+      }
+    }
+  ]
+};

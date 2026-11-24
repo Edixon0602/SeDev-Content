@@ -1,0 +1,232 @@
+{
+  "title": "[21] El cementerio de leads: por qué tardar 4 horas en WhatsApp mata tus ventas",
+  "category": "FLOWBOT · INTAKE & CONVERSIÓN",
+  "pilar": "Fuga de Prospectos & Velocidad de Respuesta",
+  "slug": "nevox_21_flowbot_cementerio_leads",
+  "introType": "LATENCY SCALE",
+  "ctaKeyword": "FLOW",
+  "fps": 30,
+  "output": "animaciones/output_clips/nevox_21_flowbot_cementerio_leads.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "Si pagas anuncios para llevar prospectos a WhatsApp y tardas cuatro horas en responder, estás tirando tu presupuesto a la basura.",
+      "visual_cue": "Escala de conversión cayendo abruptamente: 391% a los 5 minutos vs 0.8% a las 4 horas",
+      "props": {
+        "voiceover": "Si pagas anuncios para llevar prospectos a WhatsApp y tardas cuatro horas en responder, estás tirando tu presupuesto a la basura.",
+        "title": "EROSIÓN DE CONVERSIÓN EN WHATSAPP",
+        "subtitle": "PROBABILIDAD DE CIERRE SEGÚN TIEMPO DE RESPUESTA",
+        "markers": [
+          {
+            "label": "< 5 minutos (Intake Automático)",
+            "latency": 5,
+            "color": "#00e5a0",
+            "note": "+391% probabilidad de cierre"
+          },
+          {
+            "label": "30 minutos (Demora Promedio)",
+            "latency": 30,
+            "color": "#fbbf24",
+            "note": "-62% interés del comprador"
+          },
+          {
+            "label": "4 horas (Atención Manual Tradicional)",
+            "latency": 240,
+            "color": "#ef4444",
+            "note": "Prospecto comprado por la competencia"
+          }
+        ],
+        "takeaway": "EL 78% DE LOS CLIENTES COMPRA AL PRIMERO QUE RESPONDE"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 5.6,
+      "voiceover": "El cliente escribe con la tarjeta en la mano, no recibe respuesta inmediata y a los diez minutos ya le compró a tu competencia.",
+      "visual_cue": "Monitor de abandono de lead: timeline de enfriamiento y compra en negocio rival",
+      "props": {
+        "voiceover": "El cliente escribe con la tarjeta en la mano, no recibe respuesta inmediata y a los diez minutos ya le compró a tu competencia.",
+        "title": "ENFRIAMIENTO CRÍTICO DE PROSPECTOS",
+        "subtitle": "VENTA PERDIDA POR LATENCIA OPERATIVA",
+        "crashedStatus": "LEAD ABANDONADO · COMPRA COMPLETADA EN OTRO PROVEEDOR",
+        "latencyNormal": 18,
+        "latencyCrash": 14400,
+        "logs": [
+          {
+            "time": "10:02",
+            "level": "INFO",
+            "text": "Prospecto escribe solicitando precio y entrega inmediata",
+            "color": "#38bdf8"
+          },
+          {
+            "time": "10:14",
+            "level": "WARN",
+            "text": "Sin respuesta del asesor asignado (12 min en espera)",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "10:25",
+            "level": "CRIT",
+            "text": "Prospecto abre chat con competidor y concreta pago",
+            "color": "#ef4444"
+          },
+          {
+            "time": "14:10",
+            "level": "ERR",
+            "text": "Asesor manual responde: '¡Hola feliz tarde!' (Lead frío)",
+            "color": "#71717a"
+          }
+        ],
+        "impactMetric": "$1,850 USD",
+        "impactSub": "Pérdida semanal en prospectos que no esperaron"
+      }
+    },
+    {
+      "id": "s03_architecture",
+      "type": "architecture_flow",
+      "duration": 5.6,
+      "voiceover": "Un motor con conexión oficial a WhatsApp intercepta el mensaje entrante en menos de dos segundos y valida la intención de compra.",
+      "visual_cue": "Diagrama de flujo reactivo: Mensaje entrante -> Motor en la nube (<80ms) -> Calificador automático",
+      "props": {
+        "voiceover": "Un motor con conexión oficial a WhatsApp intercepta el mensaje entrante en menos de dos segundos y valida la intención de compra.",
+        "title": "MOTOR DE INTAKE OFICIAL EN LA NUBE",
+        "subtitle": "ARQUITECTURA REACTIVA DE ATENCIÓN INMEDIATA",
+        "nodes": [
+          {
+            "id": "msg",
+            "label": "Mensaje WhatsApp",
+            "sub": "Cliente entrante",
+            "status": "OK",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "gateway",
+            "label": "Conexión Oficial",
+            "sub": "Webhook seguro <80ms",
+            "status": "FAST",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "engine",
+            "label": "Motor de IA",
+            "sub": "Detección de intención",
+            "status": "ACTIVE",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "crm",
+            "label": "Ficha en CRM",
+            "sub": "Lead calificado + Cita",
+            "status": "READY",
+            "color": "#fbbf24"
+          }
+        ],
+        "pipelineStats": "TIEMPO DE RESPUESTA: 1.8 SEGUNDOS · CERO ESPERAS"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 5.8,
+      "voiceover": "Sin formularios aburridos ni bots torpes: tres preguntas clave en lenguaje natural que filtran a los curiosos de los compradores reales.",
+      "visual_cue": "Cirugía de código: Menú rígido de botones rotos vs Motor conversacional guiado",
+      "props": {
+        "voiceover": "Sin formularios aburridos ni bots torpes: tres preguntas clave en lenguaje natural que filtran a los curiosos de los compradores reales.",
+        "title": "CALIFICACIÓN CONVERSACIONAL INTELIGENTE",
+        "fileLeft": "bot_antiguo_arbol.txt",
+        "codeLeft": "1. Presione 1 para Ventas\n2. Presione 2 para Horarios\n3. Presione 3 para Dirección\n> Cliente: 'Hola, tienen stock inmediato del modelo pro?'\n> Bot: 'Opción no válida. Ingrese un número.'\n[Cliente abandona chat frustrado]",
+        "fileRight": "flowbot_intake_ia.json",
+        "codeRight": "{\n  \"intencion\": \"compra_inmediata\",\n  \"producto_solicitado\": \"Modelo Pro\",\n  \"stock_disponible\": true,\n  \"presupuesto_validado\": true,\n  \"accion\": \"transferir_asesor_prioritario\"\n}",
+        "analysis": "EXTRACCIÓN DE INTENCIÓN REAL EN ESPAÑOL DIRECTO"
+      }
+    },
+    {
+      "id": "s05_versus",
+      "type": "versus_race",
+      "duration": 5.5,
+      "voiceover": "Mientras un operador manual tarda doscientos minutos en contestar, el sistema califica y agenda la cita en dieciocho segundos.",
+      "visual_cue": "Carrera de velocidad: Atención manual (14,400s) vs Motor automatizado (18s)",
+      "props": {
+        "voiceover": "Mientras un operador manual tarda doscientos minutos en contestar, el sistema califica y agenda la cita en dieciocho segundos.",
+        "title": "VELOCIDAD DE CAPTACIÓN: MANUAL VS MOTOR IA",
+        "runnerA": {
+          "name": "Respuesta Manual con Teléfono",
+          "time": "14,400s",
+          "rate": "240 min promedio",
+          "color": "#ef4444"
+        },
+        "runnerB": {
+          "name": "FlowBot Motor Oficial",
+          "time": "18s",
+          "rate": "Calificado y agendado",
+          "color": "#00e5a0"
+        },
+        "winnerDiff": "800x MÁS RÁPIDO · CONVERSIÓN RETENIDA AL 100%"
+      }
+    },
+    {
+      "id": "s06_matrix",
+      "type": "tradeoff_matrix",
+      "duration": 5.6,
+      "voiceover": "Tus vendedores reciben prospectos listos para pagar con presupuesto validado en lugar de perder el día saludando desconocidos.",
+      "visual_cue": "Matriz de optimización de tiempo: 85% filtrando spam manual vs 85% cerrando ventas calientes",
+      "props": {
+        "voiceover": "Tus vendedores reciben prospectos listos para pagar con presupuesto validado en lugar de perder el día saludando desconocidos.",
+        "title": "ENFOQUE DEL EQUIPO COMERCIAL",
+        "dimX": "Tiempo en Operación",
+        "dimY": "Tasa de Cierre",
+        "quadrants": [
+          {
+            "name": "Chat Manual Desordenado",
+            "value": "85% tiempo en saludar curiosos / 5% cierres",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Bot Rígido de Opciones",
+            "value": "Menú molesto / 70% abandono de leads",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "FlowBot Calificado",
+            "value": "85% tiempo cerrando clientes listos / 38% cierres",
+            "color": "#00e5a0"
+          }
+        ],
+        "verdict": "TUS VENDEDORES PASAN A HABLAR ÚNICAMENTE CON QUIEN PUEDE PAGAR"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "Si sientes que tu equipo pierde ventas en WhatsApp por responder tarde, comenta FLOW y te muestro el flujo exacto que usamos.",
+      "visual_cue": "Diagnóstico de fugas operativas en WhatsApp con palabra clave FLOW",
+      "props": {
+        "voiceover": "Si sientes que tu equipo pierde ventas en WhatsApp por responder tarde, comenta FLOW y te muestro el flujo exacto que usamos.",
+        "title": "DIAGNÓSTICO DE VELOCIDAD DE VENTAS",
+        "subtitle": "RECUPERA EL 40% DE PROSPECTOS PERDIDOS",
+        "cloudCost": 2800,
+        "initialCost": 120,
+        "breakdown": [
+          {
+            "name": "Leads perdidos por demoras de 4h+",
+            "cost": "$1,850/mes",
+            "sub": "Clientes que compraron en la competencia",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Horas de asesores saludando spam",
+            "cost": "$950/mes",
+            "sub": "Salarios consumidos en tareas no productivas",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "INSTALACIÓN DIRECTA",
+        "takeaway": "ESCRIBE 'FLOW' PARA AUDITAR TU INTAKE DE WHATSAPP"
+      }
+    }
+  ]
+}

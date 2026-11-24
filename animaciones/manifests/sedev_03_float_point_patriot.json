@@ -1,0 +1,71 @@
+{
+  "title": "[03] El bug de 1 milisegundo que costó millones y vidas",
+  "slug": "sedev_03_float_point_patriot",
+  "category": "HISTORIA TECH & ARITMÉTICA BINARIA",
+  "tagline": "Por qué las computadoras no pueden guardar 0.1 exacto",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_03_float_point_patriot",
+  "script": {
+    "hook": "Un error de redondeo de cero punto cero cero cero cero cero cero noventa y cinco segundos causó una de las mayores catástrofes militares de la historia moderna.",
+    "broll1_lead": "En 1991, una batería de misiles Patriot falló en interceptar un proyectil enemigo. La razón: las computadoras no saben guardar el número cero punto uno en binario; es una fracción infinita que debe truncarse a veinticuatro bits.",
+    "camera_pivot": "En una laptop, que el reloj se desfase un tercio de segundo no importa. Pero a cinco veces la velocidad del sonido, ese tercio de segundo significa que el blanco ya está a seiscientos metros de donde el radar calcula.",
+    "broll2_lead": "El sistema calculó la ventana de impacto basándose en un reloj truncado, buscó el misil en el cielo donde ya no estaba y no disparó. Todo por no reiniciar el equipo a tiempo.",
+    "outro": "Por eso nunca uses punto flotante para dinero ni para coordenadas críticas. Si quieres más historias de bugs que cambiaron el mundo, deja tu like y sígueme."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_binary_float_truncate",
+      "purpose": "Cirugía de código mostrando el error de redondeo en binario IEEE 754",
+      "type": "terminal_split",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "EL PECADO ORIGINAL DE IEEE 754",
+        "subtitle": "IMPOSIBILIDAD DE REPRESENTAR 1/10 EN BASE 2",
+        "leftTitle": "ARITMÉTICA HUMANA (BASE 10)",
+        "leftCode": "1/10 = 0.1 (exacto)\ntiempo = ticks * 0.1s\n// En papel nunca hay error acumulado",
+        "rightTitle": "REGISTRO BINARIO (24 BITS)",
+        "rightCode": "0.1_dec = 0.00011001100110011001100...\nerror_por_tick = 0.000000095s\n100_horas_encendido = +0.3433s DE ERROR!",
+        "diffNote": "Desfase de 0.34s a velocidad Mach 5 = 687 metros de desvío"
+      },
+      "voiceover": "En 1991, una batería de misiles Patriot falló en interceptar un proyectil enemigo. La razón: las computadoras no saben guardar el número cero punto uno en binario; es una fracción infinita que debe truncarse a veinticuatro bits.",
+      "visual_cue": "Cirugía de código mostrando el error de redondeo en binario IEEE 754"
+    },
+    {
+      "id": "broll_02_radar_drift_crash",
+      "purpose": "Monitor de radar perdiendo el blanco por desvío de 687 metros",
+      "type": "disaster_monitor",
+      "duration": 9.5,
+      "props": {
+        "theme": "dark",
+        "title": "DESFASIO TEMPORAL EN RADAR MILITAR",
+        "subtitle": "ACUMULACIÓN DE 100 HORAS DE DERIVA DE RELOJ",
+        "crashedStatus": "TRACKING LOST: TARGET MISMATCH (687 METROS DE DESVÍO)",
+        "latencyNormal": 1,
+        "latencyCrash": 343,
+        "logs": [
+          {
+            "time": "T+100h",
+            "level": "WARN",
+            "text": "Reloj interno acumuló +0.343s por truncamiento binario",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "T+100h",
+            "level": "ERR",
+            "text": "Ventana de cálculo de trayectoria desplazada 687m",
+            "color": "#ef4444"
+          },
+          {
+            "time": "T+100h",
+            "level": "CRIT",
+            "text": "Intercepción abortada: Radar no encontró el objeto en coordenadas",
+            "color": "#f87171"
+          }
+        ]
+      },
+      "voiceover": "El sistema calculó la ventana de impacto basándose en un reloj truncado, buscó el misil en el cielo donde ya no estaba y no disparó. Todo por no reiniciar el equipo a tiempo.",
+      "visual_cue": "Monitor de radar perdiendo el blanco por desvío de 687 metros"
+    }
+  ]
+}

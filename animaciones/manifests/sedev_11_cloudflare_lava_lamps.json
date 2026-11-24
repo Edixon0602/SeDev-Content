@@ -1,0 +1,83 @@
+{
+  "title": "[11] ¿Por qué Cloudflare usa lámparas de lava para cifrar Internet?",
+  "slug": "sedev_11_cloudflare_lava_lamps",
+  "category": "CRIPTOGRAFÍA & FÍSICA APLICADA",
+  "tagline": "El caos físico de fluidos térmicos alimentando la entropía mundial",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_11_cloudflare_lava_lamps",
+  "script": {
+    "hook": "El diez por ciento del tráfico de internet de todo el planeta depende de cien lámparas de lava puestas en una repisa en San Francisco.",
+    "broll1_lead": "Las computadoras son máquinas deterministas. Si le pides a un procesador que genere un número al azar mediante una fórmula, en realidad genera un número pseudoaleatorio predecible si alguien conoce la semilla inicial.",
+    "camera_pivot": "En criptografía militar y seguridad web, si un atacante puede predecir tu número aleatorio, puede descifrar todas tus contraseñas y tarjetas de crédito.",
+    "broll2_lead": "Cloudflare colocó una cámara apuntando a una pared de lámparas de lava. Las burbujas de cera líquida flotan con física caótica imposible de replicar, convirtiendo los píxeles capturados en una semilla criptográfica inquebrantable.",
+    "outro": "Cuando las matemáticas puras no alcanzan, la física del mundo real salva a la tecnología. Sígueme para más historias increíbles de la red."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_lavarand_pipeline",
+      "purpose": "Tubería: Cámara capturando ruido de lámparas de lava -> SHA-256",
+      "type": "network_pipeline",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "PIPELINE CRIPTOGRÁFICO LAVARAND",
+        "subtitle": "CONVERSIÓN DE CAOS FÍSICO A SEMILLA 256 BITS",
+        "stages": [
+          {
+            "name": "CÁMARA DE ALTA RESOLUCIÓN",
+            "tag": "Captura de fotogramas RGB ruidosos",
+            "metric": "30 FPS",
+            "color": "#ef4444"
+          },
+          {
+            "name": "EXTRACCIÓN DE RUIDO TÉRMICO",
+            "tag": "Filtrado de fluctuaciones caóticas de cera",
+            "metric": "4.2 MB/s",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "HASHING CRIPTOGRÁFICO SHA-256",
+            "tag": "Generación de semilla CSPRNG verdadera",
+            "metric": "256 BITS",
+            "color": "#10b981"
+          }
+        ]
+      },
+      "voiceover": "Las computadoras son máquinas deterministas. Si le pides a un procesador que genere un número al azar mediante una fórmula, en realidad genera un número pseudoaleatorio predecible si alguien conoce la semilla inicial.",
+      "visual_cue": "Tubería: Cámara capturando ruido de lámparas de lava -> SHA-256"
+    },
+    {
+      "id": "broll_02_entropy_math_vs_physics",
+      "purpose": "Comparativa: PRNG determinista vulnerable vs Entropía física inquebrantable",
+      "type": "metrics_comparison",
+      "duration": 8.5,
+      "props": {
+        "theme": "dark",
+        "title": "CALIDAD DE GENERACIÓN ALEATORIA",
+        "subtitle": "ALGORITMO PSEUDOALEATORIO VS CAOS FÍSICO",
+        "metrics": [
+          {
+            "label": "Algoritmo PRNG clásico",
+            "val1": "Determinista",
+            "val2": "Vulnerable a reversión",
+            "good": false
+          },
+          {
+            "label": "LavaRand (Física de fluidos)",
+            "val1": "Entropía pura",
+            "val2": "Imposible de predecir",
+            "good": true
+          },
+          {
+            "label": "Tráfico mundial protegido",
+            "val1": "10% del tráfico web",
+            "val2": "TLS Keys seguras",
+            "good": true
+          }
+        ]
+      },
+      "voiceover": "Cloudflare colocó una cámara apuntando a una pared de lámparas de lava. Las burbujas de cera líquida flotan con física caótica imposible de replicar, convirtiendo los píxeles capturados en una semilla criptográfica inquebrantable.",
+      "visual_cue": "Comparativa: PRNG determinista vulnerable vs Entropía física inquebrantable"
+    }
+  ]
+}

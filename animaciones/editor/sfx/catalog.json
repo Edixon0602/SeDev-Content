@@ -1,0 +1,307 @@
+{
+  "version": 3,
+  "description": "Librería local de SFX del editor SeDev (21 sonidos sintetizados + 9 reales importados, 48 kHz mono PCM16).",
+  "licensePolicy": "Cada entrada declara licencia y origen. Solo se aceptan archivos locales con metadatos completos.",
+  "sounds": [
+    {
+      "id": "soft_whoosh",
+      "file": "soft_whoosh.wav",
+      "durationSec": 0.62,
+      "category": "transition",
+      "tags": ["entrada", "broll", "transición", "aire"],
+      "defaultGainDb": -8,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x5e0d1)"
+    },
+    {
+      "id": "ui_tick",
+      "file": "ui_tick.wav",
+      "durationSec": 0.11,
+      "category": "accent",
+      "tags": ["overlay", "palabra", "precisión", "clic"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "low_impact",
+      "file": "low_impact.wav",
+      "durationSec": 0.72,
+      "category": "impact",
+      "tags": ["causa", "consecuencia", "énfasis", "gravedad"],
+      "defaultGainDb": -8,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x1a9c3)"
+    },
+    {
+      "id": "paper_turn",
+      "file": "paper_turn.wav",
+      "durationSec": 0.46,
+      "category": "texture",
+      "tags": ["documento", "proceso", "detalle", "papel"],
+      "defaultGainDb": -9,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x77aa2)"
+    },
+    {
+      "id": "digital_chime",
+      "file": "digital_chime.wav",
+      "durationSec": 0.78,
+      "category": "resolve",
+      "tags": ["resolución", "cierre", "sistema", "confirmación"],
+      "defaultGainDb": -8,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "hook_impact",
+      "file": "hook_impact.wav",
+      "durationSec": 0.75,
+      "category": "impact",
+      "tags": ["hook", "apertura", "impacto", "inicio"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x88101)"
+    },
+    {
+      "id": "cinematic_boom",
+      "file": "cinematic_boom.wav",
+      "durationSec": 0.95,
+      "category": "impact",
+      "tags": ["boom", "sub", "tesis", "impacto"],
+      "defaultGainDb": -8,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x41202)"
+    },
+    {
+      "id": "bass_drop_clean",
+      "file": "bass_drop_clean.wav",
+      "durationSec": 0.68,
+      "category": "impact",
+      "tags": ["drop", "bass", "caída", "mercado"],
+      "defaultGainDb": -8,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "pop_spring",
+      "file": "pop_spring.wav",
+      "durationSec": 0.2,
+      "category": "accent",
+      "tags": ["pop", "icono", "burbuja", "muelle"],
+      "defaultGainDb": -6,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "card_snap",
+      "file": "card_snap.wav",
+      "durationSec": 0.18,
+      "category": "accent",
+      "tags": ["tarjeta", "logos", "snap", "entrada"],
+      "defaultGainDb": -6,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x9a31c)"
+    },
+    {
+      "id": "ui_pop_double",
+      "file": "ui_pop_double.wav",
+      "durationSec": 0.26,
+      "category": "accent",
+      "tags": ["comparativa", "doble", "split", "tarjetas"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "sticker_slap",
+      "file": "sticker_slap.wav",
+      "durationSec": 0.2,
+      "category": "accent",
+      "tags": ["sticker", "badge", "slap", "etiqueta"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x3f29a)"
+    },
+    {
+      "id": "camera_punch",
+      "file": "camera_punch.wav",
+      "durationSec": 0.24,
+      "category": "transition",
+      "tags": ["cámara", "jumpcut", "punch", "zoom"],
+      "defaultGainDb": -6,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x6b14e)"
+    },
+    {
+      "id": "shutter_click",
+      "file": "shutter_click.wav",
+      "durationSec": 0.14,
+      "category": "accent",
+      "tags": ["imagen", "foto", "captura", "obturador"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x2c8d4)"
+    },
+    {
+      "id": "whip_pan",
+      "file": "whip_pan.wav",
+      "durationSec": 0.34,
+      "category": "transition",
+      "tags": ["whip", "transición", "rápida", "broll"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x91e7b)"
+    },
+    {
+      "id": "glitch_tech",
+      "file": "glitch_tech.wav",
+      "durationSec": 0.28,
+      "category": "tech",
+      "tags": ["glitch", "ia", "agentes", "digital"],
+      "defaultGainDb": -6,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x50fa3)"
+    },
+    {
+      "id": "data_burst",
+      "file": "data_burst.wav",
+      "durationSec": 0.32,
+      "category": "tech",
+      "tags": ["datos", "telemetría", "código", "tech"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "keyboard_burst",
+      "file": "keyboard_burst.wav",
+      "durationSec": 0.42,
+      "category": "tech",
+      "tags": ["teclado", "código", "software", "custom"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x7c331)"
+    },
+    {
+      "id": "counter_tick",
+      "file": "counter_tick.wav",
+      "durationSec": 0.12,
+      "category": "accent",
+      "tags": ["contador", "métrica", "dato", "número"],
+      "defaultGainDb": -7,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "riser_short",
+      "file": "riser_short.wav",
+      "durationSec": 0.72,
+      "category": "transition",
+      "tags": ["riser", "tensión", "subida", "broll"],
+      "defaultGainDb": -8,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js (semilla 0x11d4a)"
+    },
+    {
+      "id": "notification_ding",
+      "file": "notification_ding.wav",
+      "durationSec": 0.62,
+      "category": "resolve",
+      "tags": ["cta", "pregunta", "comentarios", "cierre"],
+      "defaultGainDb": -6,
+      "license": "CC0-1.0",
+      "origin": "Sintetizado internamente por animaciones/editor/sfx/generate_sfx.js"
+    },
+    {
+      "id": "censor_beep",
+      "file": "real_censor_beep.wav",
+      "durationSec": 0.25,
+      "category": "accent",
+      "tags": ["censura", "beep", "alerta", "error"],
+      "defaultGainDb": -14,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "ding_real",
+      "file": "real_ding.wav",
+      "durationSec": 1.2,
+      "category": "resolve",
+      "tags": ["ding", "acierto", "idea", "revelación"],
+      "defaultGainDb": -12,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "huh_cat",
+      "file": "real_huh_cat.wav",
+      "durationSec": 0.302,
+      "category": "accent",
+      "tags": ["duda", "pregunta", "ironía", "reacción"],
+      "defaultGainDb": -13,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "keyboard_meme",
+      "file": "real_keyboard_meme.wav",
+      "durationSec": 1.4,
+      "category": "tech",
+      "tags": ["teclado", "código", "terminal", "programar"],
+      "defaultGainDb": -11,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "keyboard_typing",
+      "file": "real_keyboard_typing.wav",
+      "durationSec": 2.4,
+      "category": "tech",
+      "tags": ["teclado", "escritura", "código", "terminal"],
+      "defaultGainDb": -10,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "money_kaching",
+      "file": "real_money.wav",
+      "durationSec": 1.35,
+      "category": "accent",
+      "tags": ["dinero", "precio", "coste", "ventas"],
+      "defaultGainDb": -11,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "punch_hit",
+      "file": "real_punch.wav",
+      "durationSec": 0.65,
+      "category": "impact",
+      "tags": ["impacto", "golpe", "hook", "corte"],
+      "defaultGainDb": -12,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "rizz_stinger",
+      "file": "real_rizz.wav",
+      "durationSec": 1.3,
+      "category": "transition",
+      "tags": ["stinger", "remate", "revelación", "transición"],
+      "defaultGainDb": -13,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    },
+    {
+      "id": "vine_boom",
+      "file": "real_vine_boom.wav",
+      "durationSec": 1.05,
+      "category": "impact",
+      "tags": ["boom", "impacto", "dato", "énfasis"],
+      "defaultGainDb": -12,
+      "license": "User-Provided-Local",
+      "origin": "Importado por el usuario desde Downloads/sfx y normalizado a 48 kHz mono PCM16"
+    }
+  ]
+}

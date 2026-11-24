@@ -4,15 +4,40 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test \"animaciones/tests/*.test.js\"",
     "preview": "node animaciones/engine/preview_server.js",
-    "generate:library": "node animaciones/engine/generate_library_2026.js",
-    "verify:library": "node animaciones/engine/verify_all_40_manifests.js"
+    "bundle": "node animaciones/engine/build_unified_bundle.js",
+    "render:pilot": "node animaciones/engine/render_full_video.js animaciones/manifests/pilotos/piloto_01_lava_lamps.json",
+    "render:series": "node animaciones/engine/render_full_video.js animaciones/manifests/pilotos/piloto_01_lava_lamps.json && node animaciones/engine/render_full_video.js animaciones/manifests/pilotos/piloto_02_bittorrent.json && node animaciones/engine/render_full_video.js animaciones/manifests/pilotos/piloto_03_redis.json && node animaciones/engine/render_full_video.js animaciones/manifests/pilotos/piloto_04_y2038.json && node animaciones/engine/render_full_video.js animaciones/manifests/pilotos/piloto_05_knight_capital.json",
+    "render:brolls": "node animaciones/engine/render_standalone_brolls.js",
+    "render:all": "node animaciones/engine/render_all_20.js",
+    "render:demo": "node animaciones/engine/render_full_video.js animaciones/manifests/demo_motion_hook.json --no-cache",
+    "render:demo:scene": "node animaciones/engine/render_full_video.js animaciones/manifests/demo_motion_hook.json --scene 0 --no-cache",
+    "render:premium": "node animaciones/engine/render_full_video.js animaciones/manifests/demo_premium_30s.json --no-cache",
+    "qa:premium": "node animaciones/engine/qa_capture.js animaciones/manifests/demo_premium_30s.json --out animaciones/debug_frames/demo_premium --report animaciones/debug_frames/demo_premium/qa_report.json",
+    "render:overlay": "node animaciones/engine/render_overlay_qa.js overlay_word_by_word 3.2 30",
+    "qa:demo": "node animaciones/engine/qa_capture.js animaciones/manifests/demo_motion_hook.json && node animaciones/engine/qa_capture.js animaciones/manifests/qa_hard_cases.json --out animaciones/debug_frames/qa_hard --report animaciones/debug_frames/qa_hard_report.json",
+    "qa:hard": "node animaciones/engine/qa_capture.js animaciones/manifests/qa_hard_cases.json --out animaciones/debug_frames/qa_hard --report animaciones/debug_frames/qa_hard_report.json",
+    "qa:overlay": "node animaciones/engine/render_overlay_qa.js overlay_word_by_word 3.2 30",
+    "verify": "node animaciones/engine/qa_verify_v2_engine.js all",
+    "verify:scene": "node animaciones/engine/qa_verify_v2_engine.js scene",
+    "verify:player": "node animaciones/engine/qa_verify_v2_engine.js player",
+    "edit:auto": "node animaciones/editor/cli.js",
+    "edit:setup": "node animaciones/editor/setup_whisper.js",
+    "edit:prepare-model": "node animaciones/editor/setup_whisper.js --prepare-model",
+    "edit:sfx": "node animaciones/editor/sfx/generate_sfx.js",
+    "test:editor": "node --test \"animaciones/tests/editor*.test.js\"",
+    "test:integration": "node --test animaciones/tests/editor_integration.test.js",
+    "render:editorial-demo": "node animaciones/engine/render_full_video.js animaciones/manifests/editorial_explainer_demo.json",
+    "qa:editorial": "node animaciones/engine/qa_capture.js animaciones/manifests/editorial_explainer_demo.json --out animaciones/debug_frames/editorial_explainer --report animaciones/debug_frames/editorial_explainer/qa_report.json",
+    "qa:overlay:editorial": "node animaciones/editor/qa_overlay.js",
+    "qa:editorial:motion": "node animaciones/editor/qa_motion.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer-core": "^25.14.0"
+    "puppeteer-core": "^25.14.0",
+    "three": "^0.186.1"
   }
 }

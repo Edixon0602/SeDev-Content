@@ -1,0 +1,222 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[01] La trampa de pagar $420/mes en Zapier por un bucle de $5",
+  "category": "AUTOMATIZACIÓN & SAAS TRAP",
+  "pilar": "Dolor de Negocio & SaaS Trap",
+  "slug": "sedev_01_zapier_tax_daemon",
+  "introType": "COST TICKER",
+  "ctaKeyword": "WORKER",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_01_zapier_tax_daemon.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "cost_ticker",
+      "duration": 8.2,
+      "voiceover": "Tu empresa no tiene un problema de automatización; tiene un impuesto a la pereza llamado Zapier.",
+      "visual_cue": "Ledger de sangría en suscripciones Zapier/Make ($420/mes) vs VPS ($6/mes)",
+      "props": {
+        "voiceover": "Tu empresa no tiene un problema de automatización; tiene un impuesto a la pereza llamado Zapier.",
+        "title": "EL IMPUESTO OCULTO DE ZAPIER",
+        "subtitle": "SUSCRIPCIÓN POR TAREA VS CÓDIGO PROPIO",
+        "cloudCost": 420,
+        "initialCost": 49,
+        "breakdown": [
+          {
+            "name": "Cobro por cada paso de webhook",
+            "cost": "$290/mes",
+            "sub": "9 tareas facturadas por cada venta",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Excesos de cuota a mitad de mes",
+            "cost": "$130/mes",
+            "sub": "Frenazo de órdenes por límite de plan",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "$6/mes",
+        "takeaway": "1 WORKER EN GO/NODE = 0 LÍMITES DE EJECUCIÓN"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 8.2,
+      "voiceover": "Empiezas pagando veinte dólares por unir cuatro herramientas, y terminas en cuatrocientos cuando tus ventas crecen.",
+      "visual_cue": "Monitor de tareas bloqueadas por límite de cuota mensual en hora pico",
+      "props": {
+        "voiceover": "Empiezas pagando veinte dólares por unir cuatro herramientas, y terminas en cuatrocientos cuando tus ventas crecen.",
+        "title": "BLOQUEO POR CUOTA DE TAREAS",
+        "subtitle": "CAÍDA SILENCIOSA EN MITAD DE CAMPAÑA",
+        "crashedStatus": "ERR 429: PLAN QUOTA EXCEEDED · EVENTOS EN PAUSA",
+        "latencyNormal": 120,
+        "latencyCrash": 14500,
+        "logs": [
+          {
+            "time": "14:10",
+            "level": "WARN",
+            "text": "Consumo mensual al 98%: 49,200 / 50,000 tasks",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "14:12",
+            "level": "ERR",
+            "text": "Paso 6 falló: Timeout en API externa sin reintento",
+            "color": "#ef4444"
+          },
+          {
+            "time": "14:15",
+            "level": "CRIT",
+            "text": "Webhook retenido: 84 pagos sin sincronizar al CRM",
+            "color": "#f87171"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_arch",
+      "type": "architecture_flow",
+      "duration": 10.5,
+      "voiceover": "Lo peor no es la factura: es que si el paso seis falla un domingo, nadie se entera hasta el martes.",
+      "visual_cue": "Flujo mecánico horizontal: Webhook -> Cola persistente -> Worker con reintentos",
+      "props": {
+        "voiceover": "Lo peor no es la factura: es que si el paso seis falla un domingo, nadie se entera hasta el martes.",
+        "layout": "horizontal",
+        "title": "ARQUITECTURA DE WORKER PROPIO",
+        "subtitle": "RECEPCIÓN ATÓMICA Y COLA DE REINTENTOS",
+        "nodes": [
+          {
+            "id": "wh",
+            "label": "WEBHOOK INGESTA",
+            "sublabel": "VALIDACIÓN HMAC EN 2ms",
+            "color": "#ffffff"
+          },
+          {
+            "id": "q",
+            "label": "COLA PERSISTENTE (REDIS/SQLITE)",
+            "sublabel": "DEAD-LETTER QUEUE + BACKOFF",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "wk",
+            "label": "DAEMON WORKER (NODE / GO)",
+            "sublabel": "50,000 EVENTOS/S SIN COSTO EXTRA",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 8.8,
+      "voiceover": "La semana pasada reemplazamos dieciocho cadenas de Zapier por un solo servicio de sesenta líneas en un VPS.",
+      "visual_cue": "Cirugía de código: 9 pasos frágiles no-code vs Worker con reintento exponencial",
+      "props": {
+        "voiceover": "La semana pasada reemplazamos dieciocho cadenas de Zapier por un solo servicio de sesenta líneas en un VPS.",
+        "title": "DE CAJITAS FRÁGILES A CÓDIGO REAL",
+        "subtitle": "CONTROL DE ERRORES Y TRANSACCIONES",
+        "leftTitle": "CADENA NO-CODE (9 PASOS COBRADOS)",
+        "leftCode": "// 1 webhook = 9 tareas facturadas\nStep1_Webhook() -> Step2_Filter()\nStep3_Format() -> Step4_LookupCRM()\n// Si Step5 da timeout: datos huérfanos",
+        "rightTitle": "WORKER PROPIO CON REINTENTO (60 LÍNEAS)",
+        "rightCode": "await db.transaction(async (tx) => {\n  await tx.insert(events).values(payload);\n  await syncToCRMWithRetry(payload, 3);\n}); // Costo por millón: $0.00",
+        "diffNote": "Idempotencia + Logs propios + $0 por tarea"
+      }
+    },
+    {
+      "id": "s05_race",
+      "type": "versus_race",
+      "duration": 7.6,
+      "voiceover": "Pasaron de esperar tres minutos por sincronización a procesarlo en doce milisegundos con reintentos automáticos.",
+      "visual_cue": "Carrera de velocidad: Demonio dedicado (12ms) vs Cadena Zapier (180,000ms)",
+      "props": {
+        "voiceover": "Pasaron de esperar tres minutos por sincronización a procesarlo en doce milisegundos con reintentos automáticos.",
+        "title": "LATENCIA DE SINCRONIZACIÓN",
+        "subtitle": "1,000 VENTAS ENTRANDO EN CAMPAÑA",
+        "sideA": {
+          "name": "WORKER DEDICADO ($6/MES)",
+          "tag": "COLA EN MEMORIA + RETRY",
+          "targetMs": 12,
+          "displayTime": "12ms",
+          "memory": "18 MB",
+          "cacheMisses": "0 EVENTOS PERDIDOS",
+          "speedup": "15,000x MÁS RÁPIDO"
+        },
+        "sideB": {
+          "name": "ZAPIER / MAKE ($420/MES)",
+          "tag": "POLLING + LÍMITE DE TASA",
+          "targetMs": 180000,
+          "displayTime": "180,000ms",
+          "memory": "NUBE EXTERNA",
+          "cacheMisses": "THROTTLED",
+          "bottleneck": "CUOTA AGOTADA"
+        }
+      }
+    },
+    {
+      "id": "s06_mem",
+      "type": "tradeoff_matrix",
+      "duration": 9.2,
+      "voiceover": "El desarrollo se pagó solo en sesenta días de suscripciones ahorradas y hoy tienen control total de sus logs.",
+      "visual_cue": "Matriz de decisión: Worker en VPS propio vs Suscripción por tarea en Zapier",
+      "props": {
+        "voiceover": "El desarrollo se pagó solo en sesenta días de suscripciones ahorradas y hoy tienen control total de sus logs.",
+        "title": "AUDITORÍA: ZAPIER VS CÓDIGO PROPIO",
+        "subtitle": "PROPIEDAD DE INFRAESTRUCTURA Y COSTO MENSUAL",
+        "colA": "WORKER SEDEV ($6/M)",
+        "colB": "ZAPIER / MAKE ($420/M)",
+        "rows": [
+          {
+            "dim": "Costo por 100k tareas",
+            "a": "$0.00 adicionales",
+            "b": "$420+ USD y subiendo",
+            "aGood": true
+          },
+          {
+            "dim": "Manejo de fallos",
+            "a": "Reintento + Alerta viva",
+            "b": "Fallo silencioso",
+            "aGood": true
+          },
+          {
+            "dim": "Latencia de ejecución",
+            "a": "12 ms en memoria",
+            "b": "3 a 15 min de atraso",
+            "aGood": true
+          },
+          {
+            "dim": "Propiedad del código",
+            "a": "100% de tu empresa",
+            "b": "Alquilado por mes",
+            "aGood": true
+          }
+        ],
+        "takeaway": "✔ ROI RECUPERADO EN 60 DÍAS DE SUSCRIPCIÓN"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 10.3,
+      "voiceover": "Si tus integraciones te cobran peaje por cada clic o fallan en silencio, escríbeme y vemos cómo pasarlo a código propio.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave WORKER",
+      "props": {
+        "voiceover": "Si tus integraciones te cobran peaje por cada clic o fallan en silencio, escríbeme y vemos cómo pasarlo a código propio.",
+        "badge": "INGENIERÍA DE AUTOMATIZACIÓN",
+        "lines": [
+          {
+            "text": "DEJA DE ALQUILAR",
+            "color": "#ffffff"
+          },
+          {
+            "text": "TUS INTEGRACIONES",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "MIGRACIÓN DE ZAPIER/MAKE A WORKERS PROPIOS",
+        "ctaKeyword": "WORKER",
+        "ctaNote": "Revisamos en 10 minutos qué flujos de tu negocio conviene pasar a código propio."
+      }
+    }
+  ]
+};

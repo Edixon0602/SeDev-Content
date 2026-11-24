@@ -1,0 +1,229 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[28] Rotación de lotes: por qué se te vencen productos en el fondo del anaquel",
+  "category": "CORTEX · INVENTARIO & OPERACIONES",
+  "pilar": "Control de Lotes & Vencimientos",
+  "slug": "nevox_28_cortex_fifo_fefo_lotes_vencimiento",
+  "introType": "DISASTER MONITOR",
+  "ctaKeyword": "LOTES",
+  "fps": 30,
+  "output": "animaciones/output_clips/nevox_28_cortex_fifo_fefo_lotes_vencimiento.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "disaster_monitor",
+      "duration": 5.5,
+      "voiceover": "Llega mercancía nueva, los empleados la colocan encima de la vieja y lo que estaba al fondo se vence sin que nadie lo note.",
+      "visual_cue": "Pérdida oculta en anaqueles: El 14% de la merma anual ocurre por productos que se caducan en bodega",
+      "props": {
+        "voiceover": "Llega mercancía nueva, los empleados la colocan encima de la vieja y lo que estaba al fondo se vence sin que nadie lo note.",
+        "title": "EL CEMENTERIO DEL FONDO DEL ANAQUEL",
+        "subtitle": "DESORDEN FÍSICO QUE CONSUME GANANCIAS",
+        "crashedStatus": "PRODUCTOS CADUCADOS DESCUBIERTOS EN AUDITORÍA",
+        "latencyNormal": 1,
+        "latencyCrash": 180,
+        "logs": [
+          {
+            "time": "Día 1",
+            "level": "INFO",
+            "text": "Entrada de Lote #1 (Vence en 60 días)",
+            "color": "#38bdf8"
+          },
+          {
+            "time": "Día 15",
+            "level": "WARN",
+            "text": "Entrada de Lote #2 colocada al frente del anaquel",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "Día 45",
+            "level": "WARN",
+            "text": "Se vende Lote #2 mientras Lote #1 sigue al fondo",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "Día 65",
+            "level": "FATAL",
+            "text": "Lote #1 caducado: $1,400 en producto que debe botarse",
+            "color": "#ef4444"
+          }
+        ],
+        "impactMetric": "$1,400 USD",
+        "impactSub": "Mercancía perdida en una sola sección del depósito"
+      }
+    },
+    {
+      "id": "s02_cost",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "En alimentos, medicamentos o cosméticos, botar una sola caja de producto vencido borra la ganancia de toda la semana.",
+      "visual_cue": "Ticker de merma acumulada: Pérdida directa de capital de trabajo por falta de rotación oportuna",
+      "props": {
+        "voiceover": "En alimentos, medicamentos o cosméticos, botar una sola caja de producto vencido borra la ganancia de toda la semana.",
+        "title": "IMPACTO DE LA MERMA EN TU NEGOCIO",
+        "subtitle": "CÓMO EL PRODUCTO CADUCADO DESTRUYE TU RENTABILIDAD",
+        "cloudCost": 3200,
+        "initialCost": 0,
+        "breakdown": [
+          {
+            "name": "Cajas de producto vencido descartadas",
+            "cost": "$2,200",
+            "sub": "Costo de compra absorbido al 100% como pérdida",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Espacio ocupado en bodega sin rotación",
+            "cost": "$1,000",
+            "sub": "Capital de trabajo congelado e inútil",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "$0 PÉRDIDAS CON CONTROL",
+        "takeaway": "EL INVENTARIO QUE NO ROTA A TIEMPO ES DINERO TIRADO"
+      }
+    },
+    {
+      "id": "s03_architecture",
+      "type": "architecture_flow",
+      "duration": 5.8,
+      "voiceover": "El control por lotes asigna a cada entrada su fecha de vencimiento y fuerza al sistema a vender primero lo que vence antes.",
+      "visual_cue": "Flujo de rotación automática: Entrada con fecha de caducidad -> Algoritmo de rotación -> Despacho prioritario",
+      "props": {
+        "voiceover": "El control por lotes asigna a cada entrada su fecha de vencimiento y fuerza al sistema a vender primero lo que vence antes.",
+        "title": "ROTACIÓN AUTOMÁTICA POR VENCIMIENTO",
+        "subtitle": "ALGORITMO DE DESPACHO PRIORITARIO DE LOTES",
+        "nodes": [
+          {
+            "id": "in",
+            "label": "Recepción Mercancía",
+            "sub": "Registro de lote + fecha",
+            "status": "INSPECT",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "lot",
+            "label": "Matriz de Caducidad",
+            "sub": "Orden cronológico estricto",
+            "status": "SORTED",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "pos",
+            "label": "Venta en Caja",
+            "sub": "Descuento del lote más antiguo",
+            "status": "DISPATCH",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "alert",
+            "label": "Radar 30 Días",
+            "sub": "Alerta para ofertas rápidas",
+            "status": "WARNING",
+            "color": "#fbbf24"
+          }
+        ],
+        "pipelineStats": "100% TRAZABILIDAD SANITARIA · ROTACIÓN GARANTIZADA"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 5.6,
+      "voiceover": "El cajero o el despachador escanea el producto y el sistema le indica exactamente de qué lote y ubicación debe retirarlo.",
+      "visual_cue": "Validación de salida en pantalla: Descuento obligatorio del lote con fecha más próxima",
+      "props": {
+        "voiceover": "El cajero o el despachador escanea el producto y el sistema le indica exactamente de qué lote y ubicación debe retirarlo.",
+        "title": "DESCUENTO DE INVENTARIO EN VIVO",
+        "fileLeft": "deposito_desordenado.txt",
+        "codeLeft": "Despachador toma la primera caja a la vista\nCaja retirada: Lote #99 (Vence en 2027)\nCaja que quedó olvidada: Lote #12 (Vence en 15 días)\n[Resultado]: El lote viejo se vence en el depósito",
+        "fileRight": "cortex_despacho_guiado.json",
+        "codeRight": "{\n  \"producto\": \"Fórmula Láctea 800g\",\n  \"instruccion_deposito\": \"Retirar de Estante B-03\",\n  \"lote_requerido\": \"LOTE-2026-A\",\n  \"vencimiento\": \"18 días restantes\",\n  \"estado_salida\": \"ROTACION_CORRECTA\"\n}",
+        "analysis": "CERO PRODUCTOS OLVIDADOS EN EL DEPÓSITO"
+      }
+    },
+    {
+      "id": "s05_versus",
+      "type": "versus_race",
+      "duration": 5.5,
+      "voiceover": "Treinta días antes del vencimiento recibes una alerta automática para lanzar promociones y recuperar el costo de inmediato.",
+      "visual_cue": "Comparativa: Descubrir producto vencido al botarlo (pérdida 100%) vs Alerta preventiva a 30 días para liquidar (recuperación 90%)",
+      "props": {
+        "voiceover": "Treinta días antes del vencimiento recibes una alerta automática para lanzar promociones y recuperar el costo de inmediato.",
+        "title": "GESTIÓN PREVENTIVA VS MERMA PASIVA",
+        "runnerA": {
+          "name": "Esperar a ver el producto vencido",
+          "time": "Pérdida 100%",
+          "rate": "Dinero tirado a la basura",
+          "color": "#ef4444"
+        },
+        "runnerB": {
+          "name": "Alerta Cortex a 30 días",
+          "time": "Recupera 90%",
+          "rate": "Promoción express de liquidación",
+          "color": "#00e5a0"
+        },
+        "winnerDiff": "TRANSFORMA RIESGO DE PÉRDIDA EN LIQUIDEZ INMEDIATA"
+      }
+    },
+    {
+      "id": "s06_matrix",
+      "type": "tradeoff_matrix",
+      "duration": 5.6,
+      "voiceover": "Cero mermas en bodega, cumplimiento estricto de normas sanitarias y rotación continua de tu capital invertido.",
+      "visual_cue": "Matriz de eficiencia de almacén: Rotación desordenada vs Rotación por fecha garantizada",
+      "props": {
+        "voiceover": "Cero mermas en bodega, cumplimiento estricto de normas sanitarias y rotación continua de tu capital invertido.",
+        "title": "CONTROL OPERATIVO DE BODEGA",
+        "dimX": "Control de Fechas",
+        "dimY": "Eficiencia de Capital",
+        "quadrants": [
+          {
+            "name": "Gestión a Ojo",
+            "value": "Pérdidas constantes por vencimientos no vistos",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Anotación en Cuadernos",
+            "value": "Nadie revisa las fechas hasta que ya es tarde",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "Cortex Lotes",
+            "value": "Salida automatizada y alertas de liquidación temprana",
+            "color": "#00e5a0"
+          }
+        ],
+        "verdict": "CADA ARTÍCULO EN TU BODEGA TIENE FECHA DE SALIDA PREVISTA"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "Si tienes pérdidas por productos que se vencen en tus anaqueles, comenta LOTES y te enseñamos cómo controlarlo.",
+      "visual_cue": "Diagnóstico de rotación de lotes y vencimientos con palabra clave LOTES",
+      "props": {
+        "voiceover": "Si tienes pérdidas por productos que se vencen en tus anaqueles, comenta LOTES y te enseñamos cómo controlarlo.",
+        "title": "DIAGNÓSTICO DE CONTROL DE LOTES",
+        "subtitle": "ELIMINA LA MERMA EN ALIMENTOS Y MEDICAMENTOS",
+        "cloudCost": 4500,
+        "initialCost": 100,
+        "breakdown": [
+          {
+            "name": "Pérdida anual promedio por mercancía vencida",
+            "cost": "$3,500/año",
+            "sub": "Cajas de producto descartadas en almacén",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Multas o sanciones por producto caducado exhibido",
+            "cost": "$1,000",
+            "sub": "Riesgos regulatorios evitables",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "CONTROL DE LOTES",
+        "takeaway": "ESCRIBE 'LOTES' PARA IMPLEMENTAR ROTACIÓN INTELIGENTE"
+      }
+    }
+  ]
+};

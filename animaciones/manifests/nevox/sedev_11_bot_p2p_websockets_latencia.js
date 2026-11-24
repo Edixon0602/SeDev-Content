@@ -1,0 +1,213 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[11] Por qué operar a mano o con HTTP lento pierde contra WebSockets en vivo",
+  "category": "BOTS FINANCIEROS & TIEMPO REAL",
+  "pilar": "Proof of Work & Casos Reales",
+  "slug": "sedev_11_bot_p2p_websockets_latencia",
+  "introType": "VERSUS RACE",
+  "ctaKeyword": "BOT",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_11_bot_p2p_websockets_latencia.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "versus_race",
+      "duration": 9.9,
+      "voiceover": "En arbitraje y pagos en vivo, consultar la página cada cinco segundos es llegar cuando la orden ya no existe.",
+      "visual_cue": "Carrera en vivo: Stream WebSocket persistente (18ms) vs HTTP Polling (3,000ms)",
+      "props": {
+        "voiceover": "En arbitraje y pagos en vivo, consultar la página cada cinco segundos es llegar cuando la orden ya no existe.",
+        "title": "EJECUCIÓN EN MERCADOS EN TIEMPO REAL",
+        "subtitle": "WEBSOCKETS PERSISTENTES VS HTTP POLLING",
+        "raceStart": 0.25,
+        "sideA": {
+          "name": "DAEMON WEBSOCKET (SEDEV)",
+          "tag": "CONEXIÓN TCP ABIERTA + PUSH",
+          "targetMs": 18,
+          "displayTime": "18ms",
+          "memory": "14 MB RAM",
+          "cacheMisses": "ORDEN TOMADA",
+          "speedup": "166x MÁS RÁPIDO"
+        },
+        "sideB": {
+          "name": "SCRIPT HTTP / OPERAR A MANO",
+          "tag": "PREGUNTA CADA 3 A 5 SEGUNDOS",
+          "targetMs": 3000,
+          "displayTime": "3,000ms",
+          "memory": "ALTA LATENCIA",
+          "cacheMisses": "ORDEN PERDIDA",
+          "bottleneck": "LLEGA TARDE"
+        }
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 10.3,
+      "voiceover": "Operar volumen a mano genera fatiga mental, errores de dedo al copiar montos y pérdida de margen frente a sistemas automatizados.",
+      "visual_cue": "Monitor de órdenes P2P escapadas por segundos de demora y errores de validación manual",
+      "props": {
+        "voiceover": "Operar volumen a mano genera fatiga mental, errores de dedo al copiar montos y pérdida de margen frente a sistemas automatizados.",
+        "title": "EL COSTO DE LA LATENCIA HUMANA",
+        "subtitle": "ÓRDENES PERDIDAS Y RIESGO OPERATIVO EN P2P",
+        "crashedStatus": "ORDEN #9841 TOMADA POR OTRO NODO (+1,420ms TARDE)",
+        "latencyNormal": 18,
+        "latencyCrash": 4200,
+        "logs": [
+          {
+            "time": "04:12.01",
+            "level": "INFO",
+            "text": "Spread detectado: +1.8% en par USDT/FIAT",
+            "color": "#10b981"
+          },
+          {
+            "time": "04:12.08",
+            "level": "WARN",
+            "text": "Bot institucional ejecutó orden en 22ms",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "04:15.00",
+            "level": "ERR",
+            "text": "Tu navegador recién refrescó: liquidez agotada",
+            "color": "#ef4444"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_arch",
+      "type": "network_pipeline",
+      "duration": 10.1,
+      "voiceover": "Por eso construimos un demonio en un servidor privado conectado por WebSockets que escucha el libro de órdenes en tiempo real.",
+      "visual_cue": "Tubería de baja latencia: Stream WebSocket binario -> Scoring de riesgo -> Orden firmada",
+      "props": {
+        "voiceover": "Por eso construimos un demonio en un servidor privado conectado por WebSockets que escucha el libro de órdenes en tiempo real.",
+        "title": "TUBERÍA DE EJECUCIÓN SUB-20MS",
+        "subtitle": "STREAM WEBSOCKET PERSISTENTE + FILTRO ANTI-FRAUDE",
+        "stages": [
+          {
+            "name": "STREAM WEBSOCKET BINARIO",
+            "tag": "Conexión persistente al libro de órdenes",
+            "metric": "2.1 ms",
+            "color": "#38bdf8"
+          },
+          {
+            "name": "SCORING Y REGLAS DE RIESGO",
+            "tag": "Filtra reputación, volumen y spread mínimo",
+            "metric": "4.5 ms",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "EJECUCIÓN FIRMADA + ALERTA",
+            "tag": "Toma la orden y notifica por Telegram",
+            "metric": "18.0 ms",
+            "color": "#10b981"
+          }
+        ],
+        "conclusion": "Mientras un humano apenas ve parpadear la pantalla, el demonio ya validó y aseguró la orden."
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 11.1,
+      "voiceover": "En menos de veinte milisegundos evalúa el precio, verifica la reputación de la contraparte y bloquea la operación sin margen de error humano.",
+      "visual_cue": "Código de polling lento con setInterval vs Stream reactivo WebSocket con reconexión",
+      "props": {
+        "voiceover": "En menos de veinte milisegundos evalúa el precio, verifica la reputación de la contraparte y bloquea la operación sin margen de error humano.",
+        "title": "POLLING LENTO VS STREAM REACTIVO",
+        "subtitle": "INGENIERÍA DE BAJA LATENCIA",
+        "leftTitle": "SCRIPT CASERO (POLLING HTTP LENTO)",
+        "leftCode": "setInterval(async () => {\n  // Llega 3 segundos tarde y te banean la IP\n  const book = await fetch('/api/v3/orderbook');\n  if (book.spread > 0.015) takeOrder();\n}, 3000);",
+        "rightTitle": "DAEMON WEBSOCKET CON SCORING (18ms)",
+        "rightCode": "ws.on('message', (frame) => {\n  const offer = decodeBinaryFrame(frame);\n  if (offer.spread >= MIN_SPREAD && scoreUser(offer) > 95) {\n    executeSignedOrder(offer); // 18ms total\n  }\n});",
+        "diffNote": "De 3 segundos de atraso a 18 milisegundos reales"
+      }
+    },
+    {
+      "id": "s05_mem",
+      "type": "memory_layout",
+      "duration": 8.8,
+      "voiceover": "Además corre con reconexión automática y conciliación contra el pago real para que jamás liberes fondos a ciegas.",
+      "visual_cue": "Capas de protección: Reconexión en 50ms, Scoring de contraparte y 2FA programático",
+      "props": {
+        "voiceover": "Además corre con reconexión automática y conciliación contra el pago real para que jamás liberes fondos a ciegas.",
+        "badge": "SEGURIDAD TRANSACCIONAL",
+        "title": "BLINDAJE OPERATIVO 24/7",
+        "items": [
+          {
+            "addr": "WATCHDOG",
+            "name": "Reconexión en < 50ms",
+            "value": "Si el socket cae, levanta sesión nueva al instante"
+          },
+          {
+            "addr": "ANTI_SCAM",
+            "name": "Filtro de contrapartes",
+            "value": "Descarta cuentas nuevas o con baja tasa de cierre"
+          },
+          {
+            "addr": "AUDIT_2FA",
+            "name": "Verificación de pago real",
+            "value": "Cruza el webhook bancario antes de liberar"
+          }
+        ],
+        "resolutionTitle": "PRECISIÓN MECÁNICA SIN FATIGA HUMANA",
+        "resolutionSub": "Tu estrategia operando 24/7 en un VPS dedicado"
+      }
+    },
+    {
+      "id": "s06_cost",
+      "type": "cost_ticker",
+      "duration": 9,
+      "voiceover": "No es un script de tutorial de YouTube; es infraestructura financiera diseñada para operar veinticuatro siete sin parpadear.",
+      "visual_cue": "Comparativa de spreads capturados y errores evitados al automatizar la mesa",
+      "props": {
+        "voiceover": "No es un script de tutorial de YouTube; es infraestructura financiera diseñada para operar veinticuatro siete sin parpadear.",
+        "title": "IMPACTO EN OPERATIVA DE VOLUMEN",
+        "subtitle": "EJECUCIÓN MANUAL VS INFRAESTRUCTURA AUTOMÁTICA",
+        "cloudCost": 2200,
+        "initialCost": 0,
+        "breakdown": [
+          {
+            "name": "Spreads perdidos por operar a mano",
+            "cost": "$1,500/mes",
+            "sub": "Oportunidades que duran menos de 1 segundo",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Errores humanos por fatiga nocturna",
+            "cost": "$700/mes",
+            "sub": "Montos o tasas mal calculadas bajo presión",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "18ms / 24h",
+        "takeaway": "INFRAESTRUCTURA DEDICADA CON CONTROL POR TELEGRAM"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 11.4,
+      "voiceover": "Si operas volumen en P2P, trading o flujos de pago y quieres automatizar tu operativa sin margen de error, escríbeme la palabra BOT.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave BOT",
+      "props": {
+        "voiceover": "Si operas volumen en P2P, trading o flujos de pago y quieres automatizar tu operativa sin margen de error, escríbeme la palabra BOT.",
+        "badge": "AUTOMATIZACIÓN FINANCIERA & WEBSOCKETS",
+        "lines": [
+          {
+            "text": "OPERA EN MILISEGUNDOS",
+            "color": "#ffffff"
+          },
+          {
+            "text": "SIN ERRORES HUMANOS",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "BOTS DE ARBITRAJE · WEBSOCKETS · CONCILIACIÓN",
+        "ctaKeyword": "BOT",
+        "ctaNote": "Evaluamos tu flujo operativo actual y diseñamos el demonio a medida."
+      }
+    }
+  ]
+};

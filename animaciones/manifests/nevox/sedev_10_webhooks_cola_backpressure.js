@@ -1,0 +1,195 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[10] Por qué tu servidor muere cuando entran 500 webhooks de golpe (Backpressure)",
+  "category": "ARQUITECTURA DISTRIBUIDA & COLAS",
+  "pilar": "Proof of Work & Casos Reales",
+  "slug": "sedev_10_webhooks_cola_backpressure",
+  "introType": "ARCHITECTURE FLOW",
+  "ctaKeyword": "COLA",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_10_webhooks_cola_backpressure.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "architecture_flow",
+      "duration": 11.1,
+      "voiceover": "Procesar pagos o mensajes en el mismo instante en que entran funciona perfecto... hasta que te llegan quinientos en un segundo.",
+      "visual_cue": "Diagrama mecánico de saturación de buffer vs desacoplamiento por cola",
+      "props": {
+        "voiceover": "Procesar pagos o mensajes en el mismo instante en que entran funciona perfecto... hasta que te llegan quinientos en un segundo.",
+        "title": "EL LÍMITE DEL PROCESAMIENTO SÍNCRONO",
+        "subtitle": "QUÉ PASA CUANDO EL TRÁFICO SUPERA A TU BASE DE DATOS",
+        "nodes": [
+          {
+            "id": "in",
+            "label": "RÁFAGA DE 500 WEBHOOKS / SEG",
+            "sublabel": "PAGOS · MENSAJES DE WHATSAPP · EVENTOS",
+            "color": "#ffffff"
+          },
+          {
+            "id": "buf",
+            "label": "BUFFER EN MEMORIA + ACK (2ms)",
+            "sublabel": "RESPONDE 200 OK ANTES DE PROCESAR PESADO",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "wk",
+            "label": "WORKERS CON BACKPRESSURE",
+            "sublabel": "DRENAN LA COLA AL RITMO SEGURO DE LA DB",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 12.2,
+      "voiceover": "Si tu servidor intenta guardar en base de datos, generar un PDF y mandar un correo antes de responder, al décimo segundo colapsa por timeout.",
+      "visual_cue": "Monitor de webhooks cayendo en timeout y reintentos infinitos de la pasarela",
+      "props": {
+        "voiceover": "Si tu servidor intenta guardar en base de datos, generar un PDF y mandar un correo antes de responder, al décimo segundo colapsa por timeout.",
+        "title": "TORMENTA DE REINTENTOS POR TIMEOUT",
+        "subtitle": "ENDPOINT LENTO PROVOCA QUE LA PASARELA DUPLIQUE ENVÍOS",
+        "crashedStatus": "ERR 502: GATEWAY TIMEOUT · EVENTOS PERDIDOS EN PICO",
+        "latencyNormal": 45,
+        "latencyCrash": 15000,
+        "logs": [
+          {
+            "time": "12:00:02",
+            "level": "WARN",
+            "text": "Webhook tardó >5s generando PDF de forma síncrona",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "12:00:06",
+            "level": "ERR",
+            "text": "Pasarela asumió fallo y reenvió 200 eventos encima",
+            "color": "#ef4444"
+          },
+          {
+            "time": "12:00:10",
+            "level": "CRIT",
+            "text": "Out of Memory (OOM): proceso reiniciado con pedidos a medias",
+            "color": "#f87171"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_code",
+      "type": "terminal_split",
+      "duration": 10.7,
+      "voiceover": "La regla de oro en ingeniería de sistemas es simple: recibir el evento y procesarlo jamás deben ocurrir en el mismo hilo.",
+      "visual_cue": "Código síncrono bloqueante vs Ingesta rápida a cola + Worker controlado",
+      "props": {
+        "voiceover": "La regla de oro en ingeniería de sistemas es simple: recibir el evento y procesarlo jamás deben ocurrir en el mismo hilo.",
+        "title": "DESACOPLAR RECEPCIÓN DE EJECUCIÓN",
+        "subtitle": "PATRÓN PRODUCER - QUEUE - CONSUMER",
+        "leftTitle": "ENDPOINT SÍNCRONO (SE MUERE EN PICOS)",
+        "leftCode": "app.post('/webhook', async (req, res) => {\n  await generateHeavyPdf(req.body); // 4 segundos\n  await callSlowExternalErp(req.body); // 3 segundos\n  res.status(200).send('OK'); // Demasiado tarde\n});",
+        "rightTitle": "INGESTA ASÍNCRONA CON BACKPRESSURE (2ms)",
+        "rightCode": "app.post('/webhook', async (req, res) => {\n  await queue.push('orders', req.body); // 1.8ms\n  return res.status(202).json({ queued: true });\n}); // Worker procesa con concurrencia = 8",
+        "diffNote": "Responde en 2ms y procesa sin saturar la CPU"
+      }
+    },
+    {
+      "id": "s04_pool",
+      "type": "storage_engine_viz",
+      "duration": 13.2,
+      "voiceover": "Al poner una cola en el medio, tu puerta de entrada responde en dos milisegundos y tus workers procesan a ritmo constante sin ahogar la base de datos.",
+      "visual_cue": "Escritura rápida en buffer de memoria O(1) y vaciado asíncrono controlado hacia disco",
+      "props": {
+        "voiceover": "Al poner una cola en el medio, tu puerta de entrada responde en dos milisegundos y tus workers procesan a ritmo constante sin ahogar la base de datos.",
+        "mode": "lsm",
+        "badge": "AMORTIGUACIÓN DE RÁFAGAS EN MEMORIA",
+        "title": "INGESTA O(1) EN RAM + VACIADO ASÍNCRONO",
+        "subtitle": "CERO PÉRDIDA DE WEBHOOKS EN PICOS DE 500 EVENTOS/S"
+      }
+    },
+    {
+      "id": "s05_race",
+      "type": "versus_race",
+      "duration": 11.1,
+      "voiceover": "Y si el servidor contable externo se cae media hora, tus eventos esperan seguros en la cola y se procesan solos apenas vuelve.",
+      "visual_cue": "Comparativa ante caída de API externa: Cola con reintento (0 pérdidas) vs Síncrono (Datos perdidos)",
+      "props": {
+        "voiceover": "Y si el servidor contable externo se cae media hora, tus eventos esperan seguros en la cola y se procesan solos apenas vuelve.",
+        "title": "TOLERANCIA A CAÍDAS DE TERCEROS",
+        "subtitle": "500 PAGOS DURANTE MICRO-CORTE DE API EXTERNA",
+        "sideA": {
+          "name": "COLA + BACKPRESSURE",
+          "tag": "RETENCIÓN Y DRENAJE AUTOMÁTICO",
+          "targetMs": 2,
+          "displayTime": "2.0ms ACK",
+          "memory": "RAM ESTABLE",
+          "cacheMisses": "0% PÉRDIDA",
+          "speedup": "100% RECUPERADO"
+        },
+        "sideB": {
+          "name": "PROCESO SÍNCRONO DIRECTO",
+          "tag": "SIN COLA INTERMEDIA",
+          "targetMs": 15000,
+          "displayTime": "TIMEOUT",
+          "memory": "OOM CRASH",
+          "cacheMisses": "DATOS PERDIDOS",
+          "bottleneck": "VENTAS HUÉRFANAS"
+        }
+      }
+    },
+    {
+      "id": "s06_mem",
+      "type": "memory_layout",
+      "duration": 10.9,
+      "voiceover": "Esa es la diferencia entre un script que funciona en una demo y una arquitectura que no pierde un solo centavo en producción.",
+      "visual_cue": "Garantías de entrega: Persistencia en disco, Backoff exponencial y Dead-Letter Queue",
+      "props": {
+        "voiceover": "Esa es la diferencia entre un script que funciona en una demo y una arquitectura que no pierde un solo centavo en producción.",
+        "badge": "GARANTÍA DE ENTREGA",
+        "title": "ARQUITECTURA CERO PÉRDIDAS",
+        "items": [
+          {
+            "addr": "ACK_2MS",
+            "name": "Recepción instantánea",
+            "value": "La pasarela jamás da timeout ni duplica envíos"
+          },
+          {
+            "addr": "BACKOFF",
+            "name": "Reintento inteligente",
+            "value": "Si una API externa falla, reintenta en 5s, 30s, 5m"
+          },
+          {
+            "addr": "DLQ_SAFE",
+            "name": "Bandeja de rescate",
+            "value": "Ningún evento se borra jamás sin ser procesado"
+          }
+        ],
+        "resolutionTitle": "SISTEMAS QUE AGUANTAN EL MUNDO REAL",
+        "resolutionSub": "Tráfico 10x sin caídas ni pedidos fantasma"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 9.5,
+      "voiceover": "Si tus integraciones o webhooks pierden eventos cuando se junta el tráfico, escríbeme y diseñamos la cola de procesamiento.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave COLA",
+      "props": {
+        "voiceover": "Si tus integraciones o webhooks pierden eventos cuando se junta el tráfico, escríbeme y diseñamos la cola de procesamiento.",
+        "badge": "ARQUITECTURA RESILIENTE",
+        "lines": [
+          {
+            "text": "CERO EVENTOS PERDIDOS",
+            "color": "#ffffff"
+          },
+          {
+            "text": "EN HORAS PICO",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "COLAS DE MENSAJES · WORKERS · ALTA DISPONIBILIDAD",
+        "ctaKeyword": "COLA",
+        "ctaNote": "Revisamos cómo desacoplar tus webhooks y blindar tu backend contra picos."
+      }
+    }
+  ]
+};

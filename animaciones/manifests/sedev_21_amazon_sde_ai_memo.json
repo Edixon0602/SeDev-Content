@@ -1,0 +1,82 @@
+{
+  "title": "[21] El memo de Amazon sobre el rol del desarrollador en la era de la IA",
+  "slug": "sedev_21_amazon_sde_ai_memo",
+  "category": "CULTURA DE INGENIERÍA & DESARROLLO MODERNO",
+  "tagline": "Por qué Amazon no mide cuánta IA usas, sino tus resultados de negocio",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_21_amazon_sde_ai_memo",
+  "script": {
+    "hook": "Amazon acaba de actualizar sus pautas oficiales sobre qué significa ser desarrollador en plena era de la inteligencia artificial... y el memo interno firmado por sus ingenieros más veteranos va a enfadar a los que dicen que programar está muerto.",
+    "broll1_lead": "En el documento revelan que debatieron meses si la IA debía redefinir el rol del ingeniero. La conclusión fue un rotundo no. Citaron una regla clásica de Jeff Bezos: la gente siempre pregunta qué va a cambiar en los próximos diez años, pero la pregunta clave es qué NO va a cambiar. Las herramientas cambian cada semana; lo que no cambia es el impacto: resolver problemas reales, diseñar sistemas estables y entregar valor al usuario. De hecho, advierten contra la trampa de medir productividad contando líneas de código o consumo de tokens: generar código a lo loco solo aumenta la complejidad y la deuda técnica.",
+    "camera_pivot": "Y dejaron una frase demoledora que todo tech lead debería colgar en su oficina: 'Si la IA no ayuda en tu tarea actual, eso no es un fallo tuyo, es un hallazgo'. Demostrar criterio para saber cuándo una IA alucina o complica la arquitectura es justamente lo que define a un verdadero ingeniero senior.",
+    "broll2_lead": "En Amazon llaman a esto la era del 'Desarrollador del Renacimiento'. El programador que solo transcribía especificaciones a código sí está en peligro. Los ingenieros que están multiplicando su valor son los que se meten de lleno en el producto, entienden el negocio y usan herramientas y agentes como una orquesta, pero con juicio humano estricto en el diseño y la fiabilidad.",
+    "outro": "La sintaxis hoy es un commodity; el criterio de ingeniería y la obsesión por resolver problemas de negocio son invaluables. Si quieres entender el desarrollo moderno con arquitectura real y sin humo de vendedores de cursos, sígueme para más."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_metrics_trap_vs_outcomes",
+      "purpose": "Comparativa: La trampa de las métricas vanas (Tokenmaxxing) vs Resultados de negocio",
+      "type": "versus_race",
+      "duration": 9.5,
+      "props": {
+        "theme": "light",
+        "title": "MEMO AMAZON: INPUTS VS OUTCOMES",
+        "subtitle": "POR QUÉ CONTAR TOKENS O LÍNEAS DE CÓDIGO DESTRUYE VALOR",
+        "sideA": {
+          "name": "FOCO EN OUTCOMES (AMAZON SENIOR)",
+          "tag": "VALOR REAL AL CLIENTE FINAL",
+          "targetMs": 0.1,
+          "displayTime": "0.1ms P99",
+          "memory": "SIMPLICIDAD & FRUGALIDAD",
+          "cacheMisses": "100% VALOR NEGOCIO",
+          "speedup": "ARQUITECTURA ROBUSTA"
+        },
+        "sideB": {
+          "name": "LA TRAMPA DE MÉTRICAS VANAS",
+          "tag": "TOKENMAXXING + LÍNEAS DE CÓDIGO",
+          "targetMs": 84.5,
+          "displayTime": "DEUDA TÉCNICA",
+          "memory": "COSTOS EN LLM DISPARADOS",
+          "cacheMisses": "SPAM DE PULL REQUESTS",
+          "bottleneck": "COMPLEJIDAD DESCONTROLADA"
+        }
+      },
+      "voiceover": "En el documento revelan que debatieron meses si la IA debía redefinir el rol del ingeniero. La conclusión fue un rotundo no. Citaron una regla clásica de Jeff Bezos: la gente siempre pregunta qué va a cambiar en los próximos diez años, pero la pregunta clave es qué NO va a cambiar. Las herramientas cambian cada semana; lo que no cambia es el impacto: resolver problemas reales, diseñar sistemas estables y entregar valor al usuario. De hecho, advierten contra la trampa de medir productividad contando líneas de código o consumo de tokens: generar código a lo loco solo aumenta la complejidad y la deuda técnica.",
+      "visual_cue": "Comparativa: La trampa de las métricas vanas (Tokenmaxxing) vs Resultados de negocio"
+    },
+    {
+      "id": "broll_02_renaissance_developer_flow",
+      "purpose": "Flujo del Renaissance Developer: Dominio de negocio orquestando agentes de IA",
+      "type": "architecture_flow",
+      "duration": 9.5,
+      "props": {
+        "theme": "dark",
+        "title": "THE RENAISSANCE DEVELOPER (AMAZON)",
+        "subtitle": "CRITERIO HUMANO AL MANDO + AGENTES COMO AMPLIFICADOR",
+        "layout": "horizontal",
+        "nodes": [
+          {
+            "id": "biz",
+            "label": "DOMINIO DE NEGOCIO",
+            "sublabel": "CRITERIO DE INGENIERO SENIOR",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "agent",
+            "label": "ORQUESTACIÓN DE AGENTES",
+            "sublabel": "HERRAMIENTAS IA AMPLIFICADORAS",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "out",
+            "label": "SISTEMAS EN PRODUCCIÓN",
+            "sublabel": "ENTREGA DE VALOR AL CLIENTE",
+            "color": "#10b981"
+          }
+        ]
+      },
+      "voiceover": "En Amazon llaman a esto la era del 'Desarrollador del Renacimiento'. El programador que solo transcribía especificaciones a código sí está en peligro. Los ingenieros que están multiplicando su valor son los que se meten de lleno en el producto, entienden el negocio y usan herramientas y agentes como una orquesta, pero con juicio humano estricto en el diseño y la fiabilidad.",
+      "visual_cue": "Flujo del Renaissance Developer: Dominio de negocio orquestando agentes de IA"
+    }
+  ]
+}

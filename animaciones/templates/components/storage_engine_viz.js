@@ -7,7 +7,7 @@ window.registerComponent('storage_engine_viz', {
     container.innerHTML = `
       <div class="comp-storage-engine">
         ${props.badge ? `<div class="scene-category" id="seBadge">${props.badge}</div>` : ''}
-        <canvas id="storageCanvas" width="960" height="1300"></canvas>
+        <canvas id="storageCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#storageCanvas');
@@ -18,7 +18,7 @@ window.registerComponent('storage_engine_viz', {
     const { spring, clamp, lerp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
     // Hard-cut exit in last 0.3s
     const exitT = duration - 0.3;
@@ -67,6 +67,10 @@ window.registerComponent('storage_engine_viz', {
       this.renderHNSW(ctx, t, duration, props, utils);
     } else {
       this.renderLSM(ctx, t, duration, props, utils);
+    }
+
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#38bdf8' });
     }
 
     ctx.restore();

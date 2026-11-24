@@ -1,0 +1,82 @@
+{
+  "version": "1",
+  "source": {
+    "video": "fixtures/synthetic talking head.mp4",
+    "duration": 6.2,
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "hash": "integration-fixture-sha"
+  },
+  "transcript": {
+    "language": "es",
+    "text": "Automatizar la factura ahorra tiempo. El sistema recibe el pago y emite la factura."
+  },
+  "captions": {
+    "enabled": true,
+    "maxCharsPerLine": 30,
+    "maxLines": 2,
+    "minDuration": 0.8,
+    "overBroll": false,
+    "highlightWords": [
+      "automatizar",
+      "factura",
+      "tiempo"
+    ]
+  },
+  "brolls": [
+    {
+      "id": "broll_short",
+      "start": 1,
+      "end": 2.4,
+      "concept": "transformación: automatizar la factura",
+      "narrative": "Mostrar el paso manual convertido en una sola línea.",
+      "component": "editorial_explainer",
+      "props": {
+        "variant": "transform",
+        "kicker": "AUTOMATIZACIÓN",
+        "headline": "AUTOMATIZAR",
+        "support": "Una tarea manual, una sola línea.",
+        "accent": "#d08a5a",
+        "ground": "graphite"
+      }
+    }
+  ],
+  "overlays": [
+    {
+      "id": "overlay_short",
+      "start": 2.65,
+      "end": 4.35,
+      "text": "EL SISTEMA RECIBE",
+      "accent": "#d08a5a",
+      "position": "top",
+      "semanticStart": 2.719,
+      "semanticEnd": 3.859
+    }
+  ],
+  "cameras": [
+    {
+      "id": "camera_short",
+      "start": 4.2,
+      "end": 5.2,
+      "type": "push",
+      "intensity": 0.55
+    }
+  ],
+  "sfx": [
+    {
+      "id": "sfx_short_1",
+      "at": 1.02,
+      "sound": "soft_whoosh",
+      "gainDb": -18,
+      "reason": "Entrada del B-roll de automatización"
+    },
+    {
+      "id": "sfx_short_2",
+      "at": 2.66,
+      "sound": "ui_tick",
+      "gainDb": -18,
+      "reason": "Aparición del overlay «el sistema recibe»"
+    }
+  ]
+}

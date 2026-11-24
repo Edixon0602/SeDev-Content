@@ -1,0 +1,80 @@
+{
+  "title": "[13] ¿Cómo viaja un mensaje de WhatsApp por cables submarinos en 80ms?",
+  "slug": "sedev_13_submarine_cables_whatsapp",
+  "category": "REDES & INFRAESTRUCTURA MUNDIAL",
+  "tagline": "El 99% de internet cruza el fondo del océano por fibras ópticas",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_13_submarine_cables_whatsapp",
+  "script": {
+    "hook": "Le envías un 'hola' a alguien en otro continente y piensas que viaja por satélites... la realidad es mucho más impresionante.",
+    "broll1_lead": "El noventa y nueve por ciento de los datos de internet cruzan el planeta a través de cables submarinos del grosor de una manguera de jardín que descansan en el lecho marino a cuatro mil metros de profundidad.",
+    "camera_pivot": "Por dentro llevan finos hilos de fibra de vidrio donde la luz láser viaja rebotando a doscientos mil kilómetros por segundo por refracción total interna.",
+    "broll2_lead": "Cada ochenta kilómetros hay repetidores ópticos amplificando la señal con láseres alimentados por diez mil voltios. Por eso tu mensaje cruza el Atlántico en apenas ochenta milisegundos sin depender del espacio.",
+    "outro": "El internet no está en la nube; está en el fondo del océano. Sígueme si quieres conocer la infraestructura real que mantiene al mundo conectado."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_submarine_fiber_core",
+      "purpose": "Cable transatlántico en fondo marino y repetidores ópticos de señal",
+      "type": "network_pipeline",
+      "duration": 9,
+      "props": {
+        "theme": "blueprint",
+        "title": "INFRAESTRUCTURA DE FIBRA SUBMARINA",
+        "subtitle": "TRANSATÁNTICO A 4,000 METROS DE PROFUNDIDAD",
+        "stages": [
+          {
+            "name": "NÚCLEO DE FIBRA SÍLICE",
+            "tag": "Refracción total interna láser (1550nm)",
+            "metric": "0.2 dB/km",
+            "color": "#38bdf8"
+          },
+          {
+            "name": "REPETIDOR ÓPTICO ERBIO",
+            "tag": "Amplificación cada 80km con 10,000V",
+            "metric": "+20 dB",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "BLINDAJE DE ACERO Y COBRE",
+            "tag": "Protección contra presión y mordeduras",
+            "metric": "400 bar",
+            "color": "#10b981"
+          }
+        ]
+      },
+      "voiceover": "El noventa y nueve por ciento de los datos de internet cruzan el planeta a través de cables submarinos del grosor de una manguera de jardín que descansan en el lecho marino a cuatro mil metros de profundidad.",
+      "visual_cue": "Cable transatlántico en fondo marino y repetidores ópticos de señal"
+    },
+    {
+      "id": "broll_02_submarine_latency_breakdown",
+      "purpose": "Desglose de latencia física de 80ms entre continentes",
+      "type": "latency_scale",
+      "duration": 8.5,
+      "props": {
+        "theme": "blueprint",
+        "title": "DESGLOSE DE LATENCIA TRANSATLÁNTICA (80ms)",
+        "subtitle": "LONDRES -> NUEVA YORK EN TIEMPO REAL",
+        "items": [
+          {
+            "name": "Tiempo de vuelo luz en vidrio (c/1.5)",
+            "val": "28.5 ms",
+            "pct": 35
+          },
+          {
+            "name": "Enrutamiento BGP y conmutadores IP",
+            "val": "12.0 ms",
+            "pct": 15
+          },
+          {
+            "name": "Red de distribución y última milla",
+            "val": "39.5 ms",
+            "pct": 50
+          }
+        ]
+      },
+      "voiceover": "Cada ochenta kilómetros hay repetidores ópticos amplificando la señal con láseres alimentados por diez mil voltios. Por eso tu mensaje cruza el Atlántico en apenas ochenta milisegundos sin depender del espacio.",
+      "visual_cue": "Desglose de latencia física de 80ms entre continentes"
+    }
+  ]
+}

@@ -1,0 +1,2373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeDev Studio // Revisor de Vídeos Polémicos 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="templates/components/components_b2b.css?v=20261026_b2b">
+  <style>
+    :root {
+      /* Minimalist Light Palette (Default - Clean, Editorial, Anti-Slop) */
+      --bg-root: #f8fafc;
+      --bg-panel: #ffffff;
+      --bg-surface: #ffffff;
+      --bg-surface-hover: #f1f5f9;
+      --bg-surface-active: #e2e8f0;
+      --bg-stage: #f8fafc;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      --accent-amber: #d97706;
+      --accent-blue: #0284c7;
+      --accent-green: #059669;
+      --accent-red: #dc2626;
+      --accent-purple: #7c3aed;
+      --phone-border: #1e293b;
+      --phone-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(15, 23, 42, 0.08);
+      --card-active-bg: #fffbeb;
+      --card-active-border: #f59e0b;
+      --card-active-num: #b45309;
+      --header-bg: #ffffff;
+      --stage-bar-bg: rgba(255, 255, 255, 0.96);
+      --playback-bg: rgba(255, 255, 255, 0.98);
+      --scrubber-bg: #cbd5e1;
+      --play-btn-bg: #0f172a;
+      --play-btn-text: #ffffff;
+      --play-btn-hover: #d97706;
+      --speaking-bg: #fffbeb;
+      --speaking-border: #f59e0b;
+      --speaking-text: #0f172a;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 20px 35px -5px rgba(15, 23, 42, 0.12);
+    }
+
+    [data-theme="dark"] {
+      --bg-root: #09090b;
+      --bg-panel: #111115;
+      --bg-surface: #18181b;
+      --bg-surface-hover: #222227;
+      --bg-surface-active: #27272f;
+      --bg-stage: #050507;
+      --border-subtle: #27272a;
+      --border-strong: #3f3f46;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+      --accent-amber: #fbbf24;
+      --accent-blue: #38bdf8;
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-purple: #c084fc;
+      --phone-border: #27272a;
+      --phone-shadow: 0 24px 60px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.05);
+      --card-active-bg: #1f1b13;
+      --card-active-border: #fbbf24;
+      --card-active-num: #fbbf24;
+      --header-bg: #111115;
+      --stage-bar-bg: rgba(17, 17, 21, 0.9);
+      --playback-bg: rgba(17, 17, 21, 0.95);
+      --scrubber-bg: #27272a;
+      --play-btn-bg: #ffffff;
+      --play-btn-text: #000000;
+      --play-btn-hover: #fbbf24;
+      --speaking-bg: #1b170e;
+      --speaking-border: #fbbf24;
+      --speaking-text: #ffffff;
+      --shadow-sm: none;
+      --shadow-md: none;
+      --shadow-lg: 0 24px 60px rgba(0,0,0,0.95);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--bg-root);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      height: 56px;
+      background: var(--header-bg);
+      border-bottom: 1.5px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-shrink: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 900;
+      font-size: 15px;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+    .brand-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-amber);
+    }
+    .badge-active-count {
+      background: rgba(5, 150, 105, 0.1);
+      border: 1px solid rgba(5, 150, 105, 0.25);
+      color: var(--accent-green);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    /* Brand Switcher */
+    .brand-switch-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-switch {
+      background: var(--bg-surface-hover);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 3px;
+      display: flex;
+      gap: 3px;
+    }
+    .brand-toggle-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      padding: 5px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+    .brand-toggle-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-surface);
+    }
+    .brand-toggle-btn.active.sedev {
+      background: var(--card-active-bg);
+      border-color: var(--card-active-border);
+      color: var(--accent-amber);
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-toggle-btn.active.nevox {
+      background: rgba(5, 150, 105, 0.12);
+      border-color: rgba(5, 150, 105, 0.35);
+      color: var(--accent-green);
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-switch-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+    .brand-switch-dot.sedev {
+      background: var(--accent-amber);
+    }
+    .brand-switch-dot.nevox {
+      background: var(--accent-green);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Engine Mode Toggle */
+    .mode-switch {
+      background: var(--bg-surface-hover);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 3px;
+      display: flex;
+      gap: 2px;
+    }
+    .mode-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .mode-btn.active {
+      background: var(--bg-surface);
+      color: var(--accent-amber);
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .action-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .action-btn:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-strong);
+    }
+    .action-btn.accent {
+      background: var(--card-active-bg);
+      color: var(--accent-amber);
+      border-color: var(--card-active-border);
+    }
+    .action-btn.accent:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--accent-amber);
+    }
+
+    /* MAIN THREE-COLUMN STUDIO GRID */
+    .studio-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 340px 1fr 380px;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+    }
+
+    /* COLUMN 1: LEFT PLAYLIST DRAWER */
+    .panel-playlist {
+      background: var(--bg-panel);
+      border-right: 1.5px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .playlist-search-box {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .search-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-main);
+      padding: 8px 12px 8px 34px;
+      font-size: 12px;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .search-input:focus {
+      border-color: var(--accent-amber);
+    }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      font-size: 13px;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+    .playlist-stats-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+
+    .video-cards-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* Single Video Card */
+    .video-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .video-card:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+    .video-card.active {
+      background: var(--card-active-bg);
+      border-color: var(--card-active-border);
+      box-shadow: var(--shadow-sm);
+    }
+    .video-card.active::before {
+      content: '';
+      position: absolute;
+      left: -1.5px;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      background: var(--accent-amber);
+      border-radius: 0 3px 3px 0;
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-dim);
+    }
+    .video-card.active .card-num {
+      color: var(--card-active-num);
+    }
+
+    .badge-hook {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .badge-hook.slam { background: rgba(192, 132, 252, 0.15); color: var(--accent-purple); border: 1px solid rgba(192, 132, 252, 0.3); }
+    .badge-hook.cost { background: rgba(251, 191, 36, 0.15); color: var(--accent-amber); border: 1px solid rgba(251, 191, 36, 0.3); }
+    .badge-hook.alarm { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-hook.race { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-hook.code { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .badge-hook.arch { background: rgba(0, 229, 160, 0.15); color: #00e5a0; border: 1px solid rgba(0, 229, 160, 0.3); }
+
+    /* Sub-Brand / Category Pills for Nevox (FlowBot, Cortex, B2B) */
+    .subbrand-pills-row {
+      display: flex;
+      gap: 4px;
+      padding: 4px 0 6px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 6px;
+      overflow-x: auto;
+    }
+    .sub-pill-btn {
+      background: var(--bg-root);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .sub-pill-btn:hover {
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
+    .sub-pill-btn.active {
+      background: rgba(0, 229, 160, 0.15);
+      border-color: rgba(0, 229, 160, 0.45);
+      color: #00e5a0;
+      box-shadow: 0 0 6px rgba(0, 229, 160, 0.2);
+    }
+    .sub-pill-btn.flowbot.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.45);
+      color: #38bdf8;
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.2);
+    }
+    .sub-pill-btn.cortex.active {
+      background: rgba(192, 132, 252, 0.15);
+      border-color: rgba(192, 132, 252, 0.45);
+      color: #c084fc;
+      box-shadow: 0 0 6px rgba(192, 132, 252, 0.2);
+    }
+
+    .card-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Curation Status Filter Pills & Quick Card Markers */
+    .filter-pills-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+    }
+    .filter-pill-btn {
+      background: var(--bg-root);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 5px 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .filter-pill-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-main);
+    }
+    .filter-pill-btn.active {
+      background: var(--card-active-bg);
+      color: var(--accent-amber);
+      border-color: var(--accent-amber);
+    }
+    .filter-pill-btn.recorded.active {
+      background: rgba(5, 150, 105, 0.12);
+      color: var(--accent-green);
+      border-color: var(--accent-green);
+    }
+    .filter-pill-btn.published.active {
+      background: rgba(2, 132, 199, 0.12);
+      color: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+    .filter-pill-btn.discarded.active {
+      background: rgba(220, 38, 38, 0.12);
+      color: var(--accent-red);
+      border-color: var(--accent-red);
+    }
+
+    .video-card.status-recorded {
+      border-color: rgba(5, 150, 105, 0.45);
+      background: linear-gradient(90deg, rgba(5, 150, 105, 0.08) 0%, var(--bg-surface) 100%);
+    }
+    .video-card.status-published {
+      border-color: rgba(2, 132, 199, 0.55);
+      background: linear-gradient(90deg, rgba(2, 132, 199, 0.08) 0%, var(--bg-surface) 100%);
+    }
+    .video-card.status-published .card-num {
+      color: var(--accent-blue);
+    }
+    .video-card.status-discarded {
+      border-color: var(--border-subtle);
+      background: var(--bg-surface-hover);
+      opacity: 0.6;
+    }
+    .video-card.status-discarded .card-title {
+      text-decoration: line-through;
+      color: var(--text-dim);
+    }
+
+    .card-status-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-mark-btn {
+      background: var(--bg-root);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 2px 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .card-mark-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-main);
+    }
+    .card-mark-btn.pub.active {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .card-mark-btn.pub:hover {
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+    .card-mark-btn.rec.active {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+    }
+    .card-mark-btn.disc.active {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+    }
+
+    /* Stage Top Status Action Buttons */
+    .stage-status-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stage-mark-btn {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .stage-mark-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-main);
+    }
+    .stage-mark-btn.pub.active {
+      background: rgba(2, 132, 199, 0.12);
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+      box-shadow: 0 1px 4px rgba(2, 132, 199, 0.15);
+    }
+    .stage-mark-btn.rec.active {
+      background: rgba(5, 150, 105, 0.12);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
+      box-shadow: 0 1px 4px rgba(5, 150, 105, 0.15);
+    }
+    .stage-mark-btn.disc.active {
+      background: rgba(220, 38, 38, 0.12);
+      border-color: var(--accent-red);
+      color: var(--accent-red);
+      box-shadow: 0 1px 4px rgba(220, 38, 38, 0.15);
+    }
+
+    /* COLUMN 2: CENTER STAGE & PLAYBACK CONTROLS */
+    .panel-center {
+      background: var(--bg-stage);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Video Header Meta Bar */
+    .stage-top-bar {
+      width: 100%;
+      max-width: 820px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--stage-bar-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 10px 18px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+      z-index: 20;
+    }
+    .stage-meta-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stage-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.3px;
+    }
+    .stage-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: var(--accent-amber);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* The Responsive Phone Stage Frame */
+    .stage-frame-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 0;
+      margin: 12px 0;
+    }
+    .phone-viewport {
+      height: 100%;
+      max-height: calc(100vh - 210px);
+      aspect-ratio: 9 / 16;
+      background: #000000;
+      border: 2.5px solid var(--phone-border);
+      border-radius: 24px;
+      box-shadow: var(--phone-shadow);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Virtual 1080x1920 Stage */
+    #stageScaler {
+      width: 1080px;
+      height: 1920px;
+      transform-origin: top left;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    #stage {
+      width: 1080px;
+      height: 1920px;
+      background: #050505;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+    }
+    #stageContent {
+      position: relative;
+      z-index: 2;
+      width: 1080px;
+      height: 1920px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .comp-stage-scene {
+      width: 1080px !important;
+      height: 1920px !important;
+      max-width: none !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .comp-stage-scene canvas {
+      width: 1080px !important;
+      height: 1920px !important;
+      max-width: none !important;
+      display: block;
+    }
+
+    /* Native Video Player Mode */
+    #mp4Player {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      background: #000000;
+    }
+
+    /* Floating Scene Cue Pill on Stage */
+    .scene-cue-overlay {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      background: rgba(9, 9, 11, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 30;
+      pointer-events: none;
+    }
+    .cue-left {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-amber);
+      text-transform: uppercase;
+    }
+    .cue-dur {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    /* Bottom Playback Hub */
+    .playback-hub {
+      width: 100%;
+      max-width: 820px;
+      background: var(--playback-bg);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 12px 18px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: var(--shadow-md);
+      z-index: 20;
+    }
+
+    /* Scrubber Track with Scene Markers */
+    .scrubber-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .scrubber {
+      width: 100%;
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--scrubber-bg);
+      outline: none;
+      cursor: pointer;
+    }
+    .scrubber::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-amber);
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      transition: transform 0.1s ease;
+    }
+    .scrubber::-webkit-slider-thumb:hover {
+      transform: scale(1.25);
+    }
+
+    .playback-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .controls-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .play-master-btn {
+      background: var(--play-btn-bg);
+      color: var(--play-btn-text);
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.1s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .play-master-btn:hover {
+      background: var(--play-btn-hover);
+      color: #ffffff;
+    }
+    .play-master-btn:active {
+      transform: scale(0.96);
+    }
+
+    .step-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .step-btn:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-strong);
+    }
+
+    .controls-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .time-indicator {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-amber);
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .speed-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .speed-pill.active {
+      background: var(--card-active-bg);
+      color: var(--accent-amber);
+      border-color: var(--accent-amber);
+    }
+
+    /* COLUMN 3: RIGHT TELEPROMPTER & INSPECTOR */
+    .panel-teleprompter {
+      background: var(--bg-panel);
+      border-left: 1.5px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .tp-tabs-header {
+      display: flex;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface-hover);
+    }
+    .tp-tab-btn {
+      flex: 1;
+      padding: 12px 14px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-dim);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .tp-tab-btn:hover {
+      color: var(--text-main);
+    }
+    .tp-tab-btn.active {
+      color: var(--accent-amber);
+      border-bottom-color: var(--accent-amber);
+      background: var(--bg-panel);
+    }
+
+    .tp-body-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .tp-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+    }
+    .copy-script-btn {
+      background: var(--card-active-bg);
+      border: 1px solid var(--accent-amber);
+      color: var(--accent-amber);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.12s;
+    }
+    .copy-script-btn:hover {
+      background: var(--bg-surface-hover);
+    }
+
+    /* Teleprompter Speech Block */
+    .tp-speech-block {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .tp-speech-block:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-surface-hover);
+    }
+    .tp-speech-block.speaking {
+      border-color: var(--speaking-border);
+      background: var(--speaking-bg);
+      box-shadow: 0 2px 10px rgba(217, 119, 6, 0.08);
+    }
+    .tp-speech-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+    }
+    .tp-scene-tag {
+      font-weight: 800;
+      color: var(--text-dim);
+    }
+    .tp-speech-block.speaking .tp-scene-tag {
+      color: var(--accent-amber);
+    }
+    .tp-scene-time {
+      color: var(--text-muted);
+    }
+    .tp-speech-text {
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+    .tp-speech-block.speaking .tp-speech-text {
+      color: var(--speaking-text);
+      font-weight: 700;
+    }
+    .tp-visual-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      border-top: 1px dashed var(--border-subtle);
+      padding-top: 6px;
+      margin-top: 2px;
+    }
+
+    /* Scene Breakdown Tab */
+    .scene-breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .scene-meta-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .scene-meta-card:hover {
+      background: var(--bg-surface-hover);
+      border-color: var(--border-strong);
+    }
+    .scene-meta-card.active {
+      border-color: var(--accent-amber);
+      background: var(--card-active-bg);
+    }
+    .smc-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .smc-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent-blue);
+    }
+    .smc-dur {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      background: var(--bg-root);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .smc-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Toast Notification */
+    .toast-pill {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: #052e16;
+      font-weight: 800;
+      font-size: 12.5px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-pill.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Keyboard Help Tooltip */
+    .shortcuts-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .shortcuts-modal.open {
+      display: flex;
+    }
+    .shortcuts-card {
+      background: var(--bg-panel);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 24px;
+      width: 440px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.9);
+    }
+    .sc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+    .sc-key {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: var(--accent-amber);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="top-header">
+    <div class="brand-wrap">
+      <div class="brand-logo">
+        <span class="brand-dot" id="headerBrandDot"></span>
+        <span id="headerBrandTitle">SEDEV STUDIO</span>
+      </div>
+      <span class="badge-active-count" id="activeCountBadge">21 CURIOSIDADES TECH</span>
+    </div>
+
+    <!-- Brand Switcher: SEDEV vs NEVOX -->
+    <div class="brand-switch-wrap">
+      <div class="brand-switch">
+        <button class="brand-toggle-btn active sedev" id="btnBrandSedev" onclick="switchBrand('sedev')" title="Cambiar a catálogo SeDev (21 Curiosidades de Ingeniería)">
+          <span class="brand-switch-dot sedev"></span> SEDEV (21)
+        </button>
+        <button class="brand-toggle-btn nevox" id="btnBrandNevox" onclick="switchBrand('nevox')" title="Cambiar a catálogo Nevox (30 Piezas B2B: FlowBot, Cortex y Gral)">
+          <span class="brand-switch-dot nevox"></span> NEVOX (30)
+        </button>
+      </div>
+    </div>
+
+    <!-- Mode Toggle: Interactive Canvas Engine vs Rendered Final MP4 -->
+    <div class="top-actions">
+      <button class="action-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Alternar entre modo Minimalista Light y Dark (Tecla T)">
+        <span id="themeToggleIcon">🌙</span> <span id="themeToggleLabel">Dark</span>
+      </button>
+
+      <div class="mode-switch">
+        <button class="mode-btn active" id="modeCanvasBtn" onclick="setEngineMode('canvas')">
+          <span>⚡</span> CANVAS HTML5
+        </button>
+        <button class="mode-btn" id="modeVideoBtn" onclick="setEngineMode('video')">
+          <span>🎬</span> VÍDEO MP4
+        </button>
+      </div>
+
+      <button class="action-btn accent" onclick="exportCurationReport()" title="Copiar reporte de piezas grabadas y descartadas para guiar futuras generaciones">
+        <span>📊</span> Copiar Registro
+      </button>
+
+      <button class="action-btn" onclick="toggleShortcutsModal(true)" title="Ver atajos de teclado">
+        <span>⌨</span> Atajos
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Three-Column Layout -->
+  <main class="studio-grid">
+
+    <!-- COLUMN 1: PLAYLIST DRAWER -->
+    <aside class="panel-playlist">
+      <div class="playlist-search-box">
+        <div class="subbrand-pills-row" id="nevoxSubbrandRow" style="display:none;">
+          <button class="sub-pill-btn active" id="subBtn_all" onclick="setNevoxSubFilter('all')">TODAS (30)</button>
+          <button class="sub-pill-btn flowbot" id="subBtn_flowbot" onclick="setNevoxSubFilter('flowbot')">FLOWBOT (5)</button>
+          <button class="sub-pill-btn cortex" id="subBtn_cortex" onclick="setNevoxSubFilter('cortex')">CORTEX (5)</button>
+          <button class="sub-pill-btn" id="subBtn_b2b" onclick="setNevoxSubFilter('b2b')">B2B GRAL (20)</button>
+        </div>
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" class="search-input" placeholder="Buscar por tema, hook o código..." oninput="applyFilters()">
+        </div>
+        <div class="filter-pills-row">
+          <button class="filter-pill-btn active" id="fBtn_all" onclick="setStatusFilter('all')" title="Lista Principal: Oculta automáticamente los vídeos ya subidos para no confundir">PRINC</button>
+          <button class="filter-pill-btn" id="fBtn_pending" onclick="setStatusFilter('pending')" title="Vídeos aún pendientes por grabar">PEND</button>
+          <button class="filter-pill-btn recorded" id="fBtn_recorded" onclick="setStatusFilter('recorded')" title="Vídeos ya grabados / listos">✓ GRAB</button>
+          <button class="filter-pill-btn published" id="fBtn_published" onclick="setStatusFilter('published')" title="Vídeos ya subidos a redes sociales">🚀 SUB</button>
+          <button class="filter-pill-btn discarded" id="fBtn_discarded" onclick="setStatusFilter('discarded')" title="Vídeos descartados">✕ DESC</button>
+        </div>
+        <div class="playlist-stats-row">
+          <span>CURACIÓN DE CONTENIDO</span>
+          <span id="counterPill">20 de 20</span>
+        </div>
+      </div>
+
+      <div class="video-cards-list" id="videoCardsList">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- COLUMN 2: CENTER STAGE & PLAYBACK HUB -->
+    <section class="panel-center">
+
+      <!-- Stage Top Breadcrumb -->
+      <div class="stage-top-bar">
+        <div class="stage-meta-left">
+          <div class="stage-title" id="stageMainTitle">Cargando vídeo...</div>
+          <div class="stage-sub">
+            <span id="stageCategory">CATEGORÍA</span>
+            <span>·</span>
+            <span id="stageHook">HOOK</span>
+            <span>·</span>
+            <span id="stageDuration">0.0s</span>
+          </div>
+        </div>
+        <div class="stage-status-group">
+          <button class="stage-mark-btn pub" id="stageBtnPublished" onclick="toggleCurrentVideoStatus('published')" title="Marcar como Subida a Redes (Sale de la lista principal - Tecla S)">
+            <span>🚀</span> SUBIDA
+          </button>
+          <button class="stage-mark-btn rec" id="stageBtnRecorded" onclick="toggleCurrentVideoStatus('recorded')" title="Marcar pieza como Grabada / Aprobada (Tecla G)">
+            <span>✓</span> GRABADA
+          </button>
+          <button class="stage-mark-btn disc" id="stageBtnDiscarded" onclick="toggleCurrentVideoStatus('discarded')" title="Marcar pieza como Descartada (Tecla X)">
+            <span>✕</span> DESCARTADA
+          </button>
+        </div>
+      </div>
+
+      <!-- Phone Frame Viewport -->
+      <div class="stage-frame-container">
+        <div class="phone-viewport" id="stageWrapper">
+
+          <!-- Phone Frame Viewport (Clean 9:16 Stage for Screen Recording) -->
+          <!-- Mode 1: Live Interactive Canvas -->
+          <div id="stageScaler">
+            <div id="stage">
+              <canvas id="stageBgCanvas" width="1080" height="1920" style="position:absolute; top:0; left:0; width:1080px; height:1920px; z-index:0; pointer-events:none;"></canvas>
+              <div id="stageContent"></div>
+            </div>
+          </div>
+
+          <!-- Mode 2: Direct Rendered MP4 Video -->
+          <video id="mp4Player" playsinline loop></video>
+
+          <span id="cueOverlayText" style="display:none;"></span>
+          <span id="cueOverlayDur" style="display:none;"></span>
+
+        </div>
+      </div>
+
+      <!-- Bottom Playback Controller -->
+      <div class="playback-hub">
+        <div class="scrubber-wrap">
+          <input type="range" class="scrubber" id="scrubber" min="0" max="60" step="0.033" value="0">
+        </div>
+
+        <div class="playback-controls-row">
+          <div class="controls-left">
+            <button class="play-master-btn" id="playBtn" onclick="togglePlay()">
+              <span>▶</span> REPRODUCIR
+            </button>
+            <button class="step-btn" onclick="jumpScene(-1)" title="Escena anterior (J)">⏮ Escena</button>
+            <button class="step-btn" onclick="seekRelative(-1.0)" title="Retroceder 1s (←)">-1s</button>
+            <button class="step-btn" onclick="seekRelative(1.0)" title="Avanzar 1s (→)">+1s</button>
+            <button class="step-btn" onclick="jumpScene(1)" title="Siguiente escena (K)">Escena ⏭</button>
+          </div>
+
+          <div class="controls-center">
+            <span class="time-indicator" id="timeDisplay">00:00.0 / 00:00.0</span>
+          </div>
+
+          <div class="controls-right">
+            <button class="speed-pill" data-speed="0.5" onclick="setSpeed(0.5)">0.5x</button>
+            <button class="speed-pill active" data-speed="1.0" onclick="setSpeed(1.0)">1x</button>
+            <button class="speed-pill" data-speed="1.5" onclick="setSpeed(1.5)">1.5x</button>
+            <button class="speed-pill" data-speed="2.0" onclick="setSpeed(2.0)">2x</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- COLUMN 3: RIGHT TELEPROMPTER & INSPECTOR -->
+    <aside class="panel-teleprompter">
+      <div class="tp-tabs-header">
+        <button class="tp-tab-btn active" id="tabTeleprompterBtn" onclick="switchTab('teleprompter')">
+          <span>🎙</span> GUION / TELEPROMPTER
+        </button>
+        <button class="tp-tab-btn" id="tabScenesBtn" onclick="switchTab('scenes')">
+          <span>🎬</span> ESCENAS (<span id="tabScenesCount">0</span>)
+        </button>
+      </div>
+
+      <!-- Tab Content: Teleprompter -->
+      <div class="tp-body-content" id="tabTeleprompterContent">
+        <div class="tp-toolbar">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <input type="checkbox" id="autoScrollToggle" checked style="accent-color:var(--accent-amber);">
+              <span>Auto-scroll</span>
+            </label>
+          </div>
+          <button class="copy-script-btn" onclick="copyFullScript()">
+            <span>📋</span> Copiar Guion Completo
+          </button>
+        </div>
+
+        <div id="teleprompterList" style="display:flex; flex-direction:column; gap:10px;">
+          <!-- Rendered speech blocks -->
+        </div>
+      </div>
+
+      <!-- Tab Content: Scenes Breakdown -->
+      <div class="tp-body-content" id="tabScenesContent" style="display:none;">
+        <div class="scene-breakdown-list" id="scenesBreakdownList">
+          <!-- Rendered scene cards -->
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="shortcuts-modal" id="shortcutsModal" onclick="if(event.target === this) toggleShortcutsModal(false)">
+    <div class="shortcuts-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">
+        <h3 style="font-size:16px; font-weight:800; color:#ffffff;">⌨ Atajos de Teclado</h3>
+        <button onclick="toggleShortcutsModal(false)" style="background:none; border:none; color:var(--text-dim); font-size:18px; cursor:pointer;">✕</button>
+      </div>
+      <div class="sc-row"><span>Reproducir / Pausar</span><span class="sc-key">Espacio</span></div>
+      <div class="sc-row"><span>Marcar Subida a Redes (Sale de lista)</span><span class="sc-key">S</span></div>
+      <div class="sc-row"><span>Marcar Grabada / Aprobada</span><span class="sc-key">G</span></div>
+      <div class="sc-row"><span>Marcar Descartada</span><span class="sc-key">X</span></div>
+      <div class="sc-row"><span>Retroceder / Avanzar 1s</span><span class="sc-key">← / →</span></div>
+      <div class="sc-row"><span>Vídeo Anterior / Siguiente</span><span class="sc-key">↑ / ↓</span></div>
+      <div class="sc-row"><span>Escena Anterior / Siguiente</span><span class="sc-key">J / K</span></div>
+      <div class="sc-row"><span>Alternar Canvas / MP4</span><span class="sc-key">M</span></div>
+      <div class="sc-row"><span>Cambiar Marca (SeDev / Nevox)</span><span class="sc-key">B</span></div>
+      <div class="sc-row"><span>Copiar Guion Completo</span><span class="sc-key">C</span></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-pill" id="toastPill">
+    <span>✓</span>
+    <span id="toastText">Mensaje de confirmación</span>
+  </div>
+
+  <!-- Component System Registration -->
+  <script>
+    window.__COMPONENTS__ = {};
+    window.registerComponent = function(name, def) {
+      window.__COMPONENTS__[name] = def;
+    };
+  </script>
+
+  <!-- Three.js + GLTF + DRACO 3D Engine -->
+  <script src="templates/lib/three_bundle.js"></script>
+
+  <!-- Motion Graphics Utilities & Atmospheric Background -->
+  <script src="templates/components/motion_utils.js?v=20261027_natural"></script>
+  <script src="templates/components/icons_sedev.js?v=20261027_natural"></script>
+
+  <!-- All Active Motion Graphics & Engineering Simulators -->
+  <script src="templates/components/kinetic_slam.js?v=20261027_natural"></script>
+  <script src="templates/components/versus_race.js?v=20261027_natural"></script>
+  <script src="templates/components/terminal_split.js?v=20261027_natural"></script>
+  <script src="templates/components/disaster_monitor.js?v=20261027_natural"></script>
+  <script src="templates/components/memory_layout.js?v=20261027_natural"></script>
+  <script src="templates/components/cost_ticker.js?v=20261027_natural"></script>
+  <script src="templates/components/kinetic_hook.js?v=20261027_natural"></script>
+  <script src="templates/components/architecture_flow.js?v=20261027_natural"></script>
+  <script src="templates/components/connection_pool_viz.js?v=20261027_natural"></script>
+  <script src="templates/components/cache_flow_viz.js?v=20261027_natural"></script>
+  <script src="templates/components/storage_engine_viz.js?v=20261027_natural"></script>
+  <script src="templates/components/code_terminal.js?v=20261027_natural"></script>
+  <script src="templates/components/metrics_comparison.js?v=20261027_natural"></script>
+  <script src="templates/components/tradeoff_matrix.js?v=20261027_natural"></script>
+  <script src="templates/components/latency_scale.js?v=20261027_natural"></script>
+  <script src="templates/components/network_pipeline.js?v=20261027_natural"></script>
+  <script src="templates/components/tree_hierarchy.js?v=20261027_natural"></script>
+  <script src="templates/components/migration_stepper_viz.js?v=20261027_natural"></script>
+  <script src="templates/components/kernel_sandbox_viz.js?v=20261027_natural"></script>
+  <script src="templates/components/quantization_weights_viz.js?v=20261027_natural"></script>
+  <script src="templates/components/talking_head_cue.js?v=20261028_c"></script>
+  <script src="templates/components/bittorrent_file_slicer_viz.js?v=20261028_c"></script>
+  <script src="templates/components/bittorrent_swarm_viz.js?v=20261028_c"></script>
+  <script src="templates/components/lava_entropy_viz.js?v=20261030_pilot"></script>
+
+  <!-- Character Rig & Editorial Stage Engine (Zero AI-Slop, 100% Vector) -->
+  <script src="templates/rig/rng.js?v=20261027_natural"></script>
+  <script src="templates/rig/timeline.js?v=20261027_natural"></script>
+  <script src="templates/rig/skeleton.js?v=20261027_natural"></script>
+  <script src="templates/rig/face.js?v=20261027_natural"></script>
+  <script src="templates/rig/character_def.js?v=20261027_natural"></script>
+  <script src="templates/rig/props.js?v=20261027_natural"></script>
+  <script src="templates/rig/clips.js?v=20261027_natural"></script>
+  <script src="templates/rig/sets.js?v=20261027_natural"></script>
+  <script src="templates/rig/captions.js?v=20261027_natural"></script>
+  <script src="templates/components/stage_scene.js?v=20261027_natural"></script>
+  <script src="templates/components/stage_3d_scene.js?v=20261027_natural"></script>
+
+  <!-- Master Video Catalog Bundle -->
+  <script src="editor_runs/_audit_head_bundle.js"></script>
+
+  <script>
+    // Universal Math & Spring Physics
+    const utils = {
+      spring(dt, omega = 24, zeta = 0.65) {
+        if (dt <= 0) return 0;
+        const decay = Math.exp(-zeta * omega * dt);
+        const beta = omega * Math.sqrt(1 - zeta * zeta);
+        return 1 - decay * (Math.cos(beta * dt) + (zeta / Math.sqrt(1 - zeta * zeta)) * Math.sin(beta * dt));
+      },
+      clamp(v, min, max) { return Math.max(min, Math.min(max, v)); },
+      lerp(a, b, t) { return a + (b - a) * t; }
+    };
+
+    // Brand State: 'sedev' (Tech Lore) | 'nevox' (B2B Convertible)
+    let currentBrand = 'sedev';
+
+    function getCatalogForBrand(brand) {
+      if (brand === 'nevox') {
+        return (window.__BIBLIOTECA_NEVOX__ || []).slice();
+      }
+      return (window.__BIBLIOTECA_SEDEV__ || window.__BIBLIOTECA_2026__ || []).slice();
+    }
+
+    let rawCatalog = getCatalogForBrand(currentBrand);
+    let catalog = [...rawCatalog];
+    let currentVideoIdx = 0;
+    let currentManifest = null;
+    let totalDuration = 30.0;
+    let currentTime = 0;
+    let isPlaying = false;
+    let lastTimestamp = null;
+    let playbackSpeed = 1.0;
+    let engineMode = 'canvas'; // 'canvas' | 'video'
+    let activeSceneIdx = -1;
+    let statusFilter = 'all'; // 'all' | 'pending' | 'recorded' | 'discarded'
+    let nevoxSubFilter = 'all'; // 'all' | 'flowbot' | 'cortex' | 'b2b'
+
+    function setNevoxSubFilter(sub) {
+      nevoxSubFilter = sub;
+      ['all', 'flowbot', 'cortex', 'b2b'].forEach(k => {
+        const btn = document.getElementById(`subBtn_${k}`);
+        if (btn) btn.classList.toggle('active', k === sub);
+      });
+      applyFilters(false);
+      selectVideo(0);
+    }
+    function getStatusStorageKey() {
+      return `sedev_studio_curation_status_v1_${currentBrand}`;
+    }
+    let videoStatuses = {}; // { [slug]: 'recorded' | 'discarded' }
+
+    function switchBrand(brand) {
+      if (brand === currentBrand) return;
+      currentBrand = brand;
+
+      // Update Conmutador UI
+      const btnSedev = document.getElementById('btnBrandSedev');
+      const btnNevox = document.getElementById('btnBrandNevox');
+      const headerBrandDot = document.getElementById('headerBrandDot');
+      const headerBrandTitle = document.getElementById('headerBrandTitle');
+      const activeCountBadge = document.getElementById('activeCountBadge');
+
+      if (btnSedev) btnSedev.classList.toggle('active', brand === 'sedev');
+      if (btnNevox) btnNevox.classList.toggle('active', brand === 'nevox');
+
+      if (brand === 'nevox') {
+        if (headerBrandDot) {
+          headerBrandDot.style.background = '#00e5a0';
+          headerBrandDot.style.boxShadow = '0 0 12px rgba(0, 229, 160, 0.8)';
+        }
+        if (headerBrandTitle) headerBrandTitle.innerText = 'NEVOX STUDIO';
+        if (activeCountBadge) {
+          activeCountBadge.innerText = '30 PIEZAS B2B CONVERTIBLES';
+          activeCountBadge.style.color = '#00e5a0';
+          activeCountBadge.style.background = 'rgba(0, 229, 160, 0.15)';
+          activeCountBadge.style.borderColor = 'rgba(0, 229, 160, 0.4)';
+        }
+        const subRow = document.getElementById('nevoxSubbrandRow');
+        if (subRow) subRow.style.display = 'flex';
+      } else {
+        if (headerBrandDot) {
+          headerBrandDot.style.background = 'var(--accent-amber)';
+          headerBrandDot.style.boxShadow = '0 0 12px rgba(251, 191, 36, 0.8)';
+        }
+        if (headerBrandTitle) headerBrandTitle.innerText = 'SEDEV STUDIO';
+        if (activeCountBadge) {
+          activeCountBadge.innerText = '21 CURIOSIDADES TECH';
+          activeCountBadge.style.color = 'var(--accent-green)';
+          activeCountBadge.style.background = 'rgba(16, 185, 129, 0.15)';
+          activeCountBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        }
+        const subRow = document.getElementById('nevoxSubbrandRow');
+        if (subRow) subRow.style.display = 'none';
+      }
+
+      nevoxSubFilter = 'all';
+      ['all', 'flowbot', 'cortex', 'b2b'].forEach(k => {
+        const btn = document.getElementById(`subBtn_${k}`);
+        if (btn) btn.classList.toggle('active', k === 'all');
+      });
+
+      rawCatalog = getCatalogForBrand(currentBrand);
+      currentVideoIdx = 0;
+      loadCurationStatuses();
+      applyFilters(false);
+      selectVideo(0);
+      showToast(brand === 'nevox' ? '⚡ Catálogo NEVOX activado (30 piezas: FlowBot, Cortex y B2B)' : '⚡ Catálogo SEDEV activado (21 piezas)');
+    }
+
+    function loadCurationStatuses() {
+      try {
+        const saved = localStorage.getItem(getStatusStorageKey());
+        if (saved) videoStatuses = JSON.parse(saved) || {};
+        else videoStatuses = {};
+      } catch (e) {
+        videoStatuses = {};
+      }
+      // Also sync from local preview_server if running on http://localhost
+      if (window.location.protocol.startsWith('http')) {
+        fetch(`/api/status?brand=${currentBrand}`)
+          .then(r => r.ok ? r.json() : null)
+          .then(serverData => {
+            if (serverData && typeof serverData === 'object') {
+              videoStatuses = Object.assign({}, serverData, videoStatuses);
+              localStorage.setItem(getStatusStorageKey(), JSON.stringify(videoStatuses));
+              updateCurationCounters();
+              renderVideoCards();
+              updateStageStatusButtons();
+            }
+          })
+          .catch(() => {});
+      }
+    }
+
+    function saveCurationStatuses() {
+      try {
+        localStorage.setItem(getStatusStorageKey(), JSON.stringify(videoStatuses));
+      } catch (e) {}
+      if (window.location.protocol.startsWith('http')) {
+        fetch(`/api/status?brand=${currentBrand}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ brand: currentBrand, statuses: videoStatuses })
+        }).catch(() => {});
+      }
+    }
+
+    function getVideoStatus(slug) {
+      return videoStatuses[slug] || 'pending';
+    }
+
+    function setVideoStatus(slug, targetStatus, event) {
+      if (event) event.stopPropagation();
+      const current = getVideoStatus(slug);
+      const next = (current === targetStatus) ? 'pending' : targetStatus;
+      if (next === 'pending') {
+        delete videoStatuses[slug];
+      } else {
+        videoStatuses[slug] = next;
+      }
+      saveCurationStatuses();
+      updateCurationCounters();
+      applyFilters(true);
+      updateStageStatusButtons();
+
+      const labelMap = {
+        published: '🚀 Marcada como SUBIDA A REDES (sale de la lista principal)',
+        recorded: '✓ Marcada como GRABADA / ME GUSTA',
+        discarded: '✕ Marcada como DESCARTADA',
+        pending: '↺ Devuelta a PENDIENTE'
+      };
+      showToast(labelMap[next]);
+    }
+
+    function toggleCurrentVideoStatus(targetStatus) {
+      if (!catalog[currentVideoIdx]) return;
+      setVideoStatus(catalog[currentVideoIdx].slug, targetStatus);
+    }
+
+    function updateStageStatusButtons() {
+      const btnPub = document.getElementById('stageBtnPublished');
+      const btnRec = document.getElementById('stageBtnRecorded');
+      const btnDisc = document.getElementById('stageBtnDiscarded');
+      if (!catalog[currentVideoIdx]) return;
+      const st = getVideoStatus(catalog[currentVideoIdx].slug);
+      if (btnPub) btnPub.classList.toggle('active', st === 'published');
+      if (btnRec) btnRec.classList.toggle('active', st === 'recorded');
+      if (btnDisc) btnDisc.classList.toggle('active', st === 'discarded');
+    }
+
+    function updateCurationCounters() {
+      let pubCount = 0;
+      let recCount = 0;
+      let discCount = 0;
+      rawCatalog.forEach(item => {
+        const st = getVideoStatus(item.slug);
+        if (st === 'published') pubCount++;
+        else if (st === 'recorded') recCount++;
+        else if (st === 'discarded') discCount++;
+      });
+      const pendCount = rawCatalog.length - pubCount - recCount - discCount;
+      const mainActiveCount = rawCatalog.length - pubCount - discCount;
+
+      const fAll = document.getElementById('fBtn_all');
+      const fPend = document.getElementById('fBtn_pending');
+      const fRec = document.getElementById('fBtn_recorded');
+      const fPub = document.getElementById('fBtn_published');
+      const fDisc = document.getElementById('fBtn_discarded');
+      if (fAll) fAll.innerText = `PRINC (${mainActiveCount})`;
+      if (fPend) fPend.innerText = `PEND (${pendCount})`;
+      if (fRec) fRec.innerText = `✓ GRAB (${recCount})`;
+      if (fPub) fPub.innerText = `🚀 SUB (${pubCount})`;
+      if (fDisc) fDisc.innerText = `✕ DESC (${discCount})`;
+
+      const badge = document.getElementById('activeCountBadge');
+      if (badge) {
+        badge.innerText = `${pubCount} SUBIDAS · ${recCount} GRABADAS · ${pendCount} PEND`;
+      }
+    }
+
+    function setStatusFilter(filter) {
+      statusFilter = filter;
+      ['all', 'pending', 'recorded', 'published', 'discarded'].forEach(k => {
+        const btn = document.getElementById(`fBtn_${k}`);
+        if (btn) btn.classList.toggle('active', k === filter);
+      });
+      applyFilters(false);
+    }
+
+    function exportCurationReport() {
+      const published = rawCatalog.filter(i => getVideoStatus(i.slug) === 'published');
+      const recorded = rawCatalog.filter(i => getVideoStatus(i.slug) === 'recorded');
+      const discarded = rawCatalog.filter(i => getVideoStatus(i.slug) === 'discarded');
+      const pending = rawCatalog.filter(i => getVideoStatus(i.slug) === 'pending');
+
+      let md = `# 📊 Registro de Curación ${currentBrand === 'nevox' ? 'Nevox Studio (B2B)' : 'SeDev Studio (Tech Lore)'} (${new Date().toISOString().slice(0, 10)})\n\n`;
+      md += `- **🚀 Subidas a Redes (Publicadas):** ${published.length}\n`;
+      md += `- **✓ Grabadas / Aprobadas (Por subir):** ${recorded.length}\n`;
+      md += `- **✕ Descartadas:** ${discarded.length}\n`;
+      md += `- **⏳ Pendientes por grabar:** ${pending.length}\n\n`;
+
+      md += `## 🚀 SUBIDAS A REDES (Ya publicadas)\n`;
+      if (published.length === 0) md += `*(Ninguna subida aún)*\n`;
+      published.forEach(i => {
+        md += `- **[#${i.num}]** \`${i.slug}\` — ${i.label} *(Pilar: ${i.pilar || i.category})*\n`;
+      });
+
+      md += `\n## ✅ GRABADAS / APROBADAS (Listas para subir)\n`;
+      if (recorded.length === 0) md += `*(Ninguna marcada aún)*\n`;
+      recorded.forEach(i => {
+        md += `- **[#${i.num}]** \`${i.slug}\` — ${i.label} *(Pilar: ${i.pilar || i.category} · Hook: ${i.introType} · CTA: ${i.ctaKeyword || 'DM'})*\n`;
+      });
+
+      md += `\n## ❌ DESCARTADAS\n`;
+      if (discarded.length === 0) md += `*(Ninguna marcada aún)*\n`;
+      discarded.forEach(i => {
+        md += `- **[#${i.num}]** \`${i.slug}\` — ${i.label} *(Pilar: ${i.pilar || i.category} · Hook: ${i.introType})*\n`;
+      });
+
+      md += `\n## ⏳ PENDIENTES\n`;
+      pending.forEach(i => {
+        md += `- **[#${i.num}]** \`${i.slug}\` — ${i.label}\n`;
+      });
+
+      navigator.clipboard.writeText(md).then(() => {
+        showToast(`¡Registro copiado! (${recorded.length} grabadas, ${discarded.length} descartadas)`);
+      }).catch(() => {
+        showToast('Error al copiar el registro');
+      });
+    }
+
+    // DOM Elements
+    const stageWrapper = document.getElementById('stageWrapper');
+    const stageScaler = document.getElementById('stageScaler');
+    const stageContent = document.getElementById('stageContent');
+    const bgCanvas = document.getElementById('stageBgCanvas');
+    const bgCtx = bgCanvas ? bgCanvas.getContext('2d') : null;
+    const mp4Player = document.getElementById('mp4Player');
+    const playBtn = document.getElementById('playBtn');
+    const scrubber = document.getElementById('scrubber');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const stageMainTitle = document.getElementById('stageMainTitle');
+    const stageCategory = document.getElementById('stageCategory');
+    const stageHook = document.getElementById('stageHook');
+    const stageDuration = document.getElementById('stageDuration');
+    const cueOverlayText = document.getElementById('cueOverlayText');
+    const cueOverlayDur = document.getElementById('cueOverlayDur');
+    const videoCardsList = document.getElementById('videoCardsList');
+    const teleprompterList = document.getElementById('teleprompterList');
+    const scenesBreakdownList = document.getElementById('scenesBreakdownList');
+    const tabScenesCount = document.getElementById('tabScenesCount');
+    const autoScrollToggle = document.getElementById('autoScrollToggle');
+
+    // Auto-scale virtual 1080x1920 canvas to fit viewport
+    function resizeStage() {
+      const wrapperHeight = stageWrapper.clientHeight;
+      const scale = wrapperHeight / 1920;
+      stageScaler.style.transform = `scale(${scale})`;
+      stageWrapper.style.width = `${1080 * scale}px`;
+    }
+    window.addEventListener('resize', resizeStage);
+
+    // Filter hook badge styling
+    function getHookBadgeClass(introType) {
+      if (!introType) return 'slam';
+      const up = introType.toUpperCase();
+      if (up.includes('SLAM') || up.includes('TYPO')) return 'slam';
+      if (up.includes('TICKER') || up.includes('BILL') || up.includes('MONEY') || up.includes('COST')) return 'cost';
+      if (up.includes('ALARM') || up.includes('OUTAGE') || up.includes('DISASTER')) return 'alarm';
+      if (up.includes('RACE') || up.includes('DRAG') || up.includes('BENCH') || up.includes('LATENCY')) return 'race';
+      if (up.includes('MATRIX') || up.includes('STEPPER') || up.includes('FLOW') || up.includes('ARCH')) return 'arch';
+      return 'code';
+    }
+
+    // Populate Left Video Cards
+    function renderVideoCards() {
+      videoCardsList.innerHTML = '';
+      catalog.forEach((item, idx) => {
+        const card = document.createElement('div');
+        const st = getVideoStatus(item.slug);
+        const stClass = st === 'published' ? 'status-published' : (st === 'recorded' ? 'status-recorded' : (st === 'discarded' ? 'status-discarded' : ''));
+        card.className = `video-card ${idx === currentVideoIdx ? 'active' : ''} ${stClass}`.trim();
+        card.id = `vCard_${idx}`;
+        const badgeClass = getHookBadgeClass(item.introType);
+        
+        card.innerHTML = `
+          <div class="card-top-row">
+            <span class="card-num">#${item.num || (idx + 1).toString().padStart(2, '0')} · ${(item.duration || 30).toFixed(1)}s</span>
+            <div class="card-status-actions">
+              <button class="card-mark-btn pub ${st === 'published' ? 'active' : ''}" onclick="setVideoStatus('${item.slug}', 'published', event)" title="Marcar Subida a Redes (Sale de lista principal - S)">🚀 SUB</button>
+              <button class="card-mark-btn rec ${st === 'recorded' ? 'active' : ''}" onclick="setVideoStatus('${item.slug}', 'recorded', event)" title="Marcar Grabada">✓ GRAB</button>
+              <button class="card-mark-btn disc ${st === 'discarded' ? 'active' : ''}" onclick="setVideoStatus('${item.slug}', 'discarded', event)" title="Marcar Descartada">✕ DESC</button>
+            </div>
+          </div>
+          <div class="card-title">${item.label || item.manifest.title}</div>
+          <div class="card-footer-meta">
+            <span class="badge-hook ${badgeClass}">${item.introType || 'HOOK'}</span>
+            <span>${item.scenesCount || item.manifest.scenes.length} escenas</span>
+            <span style="color:var(--text-dim);">${item.category ? item.category.split(' ')[0] : (currentBrand === 'nevox' ? 'NEVOX' : 'SEDEV')}</span>
+          </div>
+        `;
+        card.onclick = () => selectVideo(idx);
+        videoCardsList.appendChild(card);
+      });
+      const totalFiltered = statusFilter === 'all' 
+        ? rawCatalog.filter(i => {
+            const st = getVideoStatus(i.slug);
+            return st !== 'published' && st !== 'discarded';
+          }).length
+        : rawCatalog.filter(i => getVideoStatus(i.slug) === statusFilter).length;
+      document.getElementById('counterPill').innerText = `${catalog.length} de ${totalFiltered}`;
+      updateCurationCounters();
+    }
+
+    function applyFilters(preserveSelection = false) {
+      const searchEl = document.getElementById('searchInput');
+      const q = (searchEl ? searchEl.value : '').trim().toLowerCase();
+      const prevSlug = catalog[currentVideoIdx] ? catalog[currentVideoIdx].slug : null;
+
+      catalog = rawCatalog.filter(item => {
+        const st = getVideoStatus(item.slug);
+        // Lista principal (all): Oculta piezas ya subidas y piezas descartadas
+        if (statusFilter === 'all') {
+          if (st === 'published' || st === 'discarded') return false;
+        } else if (st !== statusFilter) {
+          return false;
+        }
+
+        // Subfiltro Nevox por producto (FlowBot, Cortex, B2B Gral)
+        if (currentBrand === 'nevox' && nevoxSubFilter !== 'all') {
+          const isFlowBot = (item.slug && item.slug.includes('flowbot')) || (item.category && item.category.includes('FLOWBOT'));
+          const isCortex = (item.slug && item.slug.includes('cortex')) || (item.category && item.category.includes('CORTEX'));
+          if (nevoxSubFilter === 'flowbot' && !isFlowBot) return false;
+          if (nevoxSubFilter === 'cortex' && !isCortex) return false;
+          if (nevoxSubFilter === 'b2b' && (isFlowBot || isCortex)) return false;
+        }
+
+        if (!q) return true;
+        const matchLabel = item.label && item.label.toLowerCase().includes(q);
+        const matchSlug = item.slug && item.slug.toLowerCase().includes(q);
+        const matchHook = item.introType && item.introType.toLowerCase().includes(q);
+        const matchCat = item.category && item.category.toLowerCase().includes(q);
+        return matchLabel || matchSlug || matchHook || matchCat;
+      });
+
+      if (catalog.length === 0) {
+        videoCardsList.innerHTML = '<div style="color:var(--text-dim); font-size:12px; padding:24px; text-align:center;">No hay piezas en este filtro.</div>';
+        document.getElementById('counterPill').innerText = `0 de ${rawCatalog.length}`;
+        updateCurationCounters();
+        return;
+      }
+
+      if (preserveSelection && prevSlug) {
+        const foundIdx = catalog.findIndex(i => i.slug === prevSlug);
+        if (foundIdx !== -1) {
+          currentVideoIdx = foundIdx;
+          renderVideoCards();
+          return;
+        }
+      }
+
+      renderVideoCards();
+      selectVideo(0);
+    }
+
+    function filterVideos() {
+      applyFilters(false);
+    }
+
+    // Load selected video
+    function selectVideo(idx) {
+      if (!catalog || catalog.length === 0) return;
+      currentVideoIdx = utils.clamp(idx, 0, catalog.length - 1);
+
+      // Highlight active card
+      document.querySelectorAll('.video-card').forEach((c, i) => {
+        c.classList.toggle('active', i === currentVideoIdx);
+      });
+      const activeCard = document.getElementById(`vCard_${currentVideoIdx}`);
+      if (activeCard) activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      const item = catalog[currentVideoIdx];
+      currentManifest = item.manifest;
+      totalDuration = currentManifest.scenes.reduce((acc, s) => acc + (s.duration || 5.0), 0);
+      scrubber.max = totalDuration;
+
+      // Update Header Info
+      stageMainTitle.innerText = item.label || currentManifest.title;
+      stageCategory.innerText = item.category || 'INGENIERÍA';
+      stageHook.innerText = `HOOK: ${item.introType || 'KINETIC'}`;
+      stageDuration.innerText = `${totalDuration.toFixed(1)}s TOTAL`;
+      tabScenesCount.innerText = currentManifest.scenes.length;
+      updateStageStatusButtons();
+
+      // Set MP4 Source
+      let mp4Path = `output_clips/${item.slug}.mp4`;
+      if (currentBrand === 'nevox') {
+        mp4Path = `output_clips/nevox/${item.slug}.mp4`;
+      }
+      mp4Player.src = mp4Path;
+      mp4Player.load();
+
+      // Render Teleprompter List
+      renderTeleprompter();
+
+      // Render Scenes Breakdown
+      renderScenesBreakdown();
+
+      // Reset playback
+      pause();
+      activeSceneIdx = -1;
+      resizeStage();
+      seek(0.35);
+    }
+
+    // Render Teleprompter Script Blocks
+    function renderTeleprompter() {
+      teleprompterList.innerHTML = '';
+      if (!currentManifest) return;
+
+      // If the manifest has a full 5-act speaking script (Option C format)
+      if (currentManifest.script) {
+        const sc = currentManifest.script;
+        const scriptActs = [
+          {
+            act: '1. GANCHO INICIAL',
+            type: 'CARA A CÁMARA',
+            badge: '👤 TOMA FRONTAL',
+            color: '#10b981',
+            voiceover: sc.hook,
+            visual: 'Grábate a cámara mirando al lente con energía',
+            seekTime: 0
+          },
+          {
+            act: '2. EXPLICACIÓN MECANISMO',
+            type: 'B-ROLL #01',
+            badge: '🎬 ANIMACIÓN EN PANTALLA',
+            color: '#38bdf8',
+            voiceover: sc.broll1_lead,
+            visual: (currentManifest.scenes[0] && (currentManifest.scenes[0].visual_cue || currentManifest.scenes[0].purpose)) || 'B-Roll 1',
+            seekTime: 0.1
+          },
+          {
+            act: '3. GIRO / LA CURIOSIDAD',
+            type: 'CARA A CÁMARA',
+            badge: '👤 TOMA FRONTAL',
+            color: '#10b981',
+            voiceover: sc.camera_pivot,
+            visual: 'Vuelve a tu cara para crear expectación',
+            seekTime: (currentManifest.scenes[0]?.duration || 9.0) * 0.5
+          },
+          {
+            act: '4. SOLUCIÓN / ALGORITMO',
+            type: 'B-ROLL #02',
+            badge: '🎬 ANIMACIÓN EN PANTALLA',
+            color: '#38bdf8',
+            voiceover: sc.broll2_lead,
+            visual: (currentManifest.scenes[1] && (currentManifest.scenes[1].visual_cue || currentManifest.scenes[1].purpose)) || 'B-Roll 2',
+            seekTime: currentManifest.scenes[0]?.duration || 9.0
+          },
+          {
+            act: '5. CIERRE & CTA',
+            type: 'CARA A CÁMARA',
+            badge: '👤 TOMA FRONTAL',
+            color: '#10b981',
+            voiceover: sc.outro,
+            visual: 'Cierre a cámara + Llamada a la acción / Sígueme',
+            seekTime: totalDuration - 0.5
+          }
+        ];
+
+        scriptActs.forEach((act, idx) => {
+          const block = document.createElement('div');
+          block.className = 'tp-speech-block';
+          block.id = `tpBlock_${idx}`;
+          block.onclick = () => seek(act.seekTime);
+          block.innerHTML = `
+            <div class="tp-speech-header">
+              <span class="tp-scene-tag">[ACTO ${idx + 1}] ${act.type}</span>
+              <span class="tp-scene-time" style="color: ${act.color}; font-weight: 800; font-size: 13px;">${act.badge}</span>
+            </div>
+            <div class="tp-speech-text" style="font-size: 18px; line-height: 1.5; color: #ffffff;">"${act.voiceover}"</div>
+            <div class="tp-visual-hint" style="color: #94a3b8; font-size: 13px; margin-top: 8px;">📌 ${act.visual}</div>
+          `;
+          teleprompterList.appendChild(block);
+        });
+        return;
+      }
+
+      let accum = 0;
+      currentManifest.scenes.forEach((s, sIdx) => {
+        const start = accum;
+        const end = accum + s.duration;
+        accum += s.duration;
+
+        const block = document.createElement('div');
+        block.className = 'tp-speech-block';
+        block.id = `tpBlock_${sIdx}`;
+        block.onclick = () => seek(start + 0.05);
+
+        block.innerHTML = `
+          <div class="tp-speech-header">
+            <span class="tp-scene-tag">[ESCENA ${sIdx + 1}] ${s.type.toUpperCase()}</span>
+            <span class="tp-scene-time">${start.toFixed(1)}s - ${end.toFixed(1)}s</span>
+          </div>
+          <div class="tp-speech-text">${s.voiceover ? `"${s.voiceover}"` : '(Sin locución asignada)'}</div>
+          <div class="tp-visual-hint">Visual: ${s.visual_cue || s.id}</div>
+        `;
+        teleprompterList.appendChild(block);
+      });
+    }
+
+    // Render Scenes Tab Breakdown
+    function renderScenesBreakdown() {
+      scenesBreakdownList.innerHTML = '';
+      let accum = 0;
+      currentManifest.scenes.forEach((s, sIdx) => {
+        const start = accum;
+        accum += s.duration;
+
+        const card = document.createElement('div');
+        card.className = 'scene-meta-card';
+        card.id = `sceneCard_${sIdx}`;
+        card.onclick = () => seek(start + 0.05);
+
+        card.innerHTML = `
+          <div class="smc-top">
+            <span class="smc-type">${sIdx + 1}. ${s.type}</span>
+            <span class="smc-dur">${s.duration.toFixed(1)}s</span>
+          </div>
+          <div class="smc-desc">${s.visual_cue || s.id}</div>
+        `;
+        scenesBreakdownList.appendChild(card);
+      });
+    }
+
+    // Format mm:ss.f
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      const f = Math.floor((sec % 1) * 10);
+      return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}.${f}`;
+    }
+
+    // Find active scene by global time
+    function getSceneAtTime(time) {
+      let accumulated = 0;
+      for (let i = 0; i < currentManifest.scenes.length; i++) {
+        const s = currentManifest.scenes[i];
+        if (time >= accumulated && time < accumulated + s.duration) {
+          return { index: i, scene: s, sceneTime: time - accumulated };
+        }
+        accumulated += s.duration;
+      }
+      const last = currentManifest.scenes.length - 1;
+      return { index: last, scene: currentManifest.scenes[last], sceneTime: currentManifest.scenes[last].duration };
+    }
+
+    // Seek to specific time
+    function seek(time) {
+      currentTime = utils.clamp(time, 0, totalDuration);
+      scrubber.value = currentTime;
+      timeDisplay.innerText = `${formatTime(currentTime)} / ${formatTime(totalDuration)}`;
+
+      const info = getSceneAtTime(currentTime);
+
+      // If scene changed
+      if (info.index !== activeSceneIdx) {
+        activeSceneIdx = info.index;
+
+        // Highlight Teleprompter Speech Block
+        document.querySelectorAll('.tp-speech-block').forEach((b, i) => {
+          b.classList.toggle('speaking', i === activeSceneIdx);
+        });
+        const activeBlock = document.getElementById(`tpBlock_${activeSceneIdx}`);
+        if (activeBlock && autoScrollToggle.checked) {
+          activeBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Highlight Scene Card in Tab 2
+        document.querySelectorAll('.scene-meta-card').forEach((c, i) => {
+          c.classList.toggle('active', i === activeSceneIdx);
+        });
+
+        // Update Stage Cue Overlay
+        cueOverlayText.innerText = `ESCENA ${activeSceneIdx + 1}/${currentManifest.scenes.length}: ${info.scene.type.toUpperCase()}`;
+        cueOverlayDur.innerText = `${info.scene.duration.toFixed(1)}s`;
+
+        // Initialize component for canvas mode
+        loadCanvasComponent(info.scene);
+      }
+
+      // Render frame or sync video
+      if (engineMode === 'canvas') {
+        renderCanvasFrame(info.scene, info.sceneTime);
+      } else {
+        if (Math.abs(mp4Player.currentTime - currentTime) > 0.3) {
+          mp4Player.currentTime = currentTime;
+        }
+      }
+    }
+
+    function seekRelative(delta) {
+      seek(currentTime + delta);
+    }
+
+    function jumpScene(step) {
+      const current = getSceneAtTime(currentTime);
+      const targetIdx = utils.clamp(current.index + step, 0, currentManifest.scenes.length - 1);
+      let targetTime = 0;
+      for (let i = 0; i < targetIdx; i++) {
+        targetTime += currentManifest.scenes[i].duration;
+      }
+      seek(targetTime + 0.05);
+    }
+
+    // Load Component in Canvas Stage
+    function loadCanvasComponent(sceneData) {
+      stageContent.innerHTML = '';
+      const compDef = window.__COMPONENTS__[sceneData.type];
+      if (!compDef) {
+        stageContent.innerHTML = `<div style="color:#ef4444; font-family:'JetBrains Mono'; font-size:24px; padding:40px; text-align:center;">Componente no registrado: ${sceneData.type}</div>`;
+        return;
+      }
+      const mergedProps = Object.assign({ voiceover: sceneData.voiceover || '' }, sceneData.props || {});
+      sceneData._mergedProps = mergedProps;
+      if (typeof compDef.init === 'function') {
+        compDef.init(stageContent, mergedProps);
+      }
+    }
+
+    // Render Canvas Frame
+    function renderCanvasFrame(sceneData, sceneTime) {
+      const compDef = window.__COMPONENTS__[sceneData.type];
+      if (!compDef) return;
+      const duration = sceneData.duration || 5.0;
+      const t = utils.clamp(sceneTime, 0, duration);
+      const activeProps = sceneData._mergedProps || Object.assign({ voiceover: sceneData.voiceover || '' }, sceneData.props || {});
+      const activeTheme = (activeProps && activeProps.theme) || (sceneData && sceneData.theme) || 'dark';
+      const stageElem = document.getElementById('stage');
+      if (stageElem) {
+        stageElem.className = `theme-${activeTheme}`;
+        stageElem.style.background = (activeTheme === 'light') ? '#f8fafc' : (activeTheme === 'blueprint' ? '#07111e' : '#050505');
+      }
+
+      // Dynamic Ambient Backdrop
+      if (bgCtx && window.motionUtils && typeof window.motionUtils.renderBackdrop === 'function') {
+        const meta = {
+          category: currentManifest.category || 'SYSTEMS',
+          slug: currentManifest.slug || '',
+          title: currentManifest.title || '',
+          theme: activeTheme
+        };
+        window.motionUtils.renderBackdrop(bgCtx, 1080, 1920, t, meta);
+      }
+
+      // Context-Aware Camera Director
+      let cam = { x: 0, y: 0, rot: 0, scale: 1.0 };
+      if (window.motionUtils && typeof window.motionUtils.calculateCamera === 'function') {
+        cam = window.motionUtils.calculateCamera(t, duration, activeProps, sceneData.type);
+      }
+      stageContent.style.transform = `translate(${cam.x.toFixed(1)}px, ${cam.y.toFixed(1)}px) rotate(${cam.rot.toFixed(2)}deg) scale(${cam.scale.toFixed(4)})`;
+
+      // Render Component
+      compDef.render(stageContent, t, duration, activeProps, utils);
+    }
+
+    // Playback Engine Loop
+    function playbackLoop(timestamp) {
+      if (!isPlaying) return;
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const dt = ((timestamp - lastTimestamp) / 1000) * playbackSpeed;
+      lastTimestamp = timestamp;
+
+      currentTime += dt;
+      if (currentTime >= totalDuration) {
+        currentTime = 0;
+        seek(0);
+        pause();
+      } else {
+        seek(currentTime);
+        requestAnimationFrame(playbackLoop);
+      }
+    }
+
+    function play() {
+      isPlaying = true;
+      playBtn.innerHTML = '<span>⏸</span> PAUSAR';
+      lastTimestamp = null;
+      if (engineMode === 'video') {
+        mp4Player.play().catch(e => console.warn(e));
+      }
+      requestAnimationFrame(playbackLoop);
+    }
+
+    function pause() {
+      isPlaying = false;
+      playBtn.innerHTML = '<span>▶</span> REPRODUCIR';
+      if (engineMode === 'video') {
+        mp4Player.pause();
+      }
+    }
+
+    function togglePlay() {
+      if (isPlaying) pause(); else play();
+    }
+
+    function setSpeed(speed) {
+      playbackSpeed = speed;
+      document.querySelectorAll('.speed-pill').forEach(btn => {
+        btn.classList.toggle('active', parseFloat(btn.dataset.speed) === speed);
+      });
+      mp4Player.playbackRate = speed;
+      showToast(`Velocidad: ${speed}x`);
+    }
+
+    scrubber.oninput = (e) => {
+      if (isPlaying) pause();
+      seek(parseFloat(e.target.value));
+    };
+
+    // Engine Mode Toggle (Canvas vs MP4)
+    function setEngineMode(mode) {
+      engineMode = mode;
+      const isCanvas = mode === 'canvas';
+      document.getElementById('modeCanvasBtn').classList.toggle('active', isCanvas);
+      document.getElementById('modeVideoBtn').classList.toggle('active', !isCanvas);
+
+      if (isCanvas) {
+        mp4Player.style.display = 'none';
+        stageScaler.style.display = 'block';
+        mp4Player.pause();
+      } else {
+        stageScaler.style.display = 'none';
+        mp4Player.style.display = 'block';
+        mp4Player.currentTime = currentTime;
+        if (isPlaying) mp4Player.play();
+      }
+      showToast(`Modo cambiado a: ${isCanvas ? 'Canvas HTML5' : 'Vídeo MP4'}`);
+      seek(currentTime);
+    }
+
+    // Tab Switching in Right Drawer
+    function switchTab(tab) {
+      const isTp = tab === 'teleprompter';
+      document.getElementById('tabTeleprompterBtn').classList.toggle('active', isTp);
+      document.getElementById('tabScenesBtn').classList.toggle('active', !isTp);
+      document.getElementById('tabTeleprompterContent').style.display = isTp ? 'flex' : 'none';
+      document.getElementById('tabScenesContent').style.display = !isTp ? 'flex' : 'none';
+    }
+
+    // Toast Utility
+    let toastTimeout = null;
+    function showToast(text) {
+      const pill = document.getElementById('toastPill');
+      document.getElementById('toastText').innerText = text;
+      pill.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => pill.classList.remove('show'), 2600);
+    }
+
+    // Copy Full Script Markdown
+    function copyFullScript() {
+      if (!currentManifest) return;
+      let md = `# ${currentManifest.title}\n\n`;
+      md += `**Categoría:** ${currentManifest.category || ''}\n`;
+      md += `**Duración B-Rolls:** ${totalDuration.toFixed(1)}s\n\n---\n\n`;
+      if (currentManifest.script) {
+        const sc = currentManifest.script;
+        md += `## 🎙️ Guion Completo de Cámara (Teleprompter)\n\n`;
+        md += `> "${sc.hook}"\n\n`;
+        md += `> "${sc.broll1_lead}"\n\n`;
+        md += `> "${sc.camera_pivot}"\n\n`;
+        md += `> "${sc.broll2_lead}"\n\n`;
+        md += `> "${sc.outro}"\n\n`;
+        md += `---\n\n## ✂️ Instrucciones de Edición (CapCut / Premiere / DaVinci)\n\n`;
+        md += `| Momento | Toma en Pantalla | Archivo a Usar |\n`;
+        md += `| :--- | :--- | :--- |\n`;
+        md += `| 01. Gancho inicial | 👤 Tu cara a cámara | Tu video grabado |\n`;
+        md += `| 02. Explicación problema | 🎬 B-ROLL #01 | \`${currentManifest.scenes[0]?.id || 'broll_01'}.mp4\` |\n`;
+        md += `| 03. Giro / Curiosidad | 👤 Tu cara a cámara | Tu video grabado |\n`;
+        md += `| 04. Solución / Algoritmo | 🎬 B-ROLL #02 | \`${currentManifest.scenes[1]?.id || 'broll_02'}.mp4\` |\n`;
+        md += `| 05. Cierre & CTA | 👤 Tu cara a cámara | Tu video grabado |\n`;
+      } else {
+        currentManifest.scenes.forEach((s, idx) => {
+          md += `### Escena ${idx + 1}: ${s.type} (${s.duration.toFixed(1)}s)\n`;
+          md += `**Acción:** ${s.visual_cue || s.id}\n`;
+          md += `> "${s.voiceover || ''}"\n\n`;
+        });
+      }
+      navigator.clipboard.writeText(md).then(() => {
+        showToast("✓ ¡Guion completo copiado en Markdown!");
+      }).catch(() => {
+        showToast("Error copiando guion");
+      });
+    }
+
+    // Keyboard Shortcuts Modal
+    function toggleShortcutsModal(open) {
+      document.getElementById('shortcutsModal').classList.toggle('open', open);
+    }
+
+    // Minimalist Light & Dark Theme Manager
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      setTheme(isDark ? 'light' : 'dark');
+      showToast(`Tema: ${isDark ? 'Minimalista Light' : 'Dark Mode'}`);
+    }
+
+    function setTheme(theme) {
+      const isDark = theme === 'dark';
+      if (isDark) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      const icon = document.getElementById('themeToggleIcon');
+      const label = document.getElementById('themeToggleLabel');
+      if (icon) icon.innerText = isDark ? '☀️' : '🌙';
+      if (label) label.innerText = isDark ? 'Light' : 'Dark';
+      localStorage.setItem('sedev_player_theme', isDark ? 'dark' : 'light');
+    }
+
+    // Keyboard Event Listener
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        seekRelative(-1.0);
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        seekRelative(1.0);
+      } else if (e.code === 'ArrowUp' || e.code === 'BracketLeft') {
+        e.preventDefault();
+        selectVideo(currentVideoIdx - 1);
+      } else if (e.code === 'ArrowDown' || e.code === 'BracketRight') {
+        e.preventDefault();
+        selectVideo(currentVideoIdx + 1);
+      } else if (e.key === 'j' || e.key === 'J') {
+        jumpScene(-1);
+      } else if (e.key === 'k' || e.key === 'K') {
+        jumpScene(1);
+      } else if (e.key === 'm' || e.key === 'M') {
+        setEngineMode(engineMode === 'canvas' ? 'video' : 'canvas');
+      } else if (e.key === 'c' || e.key === 'C') {
+        copyFullScript();
+      } else if (e.key === 'b' || e.key === 'B') {
+        switchBrand(currentBrand === 'sedev' ? 'nevox' : 'sedev');
+      } else if (e.key === 't' || e.key === 'T') {
+        toggleTheme();
+      } else if (e.key === 's' || e.key === 'S') {
+        toggleCurrentVideoStatus('published');
+      } else if (e.key === 'g' || e.key === 'G') {
+        toggleCurrentVideoStatus('recorded');
+      } else if (e.key === 'x' || e.key === 'X') {
+        toggleCurrentVideoStatus('discarded');
+      }
+    });
+
+    // Startup Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      if (catalog.length === 0) {
+        videoCardsList.innerHTML = '<div style="color:red; padding:20px;">No se encontraron vídeos en el catálogo.</div>';
+        return;
+      }
+      const savedTheme = localStorage.getItem('sedev_player_theme') || 'light';
+      setTheme(savedTheme);
+      loadCurationStatuses();
+      renderVideoCards();
+      selectVideo(0);
+      resizeStage();
+    });
+  </script>
+</body>
+</html>

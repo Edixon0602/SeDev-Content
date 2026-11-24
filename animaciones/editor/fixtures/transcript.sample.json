@@ -1,0 +1,324 @@
+{
+  "provider": "fixture-synthetic",
+  "language": "es",
+  "text": "Cuando automatizas la facturación, tres pasos manuales desaparecen. El sistema recibe el pago, verifica los datos y emite la factura en segundos. Antes, una pausa invisible costaba una hora cada día. La diferencia no está en más superficie: está en un flujo que no se atasca. Por eso medimos cada paso y eliminamos lo que sobra.",
+  "segments": [
+    {
+      "id": 0,
+      "text": "Cuando automatizas la facturación, tres pasos manuales desaparecen.",
+      "start": 0.15,
+      "end": 3.67
+    },
+    {
+      "id": 1,
+      "text": "El sistema recibe el pago, verifica los datos y emite la factura en segundos.",
+      "start": 4.12,
+      "end": 9.542
+    },
+    {
+      "id": 2,
+      "text": "Antes, una pausa invisible costaba una hora cada día.",
+      "start": 9.992,
+      "end": 13.547
+    },
+    {
+      "id": 3,
+      "text": "La diferencia no está en más superficie: está en un flujo que no se atasca.",
+      "start": 13.997,
+      "end": 19.67
+    },
+    {
+      "id": 4,
+      "text": "Por eso medimos cada paso y eliminamos lo que sobra.",
+      "start": 20.12,
+      "end": 23.944
+    }
+  ],
+  "words": [
+    {
+      "word": "Cuando",
+      "start": 0.15,
+      "end": 0.518
+    },
+    {
+      "word": "automatizas",
+      "start": 0.563,
+      "end": 1.021
+    },
+    {
+      "word": "la",
+      "start": 1.066,
+      "end": 1.362
+    },
+    {
+      "word": "facturación,",
+      "start": 1.407,
+      "end": 1.883
+    },
+    {
+      "word": "tres",
+      "start": 1.928,
+      "end": 2.26
+    },
+    {
+      "word": "pasos",
+      "start": 2.305,
+      "end": 2.655
+    },
+    {
+      "word": "manuales",
+      "start": 2.7,
+      "end": 3.104
+    },
+    {
+      "word": "desaparecen.",
+      "start": 3.149,
+      "end": 3.625
+    },
+    {
+      "word": "El",
+      "start": 4.12,
+      "end": 4.416
+    },
+    {
+      "word": "sistema",
+      "start": 4.461,
+      "end": 4.847
+    },
+    {
+      "word": "recibe",
+      "start": 4.892,
+      "end": 5.26
+    },
+    {
+      "word": "el",
+      "start": 5.305,
+      "end": 5.601
+    },
+    {
+      "word": "pago,",
+      "start": 5.646,
+      "end": 5.996
+    },
+    {
+      "word": "verifica",
+      "start": 6.041,
+      "end": 6.445
+    },
+    {
+      "word": "los",
+      "start": 6.49,
+      "end": 6.804
+    },
+    {
+      "word": "datos",
+      "start": 6.849,
+      "end": 7.199
+    },
+    {
+      "word": "y",
+      "start": 7.244,
+      "end": 7.522
+    },
+    {
+      "word": "emite",
+      "start": 7.567,
+      "end": 7.917
+    },
+    {
+      "word": "la",
+      "start": 7.962,
+      "end": 8.258
+    },
+    {
+      "word": "factura",
+      "start": 8.303,
+      "end": 8.689
+    },
+    {
+      "word": "en",
+      "start": 8.734,
+      "end": 9.03
+    },
+    {
+      "word": "segundos.",
+      "start": 9.075,
+      "end": 9.497
+    },
+    {
+      "word": "Antes,",
+      "start": 9.992,
+      "end": 10.36
+    },
+    {
+      "word": "una",
+      "start": 10.405,
+      "end": 10.719
+    },
+    {
+      "word": "pausa",
+      "start": 10.764,
+      "end": 11.114
+    },
+    {
+      "word": "invisible",
+      "start": 11.159,
+      "end": 11.581
+    },
+    {
+      "word": "costaba",
+      "start": 11.626,
+      "end": 12.012
+    },
+    {
+      "word": "una",
+      "start": 12.057,
+      "end": 12.371
+    },
+    {
+      "word": "hora",
+      "start": 12.416,
+      "end": 12.748
+    },
+    {
+      "word": "cada",
+      "start": 12.793,
+      "end": 13.125
+    },
+    {
+      "word": "día.",
+      "start": 13.17,
+      "end": 13.502
+    },
+    {
+      "word": "La",
+      "start": 13.997,
+      "end": 14.293
+    },
+    {
+      "word": "diferencia",
+      "start": 14.338,
+      "end": 14.778
+    },
+    {
+      "word": "no",
+      "start": 14.823,
+      "end": 15.119
+    },
+    {
+      "word": "está",
+      "start": 15.164,
+      "end": 15.496
+    },
+    {
+      "word": "en",
+      "start": 15.541,
+      "end": 15.837
+    },
+    {
+      "word": "más",
+      "start": 15.882,
+      "end": 16.196
+    },
+    {
+      "word": "superficie:",
+      "start": 16.241,
+      "end": 16.699
+    },
+    {
+      "word": "está",
+      "start": 16.744,
+      "end": 17.076
+    },
+    {
+      "word": "en",
+      "start": 17.121,
+      "end": 17.417
+    },
+    {
+      "word": "un",
+      "start": 17.462,
+      "end": 17.758
+    },
+    {
+      "word": "flujo",
+      "start": 17.803,
+      "end": 18.153
+    },
+    {
+      "word": "que",
+      "start": 18.198,
+      "end": 18.512
+    },
+    {
+      "word": "no",
+      "start": 18.557,
+      "end": 18.853
+    },
+    {
+      "word": "se",
+      "start": 18.898,
+      "end": 19.194
+    },
+    {
+      "word": "atasca.",
+      "start": 19.239,
+      "end": 19.625
+    },
+    {
+      "word": "Por",
+      "start": 20.12,
+      "end": 20.434
+    },
+    {
+      "word": "eso",
+      "start": 20.479,
+      "end": 20.793
+    },
+    {
+      "word": "medimos",
+      "start": 20.838,
+      "end": 21.224
+    },
+    {
+      "word": "cada",
+      "start": 21.269,
+      "end": 21.601
+    },
+    {
+      "word": "paso",
+      "start": 21.646,
+      "end": 21.978
+    },
+    {
+      "word": "y",
+      "start": 22.023,
+      "end": 22.301
+    },
+    {
+      "word": "eliminamos",
+      "start": 22.346,
+      "end": 22.786
+    },
+    {
+      "word": "lo",
+      "start": 22.831,
+      "end": 23.127
+    },
+    {
+      "word": "que",
+      "start": 23.172,
+      "end": 23.486
+    },
+    {
+      "word": "sobra.",
+      "start": 23.531,
+      "end": 23.899
+    }
+  ],
+  "meta": {
+    "duration": 24.499,
+    "fixture": true,
+    "note": "Transcripción sintética para tests offline; no es una transcripción real."
+  }
+}

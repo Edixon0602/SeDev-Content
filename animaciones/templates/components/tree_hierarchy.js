@@ -1,13 +1,13 @@
 // Component: tree_hierarchy
-// Renders balanced B-Trees, dependency trees, ASTs, and indexing hierarchies.
-// Fully normalized for both props.items and props.nodes with dynamic auto-layout.
+// B-Tree Index & Dependency Hierarchy Traversal Simulator.
+// Features orthogonal node branches, square pointer packets descending to leaf nodes,
+// and word-by-word synchronized captions.
 
 window.registerComponent('tree_hierarchy', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-tree-hier">
-        ${props.header || props.badge ? `<div class="scene-category" id="treeHeader">${props.header || props.badge}</div>` : ''}
-        <canvas id="treeCanvas" width="960" height="1300"></canvas>
+        <canvas id="treeCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#treeCanvas');
@@ -18,170 +18,130 @@ window.registerComponent('tree_hierarchy', {
     const { spring, clamp, lerp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
-    // Hard cut exit
-    const exitT = duration - 0.3;
+    const exitT = duration - 0.25;
     let exitAlpha = 1;
-    let exitY = 0;
     if (t > exitT) {
-      const p = (t - exitT) / 0.3;
-      exitY = -p * p * 60;
-      exitAlpha = clamp(1 - p * 1.3, 0, 1);
-    }
-
-    const headerEl = container.querySelector('#treeHeader');
-    if (headerEl) {
-      const s = spring(Math.max(0, t - 0.05), 24, 0.7);
-      headerEl.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
-      headerEl.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
+      exitAlpha = clamp(1 - ((t - exitT) / 0.25) * 1.4, 0, 1);
     }
 
     ctx.save();
     ctx.globalAlpha = exitAlpha;
-    ctx.translate(0, exitY);
 
-    const title = props.title || 'ÁRBOL JERÁRQUICO';
-    const complexity = props.complexity || props.subtitle || 'ANÁLISIS DE DEPENDENCIAS Y NIVELES';
+    const title = (props.title || 'BÚSQUEDA LOGARÍTMICA EN ÁRBOL B-TREE').toUpperCase();
+    const subtitle = (props.complexity || props.subtitle || 'ACCESO O(LOG N) EN 3 SALTOS DE PÁGINA').toUpperCase();
+
+    // 1. Clean Header
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#10b981';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 40, 42);
 
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
     if (mu) {
-      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
-    } else {
-      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(title, 480, 65);
+      mu.fitText(ctx, title, 40, 92, 880, 40, 24, '"Plus Jakarta Sans", sans-serif', '900');
     }
 
-    ctx.fillStyle = '#10b981';
-    ctx.font = '700 17px "JetBrains Mono", monospace';
-    ctx.fillText(complexity, 480, 102);
+    ctx.strokeStyle = '#27272a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(40, 118);
+    ctx.lineTo(920, 118);
+    ctx.stroke();
 
-    // Normalize Nodes (support props.items as well as props.nodes)
-    let nodes = [];
-    if (props.nodes) {
-      nodes = props.nodes;
-    } else if (props.items) {
-      // Auto-layout items into a clean tree
-      const rootItem = props.items.find(it => it.level === 0) || props.items[0];
-      const children = props.items.filter(it => it !== rootItem);
+    const nodes = props.nodes || [
+      { id: 'root', label: 'ROOT PAGE [0x01] · KEY_RANGE: 1..100,000', sub: 'Salto #1 en RAM (0.02ms)', x: 480, y: 235, w: 680, color: '#38bdf8' },
+      { id: 'b1', label: 'BRANCH A [1..50K]', sub: 'Rama descartada', x: 245, y: 455, w: 390, parent: 'root', color: '#3f3f46', activePath: false },
+      { id: 'b2', label: 'BRANCH B [50K..100K]', sub: 'Salto #2 seleccionado', x: 715, y: 455, w: 390, parent: 'root', color: '#fbbf24', activePath: true },
+      { id: 'l1', label: 'LEAF PAGE [0x8F] · HIT EXACTO', sub: 'Fila localizada en 1.8ms sin escanear tabla', x: 715, y: 675, w: 390, parent: 'b2', color: '#10b981', activePath: true },
+      { id: 'l0', label: 'FULL SCAN EVITADO', sub: '99,997 filas ignoradas', x: 245, y: 675, w: 390, parent: 'b1', color: '#3f3f46', activePath: false }
+    ];
 
-      nodes.push({
-        id: 'root',
-        label: rootItem.name || rootItem.label,
-        x: 480,
-        y: 240,
-        level: 0,
-        color: '#38bdf8'
-      });
-
-      const count = children.length;
-      children.forEach((c, idx) => {
-        const xStep = 720 / Math.max(1, count - 1);
-        const xPos = count === 1 ? 480 : (120 + idx * xStep);
-        nodes.push({
-          id: `child_${idx}`,
-          label: c.name || c.label,
-          x: xPos,
-          y: 540,
-          level: 1,
-          parent: 'root',
-          color: idx === 1 ? '#ef4444' : '#fbbf24'
-        });
-      });
-    } else {
-      // Default fallback
-      nodes = [
-        { id: 'root', label: 'ROOT [KEY: 500]', x: 480, y: 240, level: 0, color: '#38bdf8' },
-        { id: 'n1', label: 'BRANCH [100 - 300]', x: 240, y: 520, level: 1, parent: 'root', color: '#10b981' },
-        { id: 'n2', label: 'BRANCH [600 - 900]', x: 720, y: 520, level: 1, parent: 'root', color: '#fbbf24' }
-      ];
-    }
-
-    // 1. Draw Connecting Branches
+    // 2. Orthogonal Branches & Active Search Packet
     nodes.forEach(node => {
       if (!node.parent) return;
       const parentNode = nodes.find(n => n.id === node.parent);
       if (!parentNode) return;
 
+      const isHot = node.activePath !== false;
+      ctx.strokeStyle = isHot ? node.color : '#27272a';
+      ctx.lineWidth = isHot ? 2.5 : 1.5;
       ctx.beginPath();
-      ctx.moveTo(parentNode.x, parentNode.y + 40);
-      ctx.lineTo(node.x, node.y - 40);
-      ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 2.5;
+      ctx.moveTo(parentNode.x, parentNode.y + 48);
+      ctx.lineTo(parentNode.x, (parentNode.y + node.y) / 2);
+      ctx.lineTo(node.x, (parentNode.y + node.y) / 2);
+      ctx.lineTo(node.x, node.y - 48);
       ctx.stroke();
 
-      // Traveling pulse packet
-      const pulseT = ((t * 1.5) % 1);
-      const px = lerp(parentNode.x, node.x, pulseT);
-      const py = lerp(parentNode.y + 40, node.y - 40, pulseT);
-      ctx.fillStyle = node.color || '#10b981';
-      ctx.beginPath();
-      ctx.arc(px, py, 5, 0, Math.PI * 2);
-      ctx.fill();
+      if (isHot) {
+        const pulseT = ((t * 1.6) % 1);
+        const px = lerp(parentNode.x, node.x, pulseT);
+        const py = lerp(parentNode.y + 48, node.y - 48, pulseT);
+        ctx.fillStyle = node.color;
+        ctx.fillRect(px - 7, py - 7, 14, 14);
+      }
     });
 
-    // 2. Draw Nodes
+    // 3. Draw Mechanical Tree Nodes
     nodes.forEach((node, i) => {
-      const s = spring(Math.max(0, t - i * 0.12), 22, 0.75);
+      const s = spring(Math.max(0, t - i * 0.1), 24, 0.75);
       ctx.save();
       ctx.translate(node.x, node.y);
       ctx.scale(s, s);
 
-      const w = node.level === 0 ? 360 : 260;
-      const h = 80;
-
-      ctx.fillStyle = '#121216';
+      const w = node.w || 380;
+      const h = 96;
+      ctx.fillStyle = '#09090c';
       ctx.strokeStyle = node.color || '#38bdf8';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.roundRect(-w / 2, -h / 2, w, h, 12);
-      ctx.fill();
-      ctx.stroke();
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(-w / 2, -h / 2, w, h);
+      ctx.strokeRect(-w / 2, -h / 2, w, h);
 
-      ctx.textAlign = 'center';
+      ctx.fillStyle = node.color || '#38bdf8';
+      ctx.fillRect(-w / 2, -h / 2, 8, h);
+
+      ctx.textAlign = 'left';
       ctx.fillStyle = '#ffffff';
-      ctx.font = '700 15px "JetBrains Mono", monospace';
-
-      // Auto-wrap label inside node
       if (mu) {
-        mu.wrapText(ctx, node.label, 0, -10, w - 24, 20, 2);
-      } else {
-        ctx.fillText(node.label, 0, 5);
+        mu.fitText(ctx, node.label, -w / 2 + 24, -8, w - 44, 18, 13, '"JetBrains Mono", monospace', '800');
       }
+
+      ctx.fillStyle = '#a1a1aa';
+      ctx.font = '600 14px "JetBrains Mono", monospace';
+      ctx.fillText(node.sub || 'Página indexada en RAM', -w / 2 + 24, 24);
 
       ctx.restore();
     });
 
-    // 3. Bottom Summary
-    const bAlpha = clamp((t - 0.4) / 0.3, 0, 1);
-    if (bAlpha > 0) {
-      ctx.globalAlpha = bAlpha * exitAlpha;
-      ctx.fillStyle = '#111116';
-      ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.roundRect(60, 860, 840, 180, 16);
-      ctx.fill();
-      ctx.stroke();
+    // 4. Bottom Summary Box (y = 795..995)
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(40, 795, 880, 200);
+    ctx.strokeRect(40, 795, 880, 200);
+    ctx.fillStyle = '#10b981';
+    ctx.fillRect(40, 795, 8, 200);
 
-      ctx.fillStyle = '#10b981';
-      ctx.font = '800 14px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText('ANÁLISIS DE JERARQUÍA Y COMPLEJIDAD', 95, 905);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#10b981';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.fillText('SALTO DIRECTO POR ÍNDICE', 70, 838);
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 20px "Plus Jakarta Sans", sans-serif';
-      const sum = props.conclusion || 'Consolidar estructuras reduce la duplicación de dependencias y el gasto de memoria.';
-      if (mu) {
-        mu.wrapText(ctx, sum, 95, 945, 760, 28, 2);
-      } else {
-        ctx.fillText(sum, 95, 945);
-      }
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+    const sum = props.conclusion || 'En vez de leer 500,000 filas una por una, el árbol B-Tree salta directo al bloque exacto en 3 lecturas.';
+    if (mu) {
+      mu.wrapText(ctx, sum, 70, 882, 820, 30, 2);
+    }
 
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '500 15px "JetBrains Mono", monospace';
-      ctx.fillText('Estructura balanceada: O(log N) de profundidad máxima', 95, 1005);
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(props.takeaway || '✔ DE 4,200ms (SEQ SCAN) A 1.8ms (INDEX ONLY SCAN)', 70, 964);
+
+    // 5. Synchronized Word-by-Word Caption Bar
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#10b981' });
     }
 
     ctx.restore();

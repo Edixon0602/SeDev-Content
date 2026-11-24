@@ -1,0 +1,146 @@
+{
+  "title": "PILOTO 01 — Tu login es una lámpara de lava",
+  "slug": "piloto_01_lava_lamps",
+  "brand": "sedev",
+  "format": "short_form_pilot",
+  "fps": 30,
+  "output": "animaciones/output_clips/pilotos/piloto_01_lava_lamps.mp4",
+  "hook_variants": [
+    "Cloudflare genera aleatoriedad con 100 lámparas de lava. Tú, con Math.random().",
+    "Tu token de sesión y una lámpara de lava resuelven el mismo problema. Solo uno es seguro.",
+    "El 10% de internet pasa por 100 lámparas de lava. Tu login pasa por Math.random()."
+  ],
+  "cta_keyword": "LAVA",
+  "beats": [
+    {
+      "t": "0.0 - 4.5",
+      "on_screen": "TU LOGIN ES UNA LÁMPARA DE LAVA",
+      "voiceover": "Cloudflare genera aleatoriedad con cien lámparas de lava. Tú, con Math.random().",
+      "visual": "Cara a cámara + texto. Cero diagrama en el primer frame.",
+      "cut": "Hard in, sin logo, sin intro."
+    },
+    {
+      "t": "4.5 - 11.5",
+      "on_screen": "100 LÁMPARAS = 10% DE INTERNET",
+      "voiceover": "No es metáfora: una cámara graba las burbujas y de ahí salen bits impredecibles. Es entropía física.",
+      "visual": "Muro de lámparas + cámara + flujo de bits.",
+      "cut": "Corte seco desde cara. Micro-zoom continuo."
+    },
+    {
+      "t": "11.5 - 19.5",
+      "on_screen": "MATH.RANDOM() ≠ SEGURIDAD",
+      "voiceover": "Tu token sale de Math.random(), que no es seguro. Con suficiente estado, se predice. Cámbialo por crypto.randomUUID() o secrets.token_hex().",
+      "visual": "Terminal split: lo que haces vs lo que deberías hacer.",
+      "cut": "Split screen. La línea de código correcta se escribe en vivo."
+    },
+    {
+      "t": "19.5 - 26.5",
+      "on_screen": "52 BITS VS 256 BITS",
+      "voiceover": "La diferencia entre una lámpara de lava y tu login es la diferencia entre entropía real y una fórmula.",
+      "visual": "Comparativa de entropía: predecible vs impredecible.",
+      "cut": "Dos tarjetas, la ganadora pulsa una vez. Sin loop."
+    },
+    {
+      "t": "26.5 - 32.5",
+      "on_screen": "COMENTA LAVA",
+      "voiceover": "Si tu login depende de una fórmula predecible, no tienes seguridad: tienes suerte. Comenta LAVA.",
+      "visual": "Cara a cámara + CTA. El checklist aparece como texto, no como promesa vaga.",
+      "cut": "Cierre directo. Sin 'sígueme para más'."
+    }
+  ],
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "kinetic_slam",
+      "duration": 4.5,
+      "voiceover": "Cloudflare genera aleatoriedad con cien lámparas de lava. Tú, con Math.random().",
+      "visual_cue": "Hook a cámara: tu login es una lámpara de lava",
+      "props": {
+        "theme": "dark",
+        "badge": "SEGURIDAD // ENTROPÍA",
+        "lines": [
+          { "text": "TU LOGIN ES UNA", "color": "#ffffff" },
+          { "text": "LÁMPARA DE LAVA", "color": "#fbbf24", "highlight": "#fbbf24", "textColor": "#050505" }
+        ],
+        "stat": "MATH.RANDOM() NO ES SEGURO",
+        "subtitle": "CLOUDFLARE USA 100 LÁMPARAS PARA GENERAR ENTROPÍA"
+      }
+    },
+    {
+      "id": "s02_entropia",
+      "type": "lava_entropy_viz",
+      "duration": 7.0,
+      "voiceover": "No es metáfora: una cámara graba las burbujas y de ahí salen bits impredecibles. Es entropía física.",
+      "visual_cue": "Muro de lámparas de lava, cámara de captura y flujo de bits hacia el CSPRNG",
+      "props": {
+        "theme": "dark"
+      }
+    },
+    {
+      "id": "s03_codigo",
+      "type": "terminal_split",
+      "duration": 8.0,
+      "voiceover": "Tu token sale de Math.random(), que no es seguro. Con suficiente estado, se predice. Cámbialo por crypto.randomUUID() o secrets.token_hex().",
+      "visual_cue": "Comparativa de código: Math.random() vs crypto.randomUUID()",
+      "props": {
+        "theme": "dark",
+        "title": "EL TOKEN DE SESIÓN",
+        "subtitle": "MATH.RANDOM() VS CRYPTO",
+        "leftTitle": "LO QUE HACES HOY",
+        "leftCode": "const token = Math.random()\n  .toString(36).slice(2);\n// 52 bits, predecible",
+        "rightTitle": "LO QUE DEBERÍAS HACER",
+        "rightCode": "const token = crypto.randomUUID();\n// 122 bits, CSPRNG\n// Node 19+ / navegador",
+        "leftStatus": "PREDECIBLE: 52 BITS",
+        "rightStatus": "SEGURO: 122 BITS",
+        "leftFooter": "✖ STATUS: TOKEN PREDECIBLE",
+        "rightFooter": "✔ STATUS: CSPRNG APLICADO",
+        "diffNote": "ENTROPÍA REAL, NO UNA FÓRMULA"
+      }
+    },
+    {
+      "id": "s04_comparativa",
+      "type": "metrics_comparison",
+      "duration": 6.5,
+      "voiceover": "La diferencia entre una lámpara de lava y tu login es la diferencia entre entropía real y una fórmula.",
+      "visual_cue": "52 bits predecibles vs 256 bits de entropía física",
+      "props": {
+        "theme": "dark",
+        "badge": "ENTROPÍA // 256 BITS",
+        "title": "PREDECIBLE VS IMPREDECIBLE",
+        "barA": 20,
+        "barB": 100,
+        "metricA": {
+          "name": "MATH.RANDOM()",
+          "value": "52 bits",
+          "sub": "Estado predecible",
+          "color": "#ef4444"
+        },
+        "metricB": {
+          "name": "CSPRNG",
+          "value": "256 bits",
+          "sub": "Entropía física",
+          "color": "#10b981"
+        },
+        "speedup": "LA DIFERENCIA ENTRE SUERTE Y SEGURIDAD"
+      }
+    },
+    {
+      "id": "s05_cta",
+      "type": "kinetic_slam",
+      "duration": 6.0,
+      "voiceover": "Si tu login depende de una fórmula predecible, no tienes seguridad: tienes suerte. Comenta LAVA.",
+      "visual_cue": "CTA directo: comenta LAVA para recibir el checklist",
+      "props": {
+        "theme": "dark",
+        "badge": "CHECKLIST // TOKENS",
+        "lines": [
+          { "text": "COMENTA", "color": "#ffffff" },
+          { "text": "LAVA", "color": "#fbbf24", "highlight": "#fbbf24", "textColor": "#050505" },
+          { "text": "Y TE PASO EL CHECKLIST", "color": "#ffffff" }
+        ],
+        "stat": "3 LÍNEAS PARA AUDITAR TUS TOKENS",
+        "subtitle": "SEDEV // INGENIERÍA QUE SE ENTIENDE"
+      }
+    }
+  ]
+}

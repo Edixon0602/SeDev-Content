@@ -1,0 +1,226 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[23] Calificación en 18 segundos: cómo filtrar curiosos sin hablar con ellos",
+  "category": "FLOWBOT · INTAKE & CONVERSIÓN",
+  "pilar": "Calificación Automática & Eficiencia",
+  "slug": "nevox_23_flowbot_intake_18_segundos",
+  "introType": "VERSUS RACE",
+  "ctaKeyword": "INTAKE",
+  "fps": 30,
+  "output": "animaciones/output_clips/nevox_23_flowbot_intake_18_segundos.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "versus_race",
+      "duration": 5.5,
+      "voiceover": "El noventa por ciento de la gente que te escribe a WhatsApp solo está curioseando precios y nunca te va a comprar.",
+      "visual_cue": "Desglose estadístico: 92% curiosos sin presupuesto vs 8% compradores con dinero listo",
+      "props": {
+        "voiceover": "El noventa por ciento de la gente que te escribe a WhatsApp solo está curioseando precios y nunca te va a comprar.",
+        "title": "ANATOMÍA DEL TRÁFICO EN WHATSAPP",
+        "runnerA": {
+          "name": "Curiosos sin presupuesto ni urgencia",
+          "time": "92%",
+          "rate": "Consumen 6h/día de tu equipo",
+          "color": "#ef4444"
+        },
+        "runnerB": {
+          "name": "Compradores reales calificados",
+          "time": "8%",
+          "rate": "Generan el 100% de la facturación",
+          "color": "#00e5a0"
+        },
+        "winnerDiff": "EL SECRETO ESTÁ EN FILTRARLOS AUTOMÁTICAMENTE"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 5.6,
+      "voiceover": "Si pones a tus mejores vendedores a responderle a todo el mundo a mano, se queman y descuidan a los clientes que sí tienen dinero.",
+      "visual_cue": "Sobrecarga del equipo: Asesores agotados copiando el mismo mensaje 150 veces al día",
+      "props": {
+        "voiceover": "Si pones a tus mejores vendedores a responderle a todo el mundo a mano, se queman y descuidan a los clientes que sí tienen dinero.",
+        "title": "DESGASTE DEL EQUIPO COMERCIAL",
+        "subtitle": "TALENTO SENIOR DESPERDICIADO EN TAREAS MANUALES",
+        "crashedStatus": "VENDEDORES SATURADOS · ATENCIÓN DEFICIENTE A CLIENTES VIP",
+        "latencyNormal": 45,
+        "latencyCrash": 360,
+        "logs": [
+          {
+            "time": "11:00",
+            "level": "WARN",
+            "text": "Asesor atiende 18 chats repetitivos sobre precios básicos",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "11:20",
+            "level": "WARN",
+            "text": "Cliente corporativo de $5,000 en espera de propuesta",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "11:45",
+            "level": "CRIT",
+            "text": "Cliente VIP se desanima por falta de atención ágil",
+            "color": "#ef4444"
+          }
+        ],
+        "impactMetric": "6 HORAS/DÍA",
+        "impactSub": "Tiempo gastado en escribir saludos y datos que una IA puede dar"
+      }
+    },
+    {
+      "id": "s03_architecture",
+      "type": "architecture_flow",
+      "duration": 5.6,
+      "voiceover": "Implementamos un filtro conversacional inteligente que en dieciocho segundos averigua qué producto buscan, su urgencia y su presupuesto.",
+      "visual_cue": "Embudo dinámico: Saludo contextual -> Validación de necesidad -> Puntuación de lead",
+      "props": {
+        "voiceover": "Implementamos un filtro conversacional inteligente que en dieciocho segundos averigua qué producto buscan, su urgencia y su presupuesto.",
+        "title": "EMBUDO DE CALIFICACIÓN EN 18 SEGUNDOS",
+        "subtitle": "FILTRADO TRANSPARENTE EN LENGUAJE NATURAL",
+        "nodes": [
+          {
+            "id": "inbound",
+            "label": "Saludo Cliente",
+            "sub": "Texto libre en español",
+            "status": "IN",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "need",
+            "label": "Detección Necesidad",
+            "sub": "¿Qué solución busca?",
+            "status": "VALID",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "budget",
+            "label": "Validación Presupuesto",
+            "sub": "¿Tiene capacidad de compra?",
+            "status": "SCORE",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "route",
+            "label": "Enrutamiento",
+            "sub": "Pasa a asesor o a material gratis",
+            "status": "ROUTED",
+            "color": "#fbbf24"
+          }
+        ],
+        "pipelineStats": "DURACIÓN PROMEDIO: 18.2s · PRECISIÓN DE SCORING: 94%"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 5.8,
+      "voiceover": "Si el prospecto califica, el sistema crea la ficha comercial, agenda la llamada y le asigna la conversación al vendedor adecuado.",
+      "visual_cue": "Extracción automática de datos estructurados: De texto suelto a registro de CRM con alerta prioritaria",
+      "props": {
+        "voiceover": "Si el prospecto califica, el sistema crea la ficha comercial, agenda la llamada y le asigna la conversación al vendedor adecuado.",
+        "title": "ENRUTAMIENTO DIRECTO AL VENDEDOR",
+        "fileLeft": "chat_prospecto.txt",
+        "codeLeft": "Cliente: 'Buenas tardes, tengo una fábrica de alimentos y necesito 3 equipos industriales para instalar la próxima semana.'",
+        "fileRight": "asignacion_crm.json",
+        "codeRight": "{\n  \"lead_score\": 98,\n  \"tipo\": \"Empresa / B2B Industrial\",\n  \"volumen\": \"3 equipos\",\n  \"urgencia\": \"Alta (< 7 días)\",\n  \"asignado_a\": \"Carlos (Ejecutivo Senior)\",\n  \"alerta\": \"Llamar en menos de 5 min\"\n}",
+        "analysis": "NOTIFICACIÓN INSTANTÁNEA CON TODO EL CONTEXTO LISTO"
+      }
+    },
+    {
+      "id": "s05_scale",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "Y si el usuario no tiene presupuesto, recibe una respuesta cordial automática con recursos gratuitos sin hacerle perder tiempo al equipo.",
+      "visual_cue": "Optimización de horas: De 45 minutos invertidos por prospecto sin dinero a cero segundos de los asesores",
+      "props": {
+        "voiceover": "Y si el usuario no tiene presupuesto, recibe una respuesta cordial automática con recursos gratuitos sin hacerle perder tiempo al equipo.",
+        "title": "RECUPERACIÓN DE HORAS LABORALES",
+        "subtitle": "ATENCIÓN DIGNA AL CURIOSO, ENFOQUE EN EL COMPRADOR",
+        "markers": [
+          {
+            "label": "Antes: Asesor responde 80 chats no calificados",
+            "latency": 240,
+            "color": "#ef4444",
+            "note": "4 horas perdidas al día"
+          },
+          {
+            "label": "Ahora: FlowBot atiende y educa automáticamente",
+            "latency": 0,
+            "color": "#00e5a0",
+            "note": "0 minutos de asesores consumidos"
+          },
+          {
+            "label": "Resultado: Asesor enfocado 100% en llamadas de cierre",
+            "latency": 15,
+            "color": "#00e5a0",
+            "note": "Cierres triplicados"
+          }
+        ],
+        "takeaway": "EL VENDEDOR SÓLO INTERVIENE CUANDO HAY INTENCIÓN DE PAGO"
+      }
+    },
+    {
+      "id": "s06_matrix",
+      "type": "tradeoff_matrix",
+      "duration": 5.6,
+      "voiceover": "Tus asesores comerciales pasan de ser recepcionistas desbordados a cerradores de alto valor con agenda llena.",
+      "visual_cue": "Matriz de conversión: La tasa de cierre en llamadas pasa de 12% a 48% al hablar solo con prospectos calificados",
+      "props": {
+        "voiceover": "Tus asesores comerciales pasan de ser recepcionistas desbordados a cerradores de alto valor con agenda llena.",
+        "title": "IMPACTO EN EFECTIVIDAD COMERCIAL",
+        "dimX": "Tipo de Prospecto",
+        "dimY": "Tasa de Éxito en Cierre",
+        "quadrants": [
+          {
+            "name": "Sin Filtro Previo",
+            "value": "12% de efectividad (Muchas llamadas vacías)",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Filtro por Formulario Web",
+            "value": "22% efectividad (Alta fricción, pocos llenan)",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "Filtro FlowBot 18s",
+            "value": "48% de efectividad (Todo en WhatsApp en segundos)",
+            "color": "#00e5a0"
+          }
+        ],
+        "verdict": "CADA LLAMADA DE TU EQUIPO ES UNA OPORTUNIDAD REAL DE VENTA"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "Si quieres automatizar el filtro de tus prospectos en WhatsApp en segundos, comenta INTAKE y te enseñamos la arquitectura.",
+      "visual_cue": "Diagnóstico de calificación y filtrado comercial con palabra clave INTAKE",
+      "props": {
+        "voiceover": "Si quieres automatizar el filtro de tus prospectos en WhatsApp en segundos, comenta INTAKE y te enseñamos la arquitectura.",
+        "title": "DIAGNÓSTICO DE FILTRADO COMERCIAL",
+        "subtitle": "ELIMINA EL 90% DEL SPAM DE TU WHATSAPP",
+        "cloudCost": 1200,
+        "initialCost": 45,
+        "breakdown": [
+          {
+            "name": "Sueldos dedicados a contestar 'hola buenas'",
+            "cost": "$800/mes",
+            "sub": "Horas de oficina no productivas",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "Ventas perdidas por no priorizar compradores VIP",
+            "cost": "$2,400/mes",
+            "sub": "Clientes desatendidos en horas pico",
+            "color": "#ef4444"
+          }
+        ],
+        "bareMetalCost": "FILTRO INTELIGENTE",
+        "takeaway": "ESCRIBE 'INTAKE' PARA IMPLEMENTAR ESTE FLUJO"
+      }
+    }
+  ]
+};

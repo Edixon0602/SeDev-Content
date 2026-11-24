@@ -18,3 +18,10 @@ animaciones/debug_frames/
 Thumbs.db
 desktop.ini
 *.log
+
+# Automated editor: isolated Python env, models, caches and per-video runs
+animaciones/editor/.venv/
+animaciones/editor/.models/
+animaciones/editor/.cache/
+animaciones/editor_runs/
+animaciones/output_clips/cache/editor/

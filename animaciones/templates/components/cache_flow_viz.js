@@ -7,7 +7,7 @@ window.registerComponent('cache_flow_viz', {
     container.innerHTML = `
       <div class="comp-cache-flow">
         ${props.badge ? `<div class="scene-category" id="cfBadge">${props.badge}</div>` : ''}
-        <canvas id="cacheCanvas" width="960" height="1300"></canvas>
+        <canvas id="cacheCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#cacheCanvas');
@@ -18,7 +18,7 @@ window.registerComponent('cache_flow_viz', {
     const { spring, clamp, lerp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
     // Hard-cut exit in last 0.3s
     const exitT = duration - 0.3;
@@ -65,6 +65,10 @@ window.registerComponent('cache_flow_viz', {
       this.renderSWR(ctx, t, duration, props, utils);
     }
 
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#a855f7' });
+    }
+
     ctx.restore();
   },
 
@@ -90,7 +94,7 @@ window.registerComponent('cache_flow_viz', {
     ];
 
     stages.forEach((st, idx) => {
-      const active = (t > idx * 0.8);
+      const active = (t > idx * (duration * 0.22));
       ctx.fillStyle = active ? st.color : '#3f3f46';
       ctx.font = '800 13px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';

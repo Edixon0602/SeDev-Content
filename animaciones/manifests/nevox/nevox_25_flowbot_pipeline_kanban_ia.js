@@ -1,0 +1,232 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[25] Del caos de chats al pipeline de ventas: cómo saber qué vendió cada asesor",
+  "category": "FLOWBOT · EQUIPO & MULTIAGENTE",
+  "pilar": "Pipeline Kanban & Control Comercial",
+  "slug": "nevox_25_flowbot_pipeline_kanban_ia",
+  "introType": "TRADEOFF MATRIX",
+  "ctaKeyword": "PIPELINE",
+  "fps": 30,
+  "output": "animaciones/output_clips/nevox_25_flowbot_pipeline_kanban_ia.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "tradeoff_matrix",
+      "duration": 5.5,
+      "voiceover": "Buscar prospectos haciendo scroll en la lista de chats de WhatsApp es la forma más rápida de olvidar seguimientos millonarios.",
+      "visual_cue": "El laberinto de chats: 400 conversaciones sin etiquetar, 60% de prospectos abandonados tras pedir precio",
+      "props": {
+        "voiceover": "Buscar prospectos haciendo scroll en la lista de chats de WhatsApp es la forma más rápida de olvidar seguimientos millonarios.",
+        "title": "EL DESORDEN DE LA BANDEJA COMÚN",
+        "dimX": "Volumen de Mensajes",
+        "dimY": "Efectividad de Seguimiento",
+        "quadrants": [
+          {
+            "name": "Scroll Manual de Chats",
+            "value": "60% de seguimientos olvidados tras el primer mensaje",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Etiquetas Básicas de WhatsApp",
+            "value": "Se saturan al pasar de 100 conversaciones",
+            "color": "#fbbf24"
+          },
+          {
+            "name": "Pipeline Visual Automatizado",
+            "value": "100% de trazabilidad de cada etapa de venta",
+            "color": "#00e5a0"
+          }
+        ],
+        "verdict": "HACER SCROLL NO ES UNA ESTRATEGIA DE VENTAS"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 5.6,
+      "voiceover": "El vendedor promete enviar una cotización, le entran veinte mensajes nuevos y el cliente interesado se queda esperando para siempre.",
+      "visual_cue": "Monitor de cotizaciones perdidas: $8,400 en ventas congeladas por falta de seguimiento a las 48h",
+      "props": {
+        "voiceover": "El vendedor promete enviar una cotización, le entran veinte mensajes nuevos y el cliente interesado se queda esperando para siempre.",
+        "title": "VENTAS PERDIDAS POR FALTA DE SEGUIMIENTO",
+        "subtitle": "PROSPECTOS QUE ENFRIARON POR OLVIDO",
+        "crashedStatus": "COTIZACIÓN OLVIDADA · CLIENTE COMPRÓ EN OTRA PARTE",
+        "latencyNormal": 2,
+        "latencyCrash": 72,
+        "logs": [
+          {
+            "time": "Ayer 14:00",
+            "level": "INFO",
+            "text": "Cliente pide presupuesto formal de $3,200",
+            "color": "#38bdf8"
+          },
+          {
+            "time": "Ayer 14:05",
+            "level": "WARN",
+            "text": "Vendedor: 'Ya te lo preparo y te lo mando'",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "Hoy 16:00",
+            "level": "CRIT",
+            "text": "El chat quedó sepultado bajo 35 mensajes nuevos",
+            "color": "#ef4444"
+          },
+          {
+            "time": "Hoy 17:00",
+            "level": "FATAL",
+            "text": "Cliente responde: 'Ya compré con otro distribuidor'",
+            "color": "#ef4444"
+          }
+        ],
+        "impactMetric": "$8,400 USD",
+        "impactSub": "Cotizaciones congeladas esta semana en la bandeja"
+      }
+    },
+    {
+      "id": "s03_architecture",
+      "type": "architecture_flow",
+      "duration": 5.8,
+      "voiceover": "Convertimos cada conversación de WhatsApp en una tarjeta dentro de un tablero visual de ventas con etapas claras de cierre.",
+      "visual_cue": "Transformación estructural: Chat plano -> Tarjeta Kanban en columnas de embudo comercial",
+      "props": {
+        "voiceover": "Convertimos cada conversación de WhatsApp en una tarjeta dentro de un tablero visual de ventas con etapas claras de cierre.",
+        "title": "PIPELINE VISUAL INTEGRADO A WHATSAPP",
+        "subtitle": "DE CHAT PLANO A EMBUDO COMERCIAL POR ETAPAS",
+        "nodes": [
+          {
+            "id": "col1",
+            "label": "Nuevo Lead",
+            "sub": "Recién llegado",
+            "status": "STAGE_1",
+            "color": "#38bdf8"
+          },
+          {
+            "id": "col2",
+            "label": "Calificado",
+            "sub": "Presupuesto OK",
+            "status": "STAGE_2",
+            "color": "#00e5a0"
+          },
+          {
+            "id": "col3",
+            "label": "Cotizado",
+            "sub": "Propuesta enviada",
+            "status": "STAGE_3",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "col4",
+            "label": "Por Cobrar / Ganado",
+            "sub": "Cierre exitoso",
+            "status": "STAGE_4",
+            "color": "#00e5a0"
+          }
+        ],
+        "pipelineStats": "VISIÓN PANORÁMICA DE TODO EL DINERO EN NEGOCIACIÓN"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 5.6,
+      "voiceover": "Cuando el cliente menciona un monto o pide pagar, la inteligencia artificial clasifica la intención y mueve la tarjeta automáticamente.",
+      "visual_cue": "Detección semántica en vivo: 'Envíame los datos para transferir' -> Movimiento automático a etapa 'Por Facturar'",
+      "props": {
+        "voiceover": "Cuando el cliente menciona un monto o pide pagar, la inteligencia artificial clasifica la intención y mueve la tarjeta automáticamente.",
+        "title": "AUTOMATIZACIÓN SEMÁNTICA DE ETAPAS",
+        "fileLeft": "mensaje_cliente.txt",
+        "codeLeft": "Cliente: 'Excelente, pásame los datos bancarios para hacer la transferencia del 50% de inicial.'",
+        "fileRight": "evento_pipeline.json",
+        "codeRight": "{\n  \"evento\": \"intencion_pago_detectada\",\n  \"etapa_anterior\": \"Cotizado\",\n  \"nueva_etapa\": \"Por Facturar / Datos de Pago\",\n  \"notificar_asesor\": \"Alerta: enviar cuenta bancaria\",\n  \"prioridad\": \"INMEDIATA\"\n}",
+        "analysis": "EL CRM SE ACTUALIZA SOLO AL RITMO DE LA CONVERSACIÓN"
+      }
+    },
+    {
+      "id": "s05_versus",
+      "type": "versus_race",
+      "duration": 5.5,
+      "voiceover": "Si un prospecto no responde en veinticuatro horas, el sistema dispara un recordatorio suave y personalizado sin intervención manual.",
+      "visual_cue": "Comparativa de recuperación: Seguimiento manual olvidado (5%) vs Seguimiento automático a tiempo (38%)",
+      "props": {
+        "voiceover": "Si un prospecto no responde en veinticuatro horas, el sistema dispara un recordatorio suave y personalizado sin intervención manual.",
+        "title": "EFECTIVIDAD DEL SEGUIMIENTO AUTOMÁTICO",
+        "runnerA": {
+          "name": "Seguimiento manual recordado de memoria",
+          "time": "5%",
+          "rate": "La mayoría se pierde",
+          "color": "#ef4444"
+        },
+        "runnerB": {
+          "name": "Recordatorios inteligentes FlowBot",
+          "time": "38%",
+          "rate": "Reactivación de prospectos en pausa",
+          "color": "#00e5a0"
+        },
+        "winnerDiff": "RECUPERA MÁS DE UN TERCIO DE VENTAS ENFRIADAS"
+      }
+    },
+    {
+      "id": "s06_scale",
+      "type": "latency_scale",
+      "duration": 5.5,
+      "voiceover": "Al final del mes sabes con exactitud matemática cuántas conversaciones entraron, cuántas cotizaciones se abrieron y qué vendió cada asesor.",
+      "visual_cue": "Métricas comerciales completas: Embudo de conversión transparente con rendimiento por ejecutivo",
+      "props": {
+        "voiceover": "Al final del mes sabes con exactitud matemática cuántas conversaciones entraron, cuántas cotizaciones se abrieron y qué vendió cada asesor.",
+        "title": "MÉTRICAS CLARAS DE RENDIMIENTO",
+        "subtitle": "DECISIONES CON DATOS, NO CON SUPOSICIONES",
+        "markers": [
+          {
+            "label": "Total Leads Entrantes",
+            "latency": 1200,
+            "color": "#38bdf8",
+            "note": "1,200 prospectos recibidos"
+          },
+          {
+            "label": "Propuestas Formales Emitidas",
+            "latency": 450,
+            "color": "#fbbf24",
+            "note": "37.5% de conversión a cotización"
+          },
+          {
+            "label": "Ventas Cerradas y Cobradas",
+            "latency": 180,
+            "color": "#00e5a0",
+            "note": "15% tasa global de cierre"
+          }
+        ],
+        "takeaway": "SABES EXACTAMENTE CUÁNTO RINDIÓ CADA DÓLAR INVERTIDO EN PUBLICIDAD"
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "cost_ticker",
+      "duration": 5.6,
+      "voiceover": "Si quieres transformar los chats desordenados de tu empresa en un sistema predecible de ventas, comenta PIPELINE y te lo mostramos.",
+      "visual_cue": "Diagnóstico comercial de embudo en WhatsApp con palabra clave PIPELINE",
+      "props": {
+        "voiceover": "Si quieres transformar los chats desordenados de tu empresa en un sistema predecible de ventas, comenta PIPELINE y te lo mostramos.",
+        "title": "DIAGNÓSTICO DE EMBUDO DE VENTAS",
+        "subtitle": "ESTRUCTURA TUS CONVERSACIONES HACIA EL CIERRE",
+        "cloudCost": 4800,
+        "initialCost": 180,
+        "breakdown": [
+          {
+            "name": "Ventas perdidas por falta de segundo contacto",
+            "cost": "$3,600/mes",
+            "sub": "Clientes que requerían un simple recordatorio",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Falta de claridad en el rendimiento del equipo",
+            "cost": "$1,200/mes",
+            "sub": "Ineficiencias no detectadas a tiempo",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "PIPELINE INTELIGENTE",
+        "takeaway": "ESCRIBE 'PIPELINE' PARA ESTRUCTURAR TU PROCESO DE VENTA"
+      }
+    }
+  ]
+};

@@ -52,21 +52,24 @@ window.registerComponent('code_terminal', {
 
   colorize(text) {
     if (!text || typeof text !== 'string') return '';
-    let t = text;
-
-    // 1. Comments
-    if (t.trim().startsWith('#') || t.trim().startsWith('//') || t.trim().startsWith('--')) {
-      return `<span class="comm" style="color: #71717a; font-style: italic;">${t}</span>`;
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const trimmed = text.trim();
+    if (trimmed.startsWith('#') || trimmed.startsWith('//') || trimmed.startsWith('--')) {
+      return `<span class="comm" style="color: #71717a; font-style: italic;">${esc(text)}</span>`;
     }
-
-    // 2. Syntax Keywords
-    t = t.replace(/\b(import|export|from|const|let|var|function|return|async|await|pub|fn|SELECT|FROM|WHERE|GROUP|ORDER|BY|ALTER|TABLE|ADD|COLUMN|BF\.RESERVE|BF\.ADD|BF\.EXISTS)\b/g, '<span style="color: #f43f5e; font-weight: 700;">$1</span>');
-    // 3. Types
-    t = t.replace(/\b(string|number|boolean|Result|Error|VARCHAR|BIGINT|PRIMARY|KEY|NULLABLE)\b/g, '<span style="color: #38bdf8; font-weight: 600;">$1</span>');
-    // 4. Strings
-    t = t.replace(/(["'].*?["'])/g, '<span style="color: #10b981;">$1</span>');
-
-    return t;
+    const tokenRx = /(["'][^"']*["'])|\b(import|export|from|const|let|var|function|return|async|await|pub|fn|CREATE|POLICY|ON|FOR|SELECT|INSERT|UPDATE|DELETE|USING|WITH|CHECK|ALTER|TABLE|ENABLE|ROW|LEVEL|SECURITY|WHERE|GROUP|ORDER|BY|ADD|COLUMN|TO|PUBLIC|AUTH|BF\.RESERVE|BF\.ADD|BF\.EXISTS)\b|\b(string|number|boolean|Result|Error|VARCHAR|BIGINT|PRIMARY|KEY|NULLABLE|UUID|TEXT|BOOLEAN|TRUE|FALSE)\b/g;
+    let out = '';
+    let lastIdx = 0;
+    let match;
+    while ((match = tokenRx.exec(text)) !== null) {
+      if (match.index > lastIdx) out += esc(text.slice(lastIdx, match.index));
+      if (match[1]) out += `<span style="color: #10b981;">${esc(match[1])}</span>`;
+      else if (match[2]) out += `<span style="color: #f43f5e; font-weight: 700;">${esc(match[2])}</span>`;
+      else if (match[3]) out += `<span style="color: #38bdf8; font-weight: 600;">${esc(match[3])}</span>`;
+      lastIdx = tokenRx.lastIndex;
+    }
+    if (lastIdx < text.length) out += esc(text.slice(lastIdx));
+    return out;
   },
 
   render(container, t, duration, props, utils) {

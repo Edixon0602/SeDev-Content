@@ -1,0 +1,251 @@
+/* SeDev Studio: Unified High-Legibility Stylesheet for B2B Motion Graphics */
+/* Designed specifically for 1080x1920 mobile viewport. No microscopic text! ZERO overflow! */
+
+/* 1. Category / Monospace Badges */
+.scene-category {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: 4px !important;
+  color: #a1a1aa !important;
+  margin-bottom: 24px !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+/* 2. Kinetic Hook Component */
+.comp-kinetic-hook {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 960px !important;
+}
+.kh-icon-wrap {
+  margin-bottom: 32px !important;
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.9));
+}
+.kh-lines {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  margin-bottom: 30px !important;
+}
+.kh-line {
+  font-size: 88px !important;
+  font-weight: 900 !important;
+  letter-spacing: -2px !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 8px #09090b;
+  filter: drop-shadow(0 8px 0px #09090b);
+}
+.kh-subtitle {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 28px !important;
+  color: #d4d4d8 !important;
+  letter-spacing: 2px !important;
+  font-weight: 700 !important;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+}
+
+/* 3. System Architecture & Memory Layout (Spacious Card List) */
+.comp-memory-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 960px !important;
+}
+.ml-title {
+  font-size: 44px !important;
+  font-weight: 900 !important;
+  letter-spacing: -1px !important;
+  margin-bottom: 28px !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+}
+.ml-cards-list {
+  width: 880px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  margin-bottom: 28px !important;
+}
+.ml-card-item {
+  background: #0d0d12 !important;
+  border: 1.5px solid #27272a !important;
+  border-radius: 18px !important;
+  padding: 22px 28px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.8) !important;
+}
+.ml-card-top {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+}
+.ml-card-badge {
+  background: rgba(56, 189, 248, 0.15) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  color: #38bdf8 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  letter-spacing: 1px !important;
+}
+.ml-card-name {
+  color: #ffffff !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.ml-card-desc {
+  color: #cbd5e1 !important;
+  font-size: 21px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  line-height: 1.4 !important;
+}
+
+/* Latency Comparison Banner */
+.ml-latency {
+  width: 880px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.lat-box {
+  width: 100% !important;
+  background: #0d0d12 !important;
+  border: 2px solid #27272a !important;
+  border-radius: 18px !important;
+  padding: 22px 28px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.lat-box.ram { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.08) !important; }
+.lat-label {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  color: #10b981 !important;
+  letter-spacing: 1.5px !important;
+}
+.lat-val {
+  font-size: 42px !important;
+  font-weight: 900 !important;
+  letter-spacing: -1px !important;
+  color: #ffffff !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+.lat-sub {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 20px !important;
+  color: #a1a1aa !important;
+  font-weight: 600 !important;
+}
+
+
+/* ==========================================================================
+   Multi-Theme Engine (Light Technical Paper, Blueprint Cobalt & Dark Terminal)
+   ========================================================================== */
+
+/* 1. Light Technical Paper Theme */
+body.theme-light, .theme-light #stage {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+.theme-light .scene-category {
+  color: #64748b !important;
+  text-shadow: none !important;
+}
+.theme-light .ml-title,
+.theme-light .term-title,
+.theme-light .versus-title {
+  color: #0f172a !important;
+}
+.theme-light .ml-card-item,
+.theme-light .term-split-pane,
+.theme-light .tree-node,
+.theme-light .arch-node-box {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+}
+.theme-light .ml-card-name,
+.theme-light .term-pane-header,
+.theme-light .node-label {
+  color: #0f172a !important;
+}
+.theme-light .ml-card-desc,
+.theme-light .node-sublabel {
+  color: #334155 !important;
+}
+.theme-light .term-code-block {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+.theme-light .lat-box {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08) !important;
+}
+.theme-light .lat-val {
+  color: #0f172a !important;
+}
+.theme-light .lat-sub {
+  color: #64748b !important;
+}
+
+/* 2. Blueprint Cobalt Theme */
+body.theme-blueprint, .theme-blueprint #stage {
+  background: #07111e !important;
+  color: #ffffff !important;
+}
+.theme-blueprint .scene-category {
+  color: #38bdf8 !important;
+}
+.theme-blueprint .ml-card-item,
+.theme-blueprint .term-split-pane,
+.theme-blueprint .tree-node {
+  background: #0c1a2e !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 3b. Code Terminal Header & Window Bar */
+.ct-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 38px !important;
+  font-weight: 900 !important;
+  letter-spacing: -1px !important;
+  margin-bottom: 28px !important;
+  color: #ffffff !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
+}
+.ct-window-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 14px 22px !important;
+  background: #141418 !important;
+  border-bottom: 1.5px solid #27272a !important;
+}
+.ct-linetext {
+  white-space: pre !important;
+  color: #e4e4e7;
+}
+.ct-cursor {
+  display: inline-block;
+  color: #10b981;
+  font-weight: 800;
+  margin-left: 2px;
+}

@@ -1,0 +1,83 @@
+{
+  "title": "[20] ¿Por qué el Garbage Collector congela tu servidor en hora pico?",
+  "slug": "sedev_20_garbage_collection_stop_the_world",
+  "category": "MEMORIA, RUNTIMES & PERFORMANCE",
+  "tagline": "El algoritmo Mark & Sweep y el infame misterio del 'Stop the World'",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_20_garbage_collection_stop_the_world",
+  "script": {
+    "hook": "Escribes código en Python, Node o Java y nunca te preocupas por liberar memoria... hasta que tu servidor se congela doscientos milisegundos en plena hora pico.",
+    "broll1_lead": "Esa pausa silenciosa tiene un nombre: Stop the World. El recolector de basura tiene que detener todos los hilos de tu aplicación para recorrer la memoria viva y limpiar los objetos huérfanos sin que nada se mueva en el camino.",
+    "camera_pivot": "Para mitigar esto, los motores modernos usan recolección generacional: saben que casi todos los objetos mueren jóvenes, así que limpian primero la memoria reciente.",
+    "broll2_lead": "Pero cuando se acumulan millones de objetos viejos, no hay escapatoria: el recolector congela la ejecución completa para hacer un barrido profundo, disparando las alarmas de latencia de tu sistema.",
+    "outro": "Por eso en sistemas de finanzas y baja latencia prefieren Rust o C con gestión manual determinista. Sígueme para más secretos de la ingeniería de alto rendimiento."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_generational_gc_layout",
+      "purpose": "Estructura de memoria generacional: Eden space -> Survivor -> Tenured Old Gen",
+      "type": "memory_layout",
+      "duration": 9,
+      "props": {
+        "theme": "dark",
+        "title": "RECOLECCIÓN GENERACIONAL DE MEMORIA",
+        "subtitle": "HIPÓTESIS DEBIL: LOS OBJETOS MUEREN JÓVENES",
+        "items": [
+          {
+            "addr": "HEAP // EDEN SPACE",
+            "name": "GENERACIÓN JOVEN",
+            "value": "Objetos temporales creados en peticiones HTTP"
+          },
+          {
+            "addr": "HEAP // SURVIVOR S0/S1",
+            "name": "SOBREVIVIENTES DE CICLO",
+            "value": "Objetos que superaron la primera limpieza rápida"
+          },
+          {
+            "addr": "HEAP // TENURED OLD GEN",
+            "name": "GENERACIÓN VIEJA (PESADA)",
+            "value": "Singletons y cachés de larga duración (Causante del Stop-the-World)"
+          }
+        ]
+      },
+      "voiceover": "Esa pausa silenciosa tiene un nombre: Stop the World. El recolector de basura tiene que detener todos los hilos de tu aplicación para recorrer la memoria viva y limpiar los objetos huérfanos sin que nada se mueva en el camino.",
+      "visual_cue": "Estructura de memoria generacional: Eden space -> Survivor -> Tenured Old Gen"
+    },
+    {
+      "id": "broll_02_stop_the_world_spike_monitor",
+      "purpose": "Monitor de latencia con pico de 250ms de congelamiento de hilos",
+      "type": "disaster_monitor",
+      "duration": 8.5,
+      "props": {
+        "theme": "dark",
+        "title": "MONITOR DE LATENCIA // STOP-THE-WORLD SPIKE",
+        "subtitle": "TODOS LOS HILOS DEL SERVIDOR PAUSADOS POR EL RECOLECTOR",
+        "crashedStatus": "THREAD SUSPENSION: FULL GC CYCLE IN PROGRESS",
+        "latencyNormal": 4,
+        "latencyCrash": 260,
+        "logs": [
+          {
+            "time": "14:02:11",
+            "level": "INFO",
+            "text": "Minor GC en Eden space completado en 1.8ms",
+            "color": "#10b981"
+          },
+          {
+            "time": "14:02:12",
+            "level": "WARN",
+            "text": "Old Generation alcanzó 94% de saturación",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "14:02:13",
+            "level": "CRIT",
+            "text": "STOP-THE-WORLD iniciado: Hilos detenidos 258ms",
+            "color": "#ef4444"
+          }
+        ]
+      },
+      "voiceover": "Pero cuando se acumulan millones de objetos viejos, no hay escapatoria: el recolector congela la ejecución completa para hacer un barrido profundo, disparando las alarmas de latencia de tu sistema.",
+      "visual_cue": "Monitor de latencia con pico de 250ms de congelamiento de hilos"
+    }
+  ]
+}

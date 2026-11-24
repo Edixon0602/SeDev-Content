@@ -1,0 +1,114 @@
+{
+  "title": "QA — Casos difíciles de texto y layout",
+  "slug": "qa_hard_cases",
+  "brand": "sedev",
+  "format": "qa_motion",
+  "fps": 30,
+  "output": "animaciones/output_clips/qa_hard_cases.mp4",
+  "scenes": [
+    {
+      "id": "qa_hook_5lines",
+      "type": "hook_impact",
+      "duration": 4.5,
+      "voiceover": "QA de cinco líneas, palabra larga, métrica larga y siete tags.",
+      "props": {
+        "theme": "dark",
+        "badge": "QA // TEXTO SEGURO",
+        "indexLabel": "QA / 5L",
+        "kicker": "CINCO LÍNEAS Y UNA PALABRA IMPOSIBLE DE ROMPER",
+        "lines": [
+          { "text": "OPTIMIZAR", "color": "#ffffff" },
+          { "text": "EL FLUJO DE", "color": "#ffffff" },
+          { "text": "FACTURACIÓN", "highlight": "#fbbf24", "textColor": "#050505" },
+          { "text": "SUPERCALIFRAGILISTICEXPIALIDOSO", "color": "#38bdf8" },
+          { "text": "CADA DÍA", "color": "#ffffff" }
+        ],
+        "metric": {
+          "from": 0,
+          "value": 18400,
+          "suffix": "MS",
+          "label": "TIEMPO MANUAL ACUMULADO POR CADA FACTURA EN LA OPERACIÓN"
+        },
+        "note": "SINEXCELNISINCOPIARNPEGARNPORQUECADAERRORCUESTADINEROTIEMPOCLIENTESYCONFIANZA",
+        "tags": ["WEBHOOK", "IDEMPOTENTE", "CERO EXCEL", "REINTENTOS", "OBSERVABILIDAD", "SIN COPIAR PEGAR", "AUDITORÍA"],
+        "icon": "terminal",
+        "iconMode": "draw",
+        "accent": "#fbbf24",
+        "cameraMode": "impact",
+        "impactTimes": [0, 0.5]
+      }
+    },
+    {
+      "id": "qa_slam_5lines",
+      "type": "kinetic_slam",
+      "duration": 4.0,
+      "voiceover": "QA de slam con cinco líneas, palabra larga, stat largo y beats extra.",
+      "props": {
+        "theme": "dark",
+        "badge": "QA // SLAM SEGURO",
+        "indexLabel": "QA / 5L",
+        "lines": [
+          { "text": "45 COLUMNAS", "color": "#ffffff" },
+          { "text": "SUPERCALIFRAGILISTICEXPIALIDOSO", "color": "#38bdf8" },
+          { "text": "A MANO", "color": "#ef4444", "strike": true },
+          { "text": "NO ES UN", "color": "#ffffff" },
+          { "text": "PROCESO SERIO", "highlight": "#10b981", "textColor": "#050505" }
+        ],
+        "stat": "CADA COPIA PEGA Y VALIDACIÓN MANUAL ES UN ERROR POTENCIAL QUE NADIE MIDE HASTA QUE EL CLIENTE LO REPORTE EN PRODUCCIÓN",
+        "subtitle": "ESTE SUBTÍTULO ES LARGO A PROPÓSITO PARA COMPROBAR QUE NO ROMPE EL PANEL NI EL RIEL INFERIOR",
+        "statLabel": "QA // IMPACTO EN PRODUCCIÓN",
+        "beats": ["IMPACTO", "TEXTO", "EVIDENCIA", "VALIDACIÓN", "PRUEBA", "CIERRE"],
+        "beatTimes": [0, 0.18, 0.38, 0.55, 0.75, 0.94],
+        "icon": "flamegraph",
+        "iconMode": "assemble",
+        "accent": "#fbbf24"
+      }
+    },
+    {
+      "id": "qa_short_hook",
+      "type": "hook_impact",
+      "duration": 2.4,
+      "voiceover": "QA de duración corta: la resolución debe seguir siendo alcanzable.",
+      "props": {
+        "theme": "dark",
+        "badge": "QA // DURACIÓN CORTA",
+        "kicker": "2.4 SEGUNDOS",
+        "lines": [
+          { "text": "TODO DEBE", "color": "#ffffff" },
+          { "text": "CERRAR", "highlight": "#38bdf8", "textColor": "#050505" }
+        ],
+        "metric": { "from": 0, "value": 3, "suffix": "H", "label": "TIEMPO MANUAL" },
+        "note": "La resolución se comprime para que el cierre sea alcanzable.",
+        "tags": ["WEBHOOK", "QA", "2.4S"],
+        "icon": "terminal",
+        "accent": "#38bdf8",
+        "cameraMode": "push"
+      }
+    },
+    {
+      "id": "qa_arch_6nodes",
+      "type": "architecture_flow",
+      "duration": 3.0,
+      "voiceover": "QA de arquitectura con seis nodos, header legacy y posiciones Y personalizadas.",
+      "props": {
+        "theme": "dark",
+        "header": "QA // HEADER LEGACY",
+        "title": "SEIS NODOS Y HEADER",
+        "subtitle": "COMPATIBILIDAD >4 NODOS Y NODE.Y",
+        "layout": "vertical",
+        "nodes": [
+          { "label": "ENTRADA", "sublabel": "EVENTO", "color": "#ffffff", "y": 230 },
+          { "label": "VALIDACIÓN", "sublabel": "SCHEMA", "color": "#38bdf8", "y": 338 },
+          { "label": "COLA", "sublabel": "BUFFER", "color": "#fbbf24", "y": 446 },
+          { "label": "WORKER", "sublabel": "IDEMPOTENTE", "color": "#f59e0b", "y": 554 },
+          { "label": "AUDITORÍA", "sublabel": "TRAZAS", "color": "#a855f7", "y": 662 },
+          { "label": "SALIDA", "sublabel": "OK", "color": "#10b981", "y": 770 }
+        ],
+        "finalColor": "#10b981",
+        "cameraMode": "focus_pan",
+        "focusX": 0,
+        "focusY": 0.05
+      }
+    }
+  ]
+}

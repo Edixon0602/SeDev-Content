@@ -7,7 +7,7 @@ window.registerComponent('kernel_sandbox_viz', {
     container.innerHTML = `
       <div class="comp-kernel-sandbox">
         ${props.badge ? `<div class="scene-category" id="ksBadge">${props.badge}</div>` : ''}
-        <canvas id="kernelCanvas" width="960" height="1300"></canvas>
+        <canvas id="kernelCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#kernelCanvas');
@@ -18,7 +18,7 @@ window.registerComponent('kernel_sandbox_viz', {
     const { spring, clamp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
     // Hard-cut exit in last 0.3s
     const exitT = duration - 0.3;
@@ -208,6 +208,10 @@ window.registerComponent('kernel_sandbox_viz', {
       mu.wrapText(ctx, sumK2, 105, 935, 750, 24, 2);
     } else {
       ctx.fillText(sumK2, 105, 935);
+    }
+
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: '#f59e0b' });
     }
 
     ctx.restore();

@@ -55,7 +55,7 @@ window.registerComponent('metrics_comparison', {
 
         <!-- Delta Speedup Badge -->
         <div class="mc-delta" id="mcDelta">
-          <span class="mc-delta-text">${props.speedup || 'OPTIMIZACIÓN VERIFICADA EN PRODUCCIÓN'}</span>
+          <span class="mc-delta-text">${props.speedup || props.delta || 'OPTIMIZACIÓN VERIFICADA EN PRODUCCIÓN'}</span>
         </div>
       </div>
     `;
@@ -63,6 +63,10 @@ window.registerComponent('metrics_comparison', {
 
   render(container, t, duration, props, utils) {
     const { spring, clamp } = utils;
+    const rawA = props.metricA || props.itemA || {};
+    const rawB = props.metricB || props.itemB || {};
+    const barAMax = props.barA !== undefined ? Math.max(0, Math.min(100, Number(props.barA))) : (rawA.percent !== undefined ? Math.max(0, Math.min(100, Number(rawA.percent))) : 85);
+    const barBMax = props.barB !== undefined ? Math.max(0, Math.min(100, Number(props.barB))) : (rawB.percent !== undefined ? Math.max(0, Math.min(100, Number(rawB.percent))) : 100);
 
     // Hard-cut exit in last 0.3s
     const exitT = duration - 0.3;
@@ -99,7 +103,7 @@ window.registerComponent('metrics_comparison', {
     if (barA) {
       const barProg = clamp((t - 0.3) / 0.5, 0, 1);
       const ease = 1 - Math.pow(1 - barProg, 3);
-      barA.style.width = `${(ease * 85).toFixed(1)}%`;
+      barA.style.width = `${(ease * barAMax).toFixed(1)}%`;
     }
 
     // Card B (Winner) Spring & Bar & Glow Pulse
@@ -115,7 +119,7 @@ window.registerComponent('metrics_comparison', {
     if (barB) {
       const barProg = clamp((t - 0.45) / 0.5, 0, 1);
       const ease = 1 - Math.pow(1 - barProg, 3);
-      barB.style.width = `${(ease * 100).toFixed(1)}%`;
+      barB.style.width = `${(ease * barBMax).toFixed(1)}%`;
     }
 
     // Delta Speedup Badge Spring

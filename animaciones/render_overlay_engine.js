@@ -20,8 +20,7 @@ async function renderOverlayEngine(
   if (fs.existsSync(tempPngDir)) fs.rmSync(tempPngDir, { recursive: true, force: true });
   fs.mkdirSync(tempPngDir, { recursive: true });
 
-  const desktop = 'C:\\Users\\Edixon\\Desktop';
-  const targetMov = path.join(desktop, outputMovName);
+  const targetMov = path.join(outputDir, outputMovName);
 
   console.log(`\n======================================================`);
   console.log(`🎬 SEDEV OVERLAY ENGINE - RENDER DETERMINISTA (NO-LOOP)`);

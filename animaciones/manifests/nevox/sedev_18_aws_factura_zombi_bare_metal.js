@@ -1,0 +1,211 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[18] Cómo bajamos una factura de AWS de $1,940 a $380 al mes sin apagar nada",
+  "category": "INFRAESTRUCTURA & FINOPS",
+  "pilar": "Dolor de Negocio & SaaS Trap",
+  "slug": "sedev_18_aws_factura_zombi_bare_metal",
+  "introType": "COST TICKER",
+  "ctaKeyword": "NUBE",
+  "fps": 30,
+  "output": "animaciones/output_clips/sedev_18_aws_factura_zombi_bare_metal.mp4",
+  "scenes": [
+    {
+      "id": "s01_hook",
+      "type": "cost_ticker",
+      "duration": 10.9,
+      "voiceover": "El cuarenta por ciento de las facturas de nube que audito están pagando por servidores que duermen al tres por ciento de procesador.",
+      "visual_cue": "Factura mensual de AWS cayendo de $1,940 a $380 tras limpieza de recursos zombis",
+      "props": {
+        "voiceover": "El cuarenta por ciento de las facturas de nube que audito están pagando por servidores que duermen al tres por ciento de procesador.",
+        "title": "LA FACTURA OCULTA DE LA NUBE",
+        "subtitle": "GASTO MENSUAL CON 350 USUARIOS ACTIVOS",
+        "cloudCost": 1940,
+        "initialCost": 380,
+        "breakdown": [
+          {
+            "name": "2 Bases de datos de prueba olvidadas 24/7",
+            "cost": "$680/mes",
+            "sub": "Instancias RDS encendidas sin un solo cliente",
+            "color": "#ef4444"
+          },
+          {
+            "name": "Servidores gigantes al 3% + NAT Gateways",
+            "cost": "$880/mes",
+            "sub": "Peajes de red interna y máquinas sobredimensionadas",
+            "color": "#fbbf24"
+          }
+        ],
+        "bareMetalCost": "$380/mes",
+        "takeaway": "AHORRO INMEDIATO: $18,720 DÓLARES AL AÑO"
+      }
+    },
+    {
+      "id": "s02_disaster",
+      "type": "disaster_monitor",
+      "duration": 12.2,
+      "voiceover": "No es que tengas millones de visitas; es que cada vez que un programador hizo una prueba dejó discos, bases de datos y balanceadores encendidos.",
+      "visual_cue": "Monitor de utilización real mostrando CPU al 3.2% con costos disparados",
+      "props": {
+        "voiceover": "No es que tengas millones de visitas; es que cada vez que un programador hizo una prueba dejó discos, bases de datos y balanceadores encendidos.",
+        "title": "AUDITORÍA DE UTILIZACIÓN REAL (90 DÍAS)",
+        "subtitle": "PAGANDO CAMIONES PARA LLEVAR UNA MOCHILA",
+        "crashedStatus": "DESPERDICIO DETECTADO: 82% DEL PRESUPUESTO EN RECURSOS OCIOSOS",
+        "latencyNormal": 3,
+        "latencyCrash": 1940,
+        "logs": [
+          {
+            "time": "RDS_STG",
+            "level": "WARN",
+            "text": "Instancia db.m5.large con 0 conexiones en 60 días ($340/mes)",
+            "color": "#fbbf24"
+          },
+          {
+            "time": "NAT_GW",
+            "level": "ERR",
+            "text": "Cobro de $410/mes por pasar logs dentro de la misma red",
+            "color": "#ef4444"
+          },
+          {
+            "time": "EBS_VOL",
+            "level": "CRIT",
+            "text": "14 discos huérfanos y snapshots antiguos cobrando cada mes",
+            "color": "#f87171"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s03_mem",
+      "type": "memory_layout",
+      "duration": 10.9,
+      "voiceover": "En una sola tarde rastreamos cada centavo del estado de cuenta y encontramos tres agujeros negros que nadie había mirado en un año.",
+      "visual_cue": "Los 3 rubros exactos recortados en la factura de AWS sin afectar producción",
+      "props": {
+        "voiceover": "En una sola tarde rastreamos cada centavo del estado de cuenta y encontramos tres agujeros negros que nadie había mirado en un año.",
+        "badge": "RADIOGRAFÍA FINOPS",
+        "title": "LOS 3 AGUJEROS NEGROS EN AWS / GCP",
+        "items": [
+          {
+            "addr": "ZOMBIES",
+            "name": "Entornos de staging encendidos 24/7",
+            "value": "Se programó apagado automático fuera de horario (-70%)"
+          },
+          {
+            "addr": "NETWORK",
+            "name": "Peaje de NAT Gateway innecesario",
+            "value": "Reemplazado por VPC Endpoints gratuitos en 20 minutos"
+          },
+          {
+            "addr": "SIZING",
+            "name": "Ajuste al tamaño real de carga",
+            "value": "Consolidación limpia manteniendo margen de seguridad"
+          }
+        ],
+        "resolutionTitle": "$1,560 DÓLARES RECUPERADOS CADA MES",
+        "resolutionSub": "Cero caídas · Misma velocidad · Factura bajo control"
+      }
+    },
+    {
+      "id": "s04_code",
+      "type": "terminal_split",
+      "duration": 10.3,
+      "voiceover": "Ajustamos las instancias a su carga real, eliminamos el peaje de red interna y apagamos los recursos huérfanos con respaldo previo.",
+      "visual_cue": "Configuración de infraestructura antes y después de la consolidación",
+      "props": {
+        "voiceover": "Ajustamos las instancias a su carga real, eliminamos el peaje de red interna y apagamos los recursos huérfanos con respaldo previo.",
+        "title": "CONSOLIDACIÓN DE INFRAESTRUCTURA",
+        "subtitle": "DE COMPLEJIDAD CARA A ARQUITECTURA ESBELTA",
+        "leftTitle": "INFRAESTRUCTURA INFLADA ($1,940/MES)",
+        "leftCode": "// 6 nodos EC2 al 3% CPU + 3 Load Balancers\n// 2 RDS Staging encendidos sábado y domingo\n// Tráfico a S3 pagando peaje por NAT Gateway\n// Logs infinitos sin política de expiración",
+        "rightTitle": "ARQUITECTURA OPTIMIZADA ($380/MES)",
+        "rightCode": "// Instancias dimensionadas con auto-scaling real\n// Staging con auto-stop nocturno + VPC Endpoint S3\n// Retención de logs de 30 días + alertas de presupuesto\n// Ahorro anual: $18,720 USD directos al margen",
+        "diffNote": "80% de reducción en factura mensual"
+      }
+    },
+    {
+      "id": "s05_race",
+      "type": "versus_race",
+      "duration": 10.5,
+      "voiceover": "El mes siguiente la factura llegó por trescientos ochenta dólares y la aplicación respondió incluso más rápido al quitar saltos de red.",
+      "visual_cue": "Comparativa de gasto anual: $23,280 vs $4,560 con el mismo rendimiento",
+      "props": {
+        "voiceover": "El mes siguiente la factura llegó por trescientos ochenta dólares y la aplicación respondió incluso más rápido al quitar saltos de red.",
+        "title": "COSTO ANUAL DE INFRAESTRUCTURA",
+        "subtitle": "MISMO TRÁFICO · MISMA DISPONIBILIDAD",
+        "sideA": {
+          "name": "NUBE AUDITADA ($380/MES)",
+          "tag": "CERO RECURSOS ZOMBIS",
+          "targetMs": 12,
+          "displayTime": "$4,560/AÑO",
+          "memory": "USO ÓPTIMO",
+          "cacheMisses": "ALERTAS ACTIVAS",
+          "speedup": "$18,720 AHORRADOS"
+        },
+        "sideB": {
+          "name": "NUBE SIN AUDITAR ($1,940/MES)",
+          "tag": "CRECIMIENTO DESORDENADO",
+          "targetMs": 1940,
+          "displayTime": "$23,280/AÑO",
+          "memory": "CPU AL 3%",
+          "cacheMisses": "GASTO FANTASMA",
+          "bottleneck": "MARGEN QUEMADO"
+        }
+      }
+    },
+    {
+      "id": "s06_arch",
+      "type": "architecture_flow",
+      "duration": 10.9,
+      "voiceover": "Además dejamos alarmas de presupuesto para que nunca más nadie pueda prender un recurso caro sin que te llegue un aviso al teléfono.",
+      "visual_cue": "Flujo de gobernanza y alertas automáticas de desvío de costos",
+      "props": {
+        "voiceover": "Además dejamos alarmas de presupuesto para que nunca más nadie pueda prender un recurso caro sin que te llegue un aviso al teléfono.",
+        "title": "CANDADO DE PRESUPUESTO ACTIVO",
+        "subtitle": "NUNCA MÁS UNA FACTURA SORPRESA A FIN DE MES",
+        "nodes": [
+          {
+            "id": "mon",
+            "label": "MONITOR DIARIO DE CONSUMO CLOUD",
+            "sublabel": "DETECTA ANOMALÍAS DE GASTO EN < 6 HORAS",
+            "color": "#ffffff"
+          },
+          {
+            "id": "ttl",
+            "label": "AUTO-LIMPIEZA DE ENTORNOS DE PRUEBA",
+            "sublabel": "APAGA STAGING DE NOCHE Y FINES DE SEMANA",
+            "color": "#fbbf24"
+          },
+          {
+            "id": "ok",
+            "label": "FACTURA PREDECIBLE MES A MES",
+            "sublabel": "$1,560/MES LIBERADOS PARA CRECIMIENTO",
+            "color": "#10b981"
+          }
+        ]
+      }
+    },
+    {
+      "id": "s07_cta",
+      "type": "kinetic_hook",
+      "duration": 12.2,
+      "voiceover": "Si tu factura de AWS, Google Cloud o DigitalOcean sube todos los meses y sientes que estás pagando de más, escríbeme NUBE y la revisamos.",
+      "visual_cue": "Cierre de diagnóstico sutil con palabra clave NUBE",
+      "props": {
+        "voiceover": "Si tu factura de AWS, Google Cloud o DigitalOcean sube todos los meses y sientes que estás pagando de más, escríbeme NUBE y la revisamos.",
+        "badge": "AUDITORÍA DE COSTOS CLOUD & INFRAESTRUCTURA",
+        "lines": [
+          {
+            "text": "DEJA DE REGALARLE",
+            "color": "#ffffff"
+          },
+          {
+            "text": "TU MARGEN A AWS",
+            "color": "#10b981"
+          }
+        ],
+        "subtitle": "REDUCCIÓN DE COSTOS CLOUD · BARE METAL · OPTIMIZACIÓN",
+        "ctaKeyword": "NUBE",
+        "ctaNote": "Analizamos el desglose de tu factura actual y te decimos exactamente cuánto puedes recortar."
+      }
+    }
+  ]
+};

@@ -1,13 +1,14 @@
 // Component: connection_pool_viz
-// Concurrency & pooling visualizer: 1,000 client streams multiplexed by PgBouncer into 20 Postgres backend processes.
-// Zero text overflow, active packet particles, and pulsating worker LEDs.
+// Concurrency & pooling visualizer: 3-Act Mechanical Simulation
+// Phase 1 (0% -> 35%): Direct Connections Overload (100/100 Postgres slots full, clients rejected with 503).
+// Phase 2 (35% -> 68%): PgBouncer Transaction Pooler engages & multiplexes FIFO queue.
+// Phase 3 (68% -> 100%): 1,500+ concurrent clients served by 20 calm workers in 0.8ms (0 errors).
 
 window.registerComponent('connection_pool_viz', {
   init(container, props) {
     container.innerHTML = `
       <div class="comp-conn-pool">
-        ${props.badge ? `<div class="scene-category" id="cpBadge">${props.badge}</div>` : ''}
-        <canvas id="poolCanvas" width="960" height="1300"></canvas>
+        <canvas id="poolCanvas" width="960" height="1360"></canvas>
       </div>
     `;
     this.canvas = container.querySelector('#poolCanvas');
@@ -18,217 +19,261 @@ window.registerComponent('connection_pool_viz', {
     const { spring, clamp, lerp } = utils;
     const mu = window.motionUtils;
     const ctx = this.ctx;
-    ctx.clearRect(0, 0, 960, 1300);
+    ctx.clearRect(0, 0, 960, 1360);
 
-    // Hard-cut exit in last 0.3s
-    const exitT = duration - 0.3;
+    const exitT = duration - 0.25;
     let exitAlpha = 1;
-    let exitY = 0;
     if (t > exitT) {
-      const p = (t - exitT) / 0.3;
-      exitY = -p * p * 60;
-      exitAlpha = clamp(1 - p * 1.3, 0, 1);
-    }
-
-    const badgeEl = container.querySelector('#cpBadge');
-    if (badgeEl) {
-      const s = spring(Math.max(0, t - 0.05), 24, 0.7);
-      badgeEl.style.opacity = (clamp(t / 0.1, 0, 1) * exitAlpha).toFixed(3);
-      badgeEl.style.transform = `translateY(${((1 - s) * -20 + exitY).toFixed(1)}px)`;
+      exitAlpha = clamp(1 - ((t - exitT) / 0.25) * 1.4, 0, 1);
     }
 
     ctx.save();
     ctx.globalAlpha = exitAlpha;
-    ctx.translate(0, exitY);
 
-    const title = props.title || 'CONNECTION POOLING EN PRODUCCIÓN';
-    const subtitle = props.subtitle || 'PGBOUNCER: 1.000 CLIENTES => 20 PROCESOS POSTGRES';
+    const pRatio = t / duration;
+    const isPhase1 = pRatio < 0.36; // Direct Crash
+    const isPhase2 = pRatio >= 0.36 && pRatio < 0.68; // Multiplexing engagement
+    const isPhase3 = pRatio >= 0.68; // Steady state 1,500 users OK
 
-    // Auto-fit Title and Subtitle
+    const title = (props.title || '1,000 USUARIOS VS LÍMITE DE 100 CONEXIONES').toUpperCase();
+    const subtitle = (props.subtitle || 'MULTIPLEXACIÓN EN MODO TRANSACCIÓN').toUpperCase();
+
+    // 1. Clean Header
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#06b6d4';
+    ctx.font = '700 16px "JetBrains Mono", monospace';
+    ctx.fillText(subtitle, 40, 42);
+
     ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
     if (mu) {
-      mu.fitText(ctx, title, 480, 65, 840, 32, 22, '"Plus Jakarta Sans", sans-serif', '800');
-    } else {
-      ctx.font = '800 32px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText(title, 480, 65);
+      mu.fitText(ctx, title, 40, 92, 880, 40, 24, '"Plus Jakarta Sans", sans-serif', '900');
     }
 
-    ctx.fillStyle = '#06b6d4';
-    ctx.font = '700 17px "JetBrains Mono", monospace';
-    ctx.fillText(subtitle, 480, 102);
-
-    // 1. Left Section: Clients
-    const clW = 210;
-    const clY = 150;
-    const clH = 590;
-
-    ctx.fillStyle = '#141418';
-    ctx.strokeStyle = '#ef4444';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(60, clY, clW, clH, 16);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#ef4444';
-    ctx.font = '800 15px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('1.000 CLIENTES', 165, clY + 34);
-    ctx.fillStyle = '#71717a';
-    ctx.font = '600 12px "JetBrains Mono", monospace';
-    ctx.fillText('HTTP Requests', 165, clY + 54);
-
-    for (let i = 0; i < 16; i++) {
-      const cy = clY + 80 + i * 30;
-      ctx.fillStyle = '#1b1b22';
-      ctx.strokeStyle = '#27272a';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.roundRect(75, cy, 180, 22, 6);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '600 11px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText(`Conn: fd_${i + 104}`, 90, cy + 15);
-
-      ctx.fillStyle = (i % 3 === 0) ? '#10b981' : '#f59e0b';
-      ctx.beginPath();
-      ctx.arc(238, cy + 11, 4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // 2. Middle Section: PgBouncer Pooler
-    const pbW = 260;
-    const pbX = 350;
-    ctx.fillStyle = '#10141a';
-    ctx.strokeStyle = '#06b6d4';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.roundRect(pbX, clY, pbW, clH, 16);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#06b6d4';
-    ctx.font = '800 17px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('PGBOUNCER', pbX + pbW / 2, clY + 34);
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '700 12px "JetBrains Mono", monospace';
-    ctx.fillText('TRANSACTION POOLING', pbX + pbW / 2, clY + 56);
-
-    ctx.fillStyle = '#141c24';
     ctx.strokeStyle = '#27272a';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.roundRect(pbX + 18, clY + 80, pbW - 36, 480, 10);
-    ctx.fill();
+    ctx.moveTo(40, 118);
+    ctx.lineTo(920, 118);
     ctx.stroke();
 
-    ctx.fillStyle = '#38bdf8';
-    ctx.font = '700 11px "JetBrains Mono", monospace';
-    ctx.fillText('COLA DE TRANSACCIONES FIFO', pbX + pbW / 2, clY + 110);
-
-    // Particles from Clients to PgBouncer
-    for (let p = 0; p < 7; p++) {
-      const pt = (t * 1.6 + p * 0.4) % 1;
-      const px = lerp(270, pbX + 18, pt);
-      const py = clY + 140 + p * 60;
-      ctx.fillStyle = '#06b6d4';
-      ctx.beginPath();
-      ctx.arc(px, py, 4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // 3. Right Section: Postgres Engine
-    const pgW = 230;
-    const pgX = 670;
-    ctx.fillStyle = '#141418';
-    ctx.strokeStyle = '#10b981';
+    // 2. Top Phase Status Strip (y = 140..216)
+    const statusAccent = isPhase1 ? '#ef4444' : (isPhase2 ? '#fbbf24' : '#10b981');
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = statusAccent;
     ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(pgX, clY, pgW, clH, 16);
-    ctx.fill();
-    ctx.stroke();
+    ctx.fillRect(40, 140, 880, 74);
+    ctx.strokeRect(40, 140, 880, 74);
+    ctx.fillStyle = statusAccent;
+    ctx.fillRect(40, 140, 6, 74);
 
-    ctx.fillStyle = '#10b981';
-    ctx.font = '800 15px "JetBrains Mono", monospace';
-    ctx.textAlign = 'center';
-    ctx.fillText('POSTGRES SERVER', pgX + pgW / 2, clY + 34);
-    ctx.fillStyle = '#a1a1aa';
-    ctx.font = '600 12px "JetBrains Mono", monospace';
-    ctx.fillText('20 Workers Fijos', pgX + pgW / 2, clY + 54);
-
-    for (let w = 0; w < 9; w++) {
-      const wy = clY + 80 + w * 52;
-      ctx.fillStyle = '#0c1a16';
-      ctx.strokeStyle = '#10b981';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.roundRect(pgX + 18, wy, pgW - 36, 42, 6);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = '#10b981';
-      ctx.font = '700 12px "JetBrains Mono", monospace';
-      ctx.textAlign = 'left';
-      ctx.fillText(`Worker #${w + 1}`, pgX + 28, wy + 20);
-
-      ctx.fillStyle = '#a1a1aa';
-      ctx.font = '500 10px "JetBrains Mono", monospace';
-      ctx.fillText(`RAM: 10 MB (Shared)`, pgX + 28, wy + 34);
-
-      // Pulsing active LED
-      const ledPulse = Math.sin(t * 4 + w) > 0;
-      ctx.fillStyle = ledPulse ? '#10b981' : '#064e3b';
-      ctx.beginPath();
-      ctx.arc(pgX + pgW - 35, wy + 21, 4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // Particles from PgBouncer to Postgres
-    for (let p = 0; p < 4; p++) {
-      const pt = (t * 2.2 + p * 0.6) % 1;
-      const px = lerp(pbX + pbW - 18, pgX + 18, pt);
-      const py = clY + 140 + p * 110;
-      ctx.fillStyle = '#10b981';
-      ctx.beginPath();
-      ctx.arc(px, py, 4.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // 4. Bottom Comparison Card (Zero overflow with wrapText)
-    ctx.fillStyle = '#09151e';
-    ctx.strokeStyle = '#06b6d4';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(60, 780, 840, 190, 16);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#06b6d4';
-    ctx.font = '900 20px "JetBrains Mono", monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('EL COSTO DE UN FORK() EN LINUX ELIMINADO', 90, 825);
+    ctx.fillStyle = statusAccent;
+    ctx.font = '800 18px "JetBrains Mono", monospace';
+    const phaseBanner = isPhase1
+      ? '✖ SIN POOLER: 100/100 SOCKETS OCUPADOS · RECHAZANDO TRÁFICO (ERR 500)'
+      : (isPhase2
+        ? '⚡ ACTIVANDO PGBOUNCER: ENCOLANDO TRANSACCIONES EN RAM (2ms/QUERY)'
+        : '✔ MODO TRANSACCIÓN ACTIVO: 1,500 CLIENTES -> 20 WORKERS REALES (0% ERROR)');
+    ctx.fillText(phaseBanner, 66, 184);
+
+    const clY = 236;
+    const clH = 540;
+
+    // 3. Left Column: Concurrent Clients (x = 40, w = 240)
+    const clX = 40;
+    const clW = 240;
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = isPhase1 ? '#ef4444' : '#38bdf8';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(clX, clY, clW, clH);
+    ctx.strokeRect(clX, clY, clW, clH);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = isPhase1 ? '#ef4444' : '#38bdf8';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.fillText('TRÁFICO ENTRADA', clX + 20, clY + 34);
+
+    const activeUsers = isPhase1 ? 312 : (isPhase2 ? Math.round(lerp(312, 1500, (pRatio - 0.36) / 0.32)) : 1500);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '900 28px "JetBrains Mono", monospace';
+    ctx.fillText(`${activeUsers} REQ/S`, clX + 20, clY + 70);
+
+    for (let i = 0; i < 12; i++) {
+      const cy = clY + 94 + i * 35;
+      const isRejected = isPhase1 && i >= 4;
+      ctx.fillStyle = isRejected ? '#1f0b0e' : '#111116';
+      ctx.strokeStyle = isRejected ? '#ef4444' : '#27272a';
+      ctx.lineWidth = 1;
+      ctx.fillRect(clX + 18, cy, clW - 36, 27);
+      ctx.strokeRect(clX + 18, cy, clW - 36, 27);
+
+      ctx.fillStyle = isRejected ? '#fca5a5' : '#d4d4d8';
+      ctx.font = '600 12px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(`req_${1040 + i * 7}`, clX + 28, cy + 18);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = isRejected ? '#ef4444' : '#10b981';
+      ctx.font = '800 11px "JetBrains Mono", monospace';
+      ctx.fillText(isRejected ? '503 DROP' : '200 OK', clX + clW - 26, cy + 18);
+    }
+
+    // 4. Center Column: PgBouncer Multiplexer (x = 340, w = 280)
+    const pbX = 340;
+    const pbW = 280;
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = isPhase1 ? '#3f3f46' : '#06b6d4';
+    ctx.lineWidth = isPhase1 ? 1.5 : 2;
+    ctx.fillRect(pbX, clY, pbW, clH);
+    ctx.strokeRect(pbX, clY, pbW, clH);
+
+    ctx.textAlign = 'center';
+    ctx.fillStyle = isPhase1 ? '#ef4444' : '#06b6d4';
+    ctx.font = '800 17px "JetBrains Mono", monospace';
+    ctx.fillText(isPhase1 ? 'CONEXIÓN DIRECTA' : 'PGBOUNCER POOLER', pbX + pbW / 2, clY + 34);
+
+    ctx.fillStyle = '#a1a1aa';
+    ctx.font = '700 13px "JetBrains Mono", monospace';
+    ctx.fillText(isPhase1 ? '1 CLIENTE = 1 PROCESO OS' : 'COLA TRANSACCIONAL FIFO', pbX + pbW / 2, clY + 58);
+
+    // Inner multiplexer chamber
+    ctx.fillStyle = '#0d1117';
+    ctx.strokeStyle = '#27272a';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(pbX + 20, clY + 80, pbW - 40, 340);
+    ctx.strokeRect(pbX + 20, clY + 80, pbW - 40, 340);
+
+    // Draw discrete FIFO transaction slots inside PgBouncer
+    for (let r = 0; r < 6; r++) {
+      const sy = clY + 100 + r * 52;
+      const slotActive = isPhase1 ? true : ((Math.floor(t * 8) + r) % 3 !== 0);
+      const slotCol = isPhase1 ? '#ef4444' : (slotActive ? '#06b6d4' : '#1e293b');
+      ctx.fillStyle = '#111822';
+      ctx.strokeStyle = slotCol;
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(pbX + 36, sy, pbW - 72, 38);
+      ctx.strokeRect(pbX + 36, sy, pbW - 72, 38);
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = isPhase1 ? '#fca5a5' : '#e2e8f0';
+      ctx.font = '700 12px "JetBrains Mono", monospace';
+      ctx.fillText(
+        isPhase1 ? `LOCK WAIT #${r + 1} (IDLE IN TX)` : `TX_SLOT_0${r + 1} · LEASE: 1.8ms`,
+        pbX + 48,
+        sy + 24
+      );
+    }
+
+    // Bottom metric inside center column
+    ctx.textAlign = 'center';
+    ctx.fillStyle = isPhase1 ? '#ef4444' : '#10b981';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.fillText(isPhase1 ? 'COLA BLOQUEADA' : 'RATIO DE REUSO: 75:1', pbX + pbW / 2, clY + 462);
+    ctx.fillStyle = '#71717a';
+    ctx.font = '600 13px "JetBrains Mono", monospace';
+    ctx.fillText(isPhase1 ? 'Agotamiento de descriptores' : 'Cero fork() por petición', pbX + pbW / 2, clY + 492);
+
+    // 5. Right Column: PostgreSQL Server (x = 680, w = 240)
+    const pgX = 680;
+    const pgW = 240;
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = isPhase1 ? '#ef4444' : '#10b981';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(pgX, clY, pgW, clH);
+    ctx.strokeRect(pgX, clY, pgW, clH);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = isPhase1 ? '#ef4444' : '#10b981';
+    ctx.font = '800 16px "JetBrains Mono", monospace';
+    ctx.fillText('POSTGRES ENGINE', pgX + 20, clY + 34);
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = '600 16px "Plus Jakarta Sans", sans-serif';
-    const sumC1 = 'Sin pool: 1.000 clientes crean 1.000 procesos => 10 GB RAM consumidos en context switching.';
-    if (mu) {
-      mu.wrapText(ctx, sumC1, 90, 865, 780, 26, 2);
-    } else {
-      ctx.fillText(sumC1, 90, 865);
+    ctx.font = '900 24px "JetBrains Mono", monospace';
+    ctx.fillText(isPhase1 ? '100/100 FULL' : '20 WORKERS OK', pgX + 20, clY + 68);
+
+    for (let w = 0; w < 8; w++) {
+      const wy = clY + 94 + w * 52;
+      const busy = ((Math.floor(t * 10) + w) % 2 === 0);
+      ctx.fillStyle = isPhase1 ? '#220a0d' : '#0b1914';
+      ctx.strokeStyle = isPhase1 ? '#ef4444' : '#10b981';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(pgX + 18, wy, pgW - 36, 40);
+      ctx.strokeRect(pgX + 18, wy, pgW - 36, 40);
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = isPhase1 ? '#fca5a5' : '#10b981';
+      ctx.font = '800 12px "JetBrains Mono", monospace';
+      ctx.fillText(`PID_${4200 + w}`, pgX + 28, wy + 17);
+
+      ctx.fillStyle = '#a1a1aa';
+      ctx.font = '600 11px "JetBrains Mono", monospace';
+      ctx.fillText(isPhase1 ? 'RAM: 14MB (STUCK)' : 'RAM: 8MB · 0.8ms', pgX + 28, wy + 33);
+
+      // Square mechanical status LED
+      ctx.fillStyle = isPhase1 ? '#ef4444' : (busy ? '#10b981' : '#064e3b');
+      ctx.fillRect(pgX + pgW - 36, wy + 14, 10, 10);
     }
 
-    ctx.fillStyle = '#10b981';
-    ctx.font = '700 15px "JetBrains Mono", monospace';
-    const sumC2 = 'Con PgBouncer: 1.000 peticiones se despachan con solo 200 MB de RAM y 0 ms de espera.';
+    // 6. Mechanical Orthogonal Packet Streams Between Columns
+    for (let p = 0; p < 6; p++) {
+      const pt = (t * 2.2 + p * 0.18) % 1;
+      const px1 = lerp(clX + clW, pbX, pt);
+      const py1 = clY + 115 + p * 68;
+      ctx.fillStyle = isPhase1 ? '#ef4444' : '#38bdf8';
+      ctx.fillRect(px1 - 5, py1 - 5, 10, 10);
+    }
+
+    for (let p = 0; p < 4; p++) {
+      const pt = (t * 2.8 + p * 0.25) % 1;
+      const px2 = lerp(pbX + pbW, pgX, pt);
+      const py2 = clY + 140 + p * 95;
+      ctx.fillStyle = isPhase1 ? '#ef4444' : '#10b981';
+      ctx.fillRect(px2 - 6, py2 - 6, 12, 12);
+    }
+
+    // 7. Bottom Telemetry Comparison Panel (y = 800..995)
+    ctx.fillStyle = '#09090c';
+    ctx.strokeStyle = isPhase1 ? '#ef4444' : '#06b6d4';
+    ctx.lineWidth = 1.5;
+    ctx.fillRect(40, 800, 880, 195);
+    ctx.strokeRect(40, 800, 880, 195);
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#06b6d4';
+    ctx.font = '800 17px "JetBrains Mono", monospace';
+    ctx.fillText('CONEXIÓN DIRECTA VS PGBOUNCER', 68, 840);
+
+    // Metric Row 1 (Direct - struck through in Phase 3)
+    ctx.fillStyle = isPhase3 ? '#71717a' : '#ef4444';
+    const lineDirect = '✖ SIN POOLER: 100 clientes = 1.2 GB RAM · Cliente #101 recibe Error 500';
     if (mu) {
-      mu.wrapText(ctx, sumC2, 90, 925, 780, 24, 2);
+      mu.fitText(ctx, lineDirect, 68, 890, 824, 18, 13, '"JetBrains Mono", monospace', '700');
     } else {
-      ctx.fillText(sumC2, 90, 925);
+      ctx.font = '700 17px "JetBrains Mono", monospace';
+      ctx.fillText(lineDirect, 68, 890);
+    }
+    if (isPhase3) {
+      ctx.strokeStyle = '#ef4444';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.moveTo(68, 884);
+      ctx.lineTo(860, 884);
+      ctx.stroke();
+    }
+
+    // Metric Row 2 (PgBouncer Winner)
+    ctx.fillStyle = '#10b981';
+    const linePooler = '✔ CON PGBOUNCER: 1,500 clientes = 180 MB RAM · Latencia P99: 2.1ms';
+    if (mu) {
+      mu.fitText(ctx, linePooler, 68, 948, 824, 19, 14, '"JetBrains Mono", monospace', '800');
+    } else {
+      ctx.font = '800 18px "JetBrains Mono", monospace';
+      ctx.fillText(linePooler, 68, 948);
+    }
+
+    // 8. Synchronized Word-by-Word Caption Bar
+    if (mu && mu.drawSyncCaption) {
+      mu.drawSyncCaption(ctx, props.voiceover || '', t, duration, { accent: statusAccent });
     }
 
     ctx.restore();

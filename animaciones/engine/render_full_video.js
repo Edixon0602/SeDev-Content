@@ -11,7 +11,10 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
   }
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  const fps = manifest.fps || 30;
+  const fps = Number(manifest.fps || 30);
+  if (!Number.isFinite(fps) || fps < 1 || fps > 60) {
+    throw new Error(`fps inválido en ${manifestPath}: ${manifest.fps}`);
+  }
   const scenes = manifest.scenes || [];
   const totalDuration = scenes.reduce((acc, s) => acc + (s.duration || 5.0), 0);
 
@@ -20,15 +23,29 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
   fs.writeFileSync(jsManifestPath, `window.__DEFAULT_MANIFEST__ = ${JSON.stringify(manifest, null, 2)};\n`, 'utf8');
 
   const templateFile = path.resolve('animaciones/templates/scene_runner.html');
+  const manifestBase = path.basename(manifestPath, path.extname(manifestPath));
   const cacheDir = path.resolve('animaciones/output_clips/cache');
-  const tempDir = path.resolve('animaciones/output_clips/_temp_full_video');
+  const tempDir = path.resolve(`animaciones/output_clips/_temp_${manifestBase}`);
   const debugDir = path.resolve('animaciones/debug_frames');
   const cacheMgr = new CacheManager(cacheDir);
+  if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true, force: true });
 
   if (!fs.existsSync(debugDir)) fs.mkdirSync(debugDir, { recursive: true });
 
-  const desktop = 'C:\\Users\\Edixon\\Desktop';
-  const finalOutput = manifest.output || path.join(desktop, 'VIDEO_SEDEV_60S.mp4');
+  const defaultOutDir = path.resolve('animaciones/output_clips');
+  const finalOutput = path.resolve(manifest.output || path.join(defaultOutDir, 'VIDEO_SEDEV_60S.mp4'));
+  const stagingOutput = finalOutput.replace(/\.mp4$/i, '') + '.rendering.mp4';
+  const outputDir = path.dirname(finalOutput);
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+  // Never let a previous successful MP4 masquerade as the result of a failed run.
+  if (options.sceneIndex === undefined) {
+    for (const stale of [finalOutput, stagingOutput]) {
+      if (fs.existsSync(stale)) {
+        try { fs.unlinkSync(stale); } catch (err) { /* best effort */ }
+      }
+    }
+  }
 
   console.log(`\n======================================================`);
   console.log(`🎬 SEDEV 60S FULL VIDEO ENGINE (MODULAR & DETERMINISTA)`);
@@ -45,19 +62,24 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
     console.log(`• Filtro:    Solo escena #${options.sceneIndex + 1} (${targetScenes[0].id})`);
   }
 
-  const sceneClips = [];
+  // Preserve scene order even when some clips come from cache and others are rendered.
+  const sceneClips = new Array(targetScenes.length);
 
   // Check cache and identify what needs rendering
   const scenesToRender = [];
   for (let i = 0; i < targetScenes.length; i++) {
     const scene = targetScenes[i];
     const componentPath = path.resolve(`animaciones/templates/components/${scene.type}.js`);
-    const hash = cacheMgr.computeSceneHash(scene, templateFile, componentPath);
+    const hash = cacheMgr.computeSceneHash(scene, templateFile, componentPath, [], {
+      fps,
+      engine: 'scene_runner',
+      template: 'scene_runner'
+    });
     const clipPath = cacheMgr.getCachePath(scene, hash);
 
     if (!options.noCache && cacheMgr.isCached(clipPath)) {
       console.log(`⚡ [CACHE HIT] Escena ${i + 1}/${targetScenes.length} [${scene.id}]`);
-      sceneClips.push(clipPath);
+      sceneClips[i] = clipPath;
     } else {
       scenesToRender.push({ index: i, scene, hash, clipPath });
     }
@@ -66,13 +88,46 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
   // If there are scenes to render, launch Puppeteer
   if (scenesToRender.length > 0) {
     console.log(`\nRenderizando ${scenesToRender.length} escena(s) con Puppeteer...`);
-    const browser = await puppeteer.launch({
+    let browser = null;
+    try {
+    browser = await puppeteer.launch({
       executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
       headless: 'new',
-      args: ['--hide-scrollbars', '--disable-gpu']
+      args: [
+        '--hide-scrollbars',
+        '--allow-file-access-from-files',
+        '--enable-webgl',
+        '--use-gl=angle',
+        '--use-angle=swiftshader',
+        '--enable-unsafe-swiftshader'
+      ]
     });
 
     const page = await browser.newPage();
+    const renderErrors = [];
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        renderErrors.push(`console: ${msg.text()}`);
+        console.error('   [PAGE CONSOLE ERROR]', msg.text());
+      } else {
+        console.log('   [PAGE LOG]', msg.text());
+      }
+    });
+    page.on('pageerror', err => {
+      renderErrors.push(`pageerror: ${err.toString()}`);
+      console.error('   [PAGE ERROR]', err.toString());
+    });
+    page.on('requestfailed', req => {
+      if (!/^data:/i.test(req.url())) {
+        renderErrors.push(`requestfailed: ${req.url()} (${req.failure() && req.failure().errorText})`);
+      }
+    });
+    const assertClean = (label) => {
+      if (renderErrors.length) {
+        browser.close().catch(() => {});
+        throw new Error(`${label}: ${renderErrors.join(' | ')}`);
+      }
+    };
     await page.evaluateOnNewDocument(() => {
       window.__PUPPETEER_CAPTURE__ = true;
     });
@@ -80,23 +135,47 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
 
     const fileUrl = 'file:///' + templateFile.replace(/\\/g, '/');
     await page.goto(fileUrl, { waitUntil: 'networkidle0' });
-    await page.evaluate(() => document.fonts.ready);
+    const initialFonts = await page.evaluate(async () => {
+      if (!window.MotionCore || typeof window.MotionCore.ensureFonts !== 'function') {
+        return { ok: false, missing: ['MotionCore.ensureFonts'], reason: 'missing-core' };
+      }
+      return await window.MotionCore.ensureFonts();
+    });
+    if (!initialFonts.ok) {
+      throw new Error(`Fuentes locales no disponibles antes del primer render: ${JSON.stringify(initialFonts)}`);
+    }
+    assertClean('Carga inicial');
 
     for (const item of scenesToRender) {
       const { index, scene, clipPath } = item;
-      const duration = scene.duration || 5.0;
+      const duration = Number(scene.duration || 5.0);
+      if (!Number.isFinite(duration) || duration < 1.0) {
+        throw new Error(`Escena "${scene.id}" con duración inválida (${scene.duration}). Mínimo 1.0s.`);
+      }
       const totalFrames = Math.round(duration * fps);
       const sceneTempDir = path.join(tempDir, `scene_${scene.id}`);
 
       if (fs.existsSync(sceneTempDir)) fs.rmSync(sceneTempDir, { recursive: true, force: true });
       fs.mkdirSync(sceneTempDir, { recursive: true });
 
+      // Deterministic QA captures: opening, first/second beats, settle, close.
+      const captureFrames = Array.from(new Set(
+        [0.03, 0.16, 0.5, 0.8, 0.96].map((f) => Math.min(totalFrames - 1, Math.round(f * (totalFrames - 1))))
+      ));
+
       console.log(`\n▶ [RENDER] Escena ${index + 1}/${targetScenes.length}: "${scene.id}" (${scene.type}, ${duration}s, ${totalFrames} frames)`);
 
-      // Inject scene definition
-      await page.evaluate((sc) => {
-        window.loadScene(sc);
+      // Inject scene definition and wait for assets (3D models, textures, Draco)
+      await page.evaluate(async (sc) => {
+        if (typeof window.loadScene === 'function') {
+          await window.loadScene(sc);
+        }
       }, scene);
+      const sceneFonts = await page.evaluate(async () => window.MotionCore.ensureFonts());
+      if (!sceneFonts.ok) {
+        throw new Error(`Fuentes no listas en escena "${scene.id}": ${JSON.stringify(sceneFonts)}`);
+      }
+      assertClean(`Escena ${scene.id} (carga)`);
 
       for (let frame = 0; frame < totalFrames; frame++) {
         const timeInSec = frame / fps;
@@ -106,13 +185,19 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
             window.renderFrame(t);
           }
         }, timeInSec);
+        if (renderErrors.length) assertClean(`Escena ${scene.id} frame ${frame}`);
 
         const framePath = path.join(sceneTempDir, `frame_${String(frame).padStart(4, '0')}.png`);
         await page.screenshot({ path: framePath, type: 'png' });
 
-        // Save midpoint frame for QA inspection
+        // Deterministic QA stills at multiple times (not only the midpoint).
+        if (captureFrames.includes(frame)) {
+          const timeTag = timeInSec.toFixed(2).replace('.', 'p');
+          const qaPath = path.join(debugDir, `qa_${manifestBase}_${scene.id}_t${timeTag}.png`);
+          fs.copyFileSync(framePath, qaPath);
+        }
         if (frame === Math.round(totalFrames / 2)) {
-          const qaPath = path.join(debugDir, `qa_${scene.id}.png`);
+          const qaPath = path.join(debugDir, `qa_${manifestBase}_${scene.id}.png`);
           fs.copyFileSync(framePath, qaPath);
         }
 
@@ -127,37 +212,45 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
       execSync(`ffmpeg -y -framerate ${fps} -i "${framePattern}" -c:v libx264 -pix_fmt yuv420p -crf 17 -preset fast "${clipPath}"`, { stdio: 'ignore' });
 
       fs.rmSync(sceneTempDir, { recursive: true, force: true });
-      sceneClips.push(clipPath);
+      sceneClips[item.index] = clipPath;
+      assertClean(`Escena ${scene.id} (encode)`);
     }
 
-    await browser.close();
+    } finally {
+      if (browser && browser.connected) {
+        try { await browser.close(); } catch (err) { /* already closed */ }
+      }
+      if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   }
 
-  // Clean temp folder
-  if (fs.existsSync(tempDir)) fs.rmSync(tempDir, { recursive: true, force: true });
+  const orderedClips = sceneClips.filter(Boolean);
 
   // If rendering only a single scene, report its path
   if (options.sceneIndex !== undefined) {
-    console.log(`\n✔ Escena individual renderizada: ${sceneClips[0]}`);
-    return sceneClips[0];
+    console.log(`\n✔ Escena individual renderizada: ${orderedClips[0]}`);
+    return orderedClips[0];
   }
 
   // Final Assembly (Concat)
-  console.log(`\nUniendo ${sceneClips.length} escenas con FFmpeg...`);
-  const concatListFile = path.join(cacheDir, 'concat_list.txt');
-  const fileLines = sceneClips.map(clip => `file '${clip.replace(/\\/g, '/')}'`).join('\n');
+  console.log(`\nUniendo ${orderedClips.length} escenas con FFmpeg...`);
+  const concatListFile = path.join(cacheDir, `concat_${manifestBase}.txt`);
+  const fileLines = orderedClips.map(clip => `file '${clip.replace(/\\/g, '/')}'`).join('\n');
   fs.writeFileSync(concatListFile, fileLines, 'utf8');
 
-  if (fs.existsSync(finalOutput)) {
-    try { fs.unlinkSync(finalOutput); } catch (e) {}
-  }
-
-  if (manifest.audio && fs.existsSync(path.resolve(manifest.audio))) {
-    const audioPath = path.resolve(manifest.audio);
-    console.log(`Muxing audio Voice-Over: ${audioPath}`);
-    execSync(`ffmpeg -y -f concat -safe 0 -i "${concatListFile}" -i "${audioPath}" -c:v copy -c:a aac -shortest "${finalOutput}"`, { stdio: 'ignore' });
-  } else {
-    execSync(`ffmpeg -y -f concat -safe 0 -i "${concatListFile}" -c copy "${finalOutput}"`, { stdio: 'ignore' });
+  try {
+    if (manifest.audio && fs.existsSync(path.resolve(manifest.audio))) {
+      const audioPath = path.resolve(manifest.audio);
+      console.log(`Muxing audio Voice-Over: ${audioPath}`);
+      execSync(`ffmpeg -y -f concat -safe 0 -i "${concatListFile}" -i "${audioPath}" -c:v copy -c:a aac -shortest "${stagingOutput}"`, { stdio: 'ignore' });
+    } else {
+      execSync(`ffmpeg -y -f concat -safe 0 -i "${concatListFile}" -c copy "${stagingOutput}"`, { stdio: 'ignore' });
+    }
+    fs.renameSync(stagingOutput, finalOutput);
+  } finally {
+    if (fs.existsSync(stagingOutput)) {
+      try { fs.unlinkSync(stagingOutput); } catch (err) { /* best effort */ }
+    }
   }
 
   // Generate synchronized voiceover teleprompter script
@@ -178,9 +271,7 @@ function formatTime(sec) {
 }
 
 function generateVoiceoverScript(manifest, finalOutput) {
-  const desktop = 'C:\\Users\\Edixon\\Desktop';
   const baseName = path.basename(finalOutput, path.extname(finalOutput));
-  const scriptDesktopPath = path.join(desktop, `GUION_${baseName}.md`);
   const scriptLocalPath = path.resolve(`animaciones/manifests/guion_${baseName.toLowerCase()}.md`);
 
   let accumulated = 0;
@@ -233,28 +324,30 @@ ${fullTextBlocks.join('\n\n')}
 *Generado automáticamente por SeDev Full-Video Engine*
 `;
 
-  fs.writeFileSync(scriptDesktopPath, md, 'utf8');
   fs.writeFileSync(scriptLocalPath, md, 'utf8');
   console.log(`🎙️ Guion de locución sincronizado generado:`);
-  console.log(`  → ${scriptDesktopPath}`);
   console.log(`  → ${scriptLocalPath}`);
 }
 
-// CLI Argument parsing
-const args = process.argv.slice(2);
-const manifestArg = args[0] || 'animaciones/manifests/ejemplo_redis_60s.json';
-const options = {};
+if (require.main === module) {
+  // CLI Argument parsing
+  const args = process.argv.slice(2);
+  const manifestArg = args[0] || 'animaciones/manifests/ejemplo_redis_60s.json';
+  const options = {};
 
-args.forEach((arg, i) => {
-  if (arg === '--scene' && args[i + 1] !== undefined) {
-    options.sceneIndex = parseInt(args[i + 1], 10);
-  }
-  if (arg === '--no-cache') {
-    options.noCache = true;
-  }
-});
+  args.forEach((arg, i) => {
+    if (arg === '--scene' && args[i + 1] !== undefined) {
+      options.sceneIndex = parseInt(args[i + 1], 10);
+    }
+    if (arg === '--no-cache') {
+      options.noCache = true;
+    }
+  });
 
-renderFullVideo(manifestArg, options).catch((err) => {
-  console.error('Error renderizando vídeo:', err);
-  process.exit(1);
-});
+  renderFullVideo(manifestArg, options).catch((err) => {
+    console.error('Error renderizando vídeo:', err);
+    process.exit(1);
+  });
+} else {
+  module.exports = renderFullVideo;
+}

@@ -1,0 +1,65 @@
+window.__DEFAULT_MANIFEST__ = {
+  "title": "[14] ¿Qué es en realidad un 'Puntero' y por qué asusta tanto?",
+  "slug": "sedev_14_what_is_a_pointer",
+  "category": "FUNDAMENTOS DE HARDWARE & LENGUAJES",
+  "tagline": "El casillero de memoria que separa a los juniors de los ingenieros",
+  "fps": 30,
+  "outputDir": "animaciones/output_clips/sedev_brolls/sedev_14_what_is_a_pointer",
+  "script": {
+    "hook": "El concepto de programación que separa a los que solo escriben scripts de los que entienden cómo funciona una computadora de verdad.",
+    "broll1_lead": "Mucha gente se confunde con los punteros, pero en el fondo son ridículamente simples: la memoria RAM de tu computadora no es más que una hilera infinita de casilleros numerados con direcciones hexadecimales.",
+    "camera_pivot": "Una variable guarda el contenido del casillero; un puntero simplemente guarda el número del casillero donde está guardada otra cosa.",
+    "broll2_lead": "Si el programa borra el casillero pero dejas el puntero apuntando a la nada, tienes un puntero colgante que provoca errores de segmentación o fallas de seguridad. Por eso lenguajes como Rust inventaron reglas estrictas de propiedad en compilación.",
+    "outro": "Entender memoria física te hace diez veces mejor desarrollador en cualquier lenguaje. Sígueme para dominar la ingeniería desde los fundamentos."
+  },
+  "brolls": [
+    {
+      "id": "broll_01_pointer_memory_addresses",
+      "purpose": "Inspector de memoria RAM física mostrando direcciones hexadecimales y flechas",
+      "type": "memory_layout",
+      "duration": 9,
+      "props": {
+        "theme": "light",
+        "title": "MAPA FÍSICO DE MEMORIA RAM",
+        "subtitle": "VARIABLES VS PUNTEROS EN TIEMPO DE EJECUCIÓN",
+        "items": [
+          {
+            "addr": "0x7ffd9a01",
+            "name": "VARIABLE int balance",
+            "value": "Valor numérico: $5,400"
+          },
+          {
+            "addr": "0x7ffd9a05",
+            "name": "PUNTERO int* ptr_balance",
+            "value": "Dirección almacenada: -> 0x7ffd9a01"
+          },
+          {
+            "addr": "0x7ffd9a09",
+            "name": "HEAP ALLOCATION (malloc)",
+            "value": "Bloque dinámico reservado por el kernel"
+          }
+        ]
+      },
+      "voiceover": "Mucha gente se confunde con los punteros, pero en el fondo son ridículamente simples: la memoria RAM de tu computadora no es más que una hilera infinita de casilleros numerados con direcciones hexadecimales.",
+      "visual_cue": "Inspector de memoria RAM física mostrando direcciones hexadecimales y flechas"
+    },
+    {
+      "id": "broll_02_dangling_vs_borrow_checker",
+      "purpose": "Puntero colgante (Dangling Pointer) en C vs Borrow Checker de Rust",
+      "type": "terminal_split",
+      "duration": 8.5,
+      "props": {
+        "theme": "light",
+        "title": "SEGURIDAD DE MEMORIA EN LENGUAJES",
+        "subtitle": "C DANGLING POINTER VS RUST BORROW CHECKER",
+        "leftTitle": "LENGUAJE C (ACCESO INVÁLIDO)",
+        "leftCode": "int* p = malloc(sizeof(int));\nfree(p);\n*p = 42; // SEGMENTATION FAULT!\n// Puntero colgante modifica memoria ajena",
+        "rightTitle": "RUST (PREVENCIÓN EN COMPILACIÓN)",
+        "rightCode": "let b = Box::new(42);\ndrop(b);\nprintln!(\"{}\", b); // ERROR DE COMPILACIÓN!\n// 'borrow of moved value: b'",
+        "diffNote": "Cero fallos en producción verificados antes de compilar"
+      },
+      "voiceover": "Si el programa borra el casillero pero dejas el puntero apuntando a la nada, tienes un puntero colgante que provoca errores de segmentación o fallas de seguridad. Por eso lenguajes como Rust inventaron reglas estrictas de propiedad en compilación.",
+      "visual_cue": "Puntero colgante (Dangling Pointer) en C vs Borrow Checker de Rust"
+    }
+  ]
+};
