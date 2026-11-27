@@ -81,6 +81,37 @@
     // 3. Clean Technical Backdrops (Zero Watermarks, Zero Fake Labels, Zero Slop)
     renderBackdrop(ctx, width, height, t, meta = {}) {
       const theme = meta.theme || 'dark';
+      const ground = meta.ground || '';
+      if (ground === 'ivory') {
+        ctx.fillStyle = '#ece7dd';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.strokeStyle = 'rgba(23, 22, 20, 0.06)';
+        ctx.lineWidth = 1;
+        const grid = 80;
+        for (let x = 0; x < width; x += grid) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+        }
+        for (let y = 0; y < height; y += grid) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+        }
+        return;
+      }
+      if (ground === 'graphite') {
+        ctx.fillStyle = '#101012';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.strokeStyle = 'rgba(63, 63, 70, 0.18)';
+        ctx.lineWidth = 1;
+        const grid = 80;
+        for (let x = 0; x < width; x += grid) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+        }
+        for (let y = 0; y < height; y += grid) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+        }
+        return;
+      }
       if (theme === 'light') {
         ctx.fillStyle = '#f8fafc';
         ctx.fillRect(0, 0, width, height);

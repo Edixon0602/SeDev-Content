@@ -42,6 +42,25 @@ window.registerComponent('kinetic_slam', {
     t = Number.isFinite(Number(t)) ? Number(t) : 0;
     const accent = props.accent || '#fbbf24';
     const danger = props.danger || '#ef4444';
+    const editorial = props.editorial === true;
+    const isIvory = props.ground === 'ivory';
+    const pal = isIvory ? {
+      ink: '#171614',
+      muted: '#5f5a52',
+      subtle: '#8a8275',
+      cardBg: '#f6f2ea',
+      border: '#cfc7b8',
+      statLabel: '#b85f42',
+      textShadow: null
+    } : {
+      ink: '#ffffff',
+      muted: '#a1a1aa',
+      subtle: '#52525b',
+      cardBg: '#09090c',
+      border: '#27272a',
+      statLabel: '#fca5a5',
+      textShadow: '#09090b'
+    };
     ctx.clearRect(0, 0, 960, 1360);
 
     // Compress the beat clock for short scenes (min 3.6s design timeline).
@@ -57,39 +76,47 @@ window.registerComponent('kinetic_slam', {
 
     // 1. Header.
     const badgeP = MC ? MC.progress(t, 0, 0.2, 'outCubic') : 1;
-    ctx.textAlign = 'left';
-    ctx.globalAlpha *= badgeP;
-    ctx.fillStyle = accent;
-    ctx.font = '700 16px "JetBrains Mono", monospace';
-    mu.fitText(ctx, (props.badge || 'ANÁLISIS TÉCNICO').toUpperCase(), 40, 42, 680, 16, 11, '"JetBrains Mono", monospace', '700');
-    ctx.globalAlpha = clamp(1 - ex * 1.12, 0, 1);
+    const badgeText = editorial ? String(props.badge || '').trim() : (props.badge || 'ANÁLISIS TÉCNICO');
+    const indexText = editorial ? String(props.indexLabel || '').trim() : String(props.indexLabel || 'SLAM / 01');
+    if (badgeText) {
+      ctx.textAlign = 'left';
+      ctx.globalAlpha *= badgeP;
+      ctx.fillStyle = accent;
+      ctx.font = '700 16px "JetBrains Mono", monospace';
+      mu.fitText(ctx, badgeText.toUpperCase(), 40, 42, 680, 16, 11, '"JetBrains Mono", monospace', '700');
+      ctx.globalAlpha = clamp(1 - ex * 1.12, 0, 1);
+    }
 
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#52525b';
-    ctx.font = '700 14px "JetBrains Mono", monospace';
-    ctx.fillText(String(props.indexLabel || 'SLAM / 01').slice(0, 32), 920, 42);
+    if (indexText) {
+      ctx.textAlign = 'right';
+      ctx.fillStyle = pal.subtle;
+      ctx.font = '700 14px "JetBrains Mono", monospace';
+      ctx.fillText(indexText.slice(0, 32), 920, 42);
+    }
     ctx.textAlign = 'left';
 
     const ruleP = MC ? MC.progress(t, 0.02, 0.3, 'outExpo') : 1;
-    ctx.strokeStyle = '#27272a';
+    ctx.strokeStyle = pal.border;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(40, 66);
     ctx.lineTo(40 + 880 * ruleP, 66);
     ctx.stroke();
 
-    // 2. Optional animated icon frame (SVG is a DOM layer).
+    // 2. Optional animated icon frame (clean border in editorial mode).
     if (props.icon) {
       const frameP = MC ? MC.progress(t, 0.06, 0.3, 'outQuint') : 1;
       ctx.save();
       ctx.globalAlpha *= frameP;
-      ctx.strokeStyle = '#27272a';
+      ctx.strokeStyle = pal.border;
       ctx.lineWidth = 1.5;
       ctx.strokeRect(784, 76, 136, 136);
-      MC.bracket(ctx, 784, 76, 136, 136, 'tl', accent, 2, 18);
-      MC.bracket(ctx, 784, 76, 136, 136, 'tr', accent, 2, 18);
-      MC.bracket(ctx, 784, 76, 136, 136, 'bl', accent, 2, 18);
-      MC.bracket(ctx, 784, 76, 136, 136, 'br', accent, 2, 18);
+      if (!editorial) {
+        MC.bracket(ctx, 784, 76, 136, 136, 'tl', accent, 2, 18);
+        MC.bracket(ctx, 784, 76, 136, 136, 'tr', accent, 2, 18);
+        MC.bracket(ctx, 784, 76, 136, 136, 'bl', accent, 2, 18);
+        MC.bracket(ctx, 784, 76, 136, 136, 'br', accent, 2, 18);
+      }
       ctx.restore();
     }
 
@@ -135,7 +162,7 @@ window.registerComponent('kinetic_slam', {
         }
       }
 
-      const color = line.highlight ? (line.textColor || '#050505') : (line.color || '#ffffff');
+      const color = line.highlight ? (line.textColor || '#050505') : (line.color || pal.ink);
       const font = `900 ${fSize}px "Plus Jakarta Sans", sans-serif`;
       if (MC && wordLayout.words.length) {
         MC.drawWords(ctx, wordLayout, {
@@ -146,7 +173,7 @@ window.registerComponent('kinetic_slam', {
           rise: Math.min(28, fSize * 0.32),
           font,
           color,
-          shadowColor: line.highlight ? null : '#09090b',
+          shadowColor: line.highlight ? null : pal.textShadow,
           shadowOffsetY: Math.max(3, fSize * 0.07),
           anchorY: ly
         });
@@ -184,7 +211,7 @@ window.registerComponent('kinetic_slam', {
       ctx.clip();
       ctx.globalAlpha *= Math.min(1, panelP * 3);
 
-      ctx.fillStyle = '#09090c';
+      ctx.fillStyle = pal.cardBg;
       ctx.strokeStyle = danger;
       ctx.lineWidth = 1.5;
       ctx.fillRect(40, statY, 880, statH);
@@ -193,11 +220,11 @@ window.registerComponent('kinetic_slam', {
       ctx.fillRect(40, statY, 6, statH);
 
       ctx.textAlign = 'left';
-      ctx.fillStyle = '#fca5a5';
+      ctx.fillStyle = pal.statLabel;
       ctx.font = '800 17px "JetBrains Mono", monospace';
       mu.fitText(ctx, String(props.statLabel || 'IMPACTO EN PRODUCCIÓN').toUpperCase(), 68, statY + 36, 812, 17, 11, '"JetBrains Mono", monospace', '800');
 
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = pal.ink;
       mu.fitParagraph(
         ctx,
         String(props.stat || 'CUELLO DE BOTELLA CRÍTICO').toUpperCase(),
@@ -206,7 +233,7 @@ window.registerComponent('kinetic_slam', {
       );
 
       const subStr = props.subtitle || 'ARQUITECTURA DE SISTEMAS Y AUTOMATIZACIÓN REAL';
-      ctx.fillStyle = '#a1a1aa';
+      ctx.fillStyle = pal.muted;
       mu.fitText(ctx, String(subStr), 68, statY + 158, 812, 18, 12, '"JetBrains Mono", monospace', '600');
 
       const slotsP = MC ? MC.progress(t, at(0.86), 0.52, 'outCubic') : 1;
@@ -221,38 +248,40 @@ window.registerComponent('kinetic_slam', {
       ctx.restore();
     }
 
-    // 5. Beat rail: variable label count, fitted labels.
-    const railY = 1074;
-    const railP = MC ? MC.progress(t, 0.1, 0.42, 'outExpo') : 1;
-    ctx.strokeStyle = '#27272a';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(40, railY);
-    ctx.lineTo(40 + 880 * railP, railY);
-    ctx.stroke();
+    // 5. Beat rail (hidden in clean editorial mode unless opted-in).
+    if (!editorial || props.showBeatRail) {
+      const railY = 1074;
+      const railP = MC ? MC.progress(t, 0.1, 0.42, 'outExpo') : 1;
+      ctx.strokeStyle = '#27272a';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(40, railY);
+      ctx.lineTo(40 + 880 * railP, railY);
+      ctx.stroke();
 
-    const beatLabels = (props.beats && props.beats.length ? props.beats : ['IMPACTO', 'TEXTO', 'EVIDENCIA', 'CIERRE']);
-    const beatTimes = props.beatTimes || [0, 0.28, 0.6, 0.92];
-    const markerP = MC ? MC.progress(t, 0.1, Math.max(0.5, duration - 0.4), 'linear') : clamp(t / duration, 0, 1);
-    for (let i = 0; i < beatLabels.length; i++) {
-      const bx = beatLabels.length === 1 ? 40 : 40 + 880 * (i / (beatLabels.length - 1));
-      const reached = t >= (Number.isFinite(Number(beatTimes[i])) ? Number(beatTimes[i]) : 0) * duration * 0.95;
-      ctx.fillStyle = reached ? accent : '#3f3f46';
-      ctx.fillRect(bx - 1.5, railY - 7, 3, 14);
-      const labelW = Math.min(152, 880 / Math.max(2, beatLabels.length) - 10);
-      ctx.textAlign = i === 0 ? 'left' : i === beatLabels.length - 1 ? 'right' : 'center';
-      ctx.fillStyle = reached ? '#d4d4d8' : '#52525b';
+      const beatLabels = (props.beats && props.beats.length ? props.beats : ['IMPACTO', 'TEXTO', 'EVIDENCIA', 'CIERRE']);
+      const beatTimes = props.beatTimes || [0, 0.28, 0.6, 0.92];
+      const markerP = MC ? MC.progress(t, 0.1, Math.max(0.5, duration - 0.4), 'linear') : clamp(t / duration, 0, 1);
+      for (let i = 0; i < beatLabels.length; i++) {
+        const bx = beatLabels.length === 1 ? 40 : 40 + 880 * (i / (beatLabels.length - 1));
+        const reached = t >= (Number.isFinite(Number(beatTimes[i])) ? Number(beatTimes[i]) : 0) * duration * 0.95;
+        ctx.fillStyle = reached ? accent : '#3f3f46';
+        ctx.fillRect(bx - 1.5, railY - 7, 3, 14);
+        const labelW = Math.min(152, 880 / Math.max(2, beatLabels.length) - 10);
+        ctx.textAlign = i === 0 ? 'left' : i === beatLabels.length - 1 ? 'right' : 'center';
+        ctx.fillStyle = reached ? '#d4d4d8' : '#52525b';
+        ctx.font = '700 13px "JetBrains Mono", monospace';
+        mu.fitText(ctx, String(beatLabels[i]).toUpperCase(), bx, railY + 28, labelW, 13, 9, '"JetBrains Mono", monospace', '700');
+      }
+      const markerX = 40 + 880 * markerP;
+      ctx.fillStyle = accent;
+      ctx.fillRect(markerX - 5, railY - 6, 10, 12);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#3f3f46';
       ctx.font = '700 13px "JetBrains Mono", monospace';
-      mu.fitText(ctx, String(beatLabels[i]).toUpperCase(), bx, railY + 28, labelW, 13, 9, '"JetBrains Mono", monospace', '700');
+      ctx.fillText('SEDEV // MOTION', 920, 1160);
     }
-    const markerX = 40 + 880 * markerP;
-    ctx.fillStyle = accent;
-    ctx.fillRect(markerX - 5, railY - 6, 10, 12);
-
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#3f3f46';
-    ctx.font = '700 13px "JetBrains Mono", monospace';
-    ctx.fillText('SEDEV // MOTION', 920, 1160);
 
     if (ex > 0) {
       ctx.fillStyle = accent;

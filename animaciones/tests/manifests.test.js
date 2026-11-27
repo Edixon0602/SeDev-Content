@@ -105,3 +105,22 @@ test('new rendering code contains no time or random sources', () => {
     assert.equal(/performance\.now/.test(code), false, `${rel} must not use performance.now`);
   }
 });
+
+test('voiceover_motion manifests avoid // slop and differ visually across consecutive videos', () => {
+  const vo1 = readJson('animaciones/manifests/vo_01_race_condition.json');
+  const vo2 = readJson('animaciones/manifests/vo_02_cloudflare_regex.json');
+  for (const manifest of [vo1, vo2]) {
+    assert.equal(manifest.format, 'voiceover_motion');
+    for (const scene of manifest.scenes) {
+      const p = scene.props || {};
+      assert.equal(p.editorial, true, `${manifest.slug} ${scene.id} must enable editorial mode`);
+      for (const field of ['badge', 'indexLabel', 'title', 'subtitle', 'kicker']) {
+        if (typeof p[field] === 'string') {
+          assert.equal(p[field].includes('//'), false, `${manifest.slug} ${scene.id}.${field} must not contain "//"`);
+        }
+      }
+    }
+  }
+  assert.notEqual(vo1.ground, vo2.ground, 'consecutive voiceover_motion videos must use different grounds');
+  assert.notEqual(vo1.accent, vo2.accent, 'consecutive voiceover_motion videos must use different accents');
+});

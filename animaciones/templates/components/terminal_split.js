@@ -32,19 +32,47 @@ window.registerComponent('terminal_split', {
 
     const title = (props.title || 'CIRUGÍA DE CÓDIGO EN PRODUCCIÓN').toUpperCase();
     const subtitle = (props.subtitle || 'COMPARATIVA DE EJECUCIÓN EN VIVO').toUpperCase();
+    const isIvory = props.ground === 'ivory';
+    const pal = isIvory ? {
+      ink: '#171614',
+      subColor: '#b85f42',
+      divider: '#cfc7b8',
+      winBg: '#f6f2ea',
+      barBg: '#e5ded1',
+      footerBg: '#ece7dd',
+      lineNum: '#8a8275',
+      codeDefault: '#171614',
+      commentErr: '#b85f42',
+      commentOk: '#047857',
+      kwSql: '#0369a1',
+      kwJs: '#b45309'
+    } : {
+      ink: '#ffffff',
+      subColor: '#38bdf8',
+      divider: '#27272a',
+      winBg: '#09090c',
+      barBg: '#111116',
+      footerBg: '#0d0d12',
+      lineNum: '#3f3f46',
+      codeDefault: '#e4e4e7',
+      commentErr: '#fca5a5',
+      commentOk: '#6ee7b7',
+      kwSql: '#38bdf8',
+      kwJs: '#fbbf24'
+    };
 
     // 1. Clean Header
     ctx.textAlign = 'left';
-    ctx.fillStyle = '#38bdf8';
+    ctx.fillStyle = pal.subColor;
     ctx.font = '700 16px "JetBrains Mono", monospace';
     ctx.fillText(subtitle, 40, 42);
 
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = pal.ink;
     if (mu) {
       mu.fitText(ctx, title, 40, 92, 880, 42, 26, '"Plus Jakarta Sans", sans-serif', '900');
     }
 
-    ctx.strokeStyle = '#27272a';
+    ctx.strokeStyle = pal.divider;
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(40, 118);
@@ -64,16 +92,16 @@ window.registerComponent('terminal_split', {
 
     // Helper for syntax-colored code lines with live typing progression
     const drawTerminalWindow = (y, h, winTitle, lines, accentColor, statusLabel, revealProgress, isErrorWin, customFooter) => {
-      ctx.fillStyle = '#09090c';
+      ctx.fillStyle = pal.winBg;
       ctx.strokeStyle = accentColor;
       ctx.lineWidth = 1.5;
       ctx.fillRect(boxX, y, boxW, h);
       ctx.strokeRect(boxX, y, boxW, h);
 
       // Top title bar
-      ctx.fillStyle = '#111116';
+      ctx.fillStyle = pal.barBg;
       ctx.fillRect(boxX, y, boxW, 50);
-      ctx.strokeStyle = '#27272a';
+      ctx.strokeStyle = pal.divider;
       ctx.beginPath();
       ctx.moveTo(boxX, y + 50);
       ctx.lineTo(boxX + boxW, y + 50);
@@ -84,7 +112,7 @@ window.registerComponent('terminal_split', {
       ctx.fillRect(boxX + 20, y + 17, 16, 16);
 
       ctx.textAlign = 'left';
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = pal.ink;
       ctx.font = '800 18px "JetBrains Mono", monospace';
       ctx.fillText(winTitle, boxX + 50, y + 32);
 
@@ -104,7 +132,7 @@ window.registerComponent('terminal_split', {
 
         // Line number
         ctx.textAlign = 'left';
-        ctx.fillStyle = '#3f3f46';
+        ctx.fillStyle = pal.lineNum;
         ctx.font = '600 18px "JetBrains Mono", monospace';
         ctx.fillText(String(idx + 1).padStart(2, '0'), boxX + 24, lineY);
 
@@ -123,13 +151,13 @@ window.registerComponent('terminal_split', {
         }
 
         // Choose syntax color
-        let color = '#e4e4e7';
+        let color = pal.codeDefault;
         if (isComment) {
-          color = isErrorWin ? '#fca5a5' : '#6ee7b7';
+          color = isErrorWin ? pal.commentErr : pal.commentOk;
         } else if (/^(SELECT|UPDATE|CREATE|INSERT|EXPLAIN|WHERE|SET|ON|FROM)/i.test(clean)) {
-          color = '#38bdf8';
+          color = pal.kwSql;
         } else if (/^(const|let|async|await|function|return|if|for)/i.test(clean)) {
-          color = '#fbbf24';
+          color = pal.kwJs;
         }
 
         ctx.fillStyle = color;
@@ -150,9 +178,9 @@ window.registerComponent('terminal_split', {
 
       // Bottom execution telemetry bar inside terminal
       const barY = y + h - 46;
-      ctx.fillStyle = '#0d0d12';
+      ctx.fillStyle = pal.footerBg;
       ctx.fillRect(boxX + 2, barY, boxW - 4, 44);
-      ctx.strokeStyle = '#27272a';
+      ctx.strokeStyle = pal.divider;
       ctx.beginPath();
       ctx.moveTo(boxX, barY);
       ctx.lineTo(boxX + boxW, barY);

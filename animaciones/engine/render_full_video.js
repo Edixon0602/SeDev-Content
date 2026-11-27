@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { execSync } = require('child_process');
 const CacheManager = require('./cache_manager');
+const { directStyle } = require('../editor/style_director');
 
 async function renderFullVideo(manifestRelativePath, options = {}) {
   const manifestPath = path.resolve(manifestRelativePath);
@@ -15,7 +16,28 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
   if (!Number.isFinite(fps) || fps < 1 || fps > 60) {
     throw new Error(`fps inválido en ${manifestPath}: ${manifest.fps}`);
   }
-  const scenes = manifest.scenes || [];
+
+  let videoStyle = null;
+  if (manifest.format === 'voiceover_motion' || manifest.autoStyle === true) {
+    videoStyle = directStyle({
+      seed: manifest.styleSeed || manifest.slug || path.basename(manifestPath, '.json'),
+      record: true
+    });
+    if (manifest.ground) videoStyle = Object.assign({}, videoStyle, { ground: manifest.ground });
+    if (manifest.accent) videoStyle = Object.assign({}, videoStyle, { accent: { id: 'custom', name: 'custom', hex: manifest.accent } });
+  }
+
+  const scenes = (manifest.scenes || []).map((sc) => {
+    if (!videoStyle) return sc;
+    const baseProps = sc.props || {};
+    return Object.assign({}, sc, {
+      props: Object.assign({
+        editorial: true,
+        ground: baseProps.ground || videoStyle.ground,
+        accent: baseProps.accent || videoStyle.accent.hex
+      }, baseProps)
+    });
+  });
   const totalDuration = scenes.reduce((acc, s) => acc + (s.duration || 5.0), 0);
 
   // Mirror JSON to JS so player.html loads without CORS when opened via file://
@@ -128,9 +150,10 @@ async function renderFullVideo(manifestRelativePath, options = {}) {
         throw new Error(`${label}: ${renderErrors.join(' | ')}`);
       }
     };
-    await page.evaluateOnNewDocument(() => {
+    await page.evaluateOnNewDocument((st) => {
       window.__PUPPETEER_CAPTURE__ = true;
-    });
+      if (st) window.__VIDEO_STYLE__ = st;
+    }, videoStyle);
     await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
 
     const fileUrl = 'file:///' + templateFile.replace(/\\/g, '/');

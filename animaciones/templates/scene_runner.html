@@ -607,8 +607,13 @@
       const activeProps = currentScene._mergedProps || Object.assign({ voiceover: currentScene.voiceover || '' }, currentScene.props || {});
 
       const activeTheme = (activeProps && activeProps.theme) || (currentScene && currentScene.theme) || 'dark';
-      document.body.className = `theme-${activeTheme}`;
-      document.body.style.background = (activeTheme === 'light') ? '#f8fafc' : (activeTheme === 'blueprint' ? '#07111e' : '#050505');
+      const activeGround = (activeProps && activeProps.ground) || (window.__VIDEO_STYLE__ && window.__VIDEO_STYLE__.ground) || '';
+      document.body.className = `theme-${activeTheme}${activeGround ? ' ground-' + activeGround : ''}`;
+      document.body.style.background = activeGround === 'ivory'
+        ? '#ece7dd'
+        : activeGround === 'graphite'
+          ? '#101012'
+          : (activeTheme === 'light') ? '#f8fafc' : (activeTheme === 'blueprint' ? '#07111e' : '#050505');
 
       // Render dynamic ambient lighting & telemetry background
       if (bgCtx && window.motionUtils && typeof window.motionUtils.renderBackdrop === 'function') {
@@ -616,7 +621,8 @@
           category: (window.__SCENE_META__ && window.__SCENE_META__.category) || (activeProps && activeProps.badge) || 'SYSTEMS',
           slug: (window.__SCENE_META__ && window.__SCENE_META__.slug) || '',
           title: (window.__SCENE_META__ && window.__SCENE_META__.title) || '',
-          theme: activeTheme
+          theme: activeTheme,
+          ground: activeGround
         };
         window.motionUtils.renderBackdrop(bgCtx, 1080, 1920, t, meta);
       }
